@@ -39,7 +39,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        $this->mapUserWebRoutes();
     }
 
     /**
@@ -69,5 +69,20 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Define the "user" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapUserWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('users')
+            ->group(base_path('routes/web/user.php'));
     }
 }

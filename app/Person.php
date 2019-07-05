@@ -6,6 +6,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Person extends Model
 {
+    const GENDERS = [
+        'male' => 'Laki-Laki',
+        'female' => 'Perempuan',
+    ];
+
+    const RELIGIONS = [
+        'islam' => 'Islam',
+        'christian' => 'Kristen',
+        'catholic' => 'Katolik',
+        'hindu' => 'Hindu',
+        'buddhis' => 'Budha',
+        'kong hu chu' => 'Kong Hu Chu',
+        'belief' => 'Kepercayaan',
+    ];
+
+    const ROLES = [
+        'superadmin' => 'Superadmin',
+        'sales' => 'Sales',
+        'finance' => 'Finance',
+        'operation' => 'Operation',
+        'courier' => 'Kurir',
+        'workshop' => 'Workshop',
+    ];
+
     protected $fillable = [
         'name',
         'birth_date',

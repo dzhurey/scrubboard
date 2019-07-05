@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Person;
+use App\Http\Requests\StorePerson;
 
-class UserController extends Controller
+class PersonController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,7 +27,7 @@ class UserController extends Controller
     public function index()
     {
         $people = Person::all();
-        return view('user.index', ['people' => $people]);
+        return view('person.index', ['people' => $people]);
     }
 
     /**
@@ -36,7 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('user.create');
+        return view('person.create');
     }
 
     /**
@@ -45,9 +46,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePerson $request)
     {
-        //
+        $validated = $request->validated();
+
+        return view('person.create', ['data' => $request]);
     }
 
     /**

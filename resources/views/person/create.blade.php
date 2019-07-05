@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ Form::open(['url' => 'people']) }}
+                    {{ Form::open(['url' => route('people_store'), 'method' => 'POST']) }}
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label>Nama</label>
@@ -102,9 +102,9 @@
                         </div>
                         <div class="form-group">
                             <label>Kode Pos</label>
-                            <input class="form-control @error('zipcode') is-invalid @enderror" type="text" name="zipcode" value="{{ old('zipcode') }}">
-                            @if ($errors->has('zipcode'))
-                                <div class="invalid-feedback">{{ $errors->first('zipcode') }}</div>
+                            <input class="form-control @error('zip_code') is-invalid @enderror" type="text" name="zip_code" value="{{ old('zip_code') }}">
+                            @if ($errors->has('zip_code'))
+                                <div class="invalid-feedback">{{ $errors->first('zip_code') }}</div>
                             @endif
                         </div>
                         <div class="form-group">

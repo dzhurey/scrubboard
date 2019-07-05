@@ -49,8 +49,9 @@ class PersonController extends Controller
     public function store(StorePerson $request)
     {
         $validated = $request->validated();
-
-        return view('person.create', ['data' => $request]);
+        dd($validated);
+        // return view('person.create', ['data' => $request]);
+        return redirect()->route('people_index');
     }
 
     /**

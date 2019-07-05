@@ -1,5 +1,5 @@
 <?php
 
-Route::get('/', 'PersonController@index')->name('user_index');
-Route::get('/create', 'PersonController@create')->name('user_create');
-Route::post('/', 'PersonController@store')->name('user_store');
+Route::get('/', 'PersonController@index')->name('people_index');
+Route::get('/create', 'PersonController@create')->name('people_create');
+Route::post('/', 'PersonController@store')->name('people_store');

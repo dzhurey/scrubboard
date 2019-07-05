@@ -28,8 +28,8 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|password',
-            'confirm_password' => 'required|password|same:password',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password',
             'phone_number' => 'required|max:15',
             'birth_date' => 'required|date_format:"Y-m-d"',
             'gender' => 'required|in:'.join(array_keys(Person::GENDERS), ','),

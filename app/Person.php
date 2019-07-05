@@ -31,6 +31,7 @@ class Person extends Model
     ];
 
     protected $fillable = [
+        'user',
         'name',
         'birth_date',
         'password',

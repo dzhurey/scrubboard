@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\User;
 use App\Person;
 use App\Http\Requests\StorePerson;
 
@@ -49,8 +50,34 @@ class PersonController extends Controller
     public function store(StorePerson $request)
     {
         $validated = $request->validated();
-        dd($validated);
-        // return view('person.create', ['data' => $request]);
+
+        DB::beginTransaction();
+        try {
+            $user = new User;
+            $user->email = $validated['email'];
+            $user->password = $validated['password'];
+            $user->save();
+
+            $person = new Person;
+            $person->user_id = $user;
+            $person->name = $validated['name'];
+            $person->birth_date = $validated['birth_date'];
+            $person->gender = $validated['gender'];
+            $person->religion = $validated['religion'];
+            $person->phone_number = $validated['phone_number'];
+            $person->address = $validated['address'];
+            $person->district = $validated['district'];
+            $person->city = $validated['city'];
+            $person->country = $validated['country'];
+            $person->zip_code = $validated['zip_code'];
+            $person->role = $validated['role'];
+            $person->save();
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->withInput()->with('error',$th->getMessage());
+        }
+        DB::commit();
+
         return redirect()->route('people_index');
     }
 

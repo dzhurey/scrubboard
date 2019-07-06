@@ -72,13 +72,13 @@ class PersonController extends Controller
             $person->zip_code = $validated['zip_code'];
             $person->role = $validated['role'];
             $person->save();
-        } catch (\Throwable $th) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error',$th->getMessage());
+            throw new \Exception($e->getMessage(), 1);
         }
         DB::commit();
 
-        return redirect()->route('people_index');
+        return redirect()->route('people.index');
     }
 
     /**

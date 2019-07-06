@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ Form::open(['url' => route('people_store'), 'method' => 'POST']) }}
+                    {{ Form::open(['url' => route('people.store'), 'method' => 'POST']) }}
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label>Nama</label>

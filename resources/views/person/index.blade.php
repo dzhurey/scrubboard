@@ -8,7 +8,7 @@
                 <div class="card-header">User</div>
 
                 <div class="card-body">
-                    <a href="{{ route('people_create') }}" class="btn btn-primary">Buat</a>
+                    <a href="{{ route('people.create') }}" class="btn btn-primary">Buat</a>
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}

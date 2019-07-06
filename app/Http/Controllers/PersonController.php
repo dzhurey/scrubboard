@@ -59,10 +59,10 @@ class PersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Person $person)
     {
         //
     }
@@ -70,33 +70,34 @@ class PersonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(Person $person)
     {
-        //
+        return view('person.edit', ['person' => $person]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\User  $user
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(StorePerson $request, Person $person)
     {
+        dd($person->name);
         //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User  $user
+     * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Person $person)
     {
         //
     }

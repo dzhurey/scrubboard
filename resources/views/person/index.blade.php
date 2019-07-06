@@ -24,7 +24,9 @@
                                         <td>{{ $person->name }}</td>
                                         <td>{{ App\Person::ROLES[$person->role] }}</td>
                                         <td>{{ $person->phone_number }}</td>
-                                        <td></td>
+                                        <td>
+                                            <a href="{{ route('people.edit', ['person' => $person->id]) }}" class="btn btn-light">Edit</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

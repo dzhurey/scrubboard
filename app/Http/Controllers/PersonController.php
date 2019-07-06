@@ -104,7 +104,7 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-        $person->delete();
+        $person->user->delete();
         return redirect()->route('people.index');
     }
 }

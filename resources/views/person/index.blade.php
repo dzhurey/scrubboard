@@ -25,7 +25,13 @@
                                         <td>{{ App\Person::ROLES[$person->role] }}</td>
                                         <td>{{ $person->phone_number }}</td>
                                         <td>
-                                            <a href="{{ route('people.edit', ['person' => $person->id]) }}" class="btn btn-light">Edit</a>
+                                            {{ Form::open(['url' => route('people.destroy', ['person' => $person->id]), 'method' => 'delete']) }}
+                                                {{ csrf_field() }}
+                                                <div class="btn-group" role="group" aria-label="Basic example">
+                                                    <a href="{{ route('people.edit', ['person' => $person->id]) }}" class="btn btn-light">Edit</a>
+                                                    {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
+                                                </div>
+                                            {{ Form::close() }}
                                         </td>
                                     </tr>
                                 @endforeach

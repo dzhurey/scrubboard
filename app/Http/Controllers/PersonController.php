@@ -7,6 +7,7 @@ use App\User;
 use App\Person;
 use App\Http\Requests\StorePerson;
 use App\Services\Person\PersonCreateService;
+use App\Services\Person\PersonUpdateService;
 
 class PersonController extends Controller
 {
@@ -85,10 +86,14 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function update(StorePerson $request, Person $person)
-    {
-        dd($person->name);
-        //
+    public function update(
+        StorePerson $request,
+        Person $person,
+        PersonUpdateService $service
+    ) {
+        $validated = $request->validated();
+        $service->perform($person, $validated);
+        return redirect()->route('people.edit', ['person' => $person->id]);
     }
 
     /**
@@ -99,6 +104,7 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-        //
+        $person->delete();
+        return redirect()->route('people.index');
     }
 }

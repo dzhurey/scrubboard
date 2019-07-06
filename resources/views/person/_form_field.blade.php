@@ -8,11 +8,12 @@
 </div>
 <div class="form-group">
     <label>Email</label>
-    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($person->id) ? $person->email : old('email') }}">
+    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($person->id) ? $person->user->email : old('email') }}" @if(!empty($person->id)) disabled @endif>
     @if ($errors->has('email'))
         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
     @endif
 </div>
+@if (empty($person->id))
 <div class="form-group">
     <label>Password</label>
     <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" value="{{ old('password') }}">
@@ -27,6 +28,7 @@
         <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
     @endif
 </div>
+@endif
 <div class="form-group">
     <label>No. Handphone</label>
     <input class="form-control @error('phone_number') is-invalid @enderror" type="text" name="phone_number" value="{{ !empty($person->id) ? $person->phone_number : old('phone_number') }}">

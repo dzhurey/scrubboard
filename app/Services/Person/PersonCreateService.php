@@ -4,13 +4,13 @@ namespace App\Services\Person;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 use Lib\Services\BaseService;
 use App\Person;
 use App\User;
 
 class PersonCreateService extends BaseService
 {
-    protected $attributes;
     protected $user;
     protected $person;
 
@@ -26,13 +26,10 @@ class PersonCreateService extends BaseService
     {
         DB::beginTransaction();
         try {
-            $this->user = $this->assignAttributes($this->user, $attributes);
-            $this->user->save();
+            $this->createUser($attributes);
 
             if (!empty($this->user->id)) {
-                $attributes['user_id'] = $this->user->id;
-                $this->person = $this->assignAttributes($this->person, $attributes);
-                $this->person->save();
+                $this->createPerson($attributes);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -49,5 +46,19 @@ class PersonCreateService extends BaseService
     public function getPerson()
     {
         return $this->person;
+    }
+
+    private function createUser($attributes)
+    {
+        $attributes['password'] = Hash::make($attributes['password']);
+        $this->user = $this->assignAttributes($this->user, $attributes);
+        $this->user->save();
+    }
+
+    private function createPerson($attributes)
+    {
+        $attributes['user_id'] = $this->user->id;
+        $this->person = $this->assignAttributes($this->person, $attributes);
+        $this->person->save();
     }
 }

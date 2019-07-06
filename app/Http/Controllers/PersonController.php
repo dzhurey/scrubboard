@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Person;
 use App\Http\Requests\StorePerson;
+use App\Services\Person\PersonCreateService;
 
 class PersonController extends Controller
 {
@@ -47,37 +47,12 @@ class PersonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePerson $request)
-    {
+    public function store(
+        StorePerson $request,
+        PersonCreateService $service
+    ) {
         $validated = $request->validated();
-
-        DB::beginTransaction();
-        try {
-            $user = new User;
-            $user->email = $validated['email'];
-            $user->password = $validated['password'];
-            $user->save();
-
-            $person = new Person;
-            $person->user_id = $user;
-            $person->name = $validated['name'];
-            $person->birth_date = $validated['birth_date'];
-            $person->gender = $validated['gender'];
-            $person->religion = $validated['religion'];
-            $person->phone_number = $validated['phone_number'];
-            $person->address = $validated['address'];
-            $person->district = $validated['district'];
-            $person->city = $validated['city'];
-            $person->country = $validated['country'];
-            $person->zip_code = $validated['zip_code'];
-            $person->role = $validated['role'];
-            $person->save();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw new \Exception($e->getMessage(), 1);
-        }
-        DB::commit();
-
+        $service->perform($validated);
         return redirect()->route('people.index');
     }
 

@@ -31,10 +31,9 @@ class Person extends Model
     ];
 
     protected $fillable = [
-        'user',
+        'user_id',
         'name',
         'birth_date',
-        'password',
         'gender',
         'religion',
         'phone_number',

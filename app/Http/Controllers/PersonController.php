@@ -28,7 +28,7 @@ class PersonController extends Controller
     public function index()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $people = Person::all();
@@ -43,7 +43,7 @@ class PersonController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         return view('person.create');
@@ -60,7 +60,7 @@ class PersonController extends Controller
         PersonCreateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $validated = $request->validated();
@@ -88,7 +88,7 @@ class PersonController extends Controller
     public function edit(Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         return view('person.edit', ['person' => $person]);
@@ -107,7 +107,7 @@ class PersonController extends Controller
         PersonUpdateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $validated = $request->validated();
@@ -124,7 +124,7 @@ class PersonController extends Controller
     public function destroy(Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+            return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $person->user->delete();

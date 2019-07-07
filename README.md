@@ -21,6 +21,6 @@ composer install
 4. Run
 
 ```
-php artisan db:migrate
+php artisan migrate
 php artisan db:seed
 ```

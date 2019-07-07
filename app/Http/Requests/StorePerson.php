@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\Person;
+use App\User;
 
 class StorePerson extends FormRequest
 {
@@ -39,7 +40,7 @@ class StorePerson extends FormRequest
             'city' => 'required|max:150',
             'country' => 'required|max:150',
             'zip_code' => 'required|max:10',
-            'role' => 'required|in:'.join(array_keys(Person::ROLES), ','),
+            'role' => 'required|in:'.join(array_keys(User::ROLES), ','),
         ];
     }
 

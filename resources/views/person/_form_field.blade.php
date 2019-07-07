@@ -94,7 +94,7 @@
 </div>
 <div class="form-group">
     <label>Role</label>
-    {{ Form::select('role', App\Person::ROLES, !empty($person->id) ? $person->role : old('role'), ['class' => 'form-control'.($errors->has('role') ? 'is-invalid' : '') ]) }}
+    {{ Form::select('role', App\User::ROLES, !empty($person->id) ? $person->user->role : old('role'), ['class' => 'form-control'.($errors->has('role') ? 'is-invalid' : '') ]) }}
     @if ($errors->has('role'))
         <div class="invalid-feedback">{{ $errors->first('role') }}</div>
     @endif

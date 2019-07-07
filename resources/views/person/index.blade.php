@@ -19,7 +19,7 @@
                     @foreach ($people as $person)
                         <tr>
                             <td>{{ $person->name }}</td>
-                            <td>{{ App\Person::ROLES[$person->role] }}</td>
+                            <td>{{ App\User::ROLES[$person->user->role] }}</td>
                             <td>{{ $person->phone_number }}</td>
                             <td>
                                 {{ Form::open(['url' => route('people.destroy', ['person' => $person->id]), 'method' => 'delete']) }}

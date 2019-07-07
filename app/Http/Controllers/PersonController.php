@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use App\Person;
 use App\Http\Requests\StorePerson;
 use App\Services\Person\PersonCreateService;
@@ -43,6 +42,10 @@ class PersonController extends Controller
      */
     public function create()
     {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         return view('person.create');
     }
 
@@ -56,6 +59,10 @@ class PersonController extends Controller
         StorePerson $request,
         PersonCreateService $service
     ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         $validated = $request->validated();
         $service->perform($validated);
         return redirect()->route('people.index');
@@ -80,6 +87,10 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         return view('person.edit', ['person' => $person]);
     }
 
@@ -95,6 +106,10 @@ class PersonController extends Controller
         Person $person,
         PersonUpdateService $service
     ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         $validated = $request->validated();
         $service->perform($person, $validated);
         return redirect()->route('people.edit', ['person' => $person->id]);
@@ -108,12 +123,11 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         $person->user->delete();
         return redirect()->route('people.index');
-    }
-
-    private function allowUser($role)
-    {
-        return Gate::allows($role, auth()->user());
     }
 }

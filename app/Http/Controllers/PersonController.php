@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use Illuminate\Support\Facades\Gate;
 use App\Person;
 use App\Http\Requests\StorePerson;
 use App\Services\Person\PersonCreateService;
@@ -28,6 +28,10 @@ class PersonController extends Controller
      */
     public function index()
     {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', 'Anda tidak memiliki role Super Admin');
+        }
+
         $people = Person::all();
         return view('person.index', ['people' => $people]);
     }
@@ -106,5 +110,10 @@ class PersonController extends Controller
     {
         $person->user->delete();
         return redirect()->route('people.index');
+    }
+
+    private function allowUser($role)
+    {
+        return Gate::allows($role, auth()->user());
     }
 }

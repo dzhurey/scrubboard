@@ -27,7 +27,6 @@ class CreatePeopleTable extends Migration
             $table->text('city', 150);
             $table->text('country', 150);
             $table->text('zip_code', 10);
-            $table->enum('role', ['superadmin', 'sales', 'finance', 'operation', 'courier', 'workshop']);
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

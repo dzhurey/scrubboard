@@ -21,15 +21,6 @@ class Person extends Model
         'belief' => 'Kepercayaan',
     ];
 
-    const ROLES = [
-        'superadmin' => 'Superadmin',
-        'sales' => 'Sales',
-        'finance' => 'Finance',
-        'operation' => 'Operation',
-        'courier' => 'Kurir',
-        'workshop' => 'Workshop',
-    ];
-
     protected $fillable = [
         'user_id',
         'name',
@@ -42,7 +33,6 @@ class Person extends Model
         'city',
         'country',
         'zip_code',
-        'role',
     ];
 
     public function user()

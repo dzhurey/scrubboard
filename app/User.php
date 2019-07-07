@@ -10,13 +10,22 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const ROLES = [
+        'superadmin' => 'Superadmin',
+        'sales' => 'Sales',
+        'finance' => 'Finance',
+        'operation' => 'Operation',
+        'courier' => 'Kurir',
+        'workshop' => 'Workshop',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'email', 'password',
+        'email', 'password', 'role',
     ];
 
     /**
@@ -40,5 +49,10 @@ class User extends Authenticatable
     public function person()
     {
         return $this->hasOne('App\Person');
+    }
+
+    public function isSuperAdmin()
+    {
+        return $this->role == 'superadmin';
     }
 }

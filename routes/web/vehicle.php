@@ -1,8 +1,8 @@
 <?php
 
-Route::get('/', 'VehicleController@index')->name('vehicle.index');
-Route::get('/create', 'VehicleController@create')->name('vehicle.create');
-// Route::post('/', 'VehicleController@store')->name('vehicle.store');
-// Route::get('/{person}/edit', 'VehicleController@edit')->name('vehicle.edit');
-// Route::put('/{person}/update', 'VehicleController@update')->name('vehicle.update');
-// Route::delete('/{person}/destroy', 'VehicleController@destroy')->name('vehicle.destroy');
+Route::get('/', 'VehicleController@index')->name('vehicles.index');
+Route::get('/create', 'VehicleController@create')->name('vehicles.create');
+Route::post('/', 'VehicleController@store')->name('vehicles.store');
+Route::get('/{vehicle}/edit', 'VehicleController@edit')->name('vehicles.edit');
+Route::put('/{vehicle}/update', 'VehicleController@update')->name('vehicles.update');
+Route::delete('/{vehicle}/destroy', 'VehicleController@destroy')->name('vehicles.destroy');

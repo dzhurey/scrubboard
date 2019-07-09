@@ -5,17 +5,27 @@
     <div class="card-header">Kendaraan</div>
 
     <div class="card-body">
-        <a href="{{ route('vehicle.create') }}" class="btn btn-primary">Buat</a>
+        <a href="{{ route('vehicles.create') }}" class="btn btn-primary">Buat</a>
 
         @if ($vehicles->count() > 0)
             <table class="table">
                 <thead>
                     <td>Plat Nomor</td>
+                    <td></td>
                 </thead>
                 <tbody>
                     @foreach ($vehicles as $vehicle)
                         <tr>
                             <td>{{ $vehicle->number }}</td>
+                            <td>
+                                {{ Form::open(['url' => route('vehicles.destroy', ['vehicle' => $vehicle->id]), 'method' => 'delete']) }}
+                                    {{ csrf_field() }}
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a href="{{ route('vehicles.edit', ['vehicle' => $vehicle->id]) }}" class="btn btn-light">Edit</a>
+                                        {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
+                                    </div>
+                                {{ Form::close() }}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

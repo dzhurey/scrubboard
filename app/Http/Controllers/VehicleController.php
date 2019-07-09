@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vehicle;
+use App\Http\Requests\StoreVehicle;
+use App\Services\Vehicle\VehicleStoreService;
 
 class VehicleController extends Controller
 {
@@ -22,11 +24,6 @@ class VehicleController extends Controller
         return view('vehicle.index', ['vehicles' => $vehicles]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
@@ -36,24 +33,18 @@ class VehicleController extends Controller
         return view('vehicle.create');
     }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(
-    //     StorePerson $request,
-    //     PersonCreateService $service
-    // ) {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function store(
+        StoreVehicle $request,
+        VehicleStoreService $service
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $validated = $request->validated();
-    //     $service->perform($validated);
-    //     return redirect()->route('people.index');
-    // }
+        $validated = $request->validated();
+        $service->perform($validated);
+        return redirect()->route('vehicles.index');
+    }
 
     // /**
     //  * Display the specified resource.
@@ -66,55 +57,36 @@ class VehicleController extends Controller
     //     //
     // }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  \App\Person  $person
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit(Vehicle $vehicle)
-    // {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function edit(Vehicle $vehicle)
+    {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     return view('vehicle.edit', ['person' => $person]);
-    // }
+        return view('vehicle.edit', ['vehicle' => $vehicle]);
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @param  \App\Person  $person
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function update(
-    //     StorePerson $request,
-    //     Vehicle $vehicle,
-    //     PersonUpdateService $service
-    // ) {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function update(
+        StoreVehicle $request,
+        Vehicle $vehicle,
+        VehicleStoreService $service
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $validated = $request->validated();
-    //     $service->perform($person, $validated);
-    //     return redirect()->route('people.edit', ['person' => $person->id]);
-    // }
+        $validated = $request->validated();
+        $service->perform($validated, $vehicle);
+        return redirect()->route('vehicles.edit', ['vehicle' => $vehicle->id]);
+    }
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  \App\Person  $person
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy(Vehicle $vehicle)
-    // {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function destroy(Vehicle $vehicle)
+    {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $person->user->delete();
-    //     return redirect()->route('people.index');
-    // }
+        $vehicle->delete();
+        return redirect()->route('vehicles.index');
+    }
 }

@@ -3,4 +3,5 @@
   @can('superadmin-only')
   <a class="nav-link" href="{{ route('people.index') }}">Pengguna</a>
   @endcan
+  <a class="nav-link" href="{{ route('vehicle.index') }}">Kendaraan</a>
 </nav>

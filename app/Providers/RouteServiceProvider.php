@@ -39,7 +39,9 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        $this->mapUserWebRoutes();
+        $this->mapPersonWebRoutes();
+
+        $this->mapVehicleWebRoutes();
     }
 
     /**
@@ -78,11 +80,19 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapUserWebRoutes()
+    protected function mapPersonWebRoutes()
     {
         Route::middleware('web')
             ->namespace($this->namespace)
             ->prefix('people')
             ->group(base_path('routes/web/person.php'));
+    }
+
+    protected function mapVehicleWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('vehicles')
+            ->group(base_path('routes/web/vehicle.php'));
     }
 }

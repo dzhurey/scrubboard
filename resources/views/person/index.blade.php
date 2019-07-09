@@ -7,7 +7,7 @@
     <div class="card-body">
         <a href="{{ route('people.create') }}" class="btn btn-primary">Buat</a>
 
-        @if (!empty($people))
+        @if ($people->count() > 0)
             <table class="table">
                 <thead>
                     <td>Nama</td>

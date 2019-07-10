@@ -42,6 +42,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapPersonWebRoutes();
 
         $this->mapVehicleWebRoutes();
+
+        $this->mapCustomerWebRoutes();
     }
 
     /**
@@ -94,5 +96,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('vehicles')
             ->group(base_path('routes/web/vehicle.php'));
+    }
+
+    protected function mapCustomerWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('customers')
+            ->group(base_path('routes/web/customer.php'));
     }
 }

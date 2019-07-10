@@ -20,7 +20,7 @@ class VehicleController extends Controller
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $vehicles = Vehicle::orderBy('id', 'ASC')->get();
+        $vehicles = Vehicle::orderBy('id', 'DESC')->get();
         return view('vehicle.index', ['vehicles' => $vehicles]);
     }
 

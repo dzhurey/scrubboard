@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use App\Rules\PhoneNumber;
 use App\Person;
 use App\User;
 
@@ -29,9 +30,9 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'sometimes|required|email|unique:users',
-            'password' => 'sometimes|required',
+            'password' => 'sometimes|required|min:8',
             'confirm_password' => 'sometimes|required|same:password',
-            'phone_number' => 'required|max:15',
+            'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'required|date_format:"Y-m-d"',
             'gender' => 'required|in:'.join(array_keys(Person::GENDERS), ','),
             'religion' => 'required|in:'.join(array_keys(Person::RELIGIONS), ','),

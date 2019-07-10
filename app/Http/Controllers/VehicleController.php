@@ -46,17 +46,6 @@ class VehicleController extends Controller
         return redirect()->route('vehicles.index');
     }
 
-    // /**
-    //  * Display the specified resource.
-    //  *
-    //  * @param  \App\Person  $person
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function show(Vehicle $vehicle)
-    // {
-    //     //
-    // }
-
     public function edit(Vehicle $vehicle)
     {
         if (!$this->allowUser('superadmin-only')) {

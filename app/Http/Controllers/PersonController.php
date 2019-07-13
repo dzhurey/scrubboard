@@ -31,7 +31,7 @@ class PersonController extends Controller
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $people = Person::all();
+        $people = Person::orderBy('id', 'DESC')->get();
         return view('person.index', ['people' => $people]);
     }
 

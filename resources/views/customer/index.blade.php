@@ -20,9 +20,13 @@
                             <td>{{ $customer->name }}</td>
                             <td>{{ $customer->phone_number }}</td>
                             <td>
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="{{ route('customers.edit', ['customer' => $customer->id]) }}" class="btn btn-light">Edit</a>
-                                </div>
+                                {{ Form::open(['url' => route('customers.destroy', ['customer' => $customer->id]), 'method' => 'delete']) }}
+                                    {{ csrf_field() }}
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a href="{{ route('customers.edit', ['customer' => $customer->id]) }}" class="btn btn-light">Edit</a>
+                                        {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
+                                    </div>
+                                {{ Form::close() }}
                             </td>
                         </tr>
                     @endforeach

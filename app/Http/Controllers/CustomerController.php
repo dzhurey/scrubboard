@@ -69,13 +69,13 @@ class CustomerController extends Controller
     //     return redirect()->route('vehicles.edit', ['vehicle' => $vehicle->id]);
     // }
 
-    // public function destroy(Vehicle $vehicle)
-    // {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function destroy(Customer $customer)
+    {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $vehicle->delete();
-    //     return redirect()->route('vehicles.index');
-    // }
+        $customer->delete();
+        return redirect()->route('customers.index');
+    }
 }

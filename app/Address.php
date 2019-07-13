@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class Address extends Model
 {
     protected $fillable = [
         'customer_id',

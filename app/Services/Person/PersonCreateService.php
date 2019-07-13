@@ -24,6 +24,7 @@ class PersonCreateService extends BaseService
 
     public function perform(Array $attributes)
     {
+        dd($attributes);
         DB::beginTransaction();
         try {
             $this->createUser($attributes);

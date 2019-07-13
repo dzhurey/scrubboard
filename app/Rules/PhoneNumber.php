@@ -26,7 +26,7 @@ class PhoneNumber implements Rule
     public function passes($attribute, $value)
     {
         $length = strlen($value);
-        return preg_match('/^[+][0-9]/', $value) && $length > 8 && $length <= 15;
+        return preg_match('/^[0-9]/', $value) && $length > 8 && $length <= 15;
     }
 
     /**

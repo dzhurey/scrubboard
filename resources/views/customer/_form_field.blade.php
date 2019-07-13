@@ -1,5 +1,12 @@
 {{ csrf_field() }}
 <div class="form-group">
+    <label>Partner type</label>
+    {{ Form::select('partner_type', App\Customer::PARTNER_TYPE, !empty($customer->id) ? $customer->partner_type : old('partner_type'), ['class' => 'form-control'.($errors->has('partner_type') ? 'is-invalid' : '') ]) }}
+    @if ($errors->has('partner_type'))
+        <div class="invalid-feedback">{{ $errors->first('partner_type') }}</div>
+    @endif
+</div>
+<div class="form-group">
     <label>Nama</label>
     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ !empty($customer->id) ? $customer->name : old('name') }}">
     @if ($errors->has('name'))
@@ -29,16 +36,37 @@
 </div>
 <div class="form-group">
     <label>Gender</label>
-    {{ Form::select('gender', App\Person::GENDERS, !empty($customer->id) ? $customer->gender : old('gender'), ['class' => 'form-control'.($errors->has('gender') ? 'is-invalid' : '') ]) }}
+    {{ Form::select('gender', App\Customer::GENDERS, !empty($customer->id) ? $customer->gender : old('gender'), ['class' => 'form-control'.($errors->has('gender') ? 'is-invalid' : '') ]) }}
     @if ($errors->has('gender'))
         <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
     @endif
 </div>
 <div class="form-group">
     <label>Agama</label>
-    {{ Form::select('religion', App\Person::RELIGIONS, !empty($customer->id) ? $customer->religion : old('religion'), ['class' => 'form-control'.($errors->has('religion') ? 'is-invalid' : '') ]) }}
+    {{ Form::select('religion', App\Customer::RELIGIONS, !empty($customer->id) ? $customer->religion : old('religion'), ['class' => 'form-control'.($errors->has('religion') ? 'is-invalid' : '') ]) }}
     @if ($errors->has('religion'))
         <div class="invalid-feedback">{{ $errors->first('religion') }}</div>
+    @endif
+</div>
+<div class="form-group">
+    <label>Nama Bebe</label>
+    <input class="form-control @error('bebe_name') is-invalid @enderror" type="text" name="bebe_name" value="{{ !empty($customer->id) ? $customer->bebe_name : old('bebe_name') }}">
+    @if ($errors->has('bebe_name'))
+        <div class="invalid-feedback">{{ $errors->first('bebe_name') }}</div>
+    @endif
+</div>
+<div class="form-group">
+    <label>Tanggal Lahir Bebe</label>
+    <input class="form-control @error('bebe_birth_date') is-invalid @enderror" type="date" name="bebe_birth_date" value="{{ !empty($customer->id) ? $customer->bebe_birth_date : old('bebe_birth_date') }}">
+    @if ($errors->has('bebe_birth_date'))
+        <div class="invalid-feedback">{{ $errors->first('bebe_birth_date') }}</div>
+    @endif
+</div>
+<div class="form-group">
+    <label>Gender Bebe</label>
+    {{ Form::select('bebe_gender', App\Customer::GENDERS, !empty($customer->id) ? $customer->bebe_gender : old('bebe_gender'), ['class' => 'form-control'.($errors->has('bebe_gender') ? 'is-invalid' : '') ]) }}
+    @if ($errors->has('bebe_gender'))
+        <div class="invalid-feedback">{{ $errors->first('bebe_gender') }}</div>
     @endif
 </div>
 <div class="row">

@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
-// use App\Http\Requests\StoreVehicle;
-// use App\Services\Vehicle\VehicleStoreService;
+use App\Http\Requests\StoreCustomer;
+use App\Services\Customer\CustomerStoreService;
 
 class CustomerController extends Controller
 {
@@ -33,18 +33,18 @@ class CustomerController extends Controller
         return view('customer.create');
     }
 
-    // public function store(
-    //     StoreVehicle $request,
-    //     VehicleStoreService $service
-    // ) {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function store(
+        StoreCustomer $request,
+        CustomerStoreService $service
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $validated = $request->validated();
-    //     $service->perform($validated);
-    //     return redirect()->route('vehicles.index');
-    // }
+        $validated = $request->validated();
+        $service->perform($validated);
+        return redirect()->route('customers.index');
+    }
 
     // public function edit(Vehicle $vehicle)
     // {

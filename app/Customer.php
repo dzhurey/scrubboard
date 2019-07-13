@@ -11,6 +11,12 @@ class Customer extends Model
         'female' => 'Perempuan',
     ];
 
+    const PARTNER_TYPE = [
+        'customer' => 'customer',
+        'vendor' => 'vendor',
+        'endorser' => 'endorser',
+    ];
+
     const RELIGIONS = [
         'islam' => 'Islam',
         'christian' => 'Kristen',
@@ -22,13 +28,16 @@ class Customer extends Model
     ];
 
     protected $fillable = [
-        'user_id',
+        'partner_type',
         'name',
         'birth_date',
         'gender',
         'religion',
         'email',
         'phone_number',
+        'bebe_name',
+        'bebe_gender',
+        'bebe_birth_date',
     ];
 
     public function addresses()

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Address;
 
 class Customer extends Model
 {
@@ -43,5 +44,28 @@ class Customer extends Model
     public function addresses()
     {
         return $this->hasMany('App\Address');
+    }
+
+    public function billingAddress()
+    {
+        return Address::where([
+            ['customer_id', '=', $this->id],
+            ['is_billing', '=', true],
+        ])->firstOrFail();
+    }
+
+    public function shippingAddress()
+    {
+        $shipping = Address::where([
+            ['customer_id', '=', $this->id],
+            ['is_shipping', '=', true],
+        ])->first();
+
+        if (empty($shipping)) {
+            $shipping = new Address();
+            $shipping->is_shipping = true;
+        }
+
+        return $shipping;
     }
 }

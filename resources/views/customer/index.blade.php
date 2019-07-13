@@ -20,7 +20,9 @@
                             <td>{{ $customer->name }}</td>
                             <td>{{ $customer->phone_number }}</td>
                             <td>
-
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a href="{{ route('customers.edit', ['customer' => $customer->id]) }}" class="btn btn-light">Edit</a>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

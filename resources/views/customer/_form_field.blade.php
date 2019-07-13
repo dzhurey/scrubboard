@@ -15,7 +15,7 @@
 </div>
 <div class="form-group">
     <label>Email</label>
-    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($customer->id) ? $customer->user->email : old('email') }}" @if(!empty($customer->id)) disabled @endif>
+    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($customer->id) ? $customer->email : old('email') }}" @if(!empty($customer->id)) disabled @endif>
     @if ($errors->has('email'))
         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
     @endif
@@ -74,35 +74,35 @@
         <b>Alamat Pelanggan</b>
         <div class="form-group">
             <label>Alamat</label>
-            <textarea class="form-control @error('billing_address') is-invalid @enderror" name="billing_address">{{ !empty($customer->id) ? $customer->billing_address : old('billing_address') }}</textarea>
+            <textarea class="form-control @error('billing_address') is-invalid @enderror" name="billing_address">{{ !empty($customer->id) ? $customer->billingAddress()->description : old('billing_address') }}</textarea>
             @if ($errors->has('billing_address'))
                 <div class="invalid-feedback">{{ $errors->first('billing_address') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kecamatan</label>
-            <input class="form-control @error('billing_district') is-invalid @enderror" type="text" name="billing_district" value="{{ !empty($customer->id) ? $customer->billing_district : old('billing_district') }}">
+            <input class="form-control @error('billing_district') is-invalid @enderror" type="text" name="billing_district" value="{{ !empty($customer->id) ? $customer->billingAddress()->district : old('billing_district') }}">
             @if ($errors->has('billing_district'))
                 <div class="invalid-feedback">{{ $errors->first('billing_district') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kota</label>
-            <input class="form-control @error('billing_city') is-invalid @enderror" type="text" name="billing_city" value="{{ !empty($customer->id) ? $customer->billing_city : old('billing_city') }}">
+            <input class="form-control @error('billing_city') is-invalid @enderror" type="text" name="billing_city" value="{{ !empty($customer->id) ? $customer->billingAddress()->city : old('billing_city') }}">
             @if ($errors->has('billing_city'))
                 <div class="invalid-feedback">{{ $errors->first('billing_city') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Negara</label>
-            <input class="form-control @error('billing_country') is-invalid @enderror" type="text" name="billing_country" value="{{ !empty($customer->id) ? $customer->billing_country : old('billing_country') }}">
+            <input class="form-control @error('billing_country') is-invalid @enderror" type="text" name="billing_country" value="{{ !empty($customer->id) ? $customer->billingAddress()->country : old('billing_country') }}">
             @if ($errors->has('billing_country'))
                 <div class="invalid-feedback">{{ $errors->first('billing_country') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kode Pos</label>
-            <input class="form-control @error('billing_zip_code') is-invalid @enderror" type="text" name="billing_zip_code" value="{{ !empty($customer->id) ? $customer->billing_zip_code : old('billing_zip_code') }}">
+            <input class="form-control @error('billing_zip_code') is-invalid @enderror" type="text" name="billing_zip_code" value="{{ !empty($customer->id) ? $customer->billingAddress()->zip_code : old('billing_zip_code') }}">
             @if ($errors->has('billing_zip_code'))
                 <div class="invalid-feedback">{{ $errors->first('billing_zip_code') }}</div>
             @endif
@@ -118,35 +118,35 @@
         </div>
         <div class="form-group">
             <label>Alamat</label>
-            <textarea class="form-control @error('shipping_address') is-invalid @enderror" name="shipping_address">{{ !empty($customer->id) ? $customer->shipping_address : old('shipping_address') }}</textarea>
+            <textarea class="form-control @error('shipping_address') is-invalid @enderror" name="shipping_address">{{ !empty($customer->id) ? $customer->shippingAddress()->description : old('shipping_address') }}</textarea>
             @if ($errors->has('shipping_address'))
                 <div class="invalid-feedback">{{ $errors->first('shipping_address') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kecamatan</label>
-            <input class="form-control @error('shipping_district') is-invalid @enderror" type="text" name="shipping_district" value="{{ !empty($customer->id) ? $customer->shipping_district : old('shipping_district') }}">
+            <input class="form-control @error('shipping_district') is-invalid @enderror" type="text" name="shipping_district" value="{{ !empty($customer->id) ? $customer->shippingAddress()->district : old('shipping_district') }}">
             @if ($errors->has('shipping_district'))
                 <div class="invalid-feedback">{{ $errors->first('shipping_district') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kota</label>
-            <input class="form-control @error('shipping_city') is-invalid @enderror" type="text" name="shipping_city" value="{{ !empty($customer->id) ? $customer->shipping_city : old('shipping_city') }}">
+            <input class="form-control @error('shipping_city') is-invalid @enderror" type="text" name="shipping_city" value="{{ !empty($customer->id) ? $customer->shippingAddress()->city : old('shipping_city') }}">
             @if ($errors->has('shipping_city'))
                 <div class="invalid-feedback">{{ $errors->first('shipping_city') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Negara</label>
-            <input class="form-control @error('shipping_country') is-invalid @enderror" type="text" name="shipping_country" value="{{ !empty($customer->id) ? $customer->shipping_country : old('shipping_country') }}">
+            <input class="form-control @error('shipping_country') is-invalid @enderror" type="text" name="shipping_country" value="{{ !empty($customer->id) ? $customer->shippingAddress()->country : old('shipping_country') }}">
             @if ($errors->has('shipping_country'))
                 <div class="invalid-feedback">{{ $errors->first('shipping_country') }}</div>
             @endif
         </div>
         <div class="form-group">
             <label>Kode Pos</label>
-            <input class="form-control @error('shipping_zip_code') is-invalid @enderror" type="text" name="shipping_zip_code" value="{{ !empty($customer->id) ? $customer->shipping_zip_code : old('shipping_zip_code') }}">
+            <input class="form-control @error('shipping_zip_code') is-invalid @enderror" type="text" name="shipping_zip_code" value="{{ !empty($customer->id) ? $customer->shippingAddress()->zip_code : old('shipping_zip_code') }}">
             @if ($errors->has('shipping_zip_code'))
                 <div class="invalid-feedback">{{ $errors->first('shipping_zip_code') }}</div>
             @endif

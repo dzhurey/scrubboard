@@ -46,14 +46,14 @@ class CustomerController extends Controller
         return redirect()->route('customers.index');
     }
 
-    // public function edit(Vehicle $vehicle)
-    // {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function edit(Customer $customer)
+    {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     return view('vehicle.edit', ['vehicle' => $vehicle]);
-    // }
+        return view('customer.edit', ['customer' => $customer]);
+    }
 
     // public function update(
     //     StoreVehicle $request,

@@ -48,10 +48,17 @@ class Customer extends Model
 
     public function billingAddress()
     {
-        return Address::where([
+        $billing = Address::where([
             ['customer_id', '=', $this->id],
             ['is_billing', '=', true],
-        ])->firstOrFail();
+        ])->first();
+
+        if (empty($billing)) {
+            $billing = new Address();
+            $billing->is_billing = true;
+        }
+
+        return $billing;
     }
 
     public function shippingAddress()

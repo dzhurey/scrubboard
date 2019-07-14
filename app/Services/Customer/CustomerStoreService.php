@@ -12,6 +12,7 @@ class CustomerStoreService extends BaseService
 {
     protected $customer;
     protected $address;
+    protected $is_same_address;
 
     public function __construct(
         Customer $customer,
@@ -23,12 +24,17 @@ class CustomerStoreService extends BaseService
 
     public function perform(Array $attributes)
     {
+        $this->is_same_address = !empty($attributes['is_same_address']) ? $attributes['is_same_address'] === "on" : false;
         DB::beginTransaction();
         try {
             $this->createCustomer($attributes);
 
             if (!empty($this->customer->id)) {
                 $this->createBillingAddress($attributes);
+            }
+
+            if (!empty($this->customer->id) && !$this->is_same_address) {
+                $this->createShippingAddress($attributes);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -42,14 +48,15 @@ class CustomerStoreService extends BaseService
         return $this->customer;
     }
 
-    private function createCustomer(Array $attributes)
+    public function createCustomer(Array $attributes)
     {
         $this->customer = $this->assignAttributes($this->customer, $attributes);
         $this->customer->save();
     }
 
-    private function createAddress(Array $attributes)
+    public function createAddress(Array $attributes)
     {
+        $this->address = new Address();
         $this->address = $this->assignAttributes($this->address, $attributes);
         $this->address->save();
     }
@@ -57,6 +64,11 @@ class CustomerStoreService extends BaseService
     private function createBillingAddress(Array $attributes)
     {
         $address_meta = $this->generateAddressMeta($attributes, 'billing');
+
+        if($this->is_same_address) {
+            $address_meta['is_shipping'] = true;
+        }
+
         $this->createAddress($address_meta);
     }
 
@@ -66,7 +78,7 @@ class CustomerStoreService extends BaseService
         $this->createAddress($address_meta);
     }
 
-    private function generateAddressMeta(Array $attributes, String $prefix)
+    public function generateAddressMeta(Array $attributes, String $prefix)
     {
         $is_billing = $prefix === 'billing';
         $is_shipping = $prefix === 'shipping';

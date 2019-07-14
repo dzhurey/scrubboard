@@ -15,7 +15,7 @@
 </div>
 <div class="form-group">
     <label>Email</label>
-    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($customer->id) ? $customer->email : old('email') }}" @if(!empty($customer->id)) disabled @endif>
+    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($customer->id) ? $customer->email : old('email') }}">
     @if ($errors->has('email'))
         <div class="invalid-feedback">{{ $errors->first('email') }}</div>
     @endif
@@ -112,9 +112,12 @@
         <b>Alamat Pengiriman</b>
         <div class="form-group">
             <label>
-                <input type="checkbox" name="is_same_address">
+                <input type="checkbox" name="is_same_address" {{ !empty($customer->id) && $customer->billingAddress()->is_shipping ? 'checked' : '' }}>
                 Alamat dan alamat pengiriman sama
             </label>
+            @if ($errors->has('is_same_address'))
+                <div class="invalid-feedback">{{ $errors->first('is_same_address') }}</div>
+            @endif
         </div>
         <div class="form-group">
             <label>Alamat</label>

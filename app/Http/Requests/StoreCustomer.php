@@ -28,7 +28,7 @@ class StoreCustomer extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'sometimes|required|email|unique:users',
+            'email' => 'required|email',
             'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'required|date_format:"Y-m-d"',
             'gender' => 'required|in:'.join(array_keys(Customer::GENDERS), ','),
@@ -44,6 +44,7 @@ class StoreCustomer extends FormRequest
             'shipping_country' => 'nullable|max:150',
             'shipping_zip_code' => 'nullable|max:10',
             'bebe_name' => 'nullable|max:255',
+            'is_same_address' => '',
             'bebe_birth_date' => 'nullable|date_format:"Y-m-d"',
             'bebe_gender' => 'in:'.join(array_keys(Customer::GENDERS), ','),
             'partner_type' => 'in:'.join(array_keys(Customer::PARTNER_TYPE), ','),

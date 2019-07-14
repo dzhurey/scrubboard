@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Http\Requests\StoreCustomer;
 use App\Services\Customer\CustomerStoreService;
+use App\Services\Customer\CustomerUpdateService;
 
 class CustomerController extends Controller
 {
@@ -16,6 +17,7 @@ class CustomerController extends Controller
 
     public function index()
     {
+
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
@@ -55,19 +57,19 @@ class CustomerController extends Controller
         return view('customer.edit', ['customer' => $customer]);
     }
 
-    // public function update(
-    //     StoreVehicle $request,
-    //     Vehicle $vehicle,
-    //     VehicleStoreService $service
-    // ) {
-    //     if (!$this->allowUser('superadmin-only')) {
-    //         return back()->with('error', __("authorize.not_superadmin"));
-    //     }
+    public function update(
+        StoreCustomer $request,
+        Customer $customer,
+        CustomerUpdateService $service
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
 
-    //     $validated = $request->validated();
-    //     $service->perform($validated, $vehicle);
-    //     return redirect()->route('vehicles.edit', ['vehicle' => $vehicle->id]);
-    // }
+        $validated = $request->validated();
+        $service->perform($validated, $customer);
+        return redirect()->route('customers.edit', ['customer' => $customer->id]);
+    }
 
     public function destroy(Customer $customer)
     {

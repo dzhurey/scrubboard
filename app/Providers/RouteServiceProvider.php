@@ -44,6 +44,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapVehicleWebRoutes();
 
         $this->mapCustomerWebRoutes();
+
+        $this->mapBankAccountWebRoutes();
     }
 
     /**
@@ -104,5 +106,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('customers')
             ->group(base_path('routes/web/customer.php'));
+    }
+
+    protected function mapBankAccountWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('banks')
+            ->group(base_path('routes/web/bank_account.php'));
     }
 }

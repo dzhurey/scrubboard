@@ -3,6 +3,7 @@
   @can('superadmin-only')
   <a class="nav-link" href="{{ route('people.index') }}">Pengguna</a>
   <a class="nav-link" href="{{ route('customers.index') }}">Pelanggan</a>
+  <a class="nav-link" href="{{ route('bank_accounts.index') }}">Bank</a>
   <a class="nav-link" href="{{ route('vehicles.index') }}">Kendaraan</a>
   @endcan
 </nav>

@@ -34,6 +34,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                {{ $bank_accounts->links() }}
+            </div>
         @else
             <p>Belum ada akun bank yang dibuat</p>
         @endif

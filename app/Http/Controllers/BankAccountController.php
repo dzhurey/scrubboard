@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use App\BankAccount;
 use App\Bank;
 use App\Http\Requests\StoreBankAccount;
@@ -22,7 +23,7 @@ class BankAccountController extends Controller
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $bank_accounts = BankAccount::orderBy('id', 'DESC')->get();
+        $bank_accounts = BankAccount::orderBy('id', 'DESC')->paginate(Config::get('constants.default_per_page'));
         return view('bank_account.index', ['bank_accounts' => $bank_accounts]);
     }
 

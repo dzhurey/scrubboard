@@ -7,7 +7,8 @@
     <div class="card-body">
         <a href="{{ route('bank_accounts.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($bank_accounts->count() > 0)
+        @if ($bank_accounts->count() > 0 || !empty($query))
+            @include('includes/index_navigation')
             <table class="table">
                 <thead>
                     <td>Nama</td>
@@ -42,4 +43,5 @@
         @endif
     </div>
 </div>
+<span id="pageConstant" class="hidden" data-url="{{ route('bank_accounts.index') }}"></span>
 @endsection

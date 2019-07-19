@@ -2,15 +2,20 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 use App\Address;
 
-class BankAccount extends Model
+class BankAccount extends BaseModel
 {
     protected $fillable = [
         'name',
         'bank_id',
         'account_number',
+    ];
+
+    protected $searchable = [
+        'name',
+        'bank__name',
     ];
 
     public function bank()

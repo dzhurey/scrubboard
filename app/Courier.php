@@ -8,6 +8,6 @@ class Courier extends Model
 {
     protected $fillable = [
         'name',
-        'phone',
+        'phone_number',
     ];
 }

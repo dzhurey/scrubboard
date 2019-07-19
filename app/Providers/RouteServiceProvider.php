@@ -36,16 +36,12 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
         $this->mapPersonWebRoutes();
-
         $this->mapVehicleWebRoutes();
-
         $this->mapCustomerWebRoutes();
-
         $this->mapBankAccountWebRoutes();
+        $this->mapCourierWebRoutes();
     }
 
     /**
@@ -114,5 +110,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('banks')
             ->group(base_path('routes/web/bank_account.php'));
+    }
+
+    protected function mapCourierWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('couriers')
+            ->group(base_path('routes/web/courier.php'));
     }
 }

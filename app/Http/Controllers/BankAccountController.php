@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
 use App\BankAccount;
 use App\Bank;
+use App\Presenters\BankAccountPresenter;
 use App\Http\Requests\StoreBankAccount;
 use App\Services\BankAccount\BankAccountStoreService;
-
-use Illuminate\Database\Eloquent\Builder;
 
 class BankAccountController extends Controller
 {
@@ -21,22 +19,19 @@ class BankAccountController extends Controller
         $this->bank_account = $bank_account;
     }
 
-    public function index(Request $request)
-    {
+    public function index(
+        Request $request,
+        BankAccountPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $validated = $request->validate([
-            'q' => 'string',
-            'page' => '',
-        ]);
-
-        $bank_accounts = $this->search($this->bank_account, $validated)->paginate(Config::get('constants.default_per_page'));
+        $results = $presenter->performCollection($request);
 
         $data = [
-            'query' => $validated,
-            'bank_accounts' => $bank_accounts,
+            'query' => $results->getValidated(),
+            'bank_accounts' => $results->getCollection(),
         ];
         return view('bank_account.index', $data);
     }
@@ -100,26 +95,5 @@ class BankAccountController extends Controller
 
         $bank_account->delete();
         return redirect()->route('bank_accounts.index');
-    }
-
-    private function search($model, $attributes)
-    {
-        $searchable = $model->getSearchable();
-
-        if(!empty($attributes['q'])) {
-            foreach ($searchable as $field) {
-                $sanitized = trim($attributes['q']);
-                $exploded_field = explode('__', $field);
-                if (count($exploded_field) > 1) {
-                    $model = $model->orWhereHas($exploded_field[0], function (Builder $query) use ($exploded_field, $sanitized) {
-                        $query->where($exploded_field[1], 'LIKE', "%".strtoupper($sanitized)."%");
-                    });
-                } else {
-                    $model = $model->orWhere($field,'LIKE',"%".$sanitized."%");
-                }
-            }
-        }
-
-        return $model;
     }
 }

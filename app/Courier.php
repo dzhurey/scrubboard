@@ -2,12 +2,16 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Courier extends Model
+class Courier extends BaseModel
 {
     protected $fillable = [
         'name',
         'phone_number',
+    ];
+
+    protected $searchable = [
+        'name',
     ];
 }

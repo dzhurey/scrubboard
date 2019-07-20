@@ -7,7 +7,8 @@
     <div class="card-body">
         <a href="{{ route('couriers.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($couriers->count() > 0)
+        @if ($couriers->count() > 0 || !empty($query))
+            @include('includes/index_navigation')
             <table class="table">
                 <thead>
                     <td>Nama</td>
@@ -32,9 +33,13 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                {{ $couriers->links() }}
+            </div>
         @else
             <p>Belum ada kurir yang dibuat</p>
         @endif
     </div>
 </div>
+<span id="pageConstant" class="hidden" data-url="{{ route('couriers.index') }}"></span>
 @endsection

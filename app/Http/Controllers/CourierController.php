@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Courier;
+use App\Presenters\CourierPresenter;
 use App\Http\Requests\StoreCourier;
 use App\Services\Courier\CourierStoreService;
 
@@ -14,14 +15,20 @@ class CourierController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        CourierPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $couriers = Courier::orderBy('id', 'DESC')->get();
-        return view('courier.index', ['couriers' => $couriers]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'couriers' => $results->getCollection(),
+        ];
+        return view('courier.index', $data);
     }
 
     public function create()

@@ -15,4 +15,9 @@ class ItemSubCategory extends BaseModel
     {
         return $this->belongsTo('App\ItemGroup');
     }
+
+    public function items()
+    {
+        return $this->hasMany('App\Item');
+    }
 }

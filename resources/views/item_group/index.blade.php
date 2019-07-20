@@ -18,10 +18,10 @@
                         <tr>
                             <td>{{ $item_group->name }}</td>
                             <td>
-                                {{ Form::open(['url' => route('item_groups.destroy', ['vehicle' => $item_group->id]), 'method' => 'delete']) }}
+                                {{ Form::open(['url' => route('item_groups.destroy', ['item_group' => $item_group->id]), 'method' => 'delete']) }}
                                     {{ csrf_field() }}
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ route('item_groups.edit', ['vehicle' => $item_group->id]) }}" class="btn btn-light">Edit</a>
+                                        <a href="{{ route('item_groups.edit', ['item_group' => $item_group->id]) }}" class="btn btn-light">Edit</a>
                                         {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
                                     </div>
                                 {{ Form::close() }}

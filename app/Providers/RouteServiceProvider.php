@@ -44,6 +44,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapCourierWebRoutes();
         $this->mapItemGroupWebRoutes();
         $this->mapItemSubCategoryWebRoutes();
+        $this->mapItemWebRoutes();
     }
 
     /**
@@ -136,5 +137,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('item_sub_categories')
             ->group(base_path('routes/web/item_sub_category.php'));
+    }
+
+    protected function mapItemWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('items')
+            ->group(base_path('routes/web/item.php'));
     }
 }

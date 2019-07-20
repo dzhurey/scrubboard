@@ -11,19 +11,19 @@ class ItemGroupStoreService extends BaseService
     protected $model;
 
     public function __construct(
-        Vehicle $model
+        ItemGroup $model
     ) {
       $this->model = $model;
     }
 
-    public function perform(Array $attributes, Vehicle $model=null)
+    public function perform(Array $attributes, ItemGroup $model=null)
     {
         if (!empty($model)) {
             $this->model = $model;
         }
         DB::beginTransaction();
         try {
-            $this->createVehicle($attributes);
+            $this->createItemGroup($attributes);
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);
@@ -31,12 +31,12 @@ class ItemGroupStoreService extends BaseService
         DB::commit();
     }
 
-    public function getVehicle()
+    public function getItemGroup()
     {
         return $this->model;
     }
 
-    private function createVehicle($attributes)
+    private function createItemGroup($attributes)
     {
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();

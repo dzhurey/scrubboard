@@ -14,4 +14,9 @@ class ItemGroup extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function itemSubCategories()
+    {
+        return $this->hasMany('App\ItemSubCategory');
+    }
 }

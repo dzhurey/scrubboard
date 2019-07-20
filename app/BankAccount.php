@@ -3,7 +3,6 @@
 namespace App;
 
 use App\BaseModel;
-use App\Address;
 
 class BankAccount extends BaseModel
 {

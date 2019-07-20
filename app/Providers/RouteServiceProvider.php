@@ -43,6 +43,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapBankAccountWebRoutes();
         $this->mapCourierWebRoutes();
         $this->mapItemGroupWebRoutes();
+        $this->mapItemSubCategoryWebRoutes();
     }
 
     /**
@@ -127,5 +128,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('item_groups')
             ->group(base_path('routes/web/item_group.php'));
+    }
+
+    protected function mapItemSubCategoryWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('item_sub_categories')
+            ->group(base_path('routes/web/item_sub_category.php'));
     }
 }

@@ -36,14 +36,14 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapWebRoutes();
-
         $this->mapPersonWebRoutes();
-
         $this->mapVehicleWebRoutes();
-
         $this->mapCustomerWebRoutes();
+        $this->mapBankAccountWebRoutes();
+        $this->mapCourierWebRoutes();
+        $this->mapItemGroupWebRoutes();
+        $this->mapItemSubCategoryWebRoutes();
     }
 
     /**
@@ -104,5 +104,37 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('customers')
             ->group(base_path('routes/web/customer.php'));
+    }
+
+    protected function mapBankAccountWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('banks')
+            ->group(base_path('routes/web/bank_account.php'));
+    }
+
+    protected function mapCourierWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('couriers')
+            ->group(base_path('routes/web/courier.php'));
+    }
+
+    protected function mapItemGroupWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('item_groups')
+            ->group(base_path('routes/web/item_group.php'));
+    }
+
+    protected function mapItemSubCategoryWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('item_sub_categories')
+            ->group(base_path('routes/web/item_sub_category.php'));
     }
 }

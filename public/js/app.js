@@ -36898,15 +36898,26 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
 /**
  * First, we will load all of this project's Javascript utilities and other
  * dependencies. Then, we will be ready to develop a robust and powerful
  * application frontend using useful Laravel and JavaScript libraries.
  */
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Register $ global var for jQuery
+
+
+
+window.$ = __webpack_provided_window_dot_jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+
+__webpack_require__(/*! ./index_navigation */ "./resources/js/index_navigation.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -36917,7 +36928,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* WEBPACK VAR INJECTION */(function(__webpack_provided_window_dot_jQuery) {window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -36941,7 +36952,7 @@ if (token) {
 }
 
 try {
-  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+  window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
   window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
 
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
@@ -36959,6 +36970,55 @@ try {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/index_navigation.js":
+/*!******************************************!*\
+  !*** ./resources/js/index_navigation.js ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$('#btnSearch').ready(function () {
+  var $buttonSubmit = $('#btnSearch');
+  var $inputSearch = $('#inputSearch');
+  var thisUrl = $('#pageConstant').data('url');
+  var activePage = $('.page-item.active .page-link').html();
+  var $buttonPageLinks = $('.page-link');
+  $buttonSubmit.on('click', function () {
+    var query = {};
+
+    if (!_.isEmpty($inputSearch.val())) {
+      query['q'] = $inputSearch.val();
+    }
+
+    location.href = thisUrl + '?' + generateUrl(query);
+  });
+  $buttonPageLinks.each(function (index) {
+    $(this).on("click", function (event) {
+      event.preventDefault();
+      var url = $(this).attr('href');
+      var query = {};
+
+      if (!_.isEmpty($inputSearch.val())) {
+        query['q'] = $inputSearch.val();
+      }
+
+      location.href = url + '&' + generateUrl(query);
+    });
+  });
+
+  function generateUrl(params) {
+    var ret = [];
+    $.each(params, function (key, value) {
+      ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    });
+    return ret.join('&');
+  }
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 

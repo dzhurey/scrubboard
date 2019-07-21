@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use App\ItemSubCategory;
 use App\ItemGroup;
+use App\Presenters\ItemSubCategoryPresenter;
 use App\Http\Requests\StoreItemSubCategory;
 use App\Services\ItemSubCategory\ItemSubCategoryStoreService;
 
@@ -18,16 +19,18 @@ class ItemSubCategoryController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        ItemSubCategoryPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $item_sub_categories = ItemSubCategory::orderBy('id', 'DESC')->get();
-
+        $results = $presenter->performCollection($request);
         $data = [
-            'item_sub_categories' => $item_sub_categories,
+            'query' => $results->getValidated(),
+            'item_sub_categories' => $results->getCollection(),
         ];
         return view('item_sub_category.index', $data);
     }

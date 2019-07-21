@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Vehicle extends Model
+class Vehicle extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,10 @@ class Vehicle extends Model
      * @var array
      */
     protected $fillable = [
+        'number',
+    ];
+
+    protected $searchable = [
         'number',
     ];
 }

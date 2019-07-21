@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Person;
+use App\Presenters\PersonPresenter;
 use App\Http\Requests\StorePerson;
 use App\Services\Person\PersonCreateService;
 use App\Services\Person\PersonUpdateService;
@@ -25,14 +26,20 @@ class PersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index(
+        Request $request,
+        PersonPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $people = Person::orderBy('id', 'DESC')->get();
-        return view('person.index', ['people' => $people]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'people' => $results->getCollection(),
+        ];
+        return view('person.index', $data);
     }
 
     /**

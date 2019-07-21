@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Vehicle;
+use App\Presenters\VehiclePresenter;
 use App\Http\Requests\StoreVehicle;
 use App\Services\Vehicle\VehicleStoreService;
 
@@ -14,14 +15,20 @@ class VehicleController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        VehiclePresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $vehicles = Vehicle::orderBy('id', 'DESC')->get();
-        return view('vehicle.index', ['vehicles' => $vehicles]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'vehicles' => $results->getCollection(),
+        ];
+        return view('vehicle.index', $data);
     }
 
     public function create()

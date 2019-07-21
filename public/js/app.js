@@ -37019,7 +37019,7 @@ try {
   }
 
   $.ajax({
-    url: thisUrl + '/3',
+    url: 'http://localhost:8000/bank_accounts',
     method: "GET",
     headers: {
       "Content-Type": "application/json",

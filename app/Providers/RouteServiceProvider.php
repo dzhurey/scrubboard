@@ -111,7 +111,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->prefix('banks')
+            ->prefix('bank_accounts')
             ->group(base_path('routes/web/bank_account.php'));
     }
 

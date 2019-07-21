@@ -37,7 +37,7 @@ abstract class BasePresenter
 
         $this->collection = $this->search($this->validated)->paginate(Config::get('constants.default_per_page'));
         $this->collection->getCollection()->transform(function($single, $key) {
-            return $this->transform($single, $key);
+            return $this->transform($single);
         });
 
         return $this;

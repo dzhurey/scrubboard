@@ -13,4 +13,9 @@ class CustomerPresenter extends BasePresenter
     {
         $this->model = $model;
     }
+
+    public function transform($input)
+    {
+        return $input;
+    }
 }

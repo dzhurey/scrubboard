@@ -3,16 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use App\ItemSubCategory;
+use App\Item;
 use App\ItemGroup;
-use App\Presenters\ItemSubCategoryPresenter;
-use App\Http\Requests\StoreItemSubCategory;
-use App\Services\ItemSubCategory\ItemSubCategoryStoreService;
+use App\ItemSubCategory;
+use App\Presenters\ItemPresenter;
+use App\Http\Requests\StoreItem;
+use App\Services\Item\ItemStoreService;
 
-use Illuminate\Database\Eloquent\Builder;
-
-class ItemSubCategoryController extends Controller
+class ItemController extends Controller
 {
     public function __construct()
     {
@@ -21,7 +19,7 @@ class ItemSubCategoryController extends Controller
 
     public function index(
         Request $request,
-        ItemSubCategoryPresenter $presenter
+        ItemPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
@@ -30,9 +28,9 @@ class ItemSubCategoryController extends Controller
         $results = $presenter->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'item_sub_categories' => $results->getCollection(),
+            'items' => $results->getCollection(),
         ];
-        return view('item_sub_category.index', $data);
+        return view('item.index', $data);
     }
 
     public function create()
@@ -42,12 +40,17 @@ class ItemSubCategoryController extends Controller
         }
 
         $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
-        return view('item_sub_category.create', ['item_groups' => $item_groups]);
+        $item_sub_categories = ItemSubCategory::orderBy('id', 'ASC')->pluck('name', 'id');
+        $data = [
+            'item_groups' => $item_groups,
+            'item_sub_categories' => $item_sub_categories,
+        ];
+        return view('item.create', $data);
     }
 
     public function store(
-        StoreItemSubCategory $request,
-        ItemSubCategoryStoreService $service
+        StoreItem $request,
+        ItemStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
@@ -55,44 +58,46 @@ class ItemSubCategoryController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('item_sub_categories.index');
+        return redirect()->route('items.index');
     }
 
-    public function edit(ItemSubCategory $item_sub_category)
+    public function edit(Item $item)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
+        $item_sub_categories = ItemSubCategory::orderBy('id', 'ASC')->pluck('name', 'id');
         $data = [
-            'item_sub_category' => $item_sub_category,
             'item_groups' => $item_groups,
+            'item_sub_categories' => $item_sub_categories,
+            'item' => $item,
         ];
-        return view('item_sub_category.edit', $data);
+        return view('item.edit', $data);
     }
 
     public function update(
-        StoreItemSubCategory $request,
-        ItemSubCategory $item_sub_category,
-        ItemSubCategoryStoreService $service
+        StoreItem $request,
+        Item $item,
+        ItemStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $validated = $request->validated();
-        $service->perform($validated, $item_sub_category);
-        return redirect()->route('item_sub_categories.edit', ['item_sub_category' => $item_sub_category->id]);
+        $service->perform($validated, $item);
+        return redirect()->route('items.edit', ['item' => $item->id]);
     }
 
-    public function destroy(ItemSubCategory $item_sub_category)
+    public function destroy(Item $item)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $item_sub_category->delete();
-        return redirect()->route('item_sub_categories.index');
+        $item->delete();
+        return redirect()->route('items.index');
     }
 }

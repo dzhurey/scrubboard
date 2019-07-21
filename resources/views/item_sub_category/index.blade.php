@@ -7,7 +7,8 @@
     <div class="card-body">
         <a href="{{ route('item_sub_categories.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($item_sub_categories->count() > 0)
+        @if ($item_sub_categories->count() > 0 || !empty(!query))
+            @include('includes/index_navigation')
             <table class="table">
                 <thead>
                     <td>Nama</td>
@@ -32,6 +33,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                {{ $item_sub_categories->links() }}
+            </div>
         @else
             <p>Belum ada akun item sub category yang dibuat</p>
         @endif

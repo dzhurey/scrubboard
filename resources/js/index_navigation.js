@@ -34,4 +34,19 @@ $('#btnSearch').ready(function () {
         });
         return ret.join('&');
     }
+
+    $.ajax({
+        url: 'http://localhost:8000/bank_accounts',
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    })
+    .done(function(response) {
+        console.log(response.bank_accounts)
+    })
+    .fail(function( jqXHR, textStatus ) {
+        alert( "Request failed: " + textStatus )
+    });
 })

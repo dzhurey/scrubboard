@@ -4,7 +4,7 @@ namespace App;
 
 use App\BaseModel;
 
-class ItemGroup extends BaseModel
+class Price extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -19,8 +19,8 @@ class ItemGroup extends BaseModel
         'name',
     ];
 
-    public function itemSubCategories()
+    public function priceLines()
     {
-        return $this->hasMany('App\ItemSubCategory');
+        return $this->hasMany('App\PriceLine');
     }
 }

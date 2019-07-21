@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ItemGroup;
+use App\Presenters\ItemGroupPresenter;
 use App\Http\Requests\StoreItemGroup;
 use App\Services\ItemGroup\ItemGroupStoreService;
 
@@ -14,14 +15,20 @@ class ItemGroupController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        ItemGroupPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $item_groups = ItemGroup::orderBy('id', 'DESC')->get();
-        return view('item_group.index', ['item_groups' => $item_groups]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'item_groups' => $results->getCollection(),
+        ];
+        return view('item_group.index', $data);
     }
 
     public function create()

@@ -7,7 +7,8 @@
     <div class="card-body">
         <a href="{{ route('vehicles.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($vehicles->count() > 0)
+        @if ($vehicles->count() > 0 || !empty($query))
+            @include('includes/index_navigation')
             <table class="table">
                 <thead>
                     <td>Plat Nomor</td>
@@ -30,9 +31,13 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                {{ $vehicles->links() }}
+            </div>
         @else
             <p>Belum ada kendaraan yang dibuat</p>
         @endif
     </div>
 </div>
+<span id="pageConstant" class="hidden" data-url="{{ route('vehicles.index') }}"></span>
 @endsection

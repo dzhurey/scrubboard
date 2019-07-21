@@ -11,8 +11,18 @@ class ItemSubCategory extends BaseModel
         'item_group_id',
     ];
 
+    protected $searchable = [
+        'name',
+        'itemGroup__name',
+    ];
+
     public function itemGroup()
     {
         return $this->belongsTo('App\ItemGroup');
+    }
+
+    public function items()
+    {
+        return $this->hasMany('App\Item');
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 use App\Address;
 
-class Customer extends Model
+class Customer extends BaseModel
 {
     const GENDERS = [
         'male' => 'Laki-Laki',
@@ -39,6 +39,12 @@ class Customer extends Model
         'bebe_name',
         'bebe_gender',
         'bebe_birth_date',
+    ];
+
+    protected $searchable = [
+        'name',
+        'bebe_name',
+        'email',
     ];
 
     public function addresses()

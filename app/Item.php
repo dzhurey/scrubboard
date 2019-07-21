@@ -36,4 +36,9 @@ class Item extends BaseModel
     {
         return $this->belongsTo('App\ItemSubCategory');
     }
+
+    public function priceLines()
+    {
+        return $this->hasMany('App\PriceLine');
+    }
 }

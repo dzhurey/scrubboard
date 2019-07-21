@@ -7,7 +7,8 @@
     <div class="card-body">
         <a href="{{ route('item_groups.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($item_groups->count() > 0)
+        @if ($item_groups->count() > 0 || !empty($query))
+            @include('includes/index_navigation')
             <table class="table">
                 <thead>
                     <td>Nama</td>
@@ -30,9 +31,13 @@
                     @endforeach
                 </tbody>
             </table>
+            <div>
+                {{ $item_groups->links() }}
+            </div>
         @else
             <p>Belum ada item group yang dibuat</p>
         @endif
     </div>
 </div>
+<span id="pageConstant" class="hidden" data-url="{{ route('item_groups.index') }}"></span>
 @endsection

@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class ItemGroup extends Model
+class ItemGroup extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -12,6 +12,10 @@ class ItemGroup extends Model
      * @var array
      */
     protected $fillable = [
+        'name',
+    ];
+
+    protected $searchable = [
         'name',
     ];
 

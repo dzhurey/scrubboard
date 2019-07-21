@@ -28,7 +28,22 @@ class CourierController extends Controller
             'query' => $results->getValidated(),
             'couriers' => $results->getCollection(),
         ];
-        return view('courier.index', $data);
+        return $this->renderView($request, 'courier.index', $data);
+    }
+
+    public function show(
+        Request $request,
+        Courier $courier,
+        CourierPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'courier' => $presenter->transform($courier),
+        ];
+        return $this->renderView($request, '', $data);
     }
 
     public function create()

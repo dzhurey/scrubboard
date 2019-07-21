@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Item extends Model
+class Item extends BaseModel
 {
     const ITEM_TYPES = [
         'service' => 'Service',
@@ -23,6 +23,13 @@ class Item extends Model
         'service',
         'price',
         'item_sub_category_id',
+    ];
+
+    protected $searchable = [
+        'description',
+        'product',
+        'service',
+        'itemSubCategory__name'
     ];
 
     public function itemSubCategory()

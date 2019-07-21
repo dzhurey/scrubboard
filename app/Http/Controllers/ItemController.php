@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Item;
 use App\ItemGroup;
 use App\ItemSubCategory;
+use App\Presenters\ItemPresenter;
 use App\Http\Requests\StoreItem;
 use App\Services\Item\ItemStoreService;
 
@@ -16,14 +17,20 @@ class ItemController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        ItemPresenter $presenter
+    ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $items = Item::orderBy('id', 'DESC')->get();
-        return view('item.index', ['items' => $items]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'items' => $results->getCollection(),
+        ];
+        return view('item.index', $data);
     }
 
     public function create()

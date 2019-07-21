@@ -50,10 +50,10 @@ abstract class BasePresenter
                 $exploded_field = explode('__', $field);
                 if (count($exploded_field) > 1) {
                     $this->model = $this->model->orWhereHas($exploded_field[0], function (Builder $query) use ($exploded_field, $sanitized) {
-                        $query->where($exploded_field[1], 'LIKE', "%".strtoupper($sanitized)."%");
+                        $query->where($exploded_field[1], 'ILIKE', "%".$sanitized."%");
                     });
                 } else {
-                    $this->model = $this->model->orWhere($field,'LIKE',"%".$sanitized."%");
+                    $this->model = $this->model->orWhere($field,'ILIKE',"%".$sanitized."%");
                 }
             }
         }

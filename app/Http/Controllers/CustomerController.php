@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Presenters\CustomerPresenter;
 use App\Http\Requests\StoreCustomer;
 use App\Services\Customer\CustomerStoreService;
 use App\Services\Customer\CustomerUpdateService;
@@ -15,15 +16,21 @@ class CustomerController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
-    {
+    public function index(
+        Request $request,
+        CustomerPresenter $presenter
+    ) {
 
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $customers = Customer::orderBy('id', 'DESC')->get();
-        return view('customer.index', ['customers' => $customers]);
+        $results = $presenter->performCollection($request);
+        $data = [
+            'query' => $results->getValidated(),
+            'customers' => $results->getCollection(),
+        ];
+        return view('customer.index', $data);
     }
 
     public function create()

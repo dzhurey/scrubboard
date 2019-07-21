@@ -28,12 +28,11 @@ class BankAccountController extends Controller
         }
 
         $results = $presenter->performCollection($request);
-
         $data = [
             'query' => $results->getValidated(),
             'bank_accounts' => $results->getCollection(),
         ];
-        return view('bank_account.index', $data);
+        return $this->renderView($request, 'bank_account.index', $data);
     }
 
     public function create()
@@ -71,6 +70,21 @@ class BankAccountController extends Controller
             'banks' => $banks,
         ];
         return view('bank_account.edit', $data);
+    }
+
+    public function show(
+        Request $request,
+        BankAccount $bank_account,
+        BankAccountPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'bank_account' => $presenter->transform($bank_account),
+        ];
+        return $this->renderView($request, '', $data);
     }
 
     public function update(

@@ -37017,6 +37017,19 @@ try {
     });
     return ret.join('&');
   }
+
+  $.ajax({
+    url: thisUrl + '/3',
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+  }).done(function (response) {
+    console.log(response.bank_accounts);
+  }).fail(function (jqXHR, textStatus) {
+    alert("Request failed: " + textStatus);
+  });
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

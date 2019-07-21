@@ -6,3 +6,4 @@ Route::post('/', 'BankAccountController@store')->name('bank_accounts.store');
 Route::get('/{bank_account}/edit', 'BankAccountController@edit')->name('bank_accounts.edit');
 Route::put('/{bank_account}/update', 'BankAccountController@update')->name('bank_accounts.update');
 Route::delete('/{bank_account}/destroy', 'BankAccountController@destroy')->name('bank_accounts.destroy');
+Route::get('/{bank_account}', 'BankAccountController@show')->name('bank_accounts.show');

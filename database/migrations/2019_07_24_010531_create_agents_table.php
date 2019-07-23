@@ -29,6 +29,9 @@ class CreateAgentsTable extends Migration
             $table->string('contact_name', 255);
             $table->string('contact_phone_number', 15);
             $table->string('contact_mobile_number', 15);
+            $table->integer('agent_group_id')->unsigned();
+
+            $table->foreign('agent_group_id')->references('id')->on('agent_groups')->onDelete('restrict');
         });
     }
 

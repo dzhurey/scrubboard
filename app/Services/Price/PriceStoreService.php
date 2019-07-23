@@ -48,6 +48,7 @@ class PriceStoreService extends BaseService
     {
         $price_lines = [];
         foreach ($attributes['price_lines'] as $key => $value) {
+            $value['price_id'] = $this->model->id;
             $model_line = new PriceLine();
             array_push($price_lines, $this->assignAttributes($model_line, $value));
         }

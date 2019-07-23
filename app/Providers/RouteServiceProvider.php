@@ -45,6 +45,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapItemGroupWebRoutes();
         $this->mapItemSubCategoryWebRoutes();
         $this->mapItemWebRoutes();
+        $this->mapPriceWebRoutes();
     }
 
     /**
@@ -145,5 +146,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('items')
             ->group(base_path('routes/web/item.php'));
+    }
+
+    protected function mapPriceWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('prices')
+            ->group(base_path('routes/web/price.php'));
     }
 }

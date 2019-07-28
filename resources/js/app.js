@@ -11,3 +11,4 @@ import $ from 'jquery';
 window.$ = window.jQuery = $;
 
 require('./index_navigation');
+require('./dynamic_form');

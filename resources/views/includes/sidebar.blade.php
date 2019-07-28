@@ -7,6 +7,8 @@
   <a class="nav-link" href="{{ route('item_groups.index') }}">Item Group</a>
   <a class="nav-link" href="{{ route('item_sub_categories.index') }}">Item Sub Category</a>
   <a class="nav-link" href="{{ route('items.index') }}">Item</a>
+  <a class="nav-link" href="{{ route('prices.index') }}">Harga</a>
+  <a class="nav-link" href="{{ route('agents.index') }}">Agen</a>
   <a class="nav-link" href="{{ route('vehicles.index') }}">Kendaraan</a>
   <a class="nav-link" href="{{ route('couriers.index') }}">Kurir</a>
   @endcan

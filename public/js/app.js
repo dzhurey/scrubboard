@@ -36917,6 +36917,8 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js"); // Regist
 window.$ = __webpack_provided_window_dot_jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
 
 __webpack_require__(/*! ./index_navigation */ "./resources/js/index_navigation.js");
+
+__webpack_require__(/*! ./dynamic_form */ "./resources/js/dynamic_form.js");
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -36974,6 +36976,31 @@ try {
 
 /***/ }),
 
+/***/ "./resources/js/dynamic_form.js":
+/*!**************************************!*\
+  !*** ./resources/js/dynamic_form.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$('#dynamicForm').ready(function () {
+  $(document).on('click', '.btn-add', function (e) {
+    e.preventDefault();
+    var controlForm = $('.controls'),
+        currentEntry = $(this).parents('.entry:first'),
+        newEntry = $(currentEntry.clone()).appendTo(controlForm);
+    newEntry.find('input').val('');
+    controlForm.find('.entry:not(:last) .btn-add').removeClass('btn-add').addClass('btn-remove').removeClass('btn-success').addClass('btn-danger').html('Delete');
+  }).on('click', '.btn-remove', function (e) {
+    $(this).parents('.entry:first').remove();
+    e.preventDefault();
+    return false;
+  });
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/index_navigation.js":
 /*!******************************************!*\
   !*** ./resources/js/index_navigation.js ***!
@@ -37017,19 +37044,6 @@ try {
     });
     return ret.join('&');
   }
-
-  $.ajax({
-    url: 'http://localhost:8000/bank_accounts',
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }
-  }).done(function (response) {
-    console.log(response.bank_accounts);
-  }).fail(function (jqXHR, textStatus) {
-    alert("Request failed: " + textStatus);
-  });
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

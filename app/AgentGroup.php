@@ -13,4 +13,9 @@ class AgentGroup extends BaseModel
     protected $searchable = [
         'name',
     ];
+
+    public function agents()
+    {
+        return $this->hasMany('App\Agent');
+    }
 }

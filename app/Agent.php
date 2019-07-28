@@ -20,6 +20,7 @@ class Agent extends BaseModel
         'contact_name',
         'contact_phone_number',
         'contact_mobile_number',
+        'agent_group_id',
     ];
 
     protected $searchable = [
@@ -27,4 +28,9 @@ class Agent extends BaseModel
         'email',
         'contact_name',
     ];
+
+    public function agentGroup()
+    {
+        return $this->belongsTo('App\AgentGroup');
+    }
 }

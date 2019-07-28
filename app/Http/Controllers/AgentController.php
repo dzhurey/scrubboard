@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Price;
-use App\PriceLine;
-use App\Item;
-use App\Presenters\PricePresenter;
-use App\Http\Requests\StorePrice;
-use App\Services\Price\PriceStoreService;
-use App\Services\Price\PriceUpdateService;
+use App\Agent;
+use App\AgentGroup;
+use App\Presenters\AgentPresenter;
+use App\Http\Requests\StoreAgent;
+use App\Services\Agent\AgentStoreService;
 
-class PriceController extends Controller
+class AgentController extends Controller
 {
     public function __construct()
     {
@@ -20,7 +18,7 @@ class PriceController extends Controller
 
     public function index(
         Request $request,
-        PricePresenter $presenter
+        AgentPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
@@ -29,22 +27,22 @@ class PriceController extends Controller
         $results = $presenter->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'prices' => $results->getCollection(),
+            'agents' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'price.index', $data, [], 200);
+        return $this->renderView($request, 'agent.index', $data, [], 200);
     }
 
     public function show(
         Request $request,
-        Price $price,
-        PricePresenter $presenter
+        Agent $agent,
+        AgentPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $data = [
-            'price' => $presenter->transform($price),
+            'agent' => $presenter->transform($agent),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }
@@ -56,14 +54,14 @@ class PriceController extends Controller
         }
 
         $data = [
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'agent_groups' => AgentGroup::orderBy('id', 'ASC')->pluck('name', 'id')
         ];
-        return view('price.create', $data);
+        return view('agent.create', $data);
     }
 
     public function store(
-        StorePrice $request,
-        PriceStoreService $service
+        StoreAgent $request,
+        AgentStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
@@ -72,43 +70,43 @@ class PriceController extends Controller
         $validated = $request->validated();
         $service->perform($validated);
 
-        return $this->renderView($request, '', [], ['route' => 'prices.index', 'data' => []], 201);
+        return $this->renderView($request, '', [], ['route' => 'agents.index', 'data' => []], 201);
     }
 
-    public function edit(Price $price)
+    public function edit(Agent $agent)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $data = [
-            'price' => $price,
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'agent' => $agent,
+            'agent_groups' => AgentGroup::orderBy('id', 'ASC')->pluck('name', 'id')
         ];
-        return view('price.edit', $data);
+        return view('agent.edit', $data);
     }
 
     public function update(
-        StorePrice $request,
-        Price $price,
-        PriceUpdateService $service
+        StoreAgent $request,
+        Agent $agent,
+        AgentStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $validated = $request->validated();
-        $service->perform($validated, $price);
-        return $this->renderView($request, '', [], ['route' => 'prices.edit', 'data' => ['price' => $price->id]], 204);
+        $service->perform($validated, $agent);
+        return $this->renderView($request, '', [], ['route' => 'agents.edit', 'data' => ['agent' => $agent->id]], 204);
     }
 
-    public function destroy(Request $request, Price $price)
+    public function destroy(Request $request, Agent $agent)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
-        $price->delete();
-        return $this->renderView($request, '', [], ['route' => 'prices.index', 'data' => []], 204);
+        $agent->delete();
+        return $this->renderView($request, '', [], ['route' => 'agents.index', 'data' => []], 204);
     }
 }

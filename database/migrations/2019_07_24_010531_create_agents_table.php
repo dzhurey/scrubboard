@@ -17,7 +17,7 @@ class CreateAgentsTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name', 255);
-            $table->string('phone_number', 15);
+            $table->string('phone_number', 15)->nullable();
             $table->string('mobile_number', 15);
             $table->string('email');
             $table->text('address');
@@ -27,7 +27,7 @@ class CreateAgentsTable extends Migration
             $table->string('country', 150);
             $table->string('zip_code', 10);
             $table->string('contact_name', 255);
-            $table->string('contact_phone_number', 15);
+            $table->string('contact_phone_number', 15)->nullable();
             $table->string('contact_mobile_number', 15);
             $table->integer('agent_group_id')->unsigned();
 

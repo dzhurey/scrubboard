@@ -46,6 +46,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapItemSubCategoryWebRoutes();
         $this->mapItemWebRoutes();
         $this->mapPriceWebRoutes();
+        $this->mapAgentWebRoutes();
     }
 
     /**
@@ -154,5 +155,13 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('prices')
             ->group(base_path('routes/web/price.php'));
+    }
+
+    protected function mapAgentWebRoutes()
+    {
+        Route::middleware('web')
+            ->namespace($this->namespace)
+            ->prefix('agents')
+            ->group(base_path('routes/web/agent.php'));
     }
 }

@@ -65,7 +65,7 @@ class CourierController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('couriers.index');
+        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 201);
     }
 
     public function edit(Courier $courier)
@@ -88,16 +88,16 @@ class CourierController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $courier);
-        return redirect()->route('couriers.edit', ['courier' => $courier->id]);
+        return $this->renderView($request, '', [], ['route' => 'couriers.edit', 'data' => ['courier' => $courier->id]], 204);
     }
 
-    public function destroy(Courier $courier)
+    public function destroy(Request $request, Courier $courier)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $courier->delete();
-        return redirect()->route('couriers.index');
+        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 204);
     }
 }

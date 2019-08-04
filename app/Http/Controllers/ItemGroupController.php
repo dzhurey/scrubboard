@@ -28,7 +28,22 @@ class ItemGroupController extends Controller
             'query' => $results->getValidated(),
             'item_groups' => $results->getCollection(),
         ];
-        return view('item_group.index', $data);
+        return $this->renderView($request, 'item_group.index', $data, [], 200);
+    }
+
+    public function show(
+        Request $request,
+        ItemGroup $item_group,
+        ItemGroupPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'item_group' => $presenter->transform($item_group),
+        ];
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     public function create()
@@ -50,7 +65,7 @@ class ItemGroupController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('item_groups.index');
+        return $this->renderView($request, '', [], ['route' => 'item_groups.index', 'data' => []], 201);
     }
 
     public function edit(ItemGroup $item_group)
@@ -73,16 +88,16 @@ class ItemGroupController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $item_group);
-        return redirect()->route('item_groups.edit', ['item_group' => $item_group->id]);
+        return $this->renderView($request, '', [], ['route' => 'item_groups.edit', 'data' => ['item_group' => $item_group->id]], 204);
     }
 
-    public function destroy(ItemGroup $item_group)
+    public function destroy(Request $request, ItemGroup $item_group)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $item_group->delete();
-        return redirect()->route('item_groups.index');
+        return $this->renderView($request, '', [], ['route' => 'item_groups.index', 'data' => []], 204);
     }
 }

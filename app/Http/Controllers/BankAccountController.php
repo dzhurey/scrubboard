@@ -101,7 +101,7 @@ class BankAccountController extends Controller
         return $this->renderView($request, '', [], ['route' => 'bank_accounts.edit', 'data' => ['bank_account' => $bank_account->id]], 204);
     }
 
-    public function destroy(BankAccount $bank_account)
+    public function destroy(Request $request, BankAccount $bank_account)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));

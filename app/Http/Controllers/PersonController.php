@@ -39,7 +39,7 @@ class PersonController extends Controller
             'query' => $results->getValidated(),
             'people' => $results->getCollection(),
         ];
-        return view('person.index', $data);
+        return $this->renderView($request, 'person.index', $data, [], 200);
     }
 
     /**
@@ -72,7 +72,7 @@ class PersonController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('people.index');
+        return $this->renderView($request, '', [], ['route' => 'people.index', 'data' => []], 201);
     }
 
     /**
@@ -81,9 +81,19 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function show(Person $person)
-    {
-        //
+    public function show(
+        Request $request,
+        Person $person,
+        PersonPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'person' => $presenter->transform($person),
+        ];
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     /**
@@ -119,7 +129,7 @@ class PersonController extends Controller
 
         $validated = $request->validated();
         $service->perform($person, $validated);
-        return redirect()->route('people.edit', ['person' => $person->id]);
+        return $this->renderView($request, '', [], ['route' => 'people.edit', 'data' => ['person' => $person->id]], 204);
     }
 
     /**
@@ -128,13 +138,13 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Person $person)
+    public function destroy(Request $request, Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $person->user->delete();
-        return redirect()->route('people.index');
+        return $this->renderView($request, '', [], ['route' => 'people.index', 'data' => []], 204);
     }
 }

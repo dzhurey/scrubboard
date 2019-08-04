@@ -29,4 +29,21 @@ trait ResponseTrait
 
         return response('Your request is not allowed', 400);
     }
+
+    public function renderError(
+        Request $request,
+        String $message,
+        $response_code = 400
+    ) {
+        if ($request->format() == 'html') {
+            return back()->with('error', $message);
+        } elseif ($request->format() == 'json') {
+            $data = [
+                'error_messages' => $message
+            ];
+            return response()->json($data, $response_code);
+        }
+
+        return response('Your request is not allowed', 400);
+    }
 }

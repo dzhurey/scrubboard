@@ -20,7 +20,7 @@ class VehicleController extends Controller
         VehiclePresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $results = $presenter->performCollection($request);
@@ -37,7 +37,7 @@ class VehicleController extends Controller
         VehiclePresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
@@ -49,7 +49,7 @@ class VehicleController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('vehicle.create');
@@ -60,7 +60,7 @@ class VehicleController extends Controller
         VehicleStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -71,7 +71,7 @@ class VehicleController extends Controller
     public function edit(Vehicle $vehicle)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('vehicle.edit', ['vehicle' => $vehicle]);
@@ -83,7 +83,7 @@ class VehicleController extends Controller
         VehicleStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -94,7 +94,7 @@ class VehicleController extends Controller
     public function destroy(Request $request, Vehicle $vehicle)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $vehicle->delete();

@@ -20,7 +20,7 @@ class ItemGroupController extends Controller
         ItemGroupPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $results = $presenter->performCollection($request);
@@ -37,7 +37,7 @@ class ItemGroupController extends Controller
         ItemGroupPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
@@ -49,7 +49,7 @@ class ItemGroupController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('item_group.create');
@@ -60,7 +60,7 @@ class ItemGroupController extends Controller
         ItemGroupStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -71,7 +71,7 @@ class ItemGroupController extends Controller
     public function edit(ItemGroup $item_group)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('item_group.edit', ['item_group' => $item_group]);
@@ -83,7 +83,7 @@ class ItemGroupController extends Controller
         ItemGroupStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -94,7 +94,7 @@ class ItemGroupController extends Controller
     public function destroy(Request $request, ItemGroup $item_group)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $item_group->delete();

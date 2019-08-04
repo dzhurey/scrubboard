@@ -24,7 +24,7 @@ class ItemSubCategoryController extends Controller
         ItemSubCategoryPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $results = $presenter->performCollection($request);
@@ -41,7 +41,7 @@ class ItemSubCategoryController extends Controller
         ItemSubCategoryPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
@@ -53,7 +53,7 @@ class ItemSubCategoryController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
@@ -65,7 +65,7 @@ class ItemSubCategoryController extends Controller
         ItemSubCategoryStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -76,7 +76,7 @@ class ItemSubCategoryController extends Controller
     public function edit(ItemSubCategory $item_sub_category)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
@@ -93,7 +93,7 @@ class ItemSubCategoryController extends Controller
         ItemSubCategoryStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
@@ -104,7 +104,7 @@ class ItemSubCategoryController extends Controller
     public function destroy(Request $request, ItemSubCategory $item_sub_category)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $item_sub_category->delete();

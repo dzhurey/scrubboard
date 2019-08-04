@@ -30,7 +30,22 @@ class ItemController extends Controller
             'query' => $results->getValidated(),
             'items' => $results->getCollection(),
         ];
-        return view('item.index', $data);
+        return $this->renderView($request, 'item.index', $data, [], 200);
+    }
+
+    public function show(
+        Request $request,
+        Item $item,
+        ItemPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'agent' => $presenter->transform($item),
+        ];
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     public function create()
@@ -58,7 +73,7 @@ class ItemController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('items.index');
+        return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 201);
     }
 
     public function edit(Item $item)
@@ -88,16 +103,16 @@ class ItemController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $item);
-        return redirect()->route('items.edit', ['item' => $item->id]);
+        return $this->renderView($request, '', [], ['route' => 'items.edit', 'data' => ['item' => $item->id]], 204);
     }
 
-    public function destroy(Item $item)
+    public function destroy(Request $request, Item $item)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $item->delete();
-        return redirect()->route('items.index');
+        return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 204);
     }
 }

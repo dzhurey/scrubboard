@@ -43,7 +43,7 @@ class ItemController extends Controller
         }
 
         $data = [
-            'agent' => $presenter->transform($item),
+            'item' => $presenter->transform($item),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }

@@ -55,7 +55,7 @@ class BankAccountController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('bank_accounts.index');
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.index', 'data' => []], 201);
     }
 
     public function edit(BankAccount $bank_account)
@@ -98,7 +98,7 @@ class BankAccountController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $bank_account);
-        return redirect()->route('bank_accounts.edit', ['bank_account' => $bank_account->id]);
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.edit', 'data' => ['bank_account' => $bank_account->id]], 204);
     }
 
     public function destroy(BankAccount $bank_account)
@@ -108,6 +108,6 @@ class BankAccountController extends Controller
         }
 
         $bank_account->delete();
-        return redirect()->route('bank_accounts.index');
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.index', 'data' => []], 204);
     }
 }

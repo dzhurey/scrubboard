@@ -32,7 +32,22 @@ class ItemSubCategoryController extends Controller
             'query' => $results->getValidated(),
             'item_sub_categories' => $results->getCollection(),
         ];
-        return view('item_sub_category.index', $data);
+        return $this->renderView($request, 'item_sub_category.index', $data, [], 200);
+    }
+
+    public function show(
+        Request $request,
+        ItemSubCategory $item_sub_category,
+        ItemSubCategoryPresenter $presenter
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return back()->with('error', __("authorize.not_superadmin"));
+        }
+
+        $data = [
+            'item_sub_category' => $presenter->transform($item_sub_category),
+        ];
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     public function create()
@@ -55,7 +70,7 @@ class ItemSubCategoryController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('item_sub_categories.index');
+        return $this->renderView($request, '', [], ['route' => 'item_sub_categories.index', 'data' => []], 201);
     }
 
     public function edit(ItemSubCategory $item_sub_category)
@@ -83,16 +98,16 @@ class ItemSubCategoryController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $item_sub_category);
-        return redirect()->route('item_sub_categories.edit', ['item_sub_category' => $item_sub_category->id]);
+        return $this->renderView($request, '', [], ['route' => 'item_sub_categories.edit', 'data' => ['item_sub_category' => $item_sub_category->id]], 204);
     }
 
-    public function destroy(ItemSubCategory $item_sub_category)
+    public function destroy(Request $request, ItemSubCategory $item_sub_category)
     {
         if (!$this->allowUser('superadmin-only')) {
             return back()->with('error', __("authorize.not_superadmin"));
         }
 
         $item_sub_category->delete();
-        return redirect()->route('item_sub_categories.index');
+        return $this->renderView($request, '', [], ['route' => 'item_sub_categories.index', 'data' => []], 204);
     }
 }

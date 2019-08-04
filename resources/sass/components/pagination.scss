@@ -1,0 +1,33 @@
+.c-pagination {
+  margin-bottom: 0;
+  float: right;
+  &--outer {
+    padding: 0 30px 30px;
+  }
+  &--pages {
+    float: left;
+    font-size: 12px;
+    line-height: 31px;
+    opacity: .5;
+  }
+  .page-item {
+    .page-link {
+      border: 0;
+      background-color: transparent;
+      font-size: 12px;
+      opacity: .5;
+      color: #212121;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+    &.active {
+      .page-link {
+        background-color: $blue-dodger;
+        border-radius: 4px;
+        opacity: 1;
+        color: $blank;
+      }
+    }
+  }
+}

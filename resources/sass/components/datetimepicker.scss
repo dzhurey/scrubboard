@@ -1,0 +1,79 @@
+.bootstrap-datetimepicker-widget {
+  position: absolute;
+  z-index: 1000;
+  margin: 11px 1px!important;
+  background-color: $blank;
+  border-radius: 4px;
+  border-color: #ced4da;
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.2);
+
+  &.dropdown-menu.bottom {
+    &::before { left: 14px; }
+    &::after { left: 15px;}
+  }
+
+  ul {
+    list-style: none;
+
+    .table-condensed {
+      text-shadow: none;
+
+      thead {
+        tr {
+          th {
+            padding: 7px;
+            border: 1px solid $blank;
+            vertical-align: top;
+            text-align: center;
+            text-shadow: none !important;
+            min-width: 0!important;
+            font-size: 13px;
+            &.picker-switch { padding-top: 8px; }
+            &.prev, &.next {
+              width: 36px;
+              cursor: pointer;
+            }
+            &[title="Select Decade"] {
+              pointer-events: none;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          td {
+            text-shadow: none !important;
+            padding: 3px 7px;
+            border-radius: 0;
+            border: 1px solid $blank;
+            min-width: 0!important;
+            font-size: 13px;
+            text-align: center;
+            cursor: pointer;
+            &.active {
+              background-color: $blue-dodger;
+              color: $blank;
+            }
+            &.today {
+              background-color: #fefbd2;
+              color: $noir;
+              &::before { display: none }
+            }
+            &.day, &.month, &.year {
+              &.active {
+                background-color: $blue-dodger;
+                color: $blank;
+              }
+              &.old, &.new {
+                opacity: .3;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

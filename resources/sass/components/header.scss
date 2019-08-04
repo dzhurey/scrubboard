@@ -1,0 +1,114 @@
+.c-header {
+  position: fixed;
+  width: calc(100% - 300px);
+  left: 300px;
+  top: 0;
+  background-color: $blank;
+  border-bottom: 1px solid #E8EEF3;
+  z-index: 4;
+  transition: all .5s;
+  &.is-close {
+    left: 100px;
+    width: calc(100% - 100px);
+  }
+  .c-bars {
+    padding: 30px;
+    width: 84px;
+    line-height: 30px;
+    cursor: pointer;
+  }
+  .c-search {
+    width: calc(100% - 84px - 255px);
+    padding: 30px 0;
+    position: relative;
+    &--inner {
+      padding: 0 30px;
+      .form-control {
+        padding: 0 10px;
+        height: 30px;
+        &:hover,
+        &:active,
+        &:focus {
+          box-shadow: none;
+          border: 0;
+        }
+      }
+    }
+    .svg {
+      position: absolute;
+      left: 0;
+      top: 33px;
+    }
+  }
+  .c-user {
+    width: 255px;
+    padding: 30px;
+    border-left: 1px solid #E8EEF3;
+    &--avatar {
+      height: 30px;
+      width: 30px;
+      border-radius: 4px;
+      background-color: #A6BFD2;
+      text-align: center;
+      cursor: pointer;
+      .svg.replaced-svg {
+        color: $blank;
+        margin-top: 3px;
+      }
+    }
+    &--name {
+      width: 140px;
+      padding: 0 0 0 20px;
+      line-height: 30px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    &--arrow {
+      cursor: pointer;
+      .svg.replaced-svg {
+        margin-top: 3px;
+      }
+    }
+    &.dropdown {
+      .dropdown-menu {
+        left: auto !important;
+        top: 10px !important;
+        right: 39px;
+        width: 230px;
+        box-shadow: 2px 2px 10px 0 rgba(13,38,57,.05);
+        border-color: #E8EEF3;
+        &:before {
+          content:"";
+          position: absolute;
+          right: 11px;
+          top: -10px;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0 10px 10px;
+          border-color: transparent transparent #ffffff transparent;
+          z-index:9999;
+        }
+        &:after {
+          content:"";
+          position: absolute;
+          right: 10px;
+          top: -11px;
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: 0 11px 11px;
+          border-color: transparent transparent #E8EEF3 transparent;
+          z-index:9998;
+        }
+      }
+    }
+  }
+  .svg {
+    &.replaced-svg {
+      color: #777;
+    }
+  }
+}

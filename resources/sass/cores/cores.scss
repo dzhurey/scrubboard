@@ -1,0 +1,24 @@
+html, body {
+  background-color: $background;
+  color: $noir;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: .1rem; }
+h5 { font-size: .85rem; }
+
+.main {
+  position: relative;
+  z-index: 3;
+  margin-top: 91px;
+  margin-left: 300px;
+  transition: all .5s;
+  &.is-close {
+    margin-left: 100px;
+    width: calc(100% - 100px);
+  }
+}

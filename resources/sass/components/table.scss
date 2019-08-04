@@ -1,0 +1,51 @@
+.c-table {
+  margin-bottom: 0;
+  &--outer {
+    border: 1px solid #E8EEF3;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 30px;
+    background-color: $blank;
+  }
+  thead {
+    th {
+      &.checkbox {
+        width: 50px;
+      }
+      border: 0;
+    }
+  }
+  tbody {
+    td {
+      border-color: #E8EEF3;
+      &.checkbox {
+        width: 50px;
+      }
+      a {
+        opacity: .5;
+        &:hover {
+          opacity: .7;
+        }
+      }
+    }
+    tr:nth-of-type(odd) {
+      background-color: #FAFCFD;
+    }
+  }
+  th, td {
+    &.th-item {
+      width: 290px;
+    }
+    &.th-note {
+      width: 230px;
+    }
+    &.th-qty,
+    &.th-action {
+      width: 50px;
+    }
+    &.th-price,
+    &.th-total {
+      width: 130px;
+    }
+  }
+}

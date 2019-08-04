@@ -16,4 +16,5 @@ mix.autoload({
       'popper.js/dist/umd/popper.js': ['Popper']
    })
    .js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+   .sass('resources/sass/app.scss', 'public/css')
+   .copyDirectory('resources/assets', 'public/assets');

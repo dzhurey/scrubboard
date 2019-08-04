@@ -1,0 +1,24 @@
+.btn {
+  min-width: 100px;
+  font-size: 14px;
+  font-weight: normal;
+  letter-spacing: 0.2px;
+  line-height: 20px;
+  text-align: center;
+  padding: 10px 20px;
+  &-primary {
+    background-color: $blue-azure;
+    border: 0;
+    box-shadow: 3px 3px 10px 0 rgba(34, 95, 144, 0.3);
+    &:hover,
+    &:focus,
+    &:active,
+    &:not:disabled {
+      background-color: $blue-dodger;
+    }
+  }
+  &-light {
+    background-color: $blank;
+    border-color: $blank;
+  }
+}

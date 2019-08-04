@@ -1,0 +1,115 @@
+.c-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: $blank;
+  padding: 30px;
+  border-bottom: 1px solid #cccccc;
+  box-shadow: 2px 2px 10px 0 rgba(13,38,57,0.05);
+  z-index: 5;
+  transition: all .5s;
+  &--logo {
+    .btn {
+      padding: 18px 23px;
+      span {
+        &:first-child {
+          display: none;
+        }
+        &:last-child {
+          display: inline-block;
+        }
+      }
+    }
+  }
+  .logo-icon {
+    display: none;
+    margin: 12px auto;
+  }
+  .logo-full {
+    display: block;
+    margin: 0 auto;
+  }
+  .c-nav {
+    &--item {
+      cursor: pointer;
+      &> a {
+        display: block;
+        padding: 15px 10px 15px 0;        
+        position: relative;
+        color: #555555;
+        span {
+          font-size: 14px;
+          line-height: 24px;
+        }
+        cursor: pointer;
+        &:before {
+          display: none;
+          background-color: #E8EEF3;
+          width: 30px;
+          height: 100%;
+          position: absolute;
+          left: -30px;
+          top: 0;
+          content: '';
+        }
+        &.is-active {
+          color: $blue-azure;
+          background-color: #E8EEF3;
+          border-radius: 0 30px 30px 0;
+          .svg.replaced-svg {
+            color: $blue-azure;
+          }
+          &:before {
+            display: block;
+          }
+        }
+        &:hover,
+        &:focus,
+        &:active {
+          color: $blue-azure;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  &.is-close {
+    width: 100px;
+    padding: 30px 15px;
+    .c-sidebar--logo {
+      .btn {
+        min-width: auto;
+        span {
+          &:first-child {
+            display: inline-block;
+          }
+          &:last-child {
+            display: none;
+          }
+        }
+      }
+    }
+    .logo-icon {
+      display: block;
+      margin: 0 auto;
+    }
+    .logo-full {
+      display: none;
+      margin: 0 auto;
+    }
+    .c-nav {
+      &--item {
+        &> a {
+          text-align: center;
+          padding: 15px 0;
+          span {
+            &:last-child {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

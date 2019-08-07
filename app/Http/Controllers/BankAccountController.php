@@ -24,7 +24,7 @@ class BankAccountController extends Controller
         BankAccountPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $results = $presenter->performCollection($request);
@@ -38,7 +38,7 @@ class BankAccountController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $banks = Bank::orderBy('id', 'ASC')->pluck('name', 'id');
@@ -50,18 +50,18 @@ class BankAccountController extends Controller
         BankAccountStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('bank_accounts.index');
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.index', 'data' => []], 201);
     }
 
     public function edit(BankAccount $bank_account)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $banks = Bank::orderBy('id', 'ASC')->pluck('name', 'id');
@@ -78,7 +78,7 @@ class BankAccountController extends Controller
         BankAccountPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
@@ -93,21 +93,21 @@ class BankAccountController extends Controller
         BankAccountStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
         $service->perform($validated, $bank_account);
-        return redirect()->route('bank_accounts.edit', ['bank_account' => $bank_account->id]);
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.edit', 'data' => ['bank_account' => $bank_account->id]], 204);
     }
 
-    public function destroy(BankAccount $bank_account)
+    public function destroy(Request $request, BankAccount $bank_account)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $bank_account->delete();
-        return redirect()->route('bank_accounts.index');
+        return $this->renderView($request, '', [], ['route' => 'bank_accounts.index', 'data' => []], 204);
     }
 }

@@ -20,7 +20,7 @@ class CourierController extends Controller
         CourierPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $results = $presenter->performCollection($request);
@@ -37,7 +37,7 @@ class CourierController extends Controller
         CourierPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
@@ -49,7 +49,7 @@ class CourierController extends Controller
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('courier.create');
@@ -60,18 +60,18 @@ class CourierController extends Controller
         CourierStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
         $service->perform($validated);
-        return redirect()->route('couriers.index');
+        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 201);
     }
 
     public function edit(Courier $courier)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         return view('courier.edit', ['courier' => $courier]);
@@ -83,21 +83,21 @@ class CourierController extends Controller
         CourierStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
         $service->perform($validated, $courier);
-        return redirect()->route('couriers.edit', ['courier' => $courier->id]);
+        return $this->renderView($request, '', [], ['route' => 'couriers.edit', 'data' => ['courier' => $courier->id]], 204);
     }
 
-    public function destroy(Courier $courier)
+    public function destroy(Request $request, Courier $courier)
     {
         if (!$this->allowUser('superadmin-only')) {
-            return back()->with('error', __("authorize.not_superadmin"));
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $courier->delete();
-        return redirect()->route('couriers.index');
+        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 204);
     }
 }

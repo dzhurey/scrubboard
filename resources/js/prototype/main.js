@@ -1,11 +1,11 @@
 'use strict';
 
 // Form validation
-(function () {
-  window.addEventListener('load', function () {
+(() => {
+  window.addEventListener('load', () => {
     var forms = document.getElementsByClassName('needs-validation');
-    Array.prototype.filter.call(forms, function (form) {
-      form.addEventListener('submit', function (event) {
+    Array.prototype.filter.call(forms, (form) => {
+      form.addEventListener('submit', (event) => {
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -15,7 +15,7 @@
     });
   }, false);
 
-  $(window).ready(function () {
+  $(window).ready(() => {
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
       $('.c-sidebar').addClass('is-close');
@@ -30,7 +30,7 @@
   });
 
   $('.datetimepicker').datetimepicker({
-    format: 'DD MMMM YYYY',
+    format: 'YYYY-MM-DD',
     useCurrent: true,
     defaultDate: new Date(),
     locale: 'id',
@@ -47,13 +47,7 @@
     }
   });
 
-  var url = window.location.href.split('-')[1];
-  $('.c-nav--item').each(function (el, item) {
-    $(item).children('a').removeClass('is-active');
-  });
-  $('#' + url).children('a').addClass('is-active');
-
-  $('.c-bars').click(function (e) {
+  $('.c-bars').click((e) => {
     $(e.currentTarget).toggleClass('is-active');
     $('.c-sidebar').toggleClass('is-close');
     $('.main').toggleClass('is-close');
@@ -67,23 +61,29 @@
     }
   });
 
-  var tooltipSidebar = function tooltipSidebar() {
-    $('[data-toggle="tooltip"]').tooltip(localStorage.sidebar === 'a' ? 'enable' : 'disable');
+  const tooltipSidebar = () => {
+    $('.c-nav--item[data-toggle="tooltip"]').tooltip(
+      localStorage.sidebar === 'a' ? 'enable' : 'disable'
+    );
   };
-  tooltipSidebar();
 
-  $('.select2').select2({
-    theme: 'bootstrap'
+  $('.table-action[data-toggle="tooltip"]').tooltip();
+
+  $('.select2').select2({ theme: 'bootstrap'});
+  
+  $('#is_same_address').change((e) => {
+    const target = $('#is_same_address_content');
+    e.target.checked ? target.hide() : target.show();
   });
 
   // Svg
-  jQuery('img.svg').each(function (i, el) {
+  jQuery('img.svg').each((i, el) => {
     var $img = jQuery(el);
     var imgID = $img.attr('id');
     var imgClass = $img.attr('class');
     var imgURL = $img.attr('src');
 
-    jQuery.get(imgURL, function (data) {
+    jQuery.get(imgURL, (data) => {
       var $svg = jQuery(data).find('svg');
       if (typeof imgID !== 'undefined') {
         $svg = $svg.attr('id', imgID);

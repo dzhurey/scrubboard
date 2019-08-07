@@ -1,14 +1,20 @@
-@extends('layouts.app')
-
-@section('content')
-<div class="card">
-    <div class="card-header">Membuat Pelanggan baru</div>
-
-    <div class="card-body">
-        {{ Form::open(['url' => route('customers.store'), 'method' => 'POST']) }}
-            @include('customer._form_field')
-            {{ Form::submit('Buat', ['class' => 'btn btn-primary']) }}
-        {{ Form::close() }}
+@extends('layouts.app') @section('content')
+<div id="customers-form">
+    <div class="c-title row no-gutters">
+        <div class="col-sm-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb c-breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('customers.index') }}">Customer data</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Add customer</li>
+                </ol>
+            </nav>
+            <h1 class="mb-0">Add customer data</h1>
+        </div>
+        <div class="col-sm-6 text-right"></div>
     </div>
 </div>
+
+@include('customer._form_field')
 @endsection

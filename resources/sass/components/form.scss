@@ -31,6 +31,9 @@
     font-size: 14px;
     color: #0D2639;
     letter-spacing: 0.2px;
+    &[type=text] {
+      text-transform: capitalize;
+    }
     &-radio, &-box {
       width: 24px;
       height: 24px;
@@ -101,6 +104,16 @@ select.form-control {
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: calc(100% - 10px);
+}
+
+input.datetimepicker {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('./../images/icons/calendar.svg');
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: calc(100% - 10px);
+  cursor: pointer;
 }
 
 .select2-container--default .select2-selection--single {

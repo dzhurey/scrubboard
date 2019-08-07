@@ -8,8 +8,8 @@ use App\Address;
 class Customer extends BaseModel
 {
     const GENDERS = [
-        'male' => 'Laki-Laki',
-        'female' => 'Perempuan',
+        'male',
+        'female',
     ];
 
     const PARTNER_TYPE = [
@@ -25,7 +25,6 @@ class Customer extends BaseModel
         'hindu' => 'Hindu',
         'buddhis' => 'Budha',
         'kong hu chu' => 'Kong Hu Chu',
-        'belief' => 'Kepercayaan',
     ];
 
     protected $fillable = [

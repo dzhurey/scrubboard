@@ -21,4 +21,10 @@
     background-color: $blank;
     border-color: $blank;
   }
+  &.is {
+    &-small {
+      min-width: 0;
+      padding: 0 4px;
+    }
+  }
 }

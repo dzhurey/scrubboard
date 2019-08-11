@@ -42,7 +42,7 @@ class LoginController extends Controller
     public function loginApi(Request $request)
     {
         $credentials = request(['email', 'password']);
-
+        dd($credentials);
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

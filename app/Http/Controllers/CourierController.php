@@ -28,7 +28,7 @@ class CourierController extends Controller
             'query' => $results->getValidated(),
             'couriers' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'courier.index', $data);
+        return $this->renderView($request, 'courier.index', $data, [], 200);
     }
 
     public function show(
@@ -43,7 +43,7 @@ class CourierController extends Controller
         $data = [
             'courier' => $presenter->transform($courier),
         ];
-        return $this->renderView($request, '', $data);
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     public function create()

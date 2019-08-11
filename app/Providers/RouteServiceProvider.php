@@ -47,6 +47,18 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapItemWebRoutes();
         $this->mapPriceWebRoutes();
         $this->mapAgentWebRoutes();
+
+        /* API route mapping */
+        $this->mapApiPersonWebRoutes();
+        $this->mapApiVehicleWebRoutes();
+        $this->mapApiCustomerWebRoutes();
+        $this->mapApiBankAccountWebRoutes();
+        $this->mapApiCourierWebRoutes();
+        $this->mapApiItemGroupWebRoutes();
+        $this->mapApiItemSubCategoryWebRoutes();
+        $this->mapApiItemWebRoutes();
+        $this->mapApiPriceWebRoutes();
+        $this->mapApiAgentWebRoutes();
     }
 
     /**
@@ -163,5 +175,86 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->prefix('agents')
             ->group(base_path('routes/web/agent.php'));
+    }
+
+    /* API Routes */
+    protected function mapApiPersonWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/people')
+            ->group(base_path('routes/api/person.php'));
+    }
+
+    protected function mapApiVehicleWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/vehicles')
+            ->group(base_path('routes/api/vehicle.php'));
+    }
+
+    protected function mapApiCustomerWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/customers')
+            ->group(base_path('routes/api/customer.php'));
+    }
+
+    protected function mapApiBankAccountWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/bank_accounts')
+            ->group(base_path('routes/api/bank_account.php'));
+    }
+
+    protected function mapApiCourierWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/couriers')
+            ->group(base_path('routes/api/courier.php'));
+    }
+
+    protected function mapApiItemGroupWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/item_groups')
+            ->group(base_path('routes/api/item_group.php'));
+    }
+
+    protected function mapApiItemSubCategoryWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/item_sub_categories')
+            ->group(base_path('routes/api/item_sub_category.php'));
+    }
+
+    protected function mapApiItemWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/items')
+            ->group(base_path('routes/api/item.php'));
+    }
+
+    protected function mapApiPriceWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/prices')
+            ->group(base_path('routes/api/price.php'));
+    }
+
+    protected function mapApiAgentWebRoutes()
+    {
+        Route::middleware('auth:api')
+            ->namespace($this->namespace)
+            ->prefix('api/agents')
+            ->group(base_path('routes/api/agent.php'));
     }
 }

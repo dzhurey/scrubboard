@@ -21,6 +21,6 @@ $factory->define(User::class, function (Faker $faker) {
         'email' => 'muhammadszuhri@gmail.com',
         'password' => bcrypt('Scrubboard123'),
         'role' => 'superadmin',
-        'created_at' => new DateTime()
+        'created_at' => new DateTime(),
     ];
 });

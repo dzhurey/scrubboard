@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -35,5 +37,30 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function loginApi(Request $request)
+    {
+        $credentials = request(['email', 'password']);
+
+        if (!$token = auth()->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $token = Str::random(60);
+
+        $request->user()->forceFill([
+            'api_token' => hash('sha256', $token),
+        ])->save();
+
+        return $this->respondWithToken($token);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type'   => 'bearer',
+        ]);
     }
 }

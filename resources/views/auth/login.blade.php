@@ -11,22 +11,44 @@
                         </div>
                         <form class="c-form needs-validation" novalidate
                             method="POST" action="{{ route('login') }}">
-                            <h2 class="c-form--title">Welcome</h2>
+                            @csrf
+                            <h2 class="c-form--title">
+                                {{ __('Welcome') }}
+                            </h2>
                             <div class="form-group">
-                                <label class="c-form--label" for="validationCustom01">Email</label>
+                                <label class="c-form--label" for="email">
+                                    {{ __('Email') }}
+                                </label>
                                 <input id="email" type="email" class="form-control" required autofocus
                                     name="email" value="{{ old('email') }}">
-                                <div class="invalid-feedback">Email invalid.</div>
+                                <div class="invalid-feedback">
+                                    {{ __('Email invalid.') }}
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="c-form--label" for="validationCustom02">Password</label>
+                                <label class="c-form--label" for="password">
+                                    {{ __('Password') }}
+                                </label>
                                 <input id="password" type="password" class="form-control"
                                     name="password" required autocomplete="current-password">
-                                <div class="invalid-feedback">Password invalid.</div>
+                                <div class="invalid-feedback">
+                                    {{ __('Password invalid.') }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember"
+                                        id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember">
+                                        {{ __('Remember Me') }}
+                                    </label>
+                                </div>
                             </div>
                             <hr class="my-4">
                             <div class="text-right">
-                                <button class="btn btn-primary btn-block" type="submit">Login</button>
+                                <button class="btn btn-primary btn-block" type="submit">
+                                    {{ __('Login') }}
+                                </button>
                             </div>
                         </form>
                     </div>

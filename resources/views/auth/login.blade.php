@@ -1,4 +1,4 @@
-@extends('layouts.login') 
+@extends('layouts.login')
 @section('content')
 <div class="p-access">
     <div class="container">
@@ -19,21 +19,25 @@
                                 <label class="c-form--label" for="email">
                                     {{ __('Email') }}
                                 </label>
-                                <input id="email" type="email" class="form-control" required autofocus
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" required autofocus
                                     name="email" value="{{ old('email') }}">
-                                <div class="invalid-feedback">
-                                    {{ __('Email invalid.') }}
-                                </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label class="c-form--label" for="password">
                                     {{ __('Password') }}
                                 </label>
-                                <input id="password" type="password" class="form-control"
+                                <input id="password" type="password" class="form-control @error('email') is-invalid @enderror"
                                     name="password" required autocomplete="current-password">
-                                <div class="invalid-feedback">
-                                    {{ __('Password invalid.') }}
-                                </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <div class="form-check">

@@ -43,7 +43,7 @@ class LoginController extends Controller
     public function loginApi(Request $request)
     {
         $credentials = request(['email', 'password']);
-        dd(User::where('email', $credentials['email'])->get());
+
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

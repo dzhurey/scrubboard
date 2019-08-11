@@ -12,9 +12,12 @@ const createTable = (target, data) => {
       { data: 'description' },
       { data: 'item_type' },
       { data: 'service' },
-      { data: 'product' },
-      { data: 'item_sub_category_id' },
-      { data: 'price' },
+      { 
+        data: 'price',
+        render(price) {
+          return `Rp ${price}`
+        },
+      },
       {
         data: 'id',
         render(data, type, row) {
@@ -31,7 +34,6 @@ const createTable = (target, data) => {
 
 if (tableItem.length > 0) {
   ajx.get('/items').then((res) => {
-    debugger
-    createTable(tableCategory, res.item_groups.data);
+    createTable(tableItem, res.items.data);
   }).catch(res => console.log(res));
 }

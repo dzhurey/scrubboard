@@ -51689,6 +51689,8 @@ __webpack_require__(/*! ./pages/item_groups/index.js */ "./resources/js/pages/it
 
 __webpack_require__(/*! ./pages/item/index.js */ "./resources/js/pages/item/index.js");
 
+__webpack_require__(/*! ./pages/price/index.js */ "./resources/js/pages/price/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51793,11 +51795,10 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'service'
     }, {
-      data: 'product'
-    }, {
-      data: 'item_sub_category_id'
-    }, {
-      data: 'price'
+      data: 'price',
+      render: function render(price) {
+        return "Rp ".concat(price);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -51812,8 +51813,7 @@ var createTable = function createTable(target, data) {
 
 if (tableItem.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/items').then(function (res) {
-    debugger;
-    createTable(tableCategory, res.item_groups.data);
+    createTable(tableItem, res.items.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -51908,6 +51908,88 @@ if (tableSubCategory.length > 0) {
     return console.log(res);
   });
 }
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/price/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/price/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tablePrice = $('#table-price');
+var formCreateSubCategory = $('#form-create-price');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.price_lines.length;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/prices/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tablePrice.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/prices').then(function (res) {
+    createTable(tablePrice, res.prices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+var $form = $('#formPrice');
+var $submitButton = $('#buttonSubmit');
+$submitButton.on('click', function () {
+  var priceLines = [];
+  $('#dynamicForm .entry').each(function () {
+    data = {
+      item_id: $(this).find('select option:selected').val(),
+      amount: $(this).find('input[name="price_lines[amount][]"]').val()
+    };
+    priceLines.push(data);
+  });
+  debugger;
+  var data = {
+    name: $form.find('input[name="name"]').val(),
+    price_lines: priceLines
+  };
+  $.ajax({
+    url: $form.attr('action'),
+    type: 'post',
+    data: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json",
+      "X-CSRF-TOKEN": $form.find('input[name="_token"]').val()
+    },
+    dataType: 'json',
+    success: function success(data) {
+      alert('data berhasil disimpan');
+    }
+  });
+});
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

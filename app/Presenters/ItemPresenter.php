@@ -16,7 +16,8 @@ class ItemPresenter extends BasePresenter
 
     public function transform($input)
     {
-        $input->item_group = $input->item_group;
+        $input->item_sub_category = $input->itemSubCategory;
+        $input->item_group = $input->itemSubCategory->itemGroup;
         return $input;
     }
 }

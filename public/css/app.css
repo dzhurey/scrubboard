@@ -93,11 +93,15 @@ h5 {
   width: 300px;
   height: 100vh;
   background-color: #FFFFFF;
-  padding: 30px;
+  padding: 30px 0;
   border-bottom: 1px solid #cccccc;
   box-shadow: 2px 2px 10px 0 rgba(13, 38, 57, 0.05);
   z-index: 5;
   transition: all 0.5s;
+}
+
+.c-sidebar--logo {
+  padding: 0 30px;
 }
 
 .c-sidebar--logo .btn {
@@ -120,6 +124,12 @@ h5 {
 .c-sidebar .logo-full {
   display: block;
   margin: 0 auto;
+}
+
+.c-sidebar .c-nav {
+  padding: 0 30px;
+  overflow: auto;
+  height: 100%;
 }
 
 .c-sidebar .c-nav--item {
@@ -368,89 +378,118 @@ h5 {
   background-color: #FFFFFF;
 }
 
-.c-table thead th {
+.c-table.table thead th {
   border: 0;
 }
 
-.c-table thead th.checkbox {
+.c-table.table thead th.checkbox {
   width: 50px;
 }
 
-.c-table tbody td {
+.c-table.table tbody td {
   border-color: #E8EEF3;
 }
 
-.c-table tbody td.checkbox {
+.c-table.table tbody td.checkbox {
   width: 50px;
 }
 
-.c-table tbody td a,
-.c-table tbody td .btn {
+.c-table.table tbody td a,
+.c-table.table tbody td .btn {
   opacity: 0.5;
+  position: relative;
+  top: -4px;
 }
 
-.c-table tbody td a:hover,
-.c-table tbody td .btn:hover {
+.c-table.table tbody td a:hover,
+.c-table.table tbody td a:active,
+.c-table.table tbody td a:focus,
+.c-table.table tbody td .btn:hover,
+.c-table.table tbody td .btn:active,
+.c-table.table tbody td .btn:focus {
+  outline: none;
   opacity: 0.7;
+  background-color: transparent;
+  border-color: transparent;
 }
 
-.c-table tbody tr:nth-of-type(odd) {
+.c-table.table tbody tr:nth-of-type(odd) {
   background-color: #FAFCFD;
 }
 
-.c-table th.th-item,
-.c-table td.th-item {
+.c-table.table th.th-item,
+.c-table.table td.th-item {
   width: 290px;
 }
 
-.c-table th.th-note,
-.c-table td.th-note {
+.c-table.table th.th-note,
+.c-table.table td.th-note {
   width: 230px;
 }
 
-.c-table th.th-qty,
-.c-table th.th-action,
-.c-table td.th-qty,
-.c-table td.th-action {
+.c-table.table th.th-qty,
+.c-table.table th.th-action,
+.c-table.table th:last-child,
+.c-table.table td.th-qty,
+.c-table.table td.th-action,
+.c-table.table td:last-child {
   width: 50px;
 }
 
-.c-table th.th-price,
-.c-table th.th-total,
-.c-table td.th-price,
-.c-table td.th-total {
+.c-table.table th.th-price,
+.c-table.table th.th-total,
+.c-table.table td.th-price,
+.c-table.table td.th-total {
   width: 130px;
 }
 
-.c-pagination {
+.c-pagination,
+.dataTables_wrapper {
   margin-bottom: 0;
-  float: right;
 }
 
-.c-pagination--outer {
-  padding: 0 30px 30px;
+.c-pagination--outer,
+.c-pagination .dataTables_paginate,
+.dataTables_wrapper--outer,
+.dataTables_wrapper .dataTables_paginate {
+  padding: 20px 25px;
+  text-align: right;
 }
 
-.c-pagination--pages {
+.c-pagination--pages,
+.dataTables_wrapper--pages {
   float: left;
   font-size: 12px;
   line-height: 31px;
   opacity: 0.5;
 }
 
-.c-pagination .page-item .page-link {
+.c-pagination .paginate_button,
+.dataTables_wrapper .paginate_button {
+  display: inline-block;
   border: 0;
   background-color: transparent;
   font-size: 12px;
   opacity: 0.5;
   color: #212121;
+  margin: 0 5px;
+  padding: 0 5px;
+  cursor: pointer;
 }
 
-.c-pagination .page-item .page-link:focus {
+.c-pagination .paginate_button:focus,
+.dataTables_wrapper .paginate_button:focus {
   box-shadow: none;
 }
 
-.c-pagination .page-item.active .page-link {
+.c-pagination .paginate_button.disabled,
+.dataTables_wrapper .paginate_button.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.c-pagination .paginate_button.current,
+.dataTables_wrapper .paginate_button.current {
   background-color: #3386FF;
   border-radius: 4px;
   opacity: 1;

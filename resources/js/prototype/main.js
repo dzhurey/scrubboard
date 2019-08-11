@@ -67,8 +67,6 @@
     );
   };
 
-  $('.table-action[data-toggle="tooltip"]').tooltip();
-
   $('.select2').select2({ theme: 'bootstrap'});
   
   $('#is_same_address').change((e) => {

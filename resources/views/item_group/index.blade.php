@@ -1,43 +1,17 @@
 @extends('layouts.app')
+@section('title', 'Item Category')
 
 @section('content')
-<div class="card">
-    <div class="card-header">Item Group</div>
-
-    <div class="card-body">
-        <a href="{{ route('item_groups.create') }}" class="btn btn-primary">Buat</a>
-
-        @if ($item_groups->count() > 0 || !empty($query))
-            @include('includes/index_navigation')
-            <table class="table">
-                <thead>
-                    <td>Nama</td>
-                    <td></td>
-                </thead>
-                <tbody>
-                    @foreach ($item_groups as $item_group)
-                        <tr>
-                            <td>{{ $item_group->name }}</td>
-                            <td>
-                                {{ Form::open(['url' => route('item_groups.destroy', ['item_group' => $item_group->id]), 'method' => 'delete']) }}
-                                    {{ csrf_field() }}
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ route('item_groups.edit', ['item_group' => $item_group->id]) }}" class="btn btn-light">Edit</a>
-                                        {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
-                                    </div>
-                                {{ Form::close() }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div>
-                {{ $item_groups->links() }}
-            </div>
-        @else
-            <p>Belum ada item group yang dibuat</p>
-        @endif
+<div id="sub-category-list">
+    <div class="c-title row no-gutters">
+        <div class="col-sm-6">
+          <h1 class="mb-0">Item Category Data</h1>
+        </div>
+        <div class="col-sm-6 text-right">
+            <a class="btn btn-primary" href="{{ route('item_groups.create') }}">Add item category data</a>
+        </div>
     </div>
+
+    @include('item_group._table_list')
 </div>
-<span id="pageConstant" class="hidden" data-url="{{ route('item_groups.index') }}"></span>
 @endsection

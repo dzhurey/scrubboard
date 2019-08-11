@@ -6,6 +6,13 @@
 require('./../assets/vendor/jquery/dist/jquery.min.js');
 require('./../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js');
 require('moment');
-require('./../assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+require('datatables.net-dt');
+require('./../assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
+
+require('./pages/customers/index.js');
+require('./pages/item_sub_categories/index.js');
+require('./pages/item_groups/index.js');
+require('./pages/item/index.js');
+
 require('./prototype/select2.js');
 require('./prototype/main.js');

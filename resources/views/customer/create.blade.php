@@ -1,4 +1,7 @@
-@extends('layouts.app') @section('content')
+@extends('layouts.app') 
+@section('title', 'Create Customer')
+
+@section('content')
 <div id="customers-form">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
@@ -16,5 +19,7 @@
     </div>
 </div>
 
-@include('customer._form_field')
+<form id="form-create-customer" class="c-form needs-validation" novalidate>
+    @include('customer._form_field')
+</form>
 @endsection

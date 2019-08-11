@@ -23,6 +23,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "datatables.net-dt": "^1.10.19",
+        "eonasdan-bootstrap-datetimepicker": "^4.17.47",
         "moment": "^2.24.0"
     }
 }

@@ -7,7 +7,7 @@
     <div class="card-body">
         <a href="{{ route('item_sub_categories.create') }}" class="btn btn-primary">Buat</a>
 
-        @if ($item_sub_categories->count() > 0 || !empty(!query))
+        @if ($item_sub_categories->count() > 0 || !empty(!$query))
             @include('includes/index_navigation')
             <table class="table">
                 <thead>

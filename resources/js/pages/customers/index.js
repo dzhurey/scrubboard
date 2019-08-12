@@ -35,7 +35,9 @@ if (tableCustomer.length > 0) {
 }
 
 formCreateCustomer.submit((e) => {
+  e.preventDefault();
   const dataForm = formCreateCustomer.serializeArray();
-  const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.name === 'gender' || y.name === 'bebe_gender' ? [`${y.value}`] : y.value }), {});
+  const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
   ajx.post('/customers', data).then(res => console.log(res)).catch(res => console.log(res));
+  return false;
 })

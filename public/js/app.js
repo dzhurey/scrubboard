@@ -51756,15 +51756,17 @@ if (tableCustomer.length > 0) {
 }
 
 formCreateCustomer.submit(function (e) {
+  e.preventDefault();
   var dataForm = formCreateCustomer.serializeArray();
   var data = dataForm.reduce(function (x, y) {
-    return _objectSpread({}, x, _defineProperty({}, y.name, y.name === 'gender' || y.name === 'bebe_gender' ? ["".concat(y.value)] : y.value));
+    return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
   }, {});
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/customers', data).then(function (res) {
     return console.log(res);
   })["catch"](function (res) {
     return console.log(res);
   });
+  return false;
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

@@ -19,8 +19,8 @@ use Faker\Generator as Faker;
 $factory->define(User::class, function (Faker $faker) {
     return [
         'email' => 'muhammadszuhri@gmail.com',
-        'password' => bcrypt('Scrubboard123'),
+        'password' => 'Scrubboard123',
         'role' => 'superadmin',
-        'created_at' => new DateTime()
+        'created_at' => new DateTime(),
     ];
 });

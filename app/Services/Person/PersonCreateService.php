@@ -50,7 +50,6 @@ class PersonCreateService extends BaseService
 
     private function createUser($attributes)
     {
-        $attributes['password'] = Hash::make($attributes['password']);
         $this->user = $this->assignAttributes($this->user, $attributes);
         $this->user->save();
     }

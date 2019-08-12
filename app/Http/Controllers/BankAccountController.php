@@ -32,7 +32,7 @@ class BankAccountController extends Controller
             'query' => $results->getValidated(),
             'bank_accounts' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'bank_account.index', $data);
+        return $this->renderView($request, 'bank_account.index', $data, [], 200);
     }
 
     public function create()
@@ -84,7 +84,7 @@ class BankAccountController extends Controller
         $data = [
             'bank_account' => $presenter->transform($bank_account),
         ];
-        return $this->renderView($request, '', $data);
+        return $this->renderView($request, '', $data, [], 200);
     }
 
     public function update(

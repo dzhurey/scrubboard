@@ -14,6 +14,7 @@ require('./pages/item_sub_categories/index.js');
 require('./pages/item_groups/index.js');
 require('./pages/item/index.js');
 require('./pages/price/index.js');
+require('./pages/vehicle/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

@@ -80,4 +80,9 @@ class Customer extends BaseModel
 
         return $shipping;
     }
+
+    public function isSameAddress()
+    {
+        return $this->billingAddress()->id == $this->shippingAddress()->id;
+    }
 }

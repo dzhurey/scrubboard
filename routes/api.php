@@ -18,3 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', 'Auth\LoginController@loginApi');
+
+Route::middleware('auth:api')->resource('customers', 'CustomerController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('people', 'PersonController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('vehicles', 'VehicleController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('bank_accounts', 'BankAccountController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('couriers', 'CourierController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('item_groups', 'ItemGroupController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('item_sub_categories', 'ItemSubCategoryController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('items', 'ItemController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('prices', 'PriceController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('agents', 'AgentController', ['as' => 'api'])->except(['create', 'edit']);

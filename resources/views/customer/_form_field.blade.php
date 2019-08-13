@@ -7,16 +7,11 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="business-partner">Business Partner</label>
-                    {{ 
-                        Form::select('partner_type',
-                        App\Customer::PARTNER_TYPE,
-                        '',
-                        [
-                            'id' => 'business-partner',
-                            'class' => 'form-control',
-                            'required'
-                        ])
-                    }}
+                    <select class="form-control" id="business-partner" name="partner_type" required="">
+                        <option value="customer">Customer</option>
+                        <option value="vendor">Vendor</option>
+                        <option value="endorser">Endorser</option>
+                    </select>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -39,13 +34,16 @@
                     <label class="c-form--label" for="gender">Gender</label>
                     
                     <div class="mt-1" id="gender">
-                    @foreach(App\Customer::GENDERS as $gender)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input form-check-radio" id="{{ $gender }}" type="radio" name="gender" 
-                                value="{{ $gender }}" required>
-                            <label class="form-check-label" for="{{ $gender }}">{{ ucfirst(trans($gender)) }}</label>
+                            <input class="form-check-input form-check-radio" id="gender_male" type="radio" name="gender" 
+                                value="male" required>
+                            <label class="form-check-label" for="gender_male">Male</label>
                         </div>
-                    @endforeach
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input form-check-radio" id="gender_female" type="radio" name="gender" 
+                                value="female" required>
+                            <label class="form-check-label" for="gender_female">Female</label>
+                        </div>
                     </div>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
@@ -53,16 +51,14 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
-            {{ 
-                Form::select('religion',
-                App\Customer::RELIGIONS,
-                '',
-                [
-                    'id' => 'religion',
-                    'class' => 'form-control',
-                    'required'
-                ]) 
-            }}
+            <select id="religion" class="form-control" required name="religion">
+                <option value="islam">Islam</option>
+                <option value="christian">Kristen</option>
+                <option value="catholic">Katolik</option>
+                <option value="hindu">Hindu</option>
+                <option value="buddhis">Budha</option>
+                <option value="kong hu chu">Kong Hu Chu</option>
+            </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">
@@ -101,13 +97,16 @@
                 <div class="form-group">
                     <label class="c-form--label" for="bebes-gender">Bebe's gender</label>
                     <div class="mt-1" id="bebes-gender">
-                    @foreach(App\Customer::GENDERS as $gender)
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input form-check-radio" id="{{ $gender.'-bebe' }}" type="radio" name="bebe_gender" 
-                                value="{{ $gender }}" required>
-                            <label class="form-check-label" for="{{ $gender.'-bebe' }}">{{ ucfirst(trans($gender)) }}</label>
+                            <input class="form-check-input form-check-radio" id="bebe_gender_male" type="radio" name="bebe_gender" 
+                                value="male" required>
+                            <label class="form-check-label" for="bebe_gender_male">Male</label>
                         </div>
-                    @endforeach
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input form-check-radio" id="bebe_gender_female" type="radio" name="bebe_gender" 
+                                value="female" required>
+                            <label class="form-check-label" for="bebe_gender_female">Female</label>
+                        </div>
                     </div>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
@@ -202,7 +201,12 @@
     </div>
 </div>
 <hr class="my-4">
-<div class="text-right">
-    <button class="btn btn-light mr-2" type="button">Cancel</button>
-    <button class="btn btn-primary" type="submit">Submit</button>
+<div class="row">
+    <div class="col-sm-6 text-left">
+        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+    </div>
+    <div class="col-sm-6 text-right">
+        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
 </div>

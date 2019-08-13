@@ -21,6 +21,9 @@
     background-color: $blank;
     border-color: $blank;
   }
+  &-danger {
+    border: 0;
+  }
   &.is {
     &-small {
       min-width: 0;

@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-create-customer" class="c-form needs-validation" novalidate>
+<form id="form-edit-customer" class="c-form needs-validation" novalidate>
     @include('customer._form_field')
 </form>
 @endsection

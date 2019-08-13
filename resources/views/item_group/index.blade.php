@@ -2,7 +2,7 @@
 @section('title', 'Item Category')
 
 @section('content')
-<div id="sub-category-list">
+<div id="category-list">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
           <h1 class="mb-0">Item Category Data</h1>

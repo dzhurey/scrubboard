@@ -35,7 +35,7 @@ export default {
       type: 'PUT',
       url: url,
       contentType: 'application/json',
-      data: data,
+      data: JSON.stringify(data),
     });
   },
 };

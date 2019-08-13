@@ -34,6 +34,7 @@
     useCurrent: true,
     defaultDate: new Date(),
     locale: 'id',
+    debug: true,
     icons: {
       time: 'fa fa-time',
       date: 'fa fa-calendar',

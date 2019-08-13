@@ -81,6 +81,10 @@ h5 {
   border-color: #FFFFFF;
 }
 
+.btn-danger {
+  border: 0;
+}
+
 .btn.is-small {
   min-width: 0;
   padding: 0 4px;
@@ -646,6 +650,11 @@ select.form-control,
   background-position: calc(100% - 10px);
 }
 
+select.form-control option,
+.select2-container--default select.select2-selection--single option {
+  text-transform: capitalize;
+}
+
 input.datetimepicker {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -657,6 +666,7 @@ input.datetimepicker {
 }
 
 .bootstrap-datetimepicker-widget {
+  max-width: 241px;
   position: absolute;
   z-index: 1000;
   margin: 11px 1px !important;
@@ -694,6 +704,7 @@ input.datetimepicker {
 
 .bootstrap-datetimepicker-widget ul .table-condensed thead tr th.picker-switch {
   padding-top: 8px;
+  cursor: pointer;
 }
 
 .bootstrap-datetimepicker-widget ul .table-condensed thead tr th.prev,
@@ -706,7 +717,9 @@ input.datetimepicker {
   pointer-events: none;
 }
 
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year {
   text-shadow: none !important;
   padding: 3px 7px;
   border-radius: 0;
@@ -717,23 +730,35 @@ input.datetimepicker {
   cursor: pointer;
 }
 
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.active {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.active {
   background-color: #3386FF;
   color: #FFFFFF;
 }
 
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.today {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.today,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.today,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.today {
   background-color: #fefbd2;
   color: #212121;
 }
 
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.today::before {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.today::before,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.today::before,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.today::before {
   display: none;
 }
 
 .bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.day.active,
 .bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.month.active,
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.year.active {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.year.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.day.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.month.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.year.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.day.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.month.active,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.year.active {
   background-color: #3386FF;
   color: #FFFFFF;
 }
@@ -743,8 +768,30 @@ input.datetimepicker {
 .bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.month.old,
 .bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.month.new,
 .bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.year.old,
-.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.year.new {
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td.year.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.day.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.day.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.month.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.month.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.year.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month.year.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.day.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.day.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.month.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.month.new,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.year.old,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year.year.new {
   opacity: 0.3;
+}
+
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td span.month,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr td span.year,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month span.month,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.month span.year,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year span.month,
+.bootstrap-datetimepicker-widget ul .table-condensed tbody tr span.year span.year {
+  width: 25%;
+  display: inline-block;
 }
 
 .select2-container {

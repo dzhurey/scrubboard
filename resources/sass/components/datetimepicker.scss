@@ -1,4 +1,5 @@
 .bootstrap-datetimepicker-widget {
+  max-width: 241px;
   position: absolute;
   z-index: 1000;
   margin: 11px 1px!important;
@@ -30,7 +31,10 @@
             text-shadow: none !important;
             min-width: 0!important;
             font-size: 13px;
-            &.picker-switch { padding-top: 8px; }
+            &.picker-switch { 
+              padding-top: 8px; 
+              cursor: pointer;
+            }
             &.prev, &.next {
               width: 36px;
               cursor: pointer;
@@ -44,7 +48,9 @@
 
       tbody {
         tr {
-          td {
+          td, 
+          span.month,
+          span.year {
             text-shadow: none !important;
             padding: 3px 7px;
             border-radius: 0;
@@ -70,6 +76,12 @@
               &.old, &.new {
                 opacity: .3;
               }
+            }
+
+            span.month,
+            span.year {
+              width: 25%;
+              display: inline-block;
             }
           }
         }

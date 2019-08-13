@@ -8,8 +8,8 @@ use App\Address;
 class Customer extends BaseModel
 {
     const GENDERS = [
-        'male' => 'Laki-Laki',
-        'female' => 'Perempuan',
+        'male' => 'male',
+        'female' => 'female',
     ];
 
     const PARTNER_TYPE = [

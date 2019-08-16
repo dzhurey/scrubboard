@@ -1,8 +1,10 @@
-.c-pagination {
+.c-pagination,
+.dataTables_wrapper {
   margin-bottom: 0;
-  float: right;
-  &--outer {
-    padding: 0 30px 30px;
+  &--outer,
+  .dataTables_paginate {
+    padding: 20px 25px;
+    text-align: right;
   }
   &--pages {
     float: left;
@@ -10,24 +12,28 @@
     line-height: 31px;
     opacity: .5;
   }
-  .page-item {
-    .page-link {
-      border: 0;
-      background-color: transparent;
-      font-size: 12px;
-      opacity: .5;
-      color: #212121;
-      &:focus {
-        box-shadow: none;
-      }
+  .paginate_button {
+    display: inline-block;
+    border: 0;
+    background-color: transparent;
+    font-size: 12px;
+    opacity: .5;
+    color: #212121;
+    margin: 0 5px;
+    padding: 0 5px;
+    cursor: pointer;
+    &:focus {
+      box-shadow: none;
     }
-    &.active {
-      .page-link {
-        background-color: $blue-dodger;
-        border-radius: 4px;
-        opacity: 1;
-        color: $blank;
-      }
+    &.disabled {
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    &.current {
+      background-color: $blue-dodger;
+      border-radius: 4px;
+      opacity: 1;
+      color: $blank;
     }
   }
 }

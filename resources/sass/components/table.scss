@@ -7,45 +7,55 @@
     margin: 30px;
     background-color: $blank;
   }
-  thead {
-    th {
-      &.checkbox {
-        width: 50px;
+  &.table {
+    thead {
+      th {
+        &.checkbox {
+          width: 50px;
+        }
+        border: 0;
       }
-      border: 0;
     }
-  }
-  tbody {
-    td {
-      border-color: #E8EEF3;
-      &.checkbox {
-        width: 50px;
-      }
-      a, .btn {
-        opacity: .5;
-        &:hover {
-          opacity: .7;
+    tbody {
+      td {
+        border-color: #E8EEF3;
+        &.checkbox {
+          width: 50px;
+        }
+        a, .btn {
+          opacity: .5;
+          position: relative;
+          top: -4px;
+          &:hover,
+          &:active,
+          &:focus {
+            outline: none;
+            opacity: .7;
+            background-color: transparent;
+            border-color: transparent;
+          }
         }
       }
+      tr:nth-of-type(odd) {
+        background-color: #FAFCFD;
+      }
     }
-    tr:nth-of-type(odd) {
-      background-color: #FAFCFD;
-    }
-  }
-  th, td {
-    &.th-item {
-      width: 290px;
-    }
-    &.th-note {
-      width: 230px;
-    }
-    &.th-qty,
-    &.th-action {
-      width: 50px;
-    }
-    &.th-price,
-    &.th-total {
-      width: 130px;
+    th, td {
+      &.th-item {
+        width: 290px;
+      }
+      &.th-note {
+        width: 230px;
+      }
+      &.th-qty,
+      &.th-action,
+      &:last-child {
+        width: 50px;
+      }
+      &.th-price,
+      &.th-total {
+        width: 130px;
+      }
     }
   }
 }

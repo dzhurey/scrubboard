@@ -19,16 +19,24 @@ class CustomerUpdateService extends CustomerStoreService
         $this->customer = $customer;
         $this->billing_address = $customer->billingAddress();
         $this->shipping_address = $customer->shippingAddress();
+        $this->is_same_address = !empty($attributes['is_same_address']) ? $attributes['is_same_address'] === "on" : false;
 
         DB::beginTransaction();
         try {
             $this->createCustomer($attributes);
 
-            if (!empty($this->customer->id)) {
-                $this->createBillingAddress($attributes);
+            if (!$this->customer->isSameAddress() && $this->is_same_address) {
+                $this->customer->shippingAddress()->delete();
             }
 
-            if (!empty($this->customer->id) && !$this->is_same_address) {
+            if ($this->customer->isSameAddress() && !$this->is_same_address) {
+                $this->shipping_address = new Address();
+                $this->shipping_address->is_shipping = true;
+            }
+
+            $this->createBillingAddress($attributes);
+
+            if (!$this->is_same_address) {
                 $this->createShippingAddress($attributes);
             }
         } catch (\Exception $e) {

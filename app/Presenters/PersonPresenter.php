@@ -16,6 +16,7 @@ class PersonPresenter extends BasePresenter
 
     public function transform($input)
     {
+        $input->user = $input->user;
         return $input;
     }
 }

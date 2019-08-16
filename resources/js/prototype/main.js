@@ -34,6 +34,7 @@
     useCurrent: true,
     defaultDate: new Date(),
     locale: 'id',
+    debug: true,
     icons: {
       time: 'fa fa-time',
       date: 'fa fa-calendar',
@@ -67,10 +68,7 @@
     );
   };
 
-  $('.table-action[data-toggle="tooltip"]').tooltip();
-
   $('.select2').select2({ theme: 'bootstrap'});
-  
   $('#is_same_address').change((e) => {
     const target = $('#is_same_address_content');
     e.target.checked ? target.hide() : target.show();

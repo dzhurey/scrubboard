@@ -69,7 +69,6 @@
   };
 
   $('.select2').select2({ theme: 'bootstrap'});
-  
   $('#is_same_address').change((e) => {
     const target = $('#is_same_address_content');
     e.target.checked ? target.hide() : target.show();

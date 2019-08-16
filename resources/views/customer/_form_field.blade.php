@@ -164,8 +164,8 @@
         </div>
         <div id="is_same_address_content">
             <div class="form-group">
-                <label class="c-form--label" for="address">Address</label>
-                <textarea class="form-control" id="address" name="shipping_address"></textarea>
+                <label class="c-form--label" for="shipping_address">Address</label>
+                <textarea class="form-control" id="shipping_address" name="shipping_address"></textarea>
             </div>
             <div class="row">
                 <div class="col-sm-6">

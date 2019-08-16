@@ -51774,7 +51774,19 @@ if (formEditCustomer.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCustomer = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/customers/".concat(idCustomer)).then(function (res) {
-    return assignValue(res.customer);
+    assignValue(res.customer);
+    $('#billing_address').val(res.customer.billing_address.description);
+    $('#billing_district').val(res.customer.billing_address.district);
+    $('#billing_city').val(res.customer.billing_address.city);
+    $('#billing_country').val(res.customer.billing_address.country);
+    $('#billing_zip_code').val(res.customer.billing_address.city);
+    $('#shipping_address').val(res.customer.shipping_address.description);
+    $('#shipping_district').val(res.customer.shipping_address.district);
+    $('#shipping_city').val(res.customer.shipping_address.city);
+    $('#shipping_country').val(res.customer.shipping_address.country);
+    $('#shipping_zip_code').val(res.customer.shipping_address.city);
+    $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
+    if ($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
   })["catch"](function (res) {
     return console.log(res);
   });

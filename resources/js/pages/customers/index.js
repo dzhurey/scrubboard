@@ -51,7 +51,21 @@ if (formEditCustomer.length > 0) {
   const urlArray = window.location.href.split('/');
   const idCustomer = urlArray[urlArray.length - 2];
   ajx.get(`/customers/${idCustomer}`)
-    .then(res => assignValue(res.customer))
+    .then((res) => {
+      assignValue(res.customer)
+      $('#billing_address').val(res.customer.billing_address.description);
+      $('#billing_district').val(res.customer.billing_address.district);
+      $('#billing_city').val(res.customer.billing_address.city);
+      $('#billing_country').val(res.customer.billing_address.country);
+      $('#billing_zip_code').val(res.customer.billing_address.city);
+      $('#shipping_address').val(res.customer.shipping_address.description);
+      $('#shipping_district').val(res.customer.shipping_address.district);
+      $('#shipping_city').val(res.customer.shipping_address.city);
+      $('#shipping_country').val(res.customer.shipping_address.country);
+      $('#shipping_zip_code').val(res.customer.shipping_address.city);
+      $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
+      if($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
+    })
     .catch(res => console.log(res));
 
   formEditCustomer.submit((e) => {

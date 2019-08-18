@@ -51697,9 +51697,127 @@ __webpack_require__(/*! ./pages/vehicle/index.js */ "./resources/js/pages/vehicl
 
 __webpack_require__(/*! ./pages/bank/index.js */ "./resources/js/pages/bank/index.js");
 
+__webpack_require__(/*! ./pages/agent/index.js */ "./resources/js/pages/agent/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
+
+/***/ }),
+
+/***/ "./resources/js/pages/agent/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/agent/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableAgent = $('#table-agent');
+var formCreateAgent = $('#form-create-agent');
+var formEditAgent = $('#form-edit-agent');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'agent_group',
+      render: function render(data) {
+        return data.id === 1 ? 'Agent' : '-';
+      }
+    }, {
+      data: 'name'
+    }, {
+      data: 'phone_number'
+    }, {
+      data: 'mobile_number'
+    }, {
+      data: 'district'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/agents/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableAgent.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
+    createTable(tableAgent, res.agents.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateAgent.length > 0) {
+  $('#button-delete').remove();
+  formCreateAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/agents', data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditAgent.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/agents/".concat(id)).then(function (res) {
+    $('#agent_group_id').val(res.agent.agent_group_id);
+    $('#name').val(res.agent.name);
+    $('#phone_number').val(res.agent.phone_number);
+    $('#mobile_number').val(res.agent.mobile_number);
+    $('#email').val(res.agent.email);
+    $('#address').val(res.agent.address);
+    $('#sub_district').val(res.agent.sub_district);
+    $('#district').val(res.agent.district);
+    $('#city').val(res.agent.city);
+    $('#country').val(res.agent.country);
+    $('#zip_code').val(res.agent.zip_code);
+    $('#contact_name').val(res.agent.contact_name);
+    $('#contact_phone_number').val(res.agent.contact_phone_number);
+    $('#contact_mobile_number').val(res.agent.contact_mobile_number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 

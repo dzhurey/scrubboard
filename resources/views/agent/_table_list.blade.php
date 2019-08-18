@@ -1,11 +1,12 @@
 @if ($agents->count() > 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-bank" class="c-table table table-striped">
+    <table id="table-agent" class="c-table table table-striped">
         <thead>
             <th>Outlet type</th>
             <th>Name</th>
             <th>Telephone</th>
             <th>Mobile phone</th>
+            <th>District</th>
             <th></th>
         </thead>
     </table>

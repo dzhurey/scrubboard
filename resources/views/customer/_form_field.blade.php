@@ -1,5 +1,3 @@
-{{ csrf_field() }}
-
 <div class="row">
     <div class="col-sm-6">
         <h2 class="c-form--title">Personal Data</h2>

@@ -1,6 +1,7 @@
 import ajx from './../../shared/index.js';
 
 const tablePrice = $('#table-price');
+const tableItemsList = $('#table-item-price-list');
 const formCreateSubCategory = $('#form-create-price');
 const createTable = (target, data) => {
   target.DataTable({
@@ -29,10 +30,35 @@ const createTable = (target, data) => {
     }
   })
 };
+const createTableItemLists = (target, data) => {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [
+      {
+        data: 'id',
+        className: 'checkbox',
+        render(data) {
+          return `<input type="checkbox" name="price_lines[item_id][]" value="${data}"/>`
+        }
+      },
+      { data: 'description' },
+      { data: 'price' },
+    ],
+  })
+};
 
 if (tablePrice.length > 0) {
-  ajx.get('/prices').then((res) => {
+  ajx.get('/api/prices').then((res) => {
     createTable(tablePrice, res.prices.data);
+  }).catch(res => console.log(res));
+}
+
+if (tableItemsList.length > 0) {
+  ajx.get('/api/items').then((res) => {
+    createTableItemLists(tableItemsList, res.items.data);
   }).catch(res => console.log(res));
 }
 

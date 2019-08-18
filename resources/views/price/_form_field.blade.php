@@ -6,19 +6,28 @@
         <div class="invalid-feedback">{{ $errors->first('name') }}</div>
     @endif
 </div>
-<h5>List Harga</h5>
-<div id="dynamicForm" class="controls">
-    <div class="entry row">
-        <div class="col-5">
-            {{ Form::select('price_lines[item_id][]', $items, null, ['class' => 'form-control']) }}
-        </div>
-        <div class="col-5">
-            <input class="form-control" type="text" name="price_lines[amount][]">
-        </div>
-        <div class="col-2">
-            <button class="btn btn-success btn-add" type="button">
-                Add
-            </button>
-        </div>
+<div class="form-group">
+    <label>List Harga</label>
+    <div class="c-table--outer m-0">
+        <table id="table-item-price-list" class="c-table table table-striped">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Description</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+<hr class="my-4">
+<div class="row">
+    <div class="col-sm-6 text-left">
+        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+    </div>
+    <div class="col-sm-6 text-right">
+        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

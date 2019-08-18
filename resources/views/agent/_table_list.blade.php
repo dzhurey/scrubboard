@@ -1,10 +1,11 @@
-@if ($bank_accounts->count() > 0 || !empty($query))
+@if ($agents->count() > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-bank" class="c-table table table-striped">
         <thead>
-            <th>Nama</th>
-            <th>Bank</th>
-            <th>Akun</th>
+            <th>Outlet type</th>
+            <th>Name</th>
+            <th>Telephone</th>
+            <th>Mobile phone</th>
             <th></th>
         </thead>
     </table>
@@ -12,7 +13,7 @@
 @else
 <div class="text-center py-5">
     <img src="{{ asset('assets/images/icons/users.svg') }}" width="120" style="opacity: 0.7">
-    <h1 class="mt-3 mb-2">No data customers</h1>
-    <p style="opacity: 0.5">Your customers data will show here</p>
+    <h1 class="mt-3 mb-2">No data outlets</h1>
+    <p style="opacity: 0.5">Your outlet data will show here</p>
 </div>
 @endif

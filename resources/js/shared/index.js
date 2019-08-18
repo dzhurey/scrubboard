@@ -1,7 +1,7 @@
 $.ajaxSetup({
   beforeSend: (xhr) => {
-    const token = $("meta[name='csrf-token']").attr("content");
-    xhr.setRequestHeader('_token', token);
+    const token = sessionStorage.token;
+    xhr.setRequestHeader('Authorization', token);
     xhr.setRequestHeader('accept', 'application/json');
   },
   error: (xhr, textStatus, error) => {

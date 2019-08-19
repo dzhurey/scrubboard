@@ -9,12 +9,15 @@ require('moment');
 require('datatables.net-dt');
 require('./../assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
 
+require('./pages/login/index.js');
 require('./pages/customers/index.js');
 require('./pages/item_sub_categories/index.js');
 require('./pages/item_groups/index.js');
 require('./pages/item/index.js');
 require('./pages/price/index.js');
 require('./pages/vehicle/index.js');
+require('./pages/bank/index.js');
+require('./pages/agent/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

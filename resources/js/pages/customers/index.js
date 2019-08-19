@@ -42,7 +42,7 @@ const assignValue = (data) => {
 };
 
 if (tableCustomer.length > 0) {
-  ajx.get('/customers').then((res) => {
+  ajx.get('/api/customers').then((res) => {
     createTable(tableCustomer, res.customers.data);
   }).catch(res => console.log(res));
 }
@@ -50,7 +50,7 @@ if (tableCustomer.length > 0) {
 if (formEditCustomer.length > 0) {
   const urlArray = window.location.href.split('/');
   const idCustomer = urlArray[urlArray.length - 2];
-  ajx.get(`/customers/${idCustomer}`)
+  ajx.get(`/api/customers/${idCustomer}`)
     .then((res) => {
       assignValue(res.customer)
       $('#billing_address').val(res.customer.billing_address.description);
@@ -72,7 +72,7 @@ if (formEditCustomer.length > 0) {
     e.preventDefault();
     const dataForm = formEditCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/customers/${idCustomer}/update`, data).then(res => window.location = '/customers').catch(res => console.log(res));
+    ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => console.log(res));
     return false;
   })
 }
@@ -83,7 +83,7 @@ if (formCreateCustomer.length > 0) {
     e.preventDefault();
     const dataForm = formCreateCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/customers', data).then(res => window.location = '/customers').catch(res => console.log(res));
+    ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => console.log(res));
     return false;
   })
 }

@@ -51681,6 +51681,8 @@ __webpack_require__(/*! datatables.net-dt */ "./node_modules/datatables.net-dt/j
 
 __webpack_require__(/*! ./../assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js */ "./resources/assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 
+__webpack_require__(/*! ./pages/login/index.js */ "./resources/js/pages/login/index.js");
+
 __webpack_require__(/*! ./pages/customers/index.js */ "./resources/js/pages/customers/index.js");
 
 __webpack_require__(/*! ./pages/item_sub_categories/index.js */ "./resources/js/pages/item_sub_categories/index.js");
@@ -51693,9 +51695,230 @@ __webpack_require__(/*! ./pages/price/index.js */ "./resources/js/pages/price/in
 
 __webpack_require__(/*! ./pages/vehicle/index.js */ "./resources/js/pages/vehicle/index.js");
 
+__webpack_require__(/*! ./pages/bank/index.js */ "./resources/js/pages/bank/index.js");
+
+__webpack_require__(/*! ./pages/agent/index.js */ "./resources/js/pages/agent/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
+
+/***/ }),
+
+/***/ "./resources/js/pages/agent/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/agent/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableAgent = $('#table-agent');
+var formCreateAgent = $('#form-create-agent');
+var formEditAgent = $('#form-edit-agent');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'agent_group',
+      render: function render(data) {
+        return data.id === 1 ? 'Agent' : '-';
+      }
+    }, {
+      data: 'name'
+    }, {
+      data: 'phone_number'
+    }, {
+      data: 'mobile_number'
+    }, {
+      data: 'district'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/agents/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableAgent.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
+    createTable(tableAgent, res.agents.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateAgent.length > 0) {
+  $('#button-delete').remove();
+  formCreateAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/agents', data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditAgent.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/agents/".concat(id)).then(function (res) {
+    $('#agent_group_id').val(res.agent.agent_group_id);
+    $('#name').val(res.agent.name);
+    $('#phone_number').val(res.agent.phone_number);
+    $('#mobile_number').val(res.agent.mobile_number);
+    $('#email').val(res.agent.email);
+    $('#address').val(res.agent.address);
+    $('#sub_district').val(res.agent.sub_district);
+    $('#district').val(res.agent.district);
+    $('#city').val(res.agent.city);
+    $('#country').val(res.agent.country);
+    $('#zip_code').val(res.agent.zip_code);
+    $('#contact_name').val(res.agent.contact_name);
+    $('#contact_phone_number').val(res.agent.contact_phone_number);
+    $('#contact_mobile_number').val(res.agent.contact_mobile_number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/bank/index.js":
+/*!******************************************!*\
+  !*** ./resources/js/pages/bank/index.js ***!
+  \******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableBank = $('#table-bank');
+var formCreateBank = $('#form-create-bank');
+var formEditBank = $('#form-edit-bank');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'bank',
+      render: function render(data) {
+        return data.name;
+      }
+    }, {
+      data: 'account_number'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/bank_accounts/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableBank.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
+    createTable(tableBank, res.bank_accounts.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateBank.length > 0) {
+  $('#button-delete').remove();
+  formCreateBank.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateBank.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/bank_accounts', data).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditBank.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var idCategory = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/bank_accounts/".concat(idCategory)).then(function (res) {
+    $('#name').val(res.bank_account.name);
+    $('#bank_id').val(res.bank_account.bank_id);
+    $('#account-number').val(res.bank_account.account_number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditBank.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditBank.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/bank_accounts/".concat(idCategory), data).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -51763,7 +51986,7 @@ var assignValue = function assignValue(data) {
 };
 
 if (tableCustomer.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/customers').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/customers').then(function (res) {
     createTable(tableCustomer, res.customers.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -51773,7 +51996,7 @@ if (tableCustomer.length > 0) {
 if (formEditCustomer.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCustomer = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/customers/".concat(idCustomer)).then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(idCustomer)).then(function (res) {
     assignValue(res.customer);
     $('#billing_address').val(res.customer.billing_address.description);
     $('#billing_district').val(res.customer.billing_address.district);
@@ -51796,7 +52019,7 @@ if (formEditCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/customers/".concat(idCustomer, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
       return console.log(res);
@@ -51813,7 +52036,7 @@ if (formCreateCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/customers', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
       return console.log(res);
@@ -51838,6 +52061,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var tableItem = $('#table-item');
 var formCreateItem = $('#form-create-item');
+var selectSubCategory = $('#item_sub_category_id');
+var selectPriceLists = $('#price_list');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -51875,8 +52100,76 @@ var createTable = function createTable(target, data) {
 };
 
 if (tableItem.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/items').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/items').then(function (res) {
     createTable(tableItem, res.items.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (selectSubCategory.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/item_sub_categories').then(function (res) {
+    var items = res.item_sub_categories.data;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        selectSubCategory.append(option);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (selectPriceLists.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/prices').then(function (res) {
+    var items = res.prices.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        selectPriceLists.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -51937,7 +52230,7 @@ var assignValue = function assignValue(data) {
 };
 
 if (tableCategory.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/item_groups').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/item_groups').then(function (res) {
     createTable(tableCategory, res.item_groups.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -51952,7 +52245,7 @@ if (formCreateCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/item_groups', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_groups', data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
       return console.log(res);
@@ -51964,7 +52257,7 @@ if (formCreateCategory.length > 0) {
 if (formEditCategory.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/item_groups/".concat(idCategory)).then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_groups/".concat(idCategory)).then(function (res) {
     return assignValue(res.item_group);
   })["catch"](function (res) {
     return console.log(res);
@@ -51975,7 +52268,7 @@ if (formEditCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/item_groups/".concat(idCategory, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_groups/".concat(idCategory), data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
       return console.log(res);
@@ -52091,7 +52384,7 @@ if (formCreateSubCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/item_sub_categories', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_sub_categories', data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
       return console.log(res);
@@ -52103,7 +52396,7 @@ if (formCreateSubCategory.length > 0) {
 if (formEditSubCategory.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/item_sub_categories/".concat(idCategory)).then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_sub_categories/".concat(idCategory)).then(function (res) {
     return assignValue(res.item_sub_category);
   })["catch"](function (res) {
     return console.log(res);
@@ -52114,12 +52407,42 @@ if (formEditSubCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/item_sub_categories/".concat(idCategory, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_sub_categories/".concat(idCategory), data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/login/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/login/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var loginForm = $('#login-form');
+var homePage = $('#home');
+
+if (loginForm.length > 0) {
+  loginForm.submit(function (e) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', {
+      "email": $('#email').val(),
+      "password": $('#password').val()
+    }).then(function (res) {
+      sessionStorage.setItem('token', "Bearer ".concat(res.access_token));
+    })["catch"](function (res) {
+      return console.log(res);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52138,6 +52461,7 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
 var tablePrice = $('#table-price');
+var tableItemsList = $('#table-item-price-list');
 var formCreateSubCategory = $('#form-create-price');
 
 var createTable = function createTable(target, data) {
@@ -52165,9 +52489,37 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var createTableItemLists = function createTableItemLists(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'id',
+      className: 'checkbox',
+      render: function render(data) {
+        return "<input type=\"checkbox\" name=\"price_lines[item_id][]\" value=\"".concat(data, "\"/>");
+      }
+    }, {
+      data: 'description'
+    }, {
+      data: 'price'
+    }]
+  });
+};
+
 if (tablePrice.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/prices').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/prices').then(function (res) {
     createTable(tablePrice, res.prices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (tableItemsList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/items').then(function (res) {
+    createTableItemLists(tableItemsList, res.items.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52218,9 +52570,16 @@ $submitButton.on('click', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var tableVehicle = $('#table-vehicle');
-var formCreateSubCategory = $('#form-create-vehicle');
+var formCreateVehicle = $('#form-create-vehicle');
+var formEditVehicle = $('#form-edit-vehicle');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -52242,11 +52601,52 @@ var createTable = function createTable(target, data) {
   });
 };
 
+"";
+
 if (tableVehicle.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/vehicles').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/vehicles').then(function (res) {
     createTable(tableVehicle, res.vehicles.data);
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (formCreateVehicle.length > 0) {
+  formCreateVehicle.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateVehicle.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/vehicles', data).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditVehicle.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/vehicles/".concat(id)).then(function (res) {
+    $('#number-plate').val(res.vehicle.number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditVehicle.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditVehicle.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/vehicles/".concat(id), data).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -55207,8 +55607,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {$.ajaxSetup({
   beforeSend: function beforeSend(xhr) {
-    var token = $("meta[name='csrf-token']").attr("content");
-    xhr.setRequestHeader('_token', token);
+    var token = sessionStorage.token;
+    xhr.setRequestHeader('Authorization', token);
     xhr.setRequestHeader('accept', 'application/json');
   },
   error: function error(xhr, textStatus, _error) {

@@ -2,6 +2,8 @@ import ajx from './../../shared/index.js';
 
 const tableItem = $('#table-item');
 const formCreateItem = $('#form-create-item');
+const selectSubCategory = $('#item_sub_category_id');
+const selectPriceLists = $('#price_list');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -43,7 +45,31 @@ const createTable = (target, data) => {
 };
 
 if (tableItem.length > 0) {
-  ajx.get('/items').then((res) => {
+  ajx.get('/api/items').then((res) => {
     createTable(tableItem, res.items.data);
+  }).catch(res => console.log(res));
+}
+
+if (selectSubCategory.length > 0) {
+  ajx.get('/api/item_sub_categories').then((res) => {
+    const items = res.item_sub_categories.data;
+    for (let item of items) {
+      const option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = item.name;
+      selectSubCategory.append(option);
+    }
+  }).catch(res => console.log(res));
+}
+
+if (selectPriceLists.length > 0) {
+  ajx.get('/api/prices').then((res) => {
+    const items = res.prices.data;
+    for (let item of items) {
+      const option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = item.name;
+      selectPriceLists.append(option);
+    }
   }).catch(res => console.log(res));
 }

@@ -14,5 +14,4 @@
 
     @include('customer._table_list')
 </div>
-<span id="pageConstant" class="hidden" data-url="{{ route('customers.index') }}"></span>
 @endsection

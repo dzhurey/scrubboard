@@ -12,19 +12,19 @@ const createTable = (target, data) => {
     info: false,
     columns: [
       { data: 'description' },
-      { 
+      {
         data: 'item_group',
         render(data) {
           return data.name;
         }
       },
-      { 
+      {
         data: 'item_sub_category',
         render(data) {
           return data.name;
         }
       },
-      { 
+      {
         data: 'price',
         render(price) {
           return `Rp ${price}`

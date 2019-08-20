@@ -19,6 +19,7 @@ class CreateTransactionsTable extends Migration
 
             $table->enum('transaction_type', ['order', 'invoice']);
             $table->enum('transaction_status', ['open', 'closed']);
+            $table->enum('order_type', ['general', 'endorser']);
             $table->integer('customer_id')->unsigned();
             $table->date('transaction_date');
             $table->date('pickup_date');

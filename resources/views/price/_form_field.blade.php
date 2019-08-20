@@ -9,7 +9,7 @@
 <div class="form-group">
     <label>List Harga</label>
     <div class="c-table--outer m-0">
-        <table id="table-item-price-list" class="c-table table table-striped">
+        <table id="" class="c-table table table-striped">
             <thead>
                 <tr>
                     <th width="10%">

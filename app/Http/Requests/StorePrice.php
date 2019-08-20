@@ -30,7 +30,6 @@ class StorePrice extends FormRequest
 
         foreach($this->request->get('price_lines') as $key => $val)
         {
-            $rules['price_lines.'.$key.'.id'] = 'sometimes|required|numeric';
             $rules['price_lines.'.$key.'.price_id'] = 'sometimes|required|numeric';
             $rules['price_lines.'.$key.'.item_id'] = 'required';
             $rules['price_lines.'.$key.'.amount'] = 'required|numeric';

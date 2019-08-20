@@ -12,11 +12,37 @@
         <table id="table-item-price-list" class="c-table table table-striped">
             <thead>
                 <tr>
-                    <th></th>
-                    <th>Description</th>
-                    <th>Price</th>
+                    <th width="10%">
+                        <!-- <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="checkAll">
+                        </div> -->
+                    </th>
+                    <th width="60%">Description</th>
+                    <th width="30%">Price</th>
                 </tr>
             </thead>
+            <tbody>
+            @foreach ($items as $item)
+                <tr>
+                    <th>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="input-checkbox-{{ $item->id }}">
+                            <input type="hidden" id="input-checkbox-{{ $item->id }}" name="price_lines[{{ $item->id }}][item_id]" value="{{ $item->id }}">
+                            @isset($price)
+                                <input type="hidden" id="input-checkbox-{{ $item->id }}" name="price_lines[{{ $item->id }}][price_id]" value="{{ $price->id }}">
+                            @endif
+                        </div>
+                    </th>
+                    <td>{{ $item->description }}</td>
+                    <td>
+                        <div class="col">
+                            <input class="form-control" id="input-amount-{{ $item->id }}" name="price_lines[{{ $item->id }}][amount]" required="">
+                            <div class="invalid-feedback">Data invalid.</div>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
         </table>
     </div>
 </div>

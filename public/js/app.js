@@ -51699,6 +51699,8 @@ __webpack_require__(/*! ./pages/bank/index.js */ "./resources/js/pages/bank/inde
 
 __webpack_require__(/*! ./pages/agent/index.js */ "./resources/js/pages/agent/index.js");
 
+__webpack_require__(/*! ./pages/courir/index.js */ "./resources/js/pages/courir/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51919,6 +51921,17 @@ if (formEditBank.length > 0) {
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/courir/index.js":
+/*!********************************************!*\
+  !*** ./resources/js/pages/courir/index.js ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
 
 /***/ }),
 

@@ -11,9 +11,15 @@ class Transaction extends BaseModel
         'invoice' => 'Sales Invoice',
     ];
 
+    const ORDER_TYPES = [
+        'general' => 'General',
+        'endorser' => 'Endorser',
+    ];
+
     protected $fillable = [
         'transaction_type',
         'transaction_status',
+        'order_type',
         'customer_id',
         'transaction_date',
         'pickup_date',

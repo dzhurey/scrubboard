@@ -35,10 +35,8 @@
                     </th>
                     <td>{{ $item->description }}</td>
                     <td>
-                        <div class="col">
-                            <input class="form-control" id="input-amount-{{ $item->id }}" name="price_lines[{{ $item->id }}][amount]" required="">
-                            <div class="invalid-feedback">Data invalid.</div>
-                        </div>
+                        <input class="form-control" id="input-amount-{{ $item->id }}" name="price_lines[{{ $item->id }}][amount]" required="">
+                        <div class="invalid-feedback">Data invalid.</div>
                     </td>
                 </tr>
             @endforeach

@@ -2,7 +2,7 @@ import ajx from './../../shared/index.js';
 
 const tablePrice = $('#table-price');
 const tableItemsList = $('#table-item-price-list');
-const formCreateSubCategory = $('#form-create-price');
+const formCreatePrice = $('#form-create-price');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -30,6 +30,9 @@ const createTable = (target, data) => {
     }
   })
 };
+const collectPriceLines = () => {
+  debugger;
+}
 const createTableItemLists = (target, data) => {
   target.DataTable({
     data: data,
@@ -47,6 +50,9 @@ const createTableItemLists = (target, data) => {
       { data: 'description' },
       { data: 'price' },
     ],
+    drawCallback: () => {
+      collectPriceLines();
+    },
   })
 };
 
@@ -62,37 +68,6 @@ if (tableItemsList.length > 0) {
   }).catch(res => console.log(res));
 }
 
-var $form = $('#formPrice')
-var $submitButton = $('#buttonSubmit')
-
-$submitButton.on('click', function () {
-  var priceLines = []
-  $('#dynamicForm .entry').each(function () {
-    data = {
-      item_id: $(this).find('select option:selected').val(),
-      amount: $(this).find('input[name="price_lines[amount][]"]').val()
-    }
-    priceLines.push(data)
-  })
-  debugger;
-
-  var data = {
-    name: $form.find('input[name="name"]').val(),
-    price_lines: priceLines
-  }
-
-  $.ajax({
-    url: $form.attr('action'),
-    type: 'post',
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-CSRF-TOKEN": $form.find('input[name="_token"]').val()
-    },
-    dataType: 'json',
-    success: function (data) {
-      alert('data berhasil disimpan');
-    }
-  });
-})
+if (formCreatePrice.length > 0) {
+  ajx.post('')
+}

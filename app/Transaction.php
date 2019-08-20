@@ -6,6 +6,8 @@ use App\BaseModel;
 
 class Transaction extends BaseModel
 {
+    protected $table = 'transactions';
+
     const TRANSACTION_TYPES = [
         'order' => 'Sales Order',
         'invoice' => 'Sales Invoice',

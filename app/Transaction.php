@@ -40,7 +40,7 @@ class Transaction extends BaseModel
 
     public function transactionLines()
     {
-        return $this->hasMany('App\TransactionLine');
+        return $this->hasMany('App\TransactionLine', 'transaction_id');
     }
 
     public function customer()

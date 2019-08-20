@@ -3,6 +3,7 @@ html, body {
   color: $noir;
   font-size: 14px;
   line-height: 21px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1 { font-size: 2rem; }
@@ -14,14 +15,15 @@ h5 { font-size: .85rem; }
 .main {
   position: absolute;
   z-index: 3;
-  margin-top: 91px;
+  margin-top: 70px;
   padding-left: 300px;
-  transition: all 0.5s;
+  transition: all 0s;
   width: 100%;
   top: 0;
   left: 0;
   &.is-close {
     margin-left: 100px;
     width: calc(100% - 100px);
+    padding-left: 0;
   }
 }

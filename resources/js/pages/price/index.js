@@ -42,10 +42,10 @@ const collectPriceLines = () => {
       priceList.push({
         item_id: item_id,
         amount: amount,
+        price_id: e.target.getAttribute('price_id'),
       })
     } else {
-      priceList = priceList.filter(item => item.item_id === e.target.value);
-      debugger;
+      priceList = priceList.filter(item => item.item_id !== parseInt(e.target.value));
     }
   });
 }
@@ -59,7 +59,7 @@ const createTableItemLists = (target, data) => {
       {
         data: 'id',
         className: 'checkbox',
-        render(data) {
+        render(data, type, row) {
           return `<input id="check-${data}" class="check-price-item" type="checkbox" name="price_lines[item_id][]" value="${data}"/>`
         }
       },
@@ -107,26 +107,20 @@ if (formEditPrice.length > 0) {
   ajx.get(`/api/prices/${id}`)
     .then(res => {
       $('#name').val(res.price.name);
-      const prices = res.price.price_lines;
-      prices.map(res => {
+      $('.check-price-item').attr('price_id', res.price.id);
+      res.price.price_lines.map(res => {
         $(`#check-${res.item_id}`).attr('checked', true);
-        if ($(`#check-${res.item_id}`).prop('checked')) {
-          const item_id = $(`#check-${res.item_id}`).val();
-          const amount = $(`#check-${res.item_id}`).closest('tr')[0].querySelector('.field-price-item').value;
-          priceList.push({
-            item_id: item_id,
-            amount: amount,
-          })
-        }
-      });
+        priceList.push({
+          item_id: res.item_id,
+          amount: res.amount,
+          price_id: res.price_id
+        })
+      })
     })
     .catch(res => console.log(res));
 
   formEditPrice.submit((e) => {
     e.preventDefault();
-    const dataForm = formEditPrice.serializeArray();
-    const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    debugger;
     ajx.put(`/api/prices/${id}`, {
       name: $('#name').val(),
       price_lines: priceList,

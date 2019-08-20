@@ -52555,12 +52555,6 @@ if (loginForm.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 var priceList = [];
 var tablePrice = $('#table-price');
@@ -52603,13 +52597,13 @@ var collectPriceLines = function collectPriceLines() {
     if (e.target.checked) {
       priceList.push({
         item_id: item_id,
-        amount: amount
+        amount: amount,
+        price_id: e.target.getAttribute('price_id')
       });
     } else {
       priceList = priceList.filter(function (item) {
-        return item.item_id === e.target.value;
+        return item.item_id !== parseInt(e.target.value);
       });
-      debugger;
     }
   });
 };
@@ -52623,7 +52617,7 @@ var createTableItemLists = function createTableItemLists(target, data) {
     columns: [{
       data: 'id',
       className: 'checkbox',
-      render: function render(data) {
+      render: function render(data, type, row) {
         return "<input id=\"check-".concat(data, "\" class=\"check-price-item\" type=\"checkbox\" name=\"price_lines[item_id][]\" value=\"").concat(data, "\"/>");
       }
     }, {
@@ -52677,29 +52671,20 @@ if (formEditPrice.length > 0) {
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
     $('#name').val(res.price.name);
-    var prices = res.price.price_lines;
-    prices.map(function (res) {
+    $('.check-price-item').attr('price_id', res.price.id);
+    res.price.price_lines.map(function (res) {
       $("#check-".concat(res.item_id)).attr('checked', true);
-
-      if ($("#check-".concat(res.item_id)).prop('checked')) {
-        var item_id = $("#check-".concat(res.item_id)).val();
-        var amount = $("#check-".concat(res.item_id)).closest('tr')[0].querySelector('.field-price-item').value;
-        priceList.push({
-          item_id: item_id,
-          amount: amount
-        });
-      }
+      priceList.push({
+        item_id: res.item_id,
+        amount: res.amount,
+        price_id: res.price_id
+      });
     });
   })["catch"](function (res) {
     return console.log(res);
   });
   formEditPrice.submit(function (e) {
     e.preventDefault();
-    var dataForm = formEditPrice.serializeArray();
-    var data = dataForm.reduce(function (x, y) {
-      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
-    }, {});
-    debugger;
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
       name: $('#name').val(),
       price_lines: priceList

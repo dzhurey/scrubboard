@@ -1,6 +1,6 @@
 import ajx from './../../shared/index.js';
 
-const priceList = [];
+let priceList = [];
 const tablePrice = $('#table-price');
 const tableItemsList = $('#table-item-price-list');
 const formCreatePrice = $('#form-create-price');
@@ -11,6 +11,8 @@ const createTable = (target, data) => {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [
       { data: 'name' },
       {
@@ -36,10 +38,15 @@ const collectPriceLines = () => {
   $('.check-price-item').change((e) => {
     const item_id = e.target.value;
     const amount = e.target.parentElement.parentElement.querySelector('.field-price-item').value;
-    priceList.push({
-      item_id: item_id,
-      amount: amount,
-    })
+    if (e.target.checked) {
+      priceList.push({
+        item_id: item_id,
+        amount: amount,
+      })
+    } else {
+      priceList = priceList.filter(item => item.item_id === e.target.value);
+      debugger;
+    }
   });
 }
 const createTableItemLists = (target, data) => {

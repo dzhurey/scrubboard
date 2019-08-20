@@ -51734,6 +51734,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'agent_group',
       render: function render(data) {
@@ -51850,6 +51852,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -51962,6 +51966,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'id'
     }, {
@@ -52090,6 +52096,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'description'
     }, {
@@ -52275,6 +52283,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -52326,8 +52336,8 @@ if (formCreateCategory.length > 0) {
 
 if (formEditCategory.length > 0) {
   var urlArray = window.location.href.split('/');
-  var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_groups/".concat(idCategory)).then(function (res) {
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_groups/".concat(id)).then(function (res) {
     return assignValue(res.item_group);
   })["catch"](function (res) {
     return console.log(res);
@@ -52338,12 +52348,19 @@ if (formEditCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_groups/".concat(idCategory), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_groups/".concat(id), data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
+      return window.location = '/item_groups';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52378,6 +52395,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -52465,8 +52484,8 @@ if (formCreateSubCategory.length > 0) {
 
 if (formEditSubCategory.length > 0) {
   var urlArray = window.location.href.split('/');
-  var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_sub_categories/".concat(idCategory)).then(function (res) {
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_sub_categories/".concat(id)).then(function (res) {
     return assignValue(res.item_sub_category);
   })["catch"](function (res) {
     return console.log(res);
@@ -52477,12 +52496,19 @@ if (formEditSubCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_sub_categories/".concat(idCategory), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_sub_categories/".concat(id), data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_sub_categories/".concat(id)).then(function (res) {
+      return window.location = '/item_sub_categories';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52548,6 +52574,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -52571,10 +52599,18 @@ var collectPriceLines = function collectPriceLines() {
   $('.check-price-item').change(function (e) {
     var item_id = e.target.value;
     var amount = e.target.parentElement.parentElement.querySelector('.field-price-item').value;
-    priceList.push({
-      item_id: item_id,
-      amount: amount
-    });
+
+    if (e.target.checked) {
+      priceList.push({
+        item_id: item_id,
+        amount: amount
+      });
+    } else {
+      priceList = priceList.filter(function (item) {
+        return item.item_id === e.target.value;
+      });
+      debugger;
+    }
   });
 };
 
@@ -52713,6 +52749,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'number'
     }, {
@@ -55796,8 +55834,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

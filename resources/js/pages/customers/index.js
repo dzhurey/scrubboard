@@ -9,6 +9,8 @@ const createTable = (target, data) => {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [
       { data: 'id' },
       { data: 'name' },

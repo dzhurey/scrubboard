@@ -9,6 +9,8 @@ const createTable = (target, data) => {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [
       { data: 'name' },
       {
@@ -53,8 +55,8 @@ if (formCreateCategory.length > 0) {
 
 if (formEditCategory.length > 0) {
   const urlArray = window.location.href.split('/');
-  const idCategory = urlArray[urlArray.length - 2];
-  ajx.get(`/api/item_groups/${idCategory}`)
+  const id = urlArray[urlArray.length - 2];
+  ajx.get(`/api/item_groups/${id}`)
     .then(res => assignValue(res.item_group))
     .catch(res => console.log(res));
 
@@ -62,7 +64,13 @@ if (formEditCategory.length > 0) {
     e.preventDefault();
     const dataForm = formEditCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/item_groups/${idCategory}`, data).then(res => window.location = '/item_groups').catch(res => console.log(res));
+    ajx.put(`/api/item_groups/${id}`, data).then(res => window.location = '/item_groups').catch(res => console.log(res));
     return false;
+  })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/item_groups/${id}`).then(res => window.location = '/item_groups').catch(res => {
+      alert(res.responseJSON.message)
+    });
   })
 }

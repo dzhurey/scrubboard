@@ -27,11 +27,11 @@ class StorePrice extends FormRequest
      *   "name": "xxx",
      *   "price_lines": [
      *     {
-     *       "price_id": price_id(if exist),
+     *       "price_id": price_id(if exist/update),
      *       "item_id": item_id,
      *       "amount": 238293
      *     }, {
-     *       "price_id": price_id(if exist),
+     *       "price_id": price_id(if exist/update),
      *       "item_id": item_id,
      *       "amount": 238293
      *     }

@@ -21,6 +21,22 @@ class StorePrice extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * input json
+     * {
+     *   "name": "xxx",
+     *   "price_lines": [
+     *     {
+     *       "price_id": price_id(if exist/update),
+     *       "item_id": item_id,
+     *       "amount": 238293
+     *     }, {
+     *       "price_id": price_id(if exist/update),
+     *       "item_id": item_id,
+     *       "amount": 238293
+     *     }
+     *   ]
+     * }
      */
     public function rules()
     {

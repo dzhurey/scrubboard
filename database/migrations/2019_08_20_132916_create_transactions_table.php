@@ -29,7 +29,7 @@ class CreateTransactionsTable extends Migration
             $table->decimal('discount_amount', 20, 2);
             $table->decimal('freight', 20, 2);
             $table->decimal('total_amount', 20, 2);
-            $table->text('note');
+            $table->text('note')->nullable();
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('restrict');
         });

@@ -22,7 +22,7 @@ class CreateTransactionLinesTable extends Migration
             $table->decimal('quantity', 20, 2);
             $table->decimal('unit_price', 20, 2);
             $table->decimal('amount', 20, 2);
-            $table->text('note');
+            $table->text('note')->nullable();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('restrict');
             $table->foreign('item_id')->references('id')->on('items')->onDelete('restrict');

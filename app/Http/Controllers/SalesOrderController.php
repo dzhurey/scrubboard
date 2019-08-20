@@ -29,14 +29,14 @@ class SalesOrderController extends Controller
         $results = $presenter->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'prices' => $results->getCollection(),
+            'sales_orders' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'price.index', $data, [], 200);
+        return $this->renderView($request, 'sales_order.index', $data, [], 200);
     }
 
     public function show(
         Request $request,
-        Price $price,
+        SalesOrder $sales_order,
         SalesOrderPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
@@ -44,7 +44,7 @@ class SalesOrderController extends Controller
         }
 
         $data = [
-            'price' => $presenter->transform($price),
+            'sales_order' => $presenter->transform($sales_order),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }
@@ -58,7 +58,7 @@ class SalesOrderController extends Controller
         $data = [
             'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
         ];
-        return view('price.create', $data);
+        return view('sales_order.create', $data);
     }
 
     public function store(
@@ -72,25 +72,25 @@ class SalesOrderController extends Controller
         $validated = $request->validated();
         $service->perform($validated);
 
-        return $this->renderView($request, '', [], ['route' => 'prices.index', 'data' => []], 201);
+        return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 201);
     }
 
-    public function edit(Price $price)
+    public function edit(SalesOrder $sales_order)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
-            'price' => $price,
+            'sales_order' => $sales_order,
             'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
         ];
-        return view('price.edit', $data);
+        return view('sales_order.edit', $data);
     }
 
     public function update(
         StoreSalesOrder $request,
-        Price $price,
+        SalesOrder $sales_order,
         SalesOrderUpdateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
@@ -98,17 +98,17 @@ class SalesOrderController extends Controller
         }
 
         $validated = $request->validated();
-        $service->perform($validated, $price);
-        return $this->renderView($request, '', [], ['route' => 'prices.edit', 'data' => ['price' => $price->id]], 204);
+        $service->perform($validated, $sales_order);
+        return $this->renderView($request, '', [], ['route' => 'sales_orders.edit', 'data' => ['sales_order' => $sales_order->id]], 204);
     }
 
-    public function destroy(Request $request, Price $price)
+    public function destroy(Request $request, SalesOrder $sales_order)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $price->delete();
-        return $this->renderView($request, '', [], ['route' => 'prices.index', 'data' => []], 204);
+        $sales_order->delete();
+        return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 204);
     }
 }

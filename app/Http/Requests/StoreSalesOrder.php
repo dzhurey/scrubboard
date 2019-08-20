@@ -27,7 +27,6 @@ class StoreSalesOrder extends FormRequest
     {
         $rules = [
             'customer_id' => 'required',
-            'transaction_type' => 'required|in:'.join(array_keys(Transaction::TRANSACTION_TYPES), ','),
             'order_type' => 'required|in:'.join(array_keys(Transaction::ORDER_TYPES), ','),
             'transaction_date' => 'required|date_format:"Y-m-d"',
             'pickup_date' => 'required|date_format:"Y-m-d"',

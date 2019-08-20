@@ -41,6 +41,7 @@ class SalesOrderStoreService extends BaseService
     private function createTransaction($attributes)
     {
         $attributes['transaction_type'] = SalesOrder::TRANSACTION_TYPE;
+        $attributes['transaction_status'] = 'open';
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }
@@ -48,7 +49,7 @@ class SalesOrderStoreService extends BaseService
     private function createTransactionLines($attributes)
     {
         $lines = [];
-        foreach ($attributes['lines'] as $key => $value) {
+        foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $model_line = new TransactionLine();
             array_push($lines, $this->assignAttributes($model_line, $value));

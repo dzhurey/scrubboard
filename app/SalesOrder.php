@@ -15,4 +15,9 @@ class SalesOrder extends Transaction
 
         static::addGlobalScope(new OrderScope);
     }
+
+    public function transactionLines()
+    {
+        return $this->hasMany('App\TransactionLine', 'transaction_id');
+    }
 }

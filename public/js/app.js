@@ -52071,9 +52071,16 @@ if (formCreateCustomer.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var tableItem = $('#table-item');
 var formCreateItem = $('#form-create-item');
+var formEditItem = $('#form-edit-item');
 var selectSubCategory = $('#item_sub_category_id');
 var selectPriceLists = $('#price_list');
 
@@ -52185,6 +52192,56 @@ if (selectPriceLists.length > 0) {
     }
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (formCreateItem.length > 0) {
+  $('#button-delete').remove();
+  formCreateItem.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateItem.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/items', data).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditItem.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(id)).then(function (res) {
+    $('#item_type').val(res.item.item_type);
+    $('#description').val(res.item.description);
+    $('#item_group_id').val(res.item.item_group.id);
+    $('#item_sub_category_id').val(res.item.item_sub_category.id);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditItem.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditItem.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/items/".concat(id)).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52472,10 +52529,18 @@ if (loginForm.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var priceList = [];
 var tablePrice = $('#table-price');
 var tableItemsList = $('#table-item-price-list');
-var formCreateSubCategory = $('#form-create-price');
+var formCreatePrice = $('#form-create-price');
+var formEditPrice = $('#form-edit-price');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -52502,6 +52567,17 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var collectPriceLines = function collectPriceLines() {
+  $('.check-price-item').change(function (e) {
+    var item_id = e.target.value;
+    var amount = e.target.parentElement.parentElement.querySelector('.field-price-item').value;
+    priceList.push({
+      item_id: item_id,
+      amount: amount
+    });
+  });
+};
+
 var createTableItemLists = function createTableItemLists(target, data) {
   target.DataTable({
     data: data,
@@ -52512,13 +52588,19 @@ var createTableItemLists = function createTableItemLists(target, data) {
       data: 'id',
       className: 'checkbox',
       render: function render(data) {
-        return "<input type=\"checkbox\" name=\"price_lines[item_id][]\" value=\"".concat(data, "\"/>");
+        return "<input id=\"check-".concat(data, "\" class=\"check-price-item\" type=\"checkbox\" name=\"price_lines[item_id][]\" value=\"").concat(data, "\"/>");
       }
     }, {
       data: 'description'
     }, {
-      data: 'price'
-    }]
+      data: 'price',
+      render: function render(data) {
+        return "<input class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"".concat(data, "\"/>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      collectPriceLines();
+    }
   });
 };
 
@@ -52538,37 +52620,68 @@ if (tableItemsList.length > 0) {
   });
 }
 
-var $form = $('#formPrice');
-var $submitButton = $('#buttonSubmit');
-$submitButton.on('click', function () {
-  var priceLines = [];
-  $('#dynamicForm .entry').each(function () {
-    data = {
-      item_id: $(this).find('select option:selected').val(),
-      amount: $(this).find('input[name="price_lines[amount][]"]').val()
-    };
-    priceLines.push(data);
+if (formCreatePrice.length > 0) {
+  $('#button-delete').remove();
+  formCreatePrice.submit(function (e) {
+    e.preventDefault();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
+      name: $('#name').val(),
+      price_lines: priceList
+    }).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
   });
-  debugger;
-  var data = {
-    name: $form.find('input[name="name"]').val(),
-    price_lines: priceLines
-  };
-  $.ajax({
-    url: $form.attr('action'),
-    type: 'post',
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-CSRF-TOKEN": $form.find('input[name="_token"]').val()
-    },
-    dataType: 'json',
-    success: function success(data) {
-      alert('data berhasil disimpan');
-    }
+}
+
+if (formEditPrice.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
+    $('#name').val(res.price.name);
+    var prices = res.price.price_lines;
+    prices.map(function (res) {
+      $("#check-".concat(res.item_id)).attr('checked', true);
+
+      if ($("#check-".concat(res.item_id)).prop('checked')) {
+        var item_id = $("#check-".concat(res.item_id)).val();
+        var amount = $("#check-".concat(res.item_id)).closest('tr')[0].querySelector('.field-price-item').value;
+        priceList.push({
+          item_id: item_id,
+          amount: amount
+        });
+      }
+    });
+  })["catch"](function (res) {
+    return console.log(res);
   });
-});
+  formEditPrice.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditPrice.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    debugger;
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
+      name: $('#name').val(),
+      price_lines: priceList
+    }).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/prices/".concat(id)).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -55653,6 +55766,12 @@ __webpack_require__.r(__webpack_exports__);
       contentType: 'application/json',
       data: JSON.stringify(data)
     });
+  },
+  "delete": function _delete(url, data) {
+    return $.ajax({
+      type: 'DELETE',
+      url: url
+    });
   }
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -55677,8 +55796,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

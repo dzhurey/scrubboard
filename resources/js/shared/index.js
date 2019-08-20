@@ -38,4 +38,11 @@ export default {
       data: JSON.stringify(data),
     });
   },
+
+  delete: (url, data) => {
+    return $.ajax({
+      type: 'DELETE',
+      url: url
+    })
+  }
 };

@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-create-price-lists" class="c-form needs-validation" method="POST" action="{{ route('prices.store') }}" novalidate>
+<form id="form-create-price" class="c-form needs-validation" novalidate>
     @include('price._form_field')
 </form>
 @endsection

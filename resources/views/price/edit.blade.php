@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-edit-price-lists" class="c-form needs-validation" novalidate>
+<form id="form-edit-price" class="c-form needs-validation" novalidate>
     @include('price._form_field')
 </form>
 @endsection

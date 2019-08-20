@@ -83,7 +83,7 @@ class PriceController extends Controller
 
         $data = [
             'price' => $price,
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'items' => Item::orderBy('id', 'ASC')->get()
         ];
         return view('price.edit', $data);
     }

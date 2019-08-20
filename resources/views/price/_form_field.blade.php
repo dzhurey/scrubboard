@@ -1,10 +1,6 @@
-{{ csrf_field() }}
 <div class="form-group">
-    <label>Nama</label>
-    <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ !empty($price->id) ? $price->name : old('name') }}">
-    @if ($errors->has('name'))
-        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-    @endif
+    <label for="name">Nama</label>
+    <input id="name" class="form-control" type="text" name="name">
 </div>
 <div class="form-group">
     <label>List Harga</label>
@@ -12,37 +8,11 @@
         <table id="table-item-price-list" class="c-table table table-striped">
             <thead>
                 <tr>
-                    <th width="10%">
-                        <!-- <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkAll">
-                        </div> -->
-                    </th>
-                    <th width="60%">Description</th>
-                    <th width="30%">Price</th>
+                    <th class="checkbox"></th>
+                    <th>Description</th>
+                    <th>Price</th>
                 </tr>
             </thead>
-            <tbody>
-            @foreach ($items as $item)
-                <tr>
-                    <th>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="input-checkbox-{{ $item->id }}">
-                            <input type="hidden" id="input-checkbox-{{ $item->id }}" name="price_lines[{{ $item->id }}][item_id]" value="{{ $item->id }}">
-                            @isset($price)
-                                <input type="hidden" id="input-checkbox-{{ $item->id }}" name="price_lines[{{ $item->id }}][price_id]" value="{{ $price->id }}">
-                            @endif
-                        </div>
-                    </th>
-                    <td>{{ $item->description }}</td>
-                    <td>
-                        <div class="col">
-                            <input class="form-control" id="input-amount-{{ $item->id }}" name="price_lines[{{ $item->id }}][amount]" required="">
-                            <div class="invalid-feedback">Data invalid.</div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
         </table>
     </div>
 </div>

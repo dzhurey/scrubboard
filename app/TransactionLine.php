@@ -4,7 +4,7 @@ namespace App;
 
 use App\BaseModel;
 
-class Agent extends BaseModel
+class TransactionLine extends BaseModel
 {
     protected $fillable = [
         'transaction_id',

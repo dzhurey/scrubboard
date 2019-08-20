@@ -4,8 +4,13 @@ namespace App;
 
 use App\BaseModel;
 
-class Agent extends BaseModel
+class Transaction extends BaseModel
 {
+    const TRANSACTION_TYPES = [
+        'order' => 'Sales Order',
+        'invoice' => 'Sales Invoice',
+    ];
+
     protected $fillable = [
         'transaction_type',
         'transaction_status',

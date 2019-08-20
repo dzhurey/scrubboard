@@ -1,4 +1,4 @@
-{{ csrf_field() }}
+<!-- {{ csrf_field() }} -->
 <div class="form-group">
     <label>Nama</label>
     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ !empty($courier->id) ? $courier->name : old('name') }}">
@@ -19,7 +19,7 @@
         <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
     </div>
     <div class="col-sm-6 text-right">
-        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <a href="{{ route('couriers.index') }}" class="btn btn-light mr-2">Cancel</a>
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

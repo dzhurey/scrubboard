@@ -2,11 +2,19 @@
 
 namespace App;
 
+use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 use App\BaseModel;
+use App\SalesOrder;
 
 class Transaction extends BaseModel
 {
+    use SingleTableInheritanceTrait;
+
     protected $table = 'transactions';
+
+    protected static $singleTableTypeField = 'transaction_type';
+
+    protected static $singleTableSubclasses = [SalesOrder::class];
 
     const TRANSACTION_TYPES = [
         'order' => 'Sales Order',

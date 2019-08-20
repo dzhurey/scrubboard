@@ -70,7 +70,7 @@ class PriceUpdateService extends BaseService
 
     private function removeExcluded($attributes)
     {
-        $from_request = array_map(function ($item) { return $item['price_id']; }, $attributes['price_lines']);
+        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['price_lines']);
         $price_lines = $this->model->priceLines->pluck('item_id');
         $result = [];
 
@@ -82,6 +82,6 @@ class PriceUpdateService extends BaseService
             }
         }
 
-        $this->model->priceLines->whereIn('price_id', $result)->each->delete();
+        $this->model->priceLines->whereIn('item_id', $result)->each->delete();
     }
 }

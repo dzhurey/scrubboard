@@ -31,3 +31,4 @@ Route::middleware('web')->resource('prices', 'PriceController');
 Route::middleware('web')->resource('agents', 'AgentController');
 
 Route::middleware('web')->resource('sales_orders', 'SalesOrderController');
+Route::middleware('web')->resource('sales_invoices', 'SalesInvoiceController');

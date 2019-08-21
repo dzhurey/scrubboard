@@ -11,8 +11,8 @@
 </div>
 @else
 <div class="text-center py-5 mt-5">
-    <img src="{{ asset('assets/images/icons/users.svg') }}" width="90" style="opacity: 0.7">
-    <h2 class="mt-3 mb-2">No data customers</h2>
-    <p style="opacity: 0.5">Your customers data will show here</p>
+    <img src="{{ asset('assets/images/icons/credit-card.svg') }}" width="90" style="opacity: 0.7">
+    <h2 class="mt-3 mb-2">No data bank</h2>
+    <p style="opacity: 0.5">Your bank data will show here</p>
 </div>
 @endif

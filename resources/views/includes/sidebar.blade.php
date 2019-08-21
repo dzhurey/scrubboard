@@ -6,7 +6,7 @@
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">
           </a>
         </div>
-        <a class="btn btn-primary btn-block btn-lg" href="#" data-toggle="tooltip" data-placement="right"
+        <a class="btn btn-primary btn-block btn-lg" href="{{ route('sales_orders.index') }}" data-toggle="tooltip" data-placement="right"
             title="Sales Order">
             <span>
                 <img class="svg" src="{{ asset('assets/images/icons/plus.svg') }}">

@@ -4,7 +4,7 @@ namespace App;
 
 use App\BaseModel;
 
-class DeliveryScheduleLine extends BaseModel
+class CourierScheduleLine extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +12,7 @@ class DeliveryScheduleLine extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'delivery_schedule_id',
+        'courier_schedule_id',
         'transaction_id',
         'estimation_time',
         'image_name',
@@ -21,8 +21,8 @@ class DeliveryScheduleLine extends BaseModel
 
     protected $searchable = [];
 
-    public function deliverySchedule()
+    public function courierSchedule()
     {
-        return $this->belongsTo('App\DeliverySchedule');
+        return $this->belongsTo('App\CourierSchedule');
     }
 }

@@ -4,7 +4,7 @@ namespace App;
 
 use App\BaseModel;
 
-class DeliverySchedule extends BaseModel
+class CourierSchedule extends BaseModel
 {
     /**
      * The attributes that are mass assignable.
@@ -23,8 +23,8 @@ class DeliverySchedule extends BaseModel
         'courier__number',
     ];
 
-    public function deliveryScheduleLines()
+    public function courierScheduleLines()
     {
-        return $this->hasMany('App\DeliveryScheduleLine');
+        return $this->hasMany('App\CourierScheduleLine');
     }
 }

@@ -1,6 +1,6 @@
 $.ajaxSetup({
   beforeSend: (xhr) => {
-    const token = sessionStorage.token;
+    const token = localStorage.token;
     xhr.setRequestHeader('Authorization', token);
     xhr.setRequestHeader('accept', 'application/json');
   },

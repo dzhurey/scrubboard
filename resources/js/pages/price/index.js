@@ -42,7 +42,7 @@ const collectPriceLines = () => {
       priceList.push({
         item_id: item_id,
         amount: amount,
-        price_id: e.target.getAttribute('price_id'),
+        price_id: e.target.hasAttribute('price_id') ? e.target.getAttribute('price_id') : 0,
       })
     } else {
       priceList = priceList.filter(item => item.item_id !== parseInt(e.target.value));

@@ -69,4 +69,10 @@ if (formEditBank.length > 0) {
     ajx.put(`/api/bank_accounts/${idCategory}`, data).then(res => window.location = '/bank_accounts').catch(res => console.log(res));
     return false;
   })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/bank_accounts/${idCategory}`).then(res => window.location = '/bank_accounts').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

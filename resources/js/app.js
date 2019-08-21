@@ -19,6 +19,7 @@ require('./pages/vehicle/index.js');
 require('./pages/bank/index.js');
 require('./pages/agent/index.js');
 require('./pages/courir/index.js');
+require('./pages/people/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

@@ -35,8 +35,11 @@ const assignValue = (data) => {
   keys.forEach((key) => {
     if($(`input[name=${key}]`).length > 0) {
       const input = $(`input[name=${key}]`);
-      if(input.attr('type') === 'radio') $(`#${key}_${data[key]}`).attr('checked', true);
-      input.val(data[key]);
+      if(input.attr('type') === 'radio') {
+        $(`#${key}_${data[key]}`).attr('checked', true);
+      } else {
+        input.val(data[key]);
+      }
     }
     if($(`select[name=${key}]`).length > 0) $(`select[name=${key}]`).val(data[key]);
     if($(`textarea[name=${key}]`).length > 0) $(`textarea[name=${key}]`).val(data[key]);
@@ -76,6 +79,12 @@ if (formEditCustomer.length > 0) {
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => console.log(res));
     return false;
+  })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/customers/${idCustomer}`).then(res => window.location = '/customers').catch(res => {
+      alert(res.responseJSON.message)
+    });
   })
 }
 

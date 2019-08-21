@@ -10,7 +10,7 @@
                     <li class="breadcrumb-item">
                         <a href="{{ route('vehicles.index') }}">Vehicle data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Vehicle data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add vehicle data</li>
                 </ol>
             </nav>
             <h1 class="mb-0">Add vehicle data</h1>

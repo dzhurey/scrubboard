@@ -8,7 +8,7 @@ if (loginForm.length > 0) {
       "email": $('#email').val(),
       "password": $('#password').val()
     }).then((res) => {
-      sessionStorage.setItem('token', `Bearer ${res.access_token}`);
+      localStorage.setItem('token', `Bearer ${res.access_token}`);
     }).catch(res => console.log(res));
   })
 }

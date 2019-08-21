@@ -16,7 +16,7 @@
     </div>
     <nav class="c-nav">
         <div class="c-nav--item" id="sales" data-toggle="tooltip" data-placement="right" title="Sales Order">
-            <a class="{{ (request()->segment(1) == 'sales') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
+            <a class="{{ (request()->segment(1) == 'sales_orders') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/shopping-bag.svg') }}">
                 </span>

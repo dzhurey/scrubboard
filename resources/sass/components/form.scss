@@ -2,10 +2,13 @@
   background-color: $blank;
   border-radius: 4px;
   box-shadow: 0 2px 5px 0 rgba(13,38,57,0.05);
-  margin: 20px auto;
+  margin: 20px auto 120px;
   padding: 30px;
   max-width: 1024px;
   display: block;
+  &.is-fluid {
+    max-width: calc(100% - 40px);
+  }
   &--title {
     color: $blue-dodger;
     font-size: 13px;

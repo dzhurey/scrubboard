@@ -78,9 +78,14 @@ h5 {
   background-color: #3386FF;
 }
 
+.btn-secondary {
+  border: 0;
+}
+
 .btn-light {
   background-color: #FFFFFF;
   border-color: #FFFFFF;
+  border: 0;
 }
 
 .btn-danger {
@@ -446,12 +451,12 @@ h5 {
 
 .c-table.table th.th-item,
 .c-table.table td.th-item {
-  width: 290px;
+  width: 260px;
 }
 
 .c-table.table th.th-note,
 .c-table.table td.th-note {
-  width: 230px;
+  width: 200px;
 }
 
 .c-table.table th.th-qty,
@@ -468,6 +473,11 @@ h5 {
 .c-table.table td.th-price,
 .c-table.table td.th-total {
   width: 130px;
+}
+
+.c-table.table th.th-dcs,
+.c-table.table td.th-dcs {
+  width: 85px;
 }
 
 .c-pagination,
@@ -527,10 +537,14 @@ h5 {
   background-color: #FFFFFF;
   border-radius: 4px;
   box-shadow: 0 2px 5px 0 rgba(13, 38, 57, 0.05);
-  margin: 20px auto;
+  margin: 20px auto 120px;
   padding: 30px;
   max-width: 1024px;
   display: block;
+}
+
+.c-form.is-fluid {
+  max-width: calc(100% - 40px);
 }
 
 .c-form--title {

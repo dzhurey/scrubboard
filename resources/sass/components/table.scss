@@ -42,10 +42,10 @@
     }
     th, td {
       &.th-item {
-        width: 290px;
+        width: 260px;
       }
       &.th-note {
-        width: 230px;
+        width: 200px;
       }
       &.th-qty,
       &.th-action,
@@ -55,6 +55,9 @@
       &.th-price,
       &.th-total {
         width: 130px;
+      }
+      &.th-dcs {
+        width: 85px;
       }
     }
   }

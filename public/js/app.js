@@ -51703,6 +51703,8 @@ __webpack_require__(/*! ./pages/courir/index.js */ "./resources/js/pages/courir/
 
 __webpack_require__(/*! ./pages/people/index.js */ "./resources/js/pages/people/index.js");
 
+__webpack_require__(/*! ./pages/sales_order/index.js */ "./resources/js/pages/sales_order/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -52961,6 +52963,101 @@ if (formEditPrice.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/sales_order/index.js":
+/*!*************************************************!*\
+  !*** ./resources/js/pages/sales_order/index.js ***!
+  \*************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var customerList = $('#customer_id');
+var outletList = $('#outlet');
+var orderType = $('#order_type');
+var statusOrder = $('#status_order');
+var formCreateSalesOrder = $('#form-create-sales-order');
+
+if (customerList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/customers').then(function (res) {
+    var items = res.customers.data;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        customerList.append(option);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (outletList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
+    var items = res.agents.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        outletList.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateSalesOrder.length > 0) {
+  statusOrder.val(orderType.val() === 'general' ? 'open' : 'closed');
+  orderType.change(function (e) {
+    statusOrder.val(e.target.value === 'general' ? 'open' : 'closed');
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/vehicle/index.js":
 /*!*********************************************!*\
   !*** ./resources/js/pages/vehicle/index.js ***!
@@ -53137,7 +53234,8 @@ if (formEditVehicle.length > 0) {
   };
 
   $('.select2').select2({
-    theme: 'bootstrap'
+    theme: 'bootstrap',
+    placeholder: 'Choose option'
   });
   $('#is_same_address').change(function (e) {
     var target = $('#is_same_address_content');

@@ -1,6 +1,7 @@
 <div class="form-group">
     <label for="name">Nama</label>
-    <input id="name" class="form-control" type="text" name="name">
+    <input id="name" class="form-control" type="text" name="name" required>
+    <div class="invalid-feedback">Data invalid.</div>
 </div>
 <div class="form-group">
     <label>List Harga</label>

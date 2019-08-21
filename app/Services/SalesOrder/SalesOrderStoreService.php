@@ -42,6 +42,9 @@ class SalesOrderStoreService extends BaseService
     {
         $attributes['transaction_type'] = SalesOrder::TRANSACTION_TYPE;
         $attributes['transaction_status'] = 'open';
+        if ($attributes['order_type'] == 'endorser') {
+            $attributes['transaction_status'] = 'closed';
+        }
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

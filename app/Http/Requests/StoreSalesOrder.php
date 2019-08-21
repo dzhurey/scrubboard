@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
+use App\Transaction;
+
+class StoreSalesOrder extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     *
+     * input json
+     * {
+     *      "customer_id": 1,
+     *      "order_type": "general",
+     *      "transaction_date": "2019-08-20",
+     *      "pickup_date": "2019-08-21",
+     *      "delivery_date": "2019-08-22",
+     *      "original_amount": 70000,
+     *      "discount": 0,
+     *      "discount_amount": 0,
+     *      "freight": 10000,
+     *      "total_amount": 80000,
+     *      "note": "",
+     *      "transaction_lines": [
+     *          {
+     *              "item_id": 1,
+     *              "note": "",
+     *              "quantity": 2,
+     *              "unit_price": 35000,
+     *              "amount": 70000
+     *          }
+     *      ]
+     *  }
+     */
+    public function rules()
+    {
+        $rules = [
+            'customer_id' => 'required',
+            'order_type' => 'required|in:'.join(array_keys(Transaction::ORDER_TYPES), ','),
+            'transaction_date' => 'required|date_format:"Y-m-d"',
+            'pickup_date' => 'required|date_format:"Y-m-d"',
+            'delivery_date' => 'required|date_format:"Y-m-d"',
+            'original_amount' => 'required|numeric',
+            'discount' => 'numeric',
+            'discount_amount' => 'numeric',
+            'freight' => 'numeric',
+            'total_amount' => 'required|numeric',
+            'note' => 'nullable|string',
+        ];
+
+        foreach($this->request->get('transaction_lines') as $key => $val)
+        {
+            $rules['transaction_lines.'.$key.'.item_id'] = 'required';
+            $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
+            $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.unit_price'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
+        }
+
+        return $rules;
+    }
+}

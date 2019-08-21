@@ -51822,6 +51822,13 @@ if (formEditAgent.length > 0) {
     });
     return false;
   });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/agents/".concat(id)).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
@@ -51924,6 +51931,13 @@ if (formEditBank.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52142,6 +52156,13 @@ if (formEditCustomer.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/customers/".concat(idCustomer)).then(function (res) {
+      return window.location = '/customers';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 
@@ -52766,6 +52787,13 @@ if (formEditUser.length > 0) {
     });
     return false;
   });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/people/".concat(id)).then(function (res) {
+      return window.location = '/people';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
@@ -53022,6 +53050,13 @@ if (formEditVehicle.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/vehicles/".concat(id)).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

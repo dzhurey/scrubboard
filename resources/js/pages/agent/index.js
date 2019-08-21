@@ -82,4 +82,10 @@ if (formEditAgent.length > 0) {
     ajx.put(`/api/agents/${id}`, data).then(res => window.location = '/agents').catch(res => console.log(res));
     return false;
   })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/agents/${id}`).then(res => window.location = '/agents').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

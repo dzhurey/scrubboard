@@ -80,6 +80,12 @@ if (formEditCustomer.length > 0) {
     ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => console.log(res));
     return false;
   })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/customers/${idCustomer}`).then(res => window.location = '/customers').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }
 
 if (formCreateCustomer.length > 0) {

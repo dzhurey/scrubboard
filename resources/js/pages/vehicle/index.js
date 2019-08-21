@@ -59,4 +59,10 @@ if (formEditVehicle.length > 0) {
     ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => console.log(res));
     return false;
   })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/vehicles/${id}`).then(res => window.location = '/vehicles').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

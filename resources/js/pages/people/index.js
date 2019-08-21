@@ -93,4 +93,10 @@ if (formEditUser.length > 0) {
     ajx.put(`/api/people/${id}`, data).then(res => window.location = '/people').catch(res => console.log(res));
     return false;
   })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/people/${id}`).then(res => window.location = '/people').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

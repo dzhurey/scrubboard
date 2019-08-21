@@ -198,6 +198,18 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h2 class="c-form--title mt-5">Assign price list</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="price_list">Price list</label>
+            <select class="form-control" id="price_list" name="price_id" required></select>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+    </div>
+</div>
+
 <hr class="my-4">
 <div class="row">
     <div class="col-sm-6 text-left">

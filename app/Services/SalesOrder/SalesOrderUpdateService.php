@@ -41,14 +41,15 @@ class SalesOrderUpdateService extends BaseService
 
     private function updateTransaction($attributes)
     {
-        $this->model = $this->assignAttributes($this->model, $attributes);
+        $this->model = $this->assignAttributes($this->model, $attributes, ['transaction_type', 'transaction_status']);
         $this->model->save();
     }
 
     private function updateTransactionLines($attributes)
     {
         $lines = [];
-        foreach ($attributes['lines'] as $key => $value) {
+        foreach ($attributes['transaction_lines'] as $key => $value) {
+            $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
             array_push($lines, $this->assignAttributes($line, $value));
         }
@@ -57,7 +58,7 @@ class SalesOrderUpdateService extends BaseService
 
     private function getOrCreateTransactionLine($value)
     {
-        $line = TransactionLine::find($value['id']);
+        $line = $this->model->transactionLines->where('item_id', '=', $value['item_id'])->first();
         if (empty($line)) {
             $line = new TransactionLine();
         }
@@ -66,8 +67,8 @@ class SalesOrderUpdateService extends BaseService
 
     private function removeExcluded($attributes)
     {
-        $from_request = array_map(function ($item) { return $item['id']; }, $attributes['lines']);
-        $lines = $this->model->transactionLines->pluck('id');
+        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['transaction_lines']);
+        $lines = $this->model->transactionLines->pluck('item_id');
         $result = [];
 
         if (sizeof($from_request) < $lines->count()) {
@@ -77,6 +78,7 @@ class SalesOrderUpdateService extends BaseService
                 }
             }
         }
-        TransactionLine::destroy($result);
+
+        $this->model->transactionLines->whereIn('item_id', $result)->each->delete();
     }
 }

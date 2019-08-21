@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeliveryScheduleLinesTable extends Migration
+class CreateCourierScheduleLinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,17 @@ class CreateDeliveryScheduleLinesTable extends Migration
      */
     public function up()
     {
-        Schema::create('delivery_schedule_lines', function (Blueprint $table) {
+        Schema::create('courier_schedule_lines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->integer('delivery_schedule_id')->unsigned();
+            $table->integer('courier_schedule_id')->unsigned();
             $table->integer('transaction_id')->unsigned();
             $table->time('estimation_time');
             $table->string('image_name')->nullable();
-            $table->boolean('is_delivered')->default(false);
+            $table->enum('status', ['scheduled', 'overdue', 'done'])->default('scheduled');
 
-            $table->foreign('delivery_schedule_id')->references('id')->on('delivery_schedules')->onDelete('cascade');
+            $table->foreign('courier_schedule_id')->references('id')->on('courier_schedules')->onDelete('cascade');
         });
     }
 
@@ -34,6 +34,6 @@ class CreateDeliveryScheduleLinesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('delivery_schedule_lines');
+        Schema::dropIfExists('courier_schedule_lines');
     }
 }

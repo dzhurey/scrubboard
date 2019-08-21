@@ -11,10 +11,11 @@
         "php": "^7.1.3",
         "barryvdh/laravel-cors": "^0.11.3",
         "fideloper/proxy": "^4.0",
+        "fzaninotto/faker": "^1.4",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "fzaninotto/faker": "^1.4",
         "laravelcollective/html": "^5.8.0",
+        "nanigans/single-table-inheritance": "0.8.*",
         "tymon/jwt-auth": "1.0.*"
     },
     "require-dev": {

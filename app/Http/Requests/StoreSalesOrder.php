@@ -22,6 +22,30 @@ class StoreSalesOrder extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * input json
+     * {
+     *      "customer_id": 1,
+     *      "order_type": "general",
+     *      "transaction_date": "2019-08-20",
+     *      "pickup_date": "2019-08-21",
+     *      "delivery_date": "2019-08-22",
+     *      "original_amount": 70000,
+     *      "discount": 0,
+     *      "discount_amount": 0,
+     *      "freight": 10000,
+     *      "total_amount": 80000,
+     *      "note": "",
+     *      "transaction_lines": [
+     *          {
+     *              "item_id": 1,
+     *              "note": "",
+     *              "quantity": 2,
+     *              "unit_price": 35000,
+     *              "amount": 70000
+     *          }
+     *      ]
+     *  }
      */
     public function rules()
     {

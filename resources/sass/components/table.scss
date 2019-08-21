@@ -42,22 +42,22 @@
     }
     th, td {
       &.th-item {
-        width: 260px;
+        width: 260px !important;
       }
       &.th-note {
-        width: 200px;
+        width: 200px !important;
       }
       &.th-qty,
       &.th-action,
       &:last-child {
-        width: 50px;
+        width: 50px !important;
       }
       &.th-price,
       &.th-total {
-        width: 130px;
+        width: 130px !important;
       }
       &.th-dcs {
-        width: 85px;
+        width: 85px !important;
       }
     }
   }

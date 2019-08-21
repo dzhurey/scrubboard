@@ -451,12 +451,12 @@ h5 {
 
 .c-table.table th.th-item,
 .c-table.table td.th-item {
-  width: 260px;
+  width: 260px !important;
 }
 
 .c-table.table th.th-note,
 .c-table.table td.th-note {
-  width: 200px;
+  width: 200px !important;
 }
 
 .c-table.table th.th-qty,
@@ -465,19 +465,19 @@ h5 {
 .c-table.table td.th-qty,
 .c-table.table td.th-action,
 .c-table.table td:last-child {
-  width: 50px;
+  width: 50px !important;
 }
 
 .c-table.table th.th-price,
 .c-table.table th.th-total,
 .c-table.table td.th-price,
 .c-table.table td.th-total {
-  width: 130px;
+  width: 130px !important;
 }
 
 .c-table.table th.th-dcs,
 .c-table.table td.th-dcs {
-  width: 85px;
+  width: 85px !important;
 }
 
 .c-pagination,

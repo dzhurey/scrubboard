@@ -52978,7 +52978,76 @@ var customerList = $('#customer_id');
 var outletList = $('#outlet');
 var orderType = $('#order_type');
 var statusOrder = $('#status_order');
+var listItems = $('.list-item');
 var formCreateSalesOrder = $('#form-create-sales-order');
+var tableSOItems = $('#table-so-item');
+
+var chooseCustoemr = function chooseCustoemr() {
+  customerList.change(function (e) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(e.target.value)).then(function (res) {
+      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
+        var prices = res.price.price_lines;
+        createTableSO(tableSOItems, prices);
+      })["catch"](function (res) {
+        return console.log(res);
+      });
+    })["catch"](function (res) {
+      return console.log(res);
+    }).abort();
+  });
+};
+
+var createTableSO = function createTableSO(target, data) {
+  target.DataTable({
+    destroy: true,
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 30,
+    columns: [{
+      data: 'id',
+      render: function render(data) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return data;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"#\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"./../assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>";
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+      chooseCustoemr();
+    }
+  });
+};
 
 if (customerList.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/customers').then(function (res) {
@@ -53053,6 +53122,7 @@ if (formCreateSalesOrder.length > 0) {
   orderType.change(function (e) {
     statusOrder.val(e.target.value === 'general' ? 'open' : 'closed');
   });
+  chooseCustoemr();
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

@@ -11,14 +11,14 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="customer_id">Customer</label>
-            <select class="form-control select2" id="customer_id" name="customer_id" required>
+            <select class="form-control" id="customer_id" name="customer_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="outlet">Outlet</label>
-            <select class="form-control select2" id="outlet" name="outlet" required>
+            <select class="form-control" id="outlet" name="outlet" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
@@ -60,7 +60,7 @@
 </div>
 
 <div class="c-table--outer mx-0">
-    <table class="c-table table table-striped">
+    <table id="table-so-item" class="c-table table table-striped">
         <thead>
             <tr>
                 <th class="th-item">Item</th>
@@ -72,64 +72,6 @@
                 <th class="th-action"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <select class="form-control select2 select2-hidden-accessible" required="" data-select2-id="3" tabindex="-1" aria-hidden="true">
-                        <option></option>
-                        <option value="I681239" data-select2-id="5">I681239 - Single seat stroller</option>
-                    </select>
-                </td>
-                <td>
-                    <input class="form-control">
-                </td>
-                <td>
-                    <input class="form-control" required="" value="1">
-                </td>
-                <td>
-                    <input class="form-control" required="" value="0">
-                </td>
-                <td>
-                    <input class="form-control" readonly="" value="Rp. 100.000">
-                </td>
-                <td>
-                    <input class="form-control" readonly="" value="Rp. 100.000">
-                </td>
-                <td class="align-middle">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#confirm">
-                        <img src="./../../../assets/images/icons/trash.svg" alt="trash" width="16">
-                    </a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <select class="form-control select2 select2-hidden-accessible" required="" data-select2-id="6" tabindex="-1" aria-hidden="true">
-                        <option></option>
-                        <option value="I681239" data-select2-id="8">I681239 - Single seat stroller</option>
-                    </select>
-                </td>
-                <td>
-                    <input class="form-control">
-                </td>
-                <td>
-                    <input class="form-control" required="" value="1">
-                </td>
-                <td>
-                    <input class="form-control" required="" value="0">
-                </td>
-                <td>
-                    <input class="form-control" readonly="" value="Rp. 100.000">
-                </td>
-                <td>
-                    <input class="form-control" readonly="" value="Rp. 100.000">
-                </td>
-                <td class="align-middle">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#confirm">
-                        <img src="./../../../assets/images/icons/plus.svg" alt="trash" width="16">
-                    </a>
-                </td>
-            </tr>
-        </tbody>
     </table>
 </div>
 

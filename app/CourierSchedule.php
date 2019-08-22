@@ -2,10 +2,21 @@
 
 namespace App;
 
+use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 use App\BaseModel;
+use App\PickupSchedule;
+use App\DeliverySchedule;
 
 class CourierSchedule extends BaseModel
 {
+    use SingleTableInheritanceTrait;
+
+    protected $table = 'courier_schedules';
+
+    protected static $singleTableTypeField = 'schedule_type';
+
+    protected static $singleTableSubclasses = [PickupSchedule::class, DeliverySchedule::class];
+
     const SCHEDULE_TYPES = [
         'pickup' => 'Pick Up',
         'delivery' => 'Delivery',

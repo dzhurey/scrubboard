@@ -32,3 +32,4 @@ Route::middleware('web')->resource('agents', 'AgentController');
 
 Route::middleware('web')->resource('sales_orders', 'SalesOrderController');
 Route::middleware('web')->resource('sales_invoices', 'SalesInvoiceController');
+Route::middleware('web')->resource('pickup_schedules', 'PickupScheduleController');

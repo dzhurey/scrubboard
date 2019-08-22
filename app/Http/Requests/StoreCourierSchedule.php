@@ -29,7 +29,6 @@ class StoreCourierSchedule extends FormRequest
         $rules = [
             'courier_id' => 'required',
             'vehicle_id' => 'required',
-            'schedule_type' => 'required|in:'.join(array_keys(CourierSchedule::SCHEDULE_TYPES), ','),
             'schedule_date' => 'required|date_format:"Y-m-d"'
         ];
 

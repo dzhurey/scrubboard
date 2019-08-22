@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\SalesInvoice;
-use App\Item;
-use App\Customer;
+use App\PickupSchedule;
 use App\Presenters\CourierSchedulePresenter;
 use App\Http\Requests\StoreCourierSchedule;
-use App\Services\SalesInvoice\CourierScheduleStoreService;
-use App\Services\SalesInvoice\CourierScheduleUpdateService;
+use App\Services\PickupSchedule\CourierScheduleStoreService;
+use App\Services\PickupSchedule\CourierScheduleUpdateService;
 
 class PickupScheduleController extends Controller
 {
@@ -36,7 +34,7 @@ class PickupScheduleController extends Controller
 
     public function show(
         Request $request,
-        SalesInvoice $sales_invoice,
+        PickupSchedule $sales_invoice,
         CourierSchedulePresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
@@ -75,7 +73,7 @@ class PickupScheduleController extends Controller
         return $this->renderView($request, '', [], ['route' => 'sales_invoices.index', 'data' => []], 201);
     }
 
-    public function edit(SalesInvoice $sales_invoice)
+    public function edit(PickupSchedule $sales_invoice)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -90,7 +88,7 @@ class PickupScheduleController extends Controller
 
     public function update(
         StoreCourierSchedule $request,
-        SalesInvoice $sales_invoice,
+        PickupSchedule $sales_invoice,
         CourierScheduleUpdateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
@@ -102,7 +100,7 @@ class PickupScheduleController extends Controller
         return $this->renderView($request, '', [], ['route' => 'sales_invoices.edit', 'data' => ['sales_invoice' => $sales_invoice->id]], 204);
     }
 
-    public function destroy(Request $request, SalesInvoice $sales_invoice)
+    public function destroy(Request $request, PickupSchedule $sales_invoice)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

@@ -11,14 +11,14 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="customer_id">Customer</label>
-            <select class="form-control" id="customer_id" name="customer_id" required>
+            <select class="form-control select2" id="customer_id" name="customer_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="outlet">Outlet</label>
-            <select class="form-control" id="outlet" name="outlet" required>
+            <select class="form-control select2" id="outlet" name="outlet" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
@@ -65,10 +65,10 @@
             <tr>
                 <th class="th-item">Item</th>
                 <th class="th-note">Notes</th>
-                <th class="th-qty">Qty</th>
-                <th class="th-dcs">Disc (%)</th>
-                <th class="th-price">Unit Price</th>
-                <th class="th-total">Total</th>
+                <th class="th-qty text-right">Qty</th>
+                <th class="th-dcs text-right">Disc (%)</th>
+                <th class="th-price text-right">Unit Price</th>
+                <th class="th-total text-right">Total</th>
                 <th class="th-action"></th>
             </tr>
         </thead>
@@ -85,30 +85,30 @@
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
         <div class="form-group">
-            <label class="c-form--label" for="total-bd">Total Before Discount</label>
-            <input class="form-control" id="total-bd" value="Rp. 200.000" readonly="">
+            <label class="c-form--label" for="original_amount">Total Before Discount</label>
+            <input class="form-control" id="original_amount" value="0" readonly>
         </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="c-form--label" for="discount">Discount %</label>
-                    <input class="form-control" id="discount" value="10">
+                    <input class="form-control" id="discount" value="0">
                 </div>
             </div>
             <div class="col-sm-9">
                 <div class="form-group">
-                    <label class="c-form--label" for="amount-discount">Amount Discount</label>
-                    <input class="form-control" id="amount-discount" value="Rp. 50.000" readonly="">
+                    <label class="c-form--label" for="discount_amount">Amount Discount</label>
+                    <input class="form-control" id="discount_amount" value="0" readonly>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="freight">Freight</label>
-            <input class="form-control" id="freight" value="Rp. 50.000">
+            <input class="form-control" id="freight" value="0">
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="total">Total</label>
-            <input class="form-control" id="total" value="Rp. 200.000" readonly="">
+            <label class="c-form--label" for="total_amount">Total</label>
+            <input class="form-control" id="total_amount" value="0" readonly>
         </div>
     </div>
 </div>

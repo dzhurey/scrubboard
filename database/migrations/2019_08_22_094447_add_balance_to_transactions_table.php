@@ -18,6 +18,8 @@ class AddBalanceToTransactionsTable extends Migration
             $table->integer('agent_id')->nullable()->unsigned();
             $table->foreign('agent_id')->references('id')->on('agents')->onDelete('restrict');
         });
+
+        \DB::statement('UPDATE transactions SET balance_due = total_amount');
     }
 
     /**

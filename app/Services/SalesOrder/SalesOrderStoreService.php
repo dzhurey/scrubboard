@@ -45,6 +45,7 @@ class SalesOrderStoreService extends BaseService
         if ($attributes['order_type'] == 'endorser') {
             $attributes['transaction_status'] = 'closed';
         }
+        $attributes['balance_due'] = $attributes['total_amount'];
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

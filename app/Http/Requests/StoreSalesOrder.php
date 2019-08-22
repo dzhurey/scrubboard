@@ -69,6 +69,8 @@ class StoreSalesOrder extends FormRequest
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.unit_price'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.discount'] = 'numeric';
+            $rules['transaction_lines.'.$key.'.discount_amount'] = 'numeric';
             $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
         }
 

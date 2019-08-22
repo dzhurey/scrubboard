@@ -6,6 +6,11 @@ use App\BaseModel;
 
 class CourierSchedule extends BaseModel
 {
+    const SCHEDULE_TYPES = [
+        'pickup' => 'Pick Up',
+        'delivery' => 'Delivery',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -20,8 +25,18 @@ class CourierSchedule extends BaseModel
 
     protected $searchable = [
         'courier__name',
-        'courier__number',
+        'vehicle__number',
     ];
+
+    public function courier()
+    {
+        return $this->belongsTo('App\Courier');
+    }
+
+    public function vehicle()
+    {
+        return $this->belongsTo('App\Vehicle');
+    }
 
     public function courierScheduleLines()
     {

@@ -6,6 +6,12 @@ use App\BaseModel;
 
 class CourierScheduleLine extends BaseModel
 {
+    const SCHEDULE_TYPES = [
+        'scheduled' => 'Scheduled',
+        'overdue' => 'Overdue',
+        'done' => 'Done',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

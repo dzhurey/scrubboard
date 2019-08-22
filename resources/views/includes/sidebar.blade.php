@@ -68,7 +68,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/dollar-sign.svg') }}">
                 </span>
-                <span>Price</span>
+                <span>Price list</span>
             </a>
         </div>
         <div class="c-nav--item" id="vehicle" data-toggle="tooltip" data-placement="right" title="Vehicle">
@@ -100,7 +100,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/users.svg') }}">
                 </span>
-                <span>Courir</span>
+                <span>Courier</span>
             </a>
         </div>
         <div class="c-nav--item" id="user" data-toggle="tooltip" data-placement="right" title="User">

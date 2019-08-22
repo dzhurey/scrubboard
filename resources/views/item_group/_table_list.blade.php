@@ -1,4 +1,4 @@
-@if ($item_groups->count() == 0 || !empty($query))
+@if ($item_groups->count() > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-category" class="c-table table table-striped">
         <thead>

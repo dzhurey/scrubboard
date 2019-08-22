@@ -8,7 +8,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('customers.index') }}">Item sub categories data</a>
+                        <a href="{{ route('item_sub_categories.index') }}">Item sub categories data</a>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">Add item sub category</li>
                 </ol>

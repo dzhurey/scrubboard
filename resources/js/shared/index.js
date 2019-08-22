@@ -1,7 +1,7 @@
 $.ajaxSetup({
   beforeSend: (xhr) => {
-    const token = $("meta[name='csrf-token']").attr("content");
-    xhr.setRequestHeader('_token', token);
+    const token = localStorage.token;
+    xhr.setRequestHeader('Authorization', token);
     xhr.setRequestHeader('accept', 'application/json');
   },
   error: (xhr, textStatus, error) => {
@@ -38,4 +38,11 @@ export default {
       data: JSON.stringify(data),
     });
   },
+
+  delete: (url, data) => {
+    return $.ajax({
+      type: 'DELETE',
+      url: url
+    })
+  }
 };

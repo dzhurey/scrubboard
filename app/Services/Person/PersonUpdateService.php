@@ -11,12 +11,15 @@ use App\Person;
 class PersonUpdateService extends BaseService
 {
     protected $person;
+    protected $user;
 
     public function perform(Person $person, Array $attributes)
     {
         $this->person = $person;
+        $this->user = $person->user;
         DB::beginTransaction();
         try {
+            $this->saveUser($attributes);
             $this->savePerson($attributes);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -28,6 +31,13 @@ class PersonUpdateService extends BaseService
     public function getPerson()
     {
         return $this->person;
+    }
+
+    private function saveUser($attributes)
+    {
+        $excluded = ['email', 'password'];
+        $this->user = $this->assignAttributes($this->user, $attributes, $excluded);
+        $this->user->save();
     }
 
     private function savePerson($attributes)

@@ -6,7 +6,7 @@
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">
           </a>
         </div>
-        <a class="btn btn-primary btn-block btn-lg" href="#" data-toggle="tooltip" data-placement="right"
+        <a class="btn btn-primary btn-block btn-lg" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
             title="Sales Order">
             <span>
                 <img class="svg" src="{{ asset('assets/images/icons/plus.svg') }}">
@@ -16,7 +16,7 @@
     </div>
     <nav class="c-nav">
         <div class="c-nav--item" id="sales" data-toggle="tooltip" data-placement="right" title="Sales Order">
-            <a class="{{ (request()->segment(1) == 'sales') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
+            <a class="{{ (request()->segment(1) == 'sales_orders') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/shopping-bag.svg') }}">
                 </span>

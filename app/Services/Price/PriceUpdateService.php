@@ -57,7 +57,11 @@ class PriceUpdateService extends BaseService
 
     private function getOrCreatePriceLine($value)
     {
-        $price_line = PriceLine::find($value['id']);
+        $price_line = PriceLine::where([
+            ['price_id', '=', $value['price_id']],
+            ['item_id', '=', $value['item_id']]
+        ])->first();
+
         if (empty($price_line)) {
             $price_line = new PriceLine();
         }
@@ -66,8 +70,8 @@ class PriceUpdateService extends BaseService
 
     private function removeExcluded($attributes)
     {
-        $from_request = array_map(function ($item) { return $item['id']; }, $attributes['price_lines']);
-        $price_lines = $this->model->priceLines->pluck('id');
+        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['price_lines']);
+        $price_lines = $this->model->priceLines->pluck('item_id');
         $result = [];
 
         if (sizeof($from_request) < $price_lines->count()) {
@@ -77,6 +81,7 @@ class PriceUpdateService extends BaseService
                 }
             }
         }
-        PriceLine::destroy($result);
+
+        $this->model->priceLines->whereIn('item_id', $result)->each->delete();
     }
 }

@@ -1,14 +1,25 @@
 @extends('layouts.app')
+@section('title', 'Create Price Lists')
 
 @section('content')
-<div class="card">
-    <div class="card-header">Membuat Harga</div>
-
-    <div class="card-body">
-        {{ Form::open(['url' => route('prices.store'), 'method' => 'POST', 'id' => 'formPrice']) }}
-            @include('price._form_field')
-        {{ Form::close() }}
-        <button id="buttonSubmit" class="btn btn-primary">Buat</button>
+<div id="customers-form">
+    <div class="c-title row no-gutters">
+        <div class="col-sm-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb c-breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('prices.index') }}">Price lists data</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Add price lists data</li>
+                </ol>
+            </nav>
+            <h1 class="mb-0">Add price lists data</h1>
+        </div>
+        <div class="col-sm-6 text-right"></div>
     </div>
 </div>
+
+<form id="form-create-price" class="c-form needs-validation" novalidate>
+    @include('price._form_field')
+</form>
 @endsection

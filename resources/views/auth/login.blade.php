@@ -9,7 +9,7 @@
                         <div class="text-center mb-4">
                             <img src="{{ asset('assets/images/logo-bebewash.png') }}" height="77">
                         </div>
-                        <form class="c-form needs-validation" novalidate
+                        <form id="login-form" class="c-form needs-validation" novalidate
                             method="POST" action="{{ route('login') }}">
                             @csrf
                             <h2 class="c-form--title">

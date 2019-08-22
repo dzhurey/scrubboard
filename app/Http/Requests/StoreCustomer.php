@@ -45,6 +45,7 @@ class StoreCustomer extends FormRequest
             'shipping_zip_code' => 'required_unless:is_same_address,on|nullable|max:10',
             'bebe_name' => 'nullable|max:255',
             'is_same_address' => '',
+            'price_id' => 'required',
             'bebe_birth_date' => 'nullable|date_format:"Y-m-d"',
             'bebe_gender' => 'in:'.join(array_keys(Customer::GENDERS), ','),
             'partner_type' => 'in:'.join(array_keys(Customer::PARTNER_TYPE), ','),

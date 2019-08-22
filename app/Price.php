@@ -23,4 +23,9 @@ class Price extends BaseModel
     {
         return $this->hasMany('App\PriceLine');
     }
+
+    public function customers()
+    {
+        return $this->hasMany('App\Customer');
+    }
 }

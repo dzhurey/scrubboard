@@ -36,11 +36,14 @@ class StoreSalesOrder extends FormRequest
      *      "freight": 10000,
      *      "total_amount": 80000,
      *      "note": "",
+     *      "agent_id": 1,
      *      "transaction_lines": [
      *          {
      *              "item_id": 1,
      *              "note": "",
      *              "quantity": 2,
+     *              "discount": 0,
+     *              "discount_amount": 0,
      *              "unit_price": 35000,
      *              "amount": 70000
      *          }

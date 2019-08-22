@@ -23,6 +23,17 @@ class StoreCourierSchedule extends FormRequest
      *
      * @return array
      *
+     * {
+     *     "courier_id": 1,
+     *     "vehicle_id": 1,
+     *     "schedule_date": "2019-08-29",
+     *     "courier_schedule_lines": [
+     *     {
+     *         "transaction_id": 10,
+     *         "estimation_time": "10:30"
+     *     }
+     *     ]
+     * }
      */
     public function rules()
     {

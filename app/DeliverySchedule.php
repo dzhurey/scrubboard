@@ -4,7 +4,7 @@ namespace App;
 
 use App\CourierSchedule;
 
-class DeliverySchedule extends Transaction
+class DeliverySchedule extends CourierSchedule
 {
     const SCHEDULE_TYPE = 'delivery';
 

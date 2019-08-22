@@ -4,7 +4,7 @@ namespace App;
 
 use App\CourierSchedule;
 
-class PickupSchedule extends Transaction
+class PickupSchedule extends CourierSchedule
 {
     const SCHEDULE_TYPE = 'pickup';
 

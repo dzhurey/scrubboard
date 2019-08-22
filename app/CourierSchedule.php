@@ -30,7 +30,6 @@ class CourierSchedule extends BaseModel
     protected $fillable = [
         'courier_id',
         'vehicle_id',
-        'schedule_type',
         'schedule_date',
     ];
 
@@ -51,6 +50,6 @@ class CourierSchedule extends BaseModel
 
     public function courierScheduleLines()
     {
-        return $this->hasMany('App\CourierScheduleLine');
+        return $this->hasMany('App\CourierScheduleLine', 'courier_schedule_id');
     }
 }

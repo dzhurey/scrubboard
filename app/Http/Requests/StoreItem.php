@@ -28,7 +28,7 @@ class StoreItem extends FormRequest
         return [
             'item_type' => 'required|in:'.join(array_keys(Item::ITEM_TYPES), ','),
             'description' => 'required',
-            'price' => 'nullable|numeric',
+            'price' => 'required|numeric',
             'item_group_id' => 'required',
             'item_sub_category_id' => 'required',
         ];

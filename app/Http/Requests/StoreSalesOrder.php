@@ -65,6 +65,7 @@ class StoreSalesOrder extends FormRequest
             'freight' => 'required|numeric',
             'total_amount' => 'required|numeric',
             'note' => 'nullable|string',
+            'order_id' => 'nullable',
         ];
 
         foreach($this->request->get('transaction_lines') as $key => $val)

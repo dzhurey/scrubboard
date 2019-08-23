@@ -18,6 +18,7 @@ class SalesOrderPresenter extends BasePresenter
     {
         $input->customer = $input->customer;
         $input->agent = $input->agent;
+        $input->invoice = $input->invoice;
         $input->transaction_lines = $input->transactionLines;
         return $input;
     }

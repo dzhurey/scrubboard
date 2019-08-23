@@ -43,6 +43,7 @@ class Transaction extends BaseModel
         'total_amount',
         'balance_due',
         'note',
+        'order_id',
     ];
 
     protected $searchable = [

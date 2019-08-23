@@ -30,7 +30,6 @@ class PriceUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $price_lines = $this->updatePriceLines($attributes);
                 $this->model->priceLines()->saveMany($price_lines);
-                $this->removeExcluded($attributes);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -49,6 +48,7 @@ class PriceUpdateService extends BaseService
     {
         $price_lines = [];
         foreach ($attributes['price_lines'] as $key => $value) {
+            $value['price_id'] = $this->model->id;
             $price_line = $this->getOrCreatePriceLine($value);
             array_push($price_lines, $this->assignAttributes($price_line, $value));
         }
@@ -57,31 +57,11 @@ class PriceUpdateService extends BaseService
 
     private function getOrCreatePriceLine($value)
     {
-        $price_line = PriceLine::where([
-            ['price_id', '=', $value['price_id']],
-            ['item_id', '=', $value['item_id']]
-        ])->first();
+        $price_line = $this->model->priceLines->where('item_id', '=', $value['item_id'])->first();
 
         if (empty($price_line)) {
             $price_line = new PriceLine();
         }
         return $price_line;
-    }
-
-    private function removeExcluded($attributes)
-    {
-        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['price_lines']);
-        $price_lines = $this->model->priceLines->pluck('item_id');
-        $result = [];
-
-        if (sizeof($from_request) < $price_lines->count()) {
-            foreach ($price_lines as $price_line) {
-                if (!in_array($price_line, $from_request)) {
-                    array_push($result, $price_line);
-                }
-            }
-        }
-
-        $this->model->priceLines->whereIn('item_id', $result)->each->delete();
     }
 }

@@ -46,7 +46,7 @@ class SalesOrderStoreService extends BaseService
             $attributes['transaction_status'] = 'closed';
         }
         $attributes['balance_due'] = $attributes['total_amount'];
-        $this->model = $this->assignAttributes($this->model, $attributes);
+        $this->model = $this->assignAttributes($this->model, $attributes, ['order_id']);
         $this->model->save();
     }
 

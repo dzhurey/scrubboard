@@ -27,7 +27,6 @@ class StoreItemSubCategory extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'item_group_id' => 'required',
         ];
     }
 }

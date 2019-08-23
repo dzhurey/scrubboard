@@ -18,9 +18,4 @@ class ItemGroup extends BaseModel
     protected $searchable = [
         'name',
     ];
-
-    public function itemSubCategories()
-    {
-        return $this->hasMany('App\ItemSubCategory');
-    }
 }

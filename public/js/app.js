@@ -52911,8 +52911,7 @@ if (formCreatePrice.length > 0) {
   formCreatePrice.submit(function (e) {
     e.preventDefault();
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
-      name: $('#name').val(),
-      price_lines: priceList
+      name: $('#name').val()
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
@@ -52943,7 +52942,7 @@ if (formEditPrice.length > 0) {
     e.preventDefault();
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
       name: $('#name').val(),
-      price_lines: priceList
+      price_lines: priceList.length > 0 ? priceList : ''
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
@@ -52974,31 +52973,74 @@ if (formEditPrice.length > 0) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
+var idCustomer = '';
+var idAgent = '';
 var transaction_lines = [];
 var customerList = $('#customer_id');
 var outletList = $('#outlet');
 var orderType = $('#order_type');
 var statusOrder = $('#status_order');
 var listItems = $('.list-item');
+var tableSalesOrder = $('#table-sales-order');
 var formCreateSalesOrder = $('#form-create-sales-order');
+var formEditSalesOrder = $('#form-edit-sales-order');
 var tableSOItems = $('#table-so-item');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'customer.name'
+    }, {
+      data: 'agent.name'
+    }, {
+      data: 'order_type'
+    }, {
+      data: 'transaction_date'
+    }, {
+      data: 'pickup_date'
+    }, {
+      data: 'delivery_date'
+    }, {
+      data: 'total_amount',
+      render: function render(data) {
+        return parseFloat(data).toFixed(0);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/sales_orders/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var getDataTableSO = function getDataTableSO(id) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(id)).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
+      var prices = res.price.price_lines;
+      sessionStorage.clear();
+      sessionStorage.setItem('prices', JSON.stringify(prices));
+      createTableSO(tableSOItems, prices);
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+};
 
 var chooseCustomer = function chooseCustomer() {
   customerList.change(function (e) {
-    if (!$.active) {
-      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(e.target.value)).then(function (res) {
-        _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
-          var prices = res.price.price_lines;
-          sessionStorage.clear();
-          sessionStorage.setItem('prices', JSON.stringify(prices));
-          createTableSO(tableSOItems, prices);
-        })["catch"](function (res) {
-          return console.log(res);
-        });
-      })["catch"](function (res) {
-        return console.log(res);
-      });
-    }
+    if (!$.active) getDataTableSO(e.target.value);
   });
 };
 
@@ -53009,7 +53051,25 @@ var totalBeforeDisc = function totalBeforeDisc() {
   itemPrice.each(function (i, item) {
     price = parseFloat(price) + parseFloat(item.value);
     totalBeforeDiscField.val(price);
+    $('#original_amount').val(price);
+    finalTotal($('#discount').val());
   });
+  $('#discount').change(function (e) {
+    return finalTotal(e.target.value);
+  });
+  $('#freight').change(function (e) {
+    return finalTotal($('#discount').val(), e.target.value);
+  });
+};
+
+var finalTotal = function finalTotal(value, freightValue) {
+  var discount_amount = $('#discount_amount');
+  var original_amount = $('#original_amount').val();
+  var discountCount = parseFloat(value) / 100 * parseFloat(original_amount);
+  var discount = discount_amount.val(parseFloat(discountCount));
+  var freight = freightValue ? freightValue : $('#freight').val();
+  var total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
+  $('#total_amount').val(parseFloat(total));
 };
 
 var createItemListDropdown = function createItemListDropdown() {
@@ -53024,7 +53084,7 @@ var createItemListDropdown = function createItemListDropdown() {
       var option = document.createElement('option');
       _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item.item_id)).then(function (res) {
         option.value = item.item_id;
-        option.textContent = "".concat(res.item.description, " - ").concat(res.item.price);
+        option.textContent = "".concat(res.item.description);
         $('.item_id').append(option);
       })["catch"](function (res) {
         return console.log(res);
@@ -53062,8 +53122,8 @@ var createItemListDropdown = function createItemListDropdown() {
     });
     $("#quantity_".concat(id)).val('1');
     $("#discount_".concat(id)).val('0');
-    $("#unit_price_".concat(id)).val(data.length > 0 ? data[0].amount : '0');
-    $("#amount_".concat(id)).val(data.length > 0 ? data[0].amount : '0');
+    $("#unit_price_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
+    $("#amount_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
     totalBeforeDisc();
   });
   $('.discount, .quantity').change(function (e) {
@@ -53074,7 +53134,7 @@ var createItemListDropdown = function createItemListDropdown() {
     var discPrice = $("#discount_".concat(id)).val();
     var countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
     var calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - parseFloat(discPrice) / 100 * parseFloat(countItemPrice) : parseFloat(countItemPrice);
-    $("#amount_".concat(id)).val(parseFloat(calculate).toFixed(2));
+    $("#amount_".concat(id)).val(parseFloat(calculate));
     totalBeforeDisc();
   });
   $('.table-action').click(function (e) {
@@ -53134,7 +53194,7 @@ var createTableSO = function createTableSO(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"./../assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+        return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -53226,15 +53286,24 @@ if (formCreateSalesOrder.length > 0) {
     e.preventDefault();
     $('.item_id').each(function (i, item) {
       var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
-      transaction_lines.push({
-        item_id: $(item).val() === '' ? '0' : $(item).val(),
-        note: item.parentElement.parentElement.querySelector('input[name="note"]').value,
-        quantity: item.parentElement.parentElement.querySelector('input[name="quantity"]').value,
-        unit_price: item.parentElement.parentElement.querySelector('input[name="unit_price"]').value,
-        discount: item.parentElement.parentElement.querySelector('input[name="discount"]').value,
-        amount: item.parentElement.parentElement.querySelector('input[name="amount"]').value,
-        discount_amount: '0'
-      });
+
+      if ($(item).val() !== '') {
+        var target = item.parentElement.parentElement;
+        var unit_price = target.querySelector('input[name="unit_price"]').value;
+        var amount = target.querySelector('input[name="amount"]').value;
+
+        var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
+
+        transaction_lines.push({
+          item_id: $(item).val(),
+          note: target.querySelector('input[name="note"]').value,
+          quantity: target.querySelector('input[name="quantity"]').value,
+          unit_price: unit_price,
+          discount: target.querySelector('input[name="discount"]').value,
+          amount: amount,
+          discount_amount: _discount_amount
+        });
+      }
     });
     var data = {
       customer_id: $('#customer_id').val(),
@@ -53258,6 +53327,35 @@ if (formCreateSalesOrder.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+}
+
+if (tableSalesOrder.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    createTable(tableSalesOrder, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formEditSalesOrder.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
+    $('#customer_id').val(res.sales_order.customer_id);
+    $('#outlet').val(res.sales_order.agent_id);
+    $('#order_type').val(res.sales_order.order_type);
+    $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+    $('#transaction_date').val(res.sales_order.transaction_date);
+    $('#pickup_date').val(res.sales_order.pickup_date);
+    $('#delivery_date').val(res.sales_order.delivery_date);
+    $('.select2').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    }).trigger('change');
+    getDataTableSO(res.sales_order.customer_id);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -56383,8 +56481,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

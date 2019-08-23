@@ -1,10 +1,15 @@
 @if ($sales_orders->count() > 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-price" class="c-table table table-striped">
+    <table id="table-sales-order" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Total item</th>
+                <th>Customer</th>
+                <th>Outlet</th>
+                <th>Order type</th>
+                <th>Document date</th>
+                <th>Pick Up date</th>
+                <th>Delivery date</th>
+                <th>Total</th>
                 <th></th>
             </tr>
         </thead>

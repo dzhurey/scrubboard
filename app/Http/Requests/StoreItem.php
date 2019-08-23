@@ -29,7 +29,8 @@ class StoreItem extends FormRequest
             'item_type' => 'required|in:'.join(array_keys(Item::ITEM_TYPES), ','),
             'description' => 'required',
             'price' => 'nullable|numeric',
-            'item_sub_category_id' => '',
+            'item_group_id' => 'required',
+            'item_sub_category_id' => 'required',
         ];
     }
 }

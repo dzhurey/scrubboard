@@ -20,6 +20,7 @@ class Item extends BaseModel
         'item_type',
         'description',
         'price',
+        'item_group_id',
         'item_sub_category_id',
     ];
 
@@ -27,8 +28,14 @@ class Item extends BaseModel
         'description',
         'product',
         'service',
-        'itemSubCategory__name'
+        'itemGroup__name',
+        'itemSubCategory__name',
     ];
+
+    public function itemGroup()
+    {
+        return $this->belongsTo('App\ItemGroup');
+    }
 
     public function itemSubCategory()
     {

@@ -20,7 +20,7 @@ class ItemPresenter extends BasePresenter
     public function transform($input)
     {
         $input->item_sub_category = $input->itemSubCategory;
-        $input->item_group = $input->itemSubCategory->itemGroup;
+        $input->item_group = $input->itemGroup;
         $input->price_lines = $input->priceLines->transform(function ($item) {
             return $this->price_line_presenter->transform($item);
         });

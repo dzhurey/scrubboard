@@ -183,7 +183,7 @@ if (formCreateSalesOrder.length > 0) {
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();
     $('.item_id').each((i, item) => {
-      debugger;
+      const discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
       transaction_lines.push({
         item_id: $(item).val() === '' ? '0' : $(item).val(),
         note: item.parentElement.parentElement.querySelector('input[name="note"]').value,
@@ -191,6 +191,7 @@ if (formCreateSalesOrder.length > 0) {
         unit_price: item.parentElement.parentElement.querySelector('input[name="unit_price"]').value,
         discount: item.parentElement.parentElement.querySelector('input[name="discount"]').value,
         amount: item.parentElement.parentElement.querySelector('input[name="amount"]').value,
+        discount_amount: '0'
       })
     })
 

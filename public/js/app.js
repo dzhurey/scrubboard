@@ -53225,14 +53225,15 @@ if (formCreateSalesOrder.length > 0) {
   formCreateSalesOrder.submit(function (e) {
     e.preventDefault();
     $('.item_id').each(function (i, item) {
-      debugger;
+      var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
       transaction_lines.push({
         item_id: $(item).val() === '' ? '0' : $(item).val(),
         note: item.parentElement.parentElement.querySelector('input[name="note"]').value,
         quantity: item.parentElement.parentElement.querySelector('input[name="quantity"]').value,
         unit_price: item.parentElement.parentElement.querySelector('input[name="unit_price"]').value,
         discount: item.parentElement.parentElement.querySelector('input[name="discount"]').value,
-        amount: item.parentElement.parentElement.querySelector('input[name="amount"]').value
+        amount: item.parentElement.parentElement.querySelector('input[name="amount"]').value,
+        discount_amount: '0'
       });
     });
     var data = {

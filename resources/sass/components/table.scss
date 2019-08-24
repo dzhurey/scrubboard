@@ -10,6 +10,13 @@
   &.table {
     thead {
       th {
+        padding: 12px;
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
         &.checkbox {
           width: 50px;
         }
@@ -19,6 +26,13 @@
     tbody {
       td {
         border-color: #E8EEF3;
+        padding: 12px;
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
         &.checkbox {
           width: 50px;
         }

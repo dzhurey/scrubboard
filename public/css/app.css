@@ -132,7 +132,7 @@ h5 {
 }
 
 .c-sidebar--logo .btn {
-  padding: 18px 23px;
+  padding: 16px 20px;
 }
 
 .c-sidebar--logo .btn span:first-child {
@@ -156,7 +156,7 @@ h5 {
 .c-sidebar .c-nav {
   padding: 0 30px;
   overflow: auto;
-  height: calc(100vh - 183px - 20px);
+  height: calc(100vh - 145px - 20px);
 }
 
 .c-sidebar .c-nav--item {
@@ -165,7 +165,7 @@ h5 {
 
 .c-sidebar .c-nav--item > a {
   display: block;
-  padding: 15px 10px 15px 0;
+  padding: 14px 8px 14px 0;
   position: relative;
   color: #555555;
   cursor: pointer;
@@ -200,11 +200,23 @@ h5 {
 }
 
 .c-sidebar .c-nav--item > a.is-active span {
-  color: #212121;
+  color: #225F90;
 }
 
 .c-sidebar .c-nav--item > a.is-active:before {
   display: block;
+}
+
+.c-sidebar .c-nav--item > a:hover {
+  color: #225F90;
+  background-color: #f8f9fa;
+  border-radius: 0 30px 30px 0;
+  cursor: pointer;
+}
+
+.c-sidebar .c-nav--item > a:hover:before {
+  display: block;
+  background-color: #f8f9fa;
 }
 
 .c-sidebar .c-nav--item > a:hover,
@@ -431,7 +443,16 @@ h5 {
 }
 
 .c-table.table thead th {
+  padding: 12px;
   border: 0;
+}
+
+.c-table.table thead th:first-child {
+  padding-left: 20px;
+}
+
+.c-table.table thead th:last-child {
+  padding-right: 20px;
 }
 
 .c-table.table thead th.checkbox {
@@ -440,6 +461,15 @@ h5 {
 
 .c-table.table tbody td {
   border-color: #E8EEF3;
+  padding: 12px;
+}
+
+.c-table.table tbody td:first-child {
+  padding-left: 20px;
+}
+
+.c-table.table tbody td:last-child {
+  padding-right: 20px;
 }
 
 .c-table.table tbody td.checkbox {

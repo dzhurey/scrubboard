@@ -268,7 +268,7 @@ h5 {
   left: 300px;
   top: 0;
   background-color: #FFFFFF;
-  border-bottom: 1px solid #E8EEF3;
+  border-bottom: 1px solid #e9ecef;
   z-index: 4;
   transition: all 0s;
 }
@@ -324,7 +324,7 @@ h5 {
 .c-header .c-user {
   width: 255px;
   padding: 20px 30px;
-  border-left: 1px solid #E8EEF3;
+  border-left: 1px solid #e9ecef;
 }
 
 .c-header .c-user--avatar {
@@ -419,7 +419,7 @@ h5 {
 }
 
 .c-table--outer {
-  border: 1px solid #dee2e6;
+  border: 1px solid #e9ecef;
   border-radius: 4px;
   overflow: hidden;
   margin: 30px;
@@ -557,6 +557,7 @@ h5 {
   padding: 30px;
   max-width: 1024px;
   display: block;
+  border-color: #e9ecef;
 }
 
 .c-form.is-fluid {

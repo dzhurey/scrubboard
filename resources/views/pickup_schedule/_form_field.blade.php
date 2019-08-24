@@ -82,8 +82,8 @@
             <textarea class="form-control" id="note" rows="6"></textarea>
         </div>
     </div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="total-bd">Total Before Discount</label>
             <input class="form-control" id="total-bd" value="Rp. 200.000" readonly="">

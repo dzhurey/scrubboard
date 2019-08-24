@@ -114,6 +114,9 @@
         &> a {
           text-align: center;
           padding: 15px 0;
+          &.is-active {
+            border-radius: 30px;
+          }
           span {
             margin-right: 0 !important;
             &:last-child {

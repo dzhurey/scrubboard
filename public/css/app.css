@@ -254,6 +254,10 @@ h5 {
   padding: 15px 0;
 }
 
+.c-sidebar.is-close .c-nav--item > a.is-active {
+  border-radius: 30px;
+}
+
 .c-sidebar.is-close .c-nav--item > a span {
   margin-right: 0 !important;
 }

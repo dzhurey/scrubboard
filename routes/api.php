@@ -31,3 +31,4 @@ Route::middleware('auth:api')->resource('prices', 'PriceController', ['as' => 'a
 Route::middleware('auth:api')->resource('agents', 'AgentController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('sales_orders', 'SalesOrderController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('sales_invoices', 'SalesInvoiceController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('payments', 'PaymentController', ['as' => 'api'])->except(['create', 'edit']);

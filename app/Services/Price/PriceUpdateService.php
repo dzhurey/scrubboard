@@ -30,6 +30,7 @@ class PriceUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $price_lines = $this->updatePriceLines($attributes);
                 $this->model->priceLines()->saveMany($price_lines);
+                $this->removeExcluded($attributes);
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -63,5 +64,22 @@ class PriceUpdateService extends BaseService
             $price_line = new PriceLine();
         }
         return $price_line;
+    }
+
+    private function removeExcluded($attributes)
+    {
+        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['price_lines']);
+        $price_lines = $this->model->priceLines->pluck('item_id');
+        $result = [];
+
+        if (sizeof($from_request) < $price_lines->count()) {
+            foreach ($price_lines as $price_line) {
+                if (!in_array($price_line, $from_request)) {
+                    array_push($result, $price_line);
+                }
+            }
+        }
+
+        $this->model->priceLines->whereIn('item_id', $result)->each->delete();
     }
 }

@@ -28,12 +28,8 @@ h5 { font-size: .85rem; }
   }
 }
 
-
-
-::-webkit-scrollbar { width: 8px; }
-
-::-webkit-scrollbar-track { background: #f8f9fa; }
- 
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #fff; }
+::-webkit-scrollbar-track:hover { background: #e9ecef; }
 ::-webkit-scrollbar-thumb { background: #ced4da; }
-
 ::-webkit-scrollbar-thumb:hover { background: #adb5bd; }

@@ -36,11 +36,15 @@
     padding: 0 30px;
     overflow: auto;
     height: calc(100vh - 145px - 20px);
+
+    &::-webkit-scrollbar-thumb { background: transparent; }
+    &:hover::-webkit-scrollbar-thumb { background: #ced4da; }
+
     &--item {
       cursor: pointer;
       &> a {
         display: block;
-        padding: 14px 8px 14px 0;        
+        padding: 12px 8px 12px 0;
         position: relative;
         color: #555555;
         span {

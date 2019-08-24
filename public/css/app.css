@@ -49,11 +49,15 @@ h5 {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f8f9fa;
+  background: #fff;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #e9ecef;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -159,13 +163,21 @@ h5 {
   height: calc(100vh - 145px - 20px);
 }
 
+.c-sidebar .c-nav::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.c-sidebar .c-nav:hover::-webkit-scrollbar-thumb {
+  background: #ced4da;
+}
+
 .c-sidebar .c-nav--item {
   cursor: pointer;
 }
 
 .c-sidebar .c-nav--item > a {
   display: block;
-  padding: 14px 8px 14px 0;
+  padding: 12px 8px 12px 0;
   position: relative;
   color: #555555;
   cursor: pointer;

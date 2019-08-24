@@ -30,7 +30,12 @@ const createTable = (target, data) => {
 if (tableCourier.length > 0) {
   ajx.get('/api/couriers').then((res) => {
     createTable(tableCourier, res.couriers.data);
-  }).catch(res => console.log(res));
+  }).catch(res => {
+    console.log(res)
+    if (res.status == 401) {
+      window.location = '/login'
+    }
+  });
 }
 
 if (formCreateCourier.length > 0) {

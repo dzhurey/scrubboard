@@ -51995,7 +51995,11 @@ if (tableCourier.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
     createTable(tableCourier, res.couriers.data);
   })["catch"](function (res) {
-    return console.log(res);
+    console.log(res);
+
+    if (res.status == 401) {
+      window.location = '/login';
+    }
   });
 }
 

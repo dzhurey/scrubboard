@@ -20,6 +20,6 @@
 </div>
 
 <form id="form-edit-sales-order" class="c-form needs-validation" novalidate>
-    @include('sales_order._form_field')
+    @include('pickup_schedule._form_field')
 </form>
 @endsection

@@ -12,6 +12,6 @@
         </div>
     </div>
 
-    @include('sales_order._table_list')
+    @include('pickup_schedule._table_list')
 </div>
 @endsection

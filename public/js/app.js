@@ -53343,25 +53343,47 @@ if (formCreateSalesInvoice.length > 0) {
   });
 }
 
-if (formEditSalesInvoice.length > 0) {// const urlArray = window.location.href.split('/');
-  // const id = urlArray[urlArray.length - 2];
-  // ajx.get(`/api/sales_invoices/${id}`)
-  //   .then(res => {
-  //     $('#number-plate').val(res.vehicle.number);
-  //   })
-  //   .catch(res => console.log(res));
-  // formEditSalesInvoice.submit((e) => {
-  //   e.preventDefault();
-  //   const dataForm = formEditSalesInvoice.serializeArray();
-  //   const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-  //   ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => console.log(res));
-  //   return false;
-  // })
-  // $('#button-delete').click(() => {
-  //   ajx.delete(`/api/vehicles/${id}`).then(res => window.location = '/vehicles').catch(res => {
-  //     alert(res.responseJSON.message)
-  //   });
-  // })
+if (formEditSalesInvoice.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+    sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
+    $('#order_type').val(res.sales_invoice.order_type);
+    $('#note').val(res.sales_invoice.note);
+    $('#discount').val(res.sales_invoice.discount);
+    $('#discount_amount').val(res.sales_invoice.discount_amount);
+    $('#freight').val(res.sales_invoice.freight);
+    $('#status_order').val(res.sales_invoice.order_type === 'general' ? 'open' : 'closed');
+    $('#transaction_date').val(res.sales_invoice.transaction_date);
+    $('#pickup_date').val(res.sales_invoice.pickup_date);
+    $('#delivery_date').val(res.sales_invoice.delivery_date);
+    $('#customer_id').val(res.sales_invoice.customer_id);
+    $('#outlet').val(res.sales_invoice.agent_id);
+    getDataTableSO(res.sales_invoice.customer_id, true);
+    $('#customer_id, #outlet').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    }).trigger('change');
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditSalesInvoice.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_invoices/".concat(id), data).then(function (res) {
+      return window.location = '/sales_invoices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_invoices/".concat(id)).then(function (res) {
+      return window.location = '/sales_invoices';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

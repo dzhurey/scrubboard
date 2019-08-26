@@ -21,6 +21,7 @@ require('./pages/agent/index.js');
 require('./pages/courir/index.js');
 require('./pages/people/index.js');
 require('./pages/sales_order/index.js');
+require('./pages/sales_invoice/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

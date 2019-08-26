@@ -3,6 +3,7 @@
     <table id="table-sales-order" class="c-table table table-striped">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Customer</th>
                 <th>Outlet</th>
                 <th>Order type</th>

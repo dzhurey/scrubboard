@@ -9,6 +9,8 @@ class SalesOrder extends Transaction
 {
     const TRANSACTION_TYPE = 'order';
 
+    protected $transaction_number_prefix = 'SO';
+
     protected static $singleTableType = self::TRANSACTION_TYPE;
 
     protected static function boot()
@@ -21,5 +23,10 @@ class SalesOrder extends Transaction
     public function invoice()
     {
         return $this->hasOne('App\Transaction', 'order_id', 'id');
+    }
+
+    public function getLatest()
+    {
+        return self::latest()->first();
     }
 }

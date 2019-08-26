@@ -15,6 +15,8 @@ class CourierScheduleLinePresenter extends BasePresenter
 
     public function transform($input)
     {
+        $estimation_time = date_create_from_format('H:i:s', $input->estimation_time);
+        $input->estimation_time = $estimation_time->format('H:i');
         $input->transaction = $input->transaction;
         return $input;
     }

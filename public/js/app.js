@@ -51707,6 +51707,8 @@ __webpack_require__(/*! ./pages/sales_order/index.js */ "./resources/js/pages/sa
 
 __webpack_require__(/*! ./pages/pickup_schedule/index.js */ "./resources/js/pages/pickup_schedule/index.js");
 
+__webpack_require__(/*! ./pages/delivery_schedule/index.js */ "./resources/js/pages/delivery_schedule/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -52184,6 +52186,247 @@ if (formCreateCustomer.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/delivery_schedule/index.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/pages/delivery_schedule/index.js ***!
+  \*******************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tabledelivery = $('#table-delivery-schedule');
+var tableSoItemdelivery = $('#table-so-item-delivery');
+var createdeliveryForm = $('#form-create-delivery');
+var EditdeliveryForm = $('#form-edit-delivery');
+
+var chooseSOList = function chooseSOList() {
+  $('.so_id').change(function (e) {
+    var items = JSON.parse(sessionStorage.sales_orders);
+    var getId = e.currentTarget.getAttribute('data-id');
+    var matchData = items.filter(function (res) {
+      return res.id === parseFloat(getId);
+    });
+    $("#customer_".concat(getId)).val(matchData[0].customer.name);
+    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
+    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+  });
+};
+
+var createSOListDropdown = function createSOListDropdown() {
+  var items = JSON.parse(sessionStorage.sales_orders);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var item = _step.value;
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      $('.so_id').append(option);
+      $('.select2').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  chooseSOList();
+};
+
+var createTableSOdeliverySchedule = function createTableSOdeliverySchedule(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id.',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 so_id\" id=\"so_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"transaction_id\"><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"customer_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"customer\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"sales_date_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"sales_date\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"address_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"address\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"time\" class=\"form-control\" id=\"eta_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"eta\">");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      createSOListDropdown();
+    }
+  });
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'courier.name'
+    }, {
+      data: 'vehicle.number'
+    }, {
+      data: 'schedule_date'
+    }, {
+      data: 'courier_schedule_lines.length'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/delivery_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var dataFormdelivery = function dataFormdelivery(tableList) {
+  var courier_schedule_lines = [];
+  $('.so_id').each(function (i, item) {
+    var $parent = item.parentElement.parentElement;
+
+    if ($(item).val() !== '') {
+      courier_schedule_lines.push({
+        transaction_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value
+      });
+    }
+  });
+  return {
+    courier_id: $('#courier_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines
+  };
+};
+
+if (tableSoItemdelivery.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
+    createTableSOdeliverySchedule(tableSoItemdelivery, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (createdeliveryForm.length > 0) {
+  $('#button-delete').remove();
+  createdeliveryForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormdelivery(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/delivery_schedules', data).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (EditdeliveryForm.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/delivery_schedules/".concat(id)).then(function (res) {
+    var itemsSO = JSON.parse(sessionStorage.sales_orders);
+    $('#courier_id').val(res.delivery_schedule.courier_id);
+    $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
+    $('#date').val(res.delivery_schedule.schedule_date);
+    $('#courier_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $('.so_id').each(function (i, item) {
+      if (i <= res.delivery_schedule.courier_schedule_lines.length) {
+        var $parent = item.parentElement.parentElement;
+        var transId = res.delivery_schedule.courier_schedule_lines[i].transaction_id;
+        var filterSO = itemsSO.filter(function (res) {
+          return res.id === transId;
+        });
+        $(item).val(transId);
+        $parent.querySelector('input[name="eta"]').value = res.delivery_schedule.courier_schedule_lines[i].estimation_time;
+        $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
+        $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
+        $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;
+        $(item).select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  EditdeliveryForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormdelivery(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/delivery_schedules/".concat(id), data).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/delivery_schedules/".concat(id)).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+
+if (tabledelivery.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+    createTable(tabledelivery, res.delivery_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52816,6 +53059,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var courierId = $('#courier_id');
 var vehicleId = $('#vehicle_id');
+var tablePickup = $('#table-pickup-schedule');
 var tableSoItemPickup = $('#table-so-item-pickup');
 var createPickupForm = $('#form-create-pickup');
 var EditPickupForm = $('#form-edit-pickup');
@@ -52829,7 +53073,7 @@ var chooseSOList = function chooseSOList() {
     });
     $("#customer_".concat(getId)).val(matchData[0].customer.name);
     $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
-    $("#address_".concat(getId)).val(matchData[0].customer.name);
+    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
   });
 };
 
@@ -52869,7 +53113,7 @@ var createSOListDropdown = function createSOListDropdown() {
   chooseSOList();
 };
 
-var createTable = function createTable(target, data) {
+var createTableSOPickupSchedule = function createTableSOPickupSchedule(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
@@ -52905,6 +53149,34 @@ var createTable = function createTable(target, data) {
     }],
     drawCallback: function drawCallback() {
       createSOListDropdown();
+    }
+  });
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'courier.name'
+    }, {
+      data: 'vehicle.number'
+    }, {
+      data: 'schedule_date'
+    }, {
+      data: 'courier_schedule_lines.length'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
     }
   });
 };
@@ -53001,7 +53273,7 @@ if (tableSoItemPickup.length > 0) {
   sessionStorage.clear();
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
     sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTable(tableSoItemPickup, res.sales_orders.data);
+    createTableSOPickupSchedule(tableSoItemPickup, res.sales_orders.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53025,10 +53297,40 @@ if (EditPickupForm.length > 0) {
   sessionStorage.clear();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/pickup_schedules/".concat(id)).then(function (res) {
+    var itemsSO = JSON.parse(sessionStorage.sales_orders);
+    $('#courier_id').val(res.pickup_schedule.courier_id);
+    $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
+    $('#date').val(res.pickup_schedule.schedule_date);
+    $('#courier_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $('.so_id').each(function (i, item) {
+      if (i <= res.pickup_schedule.courier_schedule_lines.length - 1) {
+        var $parent = item.parentElement.parentElement;
+        var transId = res.pickup_schedule.courier_schedule_lines[i].transaction_id;
+        var filterSO = itemsSO.filter(function (res) {
+          return res.id === transId;
+        });
+        $(item).val(transId);
+        $parent.querySelector('input[name="eta"]').value = res.pickup_schedule.courier_schedule_lines[i].estimation_time;
+        $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
+        $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
+        $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;
+        $(item).select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
   EditPickupForm.submit(function (e) {
     e.preventDefault();
     var data = dataFormPickup(e.target);
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/pickup_schedules/".concat(id), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/pickup_schedules/".concat(id), data).then(function (res) {
       return window.location = '/pickup_schedules';
     })["catch"](function (res) {
       return console.log(res);
@@ -53041,6 +53343,14 @@ if (EditPickupForm.length > 0) {
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });
+  });
+}
+
+if (tablePickup.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+    createTable(tablePickup, res.pickup_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -56773,8 +57083,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

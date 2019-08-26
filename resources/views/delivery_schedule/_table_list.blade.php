@@ -5,10 +5,8 @@
             <tr>
                 <th>Courier Name</th>
                 <th>Vehicle</th>
-                <th>Sales Order Id</th>
-                <th>Address</th>
-                <th>Total Items</th>
-                <th>ETA</th>
+                <th>Schedule Date</th>
+                <th>Total Orders</th>
                 <th></th>
             </tr>
         </thead>

@@ -1,11 +1,9 @@
 import ajx from './../../shared/index.js';
 
-const courierId = $('#courier_id');
-const vehicleId = $('#vehicle_id');
-const tablePickup = $('#table-pickup-schedule');
-const tableSoItemPickup = $('#table-so-item-pickup');
-const createPickupForm = $('#form-create-pickup');
-const EditPickupForm = $('#form-edit-pickup');
+const tabledelivery = $('#table-delivery-schedule');
+const tableSoItemdelivery = $('#table-so-item-delivery');
+const createdeliveryForm = $('#form-create-delivery');
+const EditdeliveryForm = $('#form-edit-delivery');
 const chooseSOList = () => {
   $('.so_id').change((e) => {
     const items = JSON.parse(sessionStorage.sales_orders);
@@ -31,7 +29,7 @@ const createSOListDropdown = () => {
   }
   chooseSOList();
 };
-const createTableSOPickupSchedule = (target, data) => {
+const createTableSOdeliverySchedule = (target, data) => {
   target.DataTable({
     data: data,
     lengthChange: false,
@@ -92,7 +90,7 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<a href="/pickup_schedules/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
+          return `<a href="/delivery_schedules/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
           data-placement="top" title="Edit"><img src="assets/images/icons/edit.svg" alt="edit" width="16"></a>`
         },
       },
@@ -102,7 +100,7 @@ const createTable = (target, data) => {
     }
   })
 };
-const dataFormPickup = (tableList) => {
+const dataFormdelivery = (tableList) => {
   const courier_schedule_lines = [];
   $('.so_id').each((i, item) => {
     const $parent = item.parentElement.parentElement;
@@ -121,69 +119,45 @@ const dataFormPickup = (tableList) => {
   }
 };
 
-if (courierId.length > 0) {
-  ajx.get('/api/couriers').then((res) => {
-    const items = res.couriers.data;
-    for (let item of items) {
-      const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.name}`;
-      courierId.append(option);
-    }
-  }).catch(res => console.log(res));
-}
-
-if (vehicleId.length > 0) {
-  ajx.get('/api/vehicles').then((res) => {
-    const items = res.vehicles.data;
-    for (let item of items) {
-      const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.number}`;
-      vehicleId.append(option);
-    }
-  }).catch(res => console.log(res));
-}
-
-if (tableSoItemPickup.length > 0) {
+if (tableSoItemdelivery.length > 0) {
   sessionStorage.clear();
   ajx.get('/api/sales_orders').then((res) => {
     sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTableSOPickupSchedule(tableSoItemPickup, res.sales_orders.data);
+    createTableSOdeliverySchedule(tableSoItemdelivery, res.sales_orders.data);
   }).catch(res => console.log(res));
 }
 
-if (createPickupForm.length > 0) {
+if (createdeliveryForm.length > 0) {
   $('#button-delete').remove();
-  createPickupForm.submit((e) => {
+  createdeliveryForm.submit((e) => {
     e.preventDefault();
-    const data = dataFormPickup(e.target);
-    ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
+    const data = dataFormdelivery(e.target);
+    ajx.post('/api/delivery_schedules', data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;
   })
 }
 
-if (EditPickupForm.length > 0) {
+if (EditdeliveryForm.length > 0) {
   sessionStorage.clear();
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
-  ajx.get(`/api/pickup_schedules/${id}`)
+  ajx.get(`/api/delivery_schedules/${id}`)
     .then(res => {
       const itemsSO = JSON.parse(sessionStorage.sales_orders);
-      $('#courier_id').val(res.pickup_schedule.courier_id);
-      $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
-      $('#date').val(res.pickup_schedule.schedule_date);
+      $('#courier_id').val(res.delivery_schedule.courier_id);
+      $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
+      $('#date').val(res.delivery_schedule.schedule_date);
       $('#courier_id, #vehicle_id').select2({ 
         theme: 'bootstrap',
         placeholder: 'Choose option',
       });
       $('.so_id').each((i, item) => {
-        if (i <= res.pickup_schedule.courier_schedule_lines.length -1) {
+        if (i <= res.delivery_schedule.courier_schedule_lines.length) {
           const $parent = item.parentElement.parentElement;
-          const transId = res.pickup_schedule.courier_schedule_lines[i].transaction_id;
+          const transId = res.delivery_schedule.courier_schedule_lines[i].transaction_id;
           const filterSO = itemsSO.filter(res => res.id === transId);
           $(item).val(transId);
-          $parent.querySelector('input[name="eta"]').value = res.pickup_schedule.courier_schedule_lines[i].estimation_time;
+          $parent.querySelector('input[name="eta"]').value = res.delivery_schedule.courier_schedule_lines[i].estimation_time;
           $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
           $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
           $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;          
@@ -196,22 +170,22 @@ if (EditPickupForm.length > 0) {
     })
     .catch(res => console.log(res));
 
-  EditPickupForm.submit((e) => {
+  EditdeliveryForm.submit((e) => {
     e.preventDefault();
-    const data = dataFormPickup(e.target);
-    ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
+    const data = dataFormdelivery(e.target);
+    ajx.put(`/api/delivery_schedules/${id}`, data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;
   })
 
   $('#button-delete').click(() => {
-    ajx.delete(`/api/pickup_schedules/${id}`).then(res => window.location = '/pickup_schedules').catch(res => {
+    ajx.delete(`/api/delivery_schedules/${id}`).then(res => window.location = '/delivery_schedules').catch(res => {
       alert(res.responseJSON.message)
     });
   })
 }
 
-if (tablePickup.length > 0) {
-  ajx.get('/api/pickup_schedules').then((res) => {
-    createTable(tablePickup, res.pickup_schedules.data);
+if (tabledelivery.length > 0) {
+  ajx.get('/api/delivery_schedules').then((res) => {
+    createTable(tabledelivery, res.delivery_schedules.data);
   }).catch(res => console.log(res));
 }

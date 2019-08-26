@@ -53875,6 +53875,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
   });
   return {
     customer_id: $('#customer_id').val(),
+    order_id: $('#sales_order_id').val(),
     agent_id: $('#outlet').val(),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
@@ -53912,7 +53913,7 @@ if (formEditSalesInvoice.length > 0) {
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
     sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
-    $('#sales_order_id').val(res.sales_invoice.transaction_lines[0].transaction_id);
+    $('#sales_order_id').val(res.sales_invoice.order_id);
     $('#order_type').val(res.sales_invoice.order_type);
     $('#note').val(res.sales_invoice.note);
     $('#discount').val(res.sales_invoice.discount);

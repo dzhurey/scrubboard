@@ -11,6 +11,8 @@ class Transaction extends BaseModel
 {
     use SingleTableInheritanceTrait;
 
+    protected $transaction_number_prefix = '';
+
     protected $table = 'transactions';
 
     protected static $singleTableTypeField = 'transaction_type';
@@ -63,5 +65,18 @@ class Transaction extends BaseModel
     public function agent()
     {
         return $this->belongsTo('App\Agent');
+    }
+
+    public function generateTransactionNumber()
+    {
+        $latest = $this->getLatest();
+
+        if (! $latest) {
+            return $this->transaction_number_prefix . '0001';
+        }
+
+        $string = preg_replace("/[^0-9\.]/", '', $latest->transaction_number);
+
+        return $this->transaction_number_prefix . sprintf('%04d', $string + 1);
     }
 }

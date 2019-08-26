@@ -53534,6 +53534,8 @@ if (formEditPrice.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var transaction_lines = [];
 var tableInvoice = $('#table-sales-invoice');
@@ -53851,6 +53853,8 @@ var createItemListDropdown = function createItemListDropdown(isEditable) {
 };
 
 var dataFormSalesOrder = function dataFormSalesOrder() {
+  var _ref;
+
   $('.item_id').each(function (i, item) {
     var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
 
@@ -53873,29 +53877,46 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
       });
     }
   });
-  return {
-    customer_id: $('#customer_id').val(),
+  return _ref = {
     order_id: $('#sales_order_id').val(),
-    agent_id: $('#outlet').val(),
-    transaction_date: $('#transaction_date').val(),
-    pickup_date: $('#pickup_date').val(),
-    delivery_date: $('#delivery_date').val(),
-    due_date: $('#due_date').val(),
-    original_amount: $('#original_amount').val(),
-    discount: $('#discount').val(),
-    discount_amount: $('#discount_amount').val(),
-    total_amount: $('#total_amount').val(),
-    note: $('#note').val(),
-    order_type: $('#order_type').val(),
-    status_order: $('#status_order').val(),
-    freight: $('#freight').val(),
-    transaction_lines: transaction_lines
-  };
+    customer_id: $('#customer_id').val()
+  }, _defineProperty(_ref, "order_id", $('#sales_order_id').val()), _defineProperty(_ref, "agent_id", $('#outlet').val()), _defineProperty(_ref, "transaction_date", $('#transaction_date').val()), _defineProperty(_ref, "pickup_date", $('#pickup_date').val()), _defineProperty(_ref, "delivery_date", $('#delivery_date').val()), _defineProperty(_ref, "due_date", $('#due_date').val()), _defineProperty(_ref, "original_amount", $('#original_amount').val()), _defineProperty(_ref, "discount", $('#discount').val()), _defineProperty(_ref, "discount_amount", $('#discount_amount').val()), _defineProperty(_ref, "total_amount", $('#total_amount').val()), _defineProperty(_ref, "note", $('#note').val()), _defineProperty(_ref, "order_type", $('#order_type').val()), _defineProperty(_ref, "status_order", $('#status_order').val()), _defineProperty(_ref, "freight", $('#freight').val()), _defineProperty(_ref, "transaction_lines", transaction_lines), _ref;
 };
 
 if (formCreateSalesInvoice.length > 0) {
   sessionStorage.clear();
   $('#button-delete').remove();
+  var queries = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  var fromOrder = queries.filter(function (item) {
+    return item.indexOf('from_order') > -1;
+  });
+
+  if (fromOrder.length > 0) {
+    var orderId = fromOrder[0].slice(fromOrder[0].indexOf('=') + 1);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(orderId)).then(function (res) {
+      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
+      $('#sales_order_id').val(orderId);
+      $('#order_type').val(res.sales_order.order_type);
+      $('#note').val(res.sales_order.note);
+      $('#discount').val(res.sales_order.discount);
+      $('#discount_amount').val(res.sales_order.discount_amount);
+      $('#freight').val(res.sales_order.freight);
+      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#transaction_date').val(res.sales_order.transaction_date);
+      $('#pickup_date').val(res.sales_order.pickup_date);
+      $('#delivery_date').val(res.sales_order.delivery_date);
+      $('#customer_id').val(res.sales_order.customer_id);
+      $('#outlet').val(res.sales_order.agent_id);
+      getDataTableSO(res.sales_order.customer_id, true);
+      $('#customer_id, #outlet').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      }).trigger('change');
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  }
+
   formCreateSalesInvoice.submit(function (e) {
     e.preventDefault();
     var data = dataFormSalesOrder();

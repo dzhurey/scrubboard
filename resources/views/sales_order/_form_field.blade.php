@@ -126,8 +126,7 @@
                 Copy to
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">AR Invoice</a>
-                <a class="dropdown-item" href="#">A/R DP Invoice</a>
+                <a class="dropdown-item" href="{{ route('sales_invoices.create', ['from_order' => $sales_order->id]) }}">AR Invoice</a>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Submit</button>

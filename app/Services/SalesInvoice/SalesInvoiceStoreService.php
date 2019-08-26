@@ -48,6 +48,7 @@ class SalesInvoiceStoreService extends BaseService
         $attributes['order_id'] = isset($attributes['order_id']) ? $attributes['order_id'] : null;
         $attributes['balance_due'] = $attributes['total_amount'];
         $this->model = $this->assignAttributes($this->model, $attributes);
+        $this->model->transaction_number = $this->model->generateTransactionNumber();
         $this->model->save();
     }
 

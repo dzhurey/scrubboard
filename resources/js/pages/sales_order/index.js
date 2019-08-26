@@ -12,6 +12,43 @@ const tableSalesOrder = $('#table-sales-order');
 const formCreateSalesOrder = $('#form-create-sales-order');
 const formEditSalesOrder = $('#form-edit-sales-order');
 const tableSOItems = $('#table-so-item');
+const dataFormSalesOrder = () => {
+  $('.item_id').each((i, item) => {
+    const discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
+    if ($(item).val() !== '') {
+      const target = item.parentElement.parentElement;
+      const unit_price = target.querySelector('input[name="unit_price"]').value;
+      const amount = target.querySelector('input[name="amount"]').value;
+      const discount_amount = parseFloat(unit_price) - parseFloat(amount);
+      transaction_lines.push({
+        item_id: $(item).val(),
+        note: target.querySelector('input[name="note"]').value,
+        quantity: target.querySelector('input[name="quantity"]').value,
+        unit_price: unit_price,
+        discount: target.querySelector('input[name="discount"]').value,
+        amount: amount,
+        discount_amount: discount_amount
+      })
+    }
+  })
+
+  return {
+    customer_id: $('#customer_id').val(),
+    agent_id: $('#outlet').val(),
+    transaction_date: $('#transaction_date').val(),
+    pickup_date: $('#pickup_date').val(),
+    delivery_date: $('#delivery_date').val(),
+    original_amount: $('#original_amount').val(),
+    discount: $('#discount').val(),
+    discount_amount: $('#discount_amount').val(),
+    total_amount: $('#total_amount').val(),
+    note: $('#note').val(),
+    order_type: $('#order_type').val(),
+    status_order: $('#status_order').val(),
+    freight: $('#freight').val(),
+    transaction_lines: transaction_lines,
+  }
+};
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -46,13 +83,12 @@ const createTable = (target, data) => {
     }
   })
 };
-const getDataTableSO = (id) => {
+const getDataTableSO = (id, isEditable) => {
   ajx.get(`/api/customers/${id}`).then((res) => {
     ajx.get(`/api/prices/${res.customer.price_id}`).then((res) => {
       const prices = res.price.price_lines;
-      sessionStorage.clear();
       sessionStorage.setItem('prices', JSON.stringify(prices));
-      createTableSO(tableSOItems, prices);
+      createTableSO(tableSOItems, prices, isEditable);
     }).catch(res => console.log(res));
   }).catch(res => console.log(res));
 }
@@ -84,7 +120,7 @@ const finalTotal = (value, freightValue) => {
   $('#total_amount').val(parseFloat(total));
 };
 
-const createItemListDropdown = () => {
+const createItemListDropdown = (isEditable) => {
   const items = JSON.parse(sessionStorage.prices);
   for (let item of items) {
     const option = document.createElement('option');
@@ -92,6 +128,23 @@ const createItemListDropdown = () => {
       option.value = item.item_id;
       option.textContent = `${res.item.description}`;
       $('.item_id').append(option);
+      if (isEditable) {
+        const transaction_lines = JSON.parse(sessionStorage.transaction_lines);
+        transaction_lines.forEach((res, resIndex) => {
+          const id = res.item_id;
+          $('.item_id').each((index, item) => {
+            if (resIndex === index) {
+              item.value = id;
+              item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+              item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
+              item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
+              item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
+              item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
+            }
+          })
+          totalBeforeDisc();
+        })
+      }
     }).catch(res => console.log(res));
   }
 
@@ -138,7 +191,7 @@ const createItemListDropdown = () => {
     $(`#amount_${id}`).val('0');
   });
 };
-const createTableSO = (target, data) => {
+const createTableSO = (target, data, isEditable) => {
   target.DataTable({
     destroy: true,
     data: data,
@@ -192,9 +245,9 @@ const createTableSO = (target, data) => {
         },
       },
     ],
-    drawCallback: () => {
+    drawCallback: (settings) => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
-      createItemListDropdown();
+      createItemListDropdown(isEditable);
       chooseCustomer();
     }
   })
@@ -233,73 +286,60 @@ if (formCreateSalesOrder.length > 0) {
 }
 
 if (formCreateSalesOrder.length > 0) {
+  sessionStorage.clear();
+  $('#button-delete').remove();
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();
-    $('.item_id').each((i, item) => {
-      const discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
-      if ($(item).val() !== '') {
-        const target = item.parentElement.parentElement;
-        const unit_price = target.querySelector('input[name="unit_price"]').value;
-        const amount = target.querySelector('input[name="amount"]').value;
-        const discount_amount = parseFloat(unit_price) - parseFloat(amount);
-        transaction_lines.push({
-          item_id: $(item).val(),
-          note: target.querySelector('input[name="note"]').value,
-          quantity: target.querySelector('input[name="quantity"]').value,
-          unit_price: unit_price,
-          discount: target.querySelector('input[name="discount"]').value,
-          amount: amount,
-          discount_amount: discount_amount
-        })
-      }
-    })
-
-    const data = {
-      customer_id: $('#customer_id').val(),
-      agent_id: $('#outlet').val(),
-      transaction_date: $('#transaction_date').val(),
-      pickup_date: $('#pickup_date').val(),
-      delivery_date: $('#delivery_date').val(),
-      original_amount: $('#original_amount').val(),
-      discount: $('#discount').val(),
-      discount_amount: $('#discount_amount').val(),
-      total_amount: $('#total_amount').val(),
-      note: $('#note').val(),
-      order_type: $('#order_type').val(),
-      status_order: $('#status_order').val(),
-      freight: $('#freight').val(),
-      transaction_lines: transaction_lines,
-    }
+    const data = dataFormSalesOrder();
     ajx.post('/api/sales_orders', data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
     return false;
   })
 }
 
 if (tableSalesOrder.length > 0) {
+  sessionStorage.clear();
   ajx.get('/api/sales_orders').then((res) => {
     createTable(tableSalesOrder, res.sales_orders.data);
   }).catch(res => console.log(res));
 }
 
 if (formEditSalesOrder.length > 0) {
+  sessionStorage.clear();
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
   ajx.get(`/api/sales_orders/${id}`)
     .then((res) => {
+      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
       $('#customer_id').val(res.sales_order.customer_id);
       $('#outlet').val(res.sales_order.agent_id);
       $('#order_type').val(res.sales_order.order_type);
+      $('#note').val(res.sales_order.note);
+      $('#discount').val(res.sales_order.discount);
+      $('#discount_amount').val(res.sales_order.discount_amount);
+      $('#freight').val(res.sales_order.freight);
       $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed')
       ;
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
       $('#delivery_date').val(res.sales_order.delivery_date);
+      getDataTableSO(res.sales_order.customer_id, true);
       $('.select2').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
       }).trigger('change');
-      getDataTableSO(res.sales_order.customer_id);
     })
     .catch(res => console.log(res));
 
+  formEditSalesOrder.submit((e) => {
+    e.preventDefault();
+    const data = dataFormSalesOrder();
+    ajx.put(`/api/sales_orders/${id}`, data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
+    return false;
+  })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/sales_orders/${id}`).then(res => window.location = '/sales_orders').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

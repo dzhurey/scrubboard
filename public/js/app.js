@@ -52990,6 +52990,46 @@ var formCreateSalesOrder = $('#form-create-sales-order');
 var formEditSalesOrder = $('#form-edit-sales-order');
 var tableSOItems = $('#table-so-item');
 
+var dataFormSalesOrder = function dataFormSalesOrder() {
+  $('.item_id').each(function (i, item) {
+    var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
+
+    if ($(item).val() !== '') {
+      var target = item.parentElement.parentElement;
+      var unit_price = target.querySelector('input[name="unit_price"]').value;
+      var amount = target.querySelector('input[name="amount"]').value;
+
+      var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
+
+      transaction_lines.push({
+        item_id: $(item).val(),
+        note: target.querySelector('input[name="note"]').value,
+        quantity: target.querySelector('input[name="quantity"]').value,
+        unit_price: unit_price,
+        discount: target.querySelector('input[name="discount"]').value,
+        amount: amount,
+        discount_amount: _discount_amount
+      });
+    }
+  });
+  return {
+    customer_id: $('#customer_id').val(),
+    agent_id: $('#outlet').val(),
+    transaction_date: $('#transaction_date').val(),
+    pickup_date: $('#pickup_date').val(),
+    delivery_date: $('#delivery_date').val(),
+    original_amount: $('#original_amount').val(),
+    discount: $('#discount').val(),
+    discount_amount: $('#discount_amount').val(),
+    total_amount: $('#total_amount').val(),
+    note: $('#note').val(),
+    order_type: $('#order_type').val(),
+    status_order: $('#status_order').val(),
+    freight: $('#freight').val(),
+    transaction_lines: transaction_lines
+  };
+};
+
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
@@ -53027,13 +53067,12 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var getDataTableSO = function getDataTableSO(id) {
+var getDataTableSO = function getDataTableSO(id, isEditable) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(id)).then(function (res) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
       var prices = res.price.price_lines;
-      sessionStorage.clear();
       sessionStorage.setItem('prices', JSON.stringify(prices));
-      createTableSO(tableSOItems, prices);
+      createTableSO(tableSOItems, prices, isEditable);
     })["catch"](function (res) {
       return console.log(res);
     });
@@ -53076,7 +53115,7 @@ var finalTotal = function finalTotal(value, freightValue) {
   $('#total_amount').val(parseFloat(total));
 };
 
-var createItemListDropdown = function createItemListDropdown() {
+var createItemListDropdown = function createItemListDropdown(isEditable) {
   var items = JSON.parse(sessionStorage.prices);
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -53090,6 +53129,25 @@ var createItemListDropdown = function createItemListDropdown() {
         option.value = item.item_id;
         option.textContent = "".concat(res.item.description);
         $('.item_id').append(option);
+
+        if (isEditable) {
+          var _transaction_lines = JSON.parse(sessionStorage.transaction_lines);
+
+          _transaction_lines.forEach(function (res, resIndex) {
+            var id = res.item_id;
+            $('.item_id').each(function (index, item) {
+              if (resIndex === index) {
+                item.value = id;
+                item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+                item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
+              }
+            });
+            totalBeforeDisc();
+          });
+        }
       })["catch"](function (res) {
         return console.log(res);
       });
@@ -53156,7 +53214,7 @@ var createItemListDropdown = function createItemListDropdown() {
   });
 };
 
-var createTableSO = function createTableSO(target, data) {
+var createTableSO = function createTableSO(target, data, isEditable) {
   target.DataTable({
     destroy: true,
     data: data,
@@ -53201,9 +53259,9 @@ var createTableSO = function createTableSO(target, data) {
         return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
       }
     }],
-    drawCallback: function drawCallback() {
+    drawCallback: function drawCallback(settings) {
       $('.table-action[data-toggle="tooltip"]').tooltip();
-      createItemListDropdown();
+      createItemListDropdown(isEditable);
       chooseCustomer();
     }
   });
@@ -53286,45 +53344,11 @@ if (formCreateSalesOrder.length > 0) {
 }
 
 if (formCreateSalesOrder.length > 0) {
+  sessionStorage.clear();
+  $('#button-delete').remove();
   formCreateSalesOrder.submit(function (e) {
     e.preventDefault();
-    $('.item_id').each(function (i, item) {
-      var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
-
-      if ($(item).val() !== '') {
-        var target = item.parentElement.parentElement;
-        var unit_price = target.querySelector('input[name="unit_price"]').value;
-        var amount = target.querySelector('input[name="amount"]').value;
-
-        var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
-
-        transaction_lines.push({
-          item_id: $(item).val(),
-          note: target.querySelector('input[name="note"]').value,
-          quantity: target.querySelector('input[name="quantity"]').value,
-          unit_price: unit_price,
-          discount: target.querySelector('input[name="discount"]').value,
-          amount: amount,
-          discount_amount: _discount_amount
-        });
-      }
-    });
-    var data = {
-      customer_id: $('#customer_id').val(),
-      agent_id: $('#outlet').val(),
-      transaction_date: $('#transaction_date').val(),
-      pickup_date: $('#pickup_date').val(),
-      delivery_date: $('#delivery_date').val(),
-      original_amount: $('#original_amount').val(),
-      discount: $('#discount').val(),
-      discount_amount: $('#discount_amount').val(),
-      total_amount: $('#total_amount').val(),
-      note: $('#note').val(),
-      order_type: $('#order_type').val(),
-      status_order: $('#status_order').val(),
-      freight: $('#freight').val(),
-      transaction_lines: transaction_lines
-    };
+    var data = dataFormSalesOrder();
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_orders', data).then(function (res) {
       return window.location = '/sales_orders';
     })["catch"](function (res) {
@@ -53335,6 +53359,7 @@ if (formCreateSalesOrder.length > 0) {
 }
 
 if (tableSalesOrder.length > 0) {
+  sessionStorage.clear();
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
     createTable(tableSalesOrder, res.sales_orders.data);
   })["catch"](function (res) {
@@ -53343,23 +53368,46 @@ if (tableSalesOrder.length > 0) {
 }
 
 if (formEditSalesOrder.length > 0) {
+  sessionStorage.clear();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
+    sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
     $('#customer_id').val(res.sales_order.customer_id);
     $('#outlet').val(res.sales_order.agent_id);
     $('#order_type').val(res.sales_order.order_type);
+    $('#note').val(res.sales_order.note);
+    $('#discount').val(res.sales_order.discount);
+    $('#discount_amount').val(res.sales_order.discount_amount);
+    $('#freight').val(res.sales_order.freight);
     $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
     $('#transaction_date').val(res.sales_order.transaction_date);
     $('#pickup_date').val(res.sales_order.pickup_date);
     $('#delivery_date').val(res.sales_order.delivery_date);
+    getDataTableSO(res.sales_order.customer_id, true);
     $('.select2').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
     }).trigger('change');
-    getDataTableSO(res.sales_order.customer_id);
   })["catch"](function (res) {
     return console.log(res);
+  });
+  formEditSalesOrder.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_orders/".concat(id), data).then(function (res) {
+      return window.location = '/sales_orders';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_orders/".concat(id)).then(function (res) {
+      return window.location = '/sales_orders';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

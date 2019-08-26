@@ -1,60 +1,27 @@
-<h2 class="c-form--title">Sales Order Data</h2>
+<h2 class="c-form--title">Pickup Schedule Data</h2>
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            <label class="c-form--label" for="order_type">Order type</label>
-            <select class="form-control" id="order_type" name="order_type" required>
-                <option value="general">General</option>
-                <option value="endorser">Endorser</option>
-            </select>
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-        <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <select class="form-control" id="customer_id" name="customer_id" required>
+            <label class="c-form--label" for="courier_id">Courier Name</label>
+            <select class="form-control" id="courier_id" name="courier_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="outlet">Outlet</label>
-            <select class="form-control" id="outlet" name="outlet" required>
+            <label class="c-form--label" for="vehicle_id">Vehicle</label>
+            <select class="form-control" id="vehicle_id" name="vehicle_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>
-    <div class="col-sm-2"></div>
-    <div class="col-sm-6">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="c-form--label" for="status_order">Status order</label>
-                    <input class="form-control" id="status_order" name="status_order" disabled>
-                    <div class="invalid-feedback">Data invalid.</div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="c-form--label" for="transaction_date">Document date</label>
-                    <input class="form-control datetimepicker" id="transaction_date" name="transaction_date" required>
-                    <div class="invalid-feedback">Data invalid.</div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="c-form--label" for="pickup_date">Pick Up date</label>
-                    <input class="form-control datetimepicker" id="pickup_date" name="pickup_date" required>
-                    <div class="invalid-feedback">Data invalid.</div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label class="c-form--label" for="delivery_date">Delivery date</label>
-                    <input class="form-control datetimepicker" id="delivery_date" name="delivery_date" required>
-                    <div class="invalid-feedback">Data invalid.</div>
-                </div>
-            </div>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="c-form--label" for="date">Date</label>
+            <input class="form-control datetimepicker" id="date" name="date" required>
+            <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>
 </div>
@@ -63,13 +30,11 @@
     <table id="table-so-item" class="c-table table table-striped">
         <thead>
             <tr>
-                <th class="th-item">Item</th>
-                <th class="th-note">Notes</th>
-                <th class="th-qty">Qty</th>
-                <th class="th-dcs">Disc (%)</th>
-                <th class="th-price">Unit Price</th>
-                <th class="th-total">Total</th>
-                <th class="th-action"></th>
+                <th class="th-item">Sales Order Id</th>
+                <th class="th-note">Customer</th>
+                <th class="th-note">Sales Date</th>
+                <th class="th-item">Address</th>
+                <th class="th-price">ETA</th>
             </tr>
         </thead>
     </table>
@@ -120,15 +85,6 @@
     </div>
     <div class="col-sm-6 text-right">
         <button class="btn btn-light mr-2" type="button">Cancel</button>
-        <div class="dropdown d-inline-block mr-2">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Copy to
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">AR Invoice</a>
-                <a class="dropdown-item" href="#">A/R DP Invoice</a>
-            </div>
-        </div>
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

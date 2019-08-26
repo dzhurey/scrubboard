@@ -1,4 +1,4 @@
-@if ($sales_orders->count() > 0 || !empty($query))
+@if ($sales_invoices->count() > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-price" class="c-table table table-striped">
         <thead>
@@ -12,8 +12,8 @@
 </div>
 @else
 <div class="text-center py-5 mt-5">
-    <img src="{{ asset('assets/images/icons/users.svg') }}" width="90" style="opacity: 0.7">
-    <h2 class="mt-3 mb-2">No data sales order</h2>
-    <p style="opacity: 0.5">Your sales order data will show here</p>
+    <img src="{{ asset('assets/images/icons/file-text.svg') }}" width="90" style="opacity: 0.7">
+    <h2 class="mt-3 mb-2">No data sales invoices</h2>
+    <p style="opacity: 0.5">Your sales invoices data will show here</p>
 </div>
 @endif

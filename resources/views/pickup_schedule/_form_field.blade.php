@@ -3,14 +3,14 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="courier_id">Courier Name</label>
-            <select class="form-control" id="courier_id" name="courier_id" required>
+            <select class="form-control select2" id="courier_id" name="courier_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="vehicle_id">Vehicle</label>
-            <select class="form-control" id="vehicle_id" name="vehicle_id" required>
+            <select class="form-control select2" id="vehicle_id" name="vehicle_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
@@ -27,7 +27,7 @@
 </div>
 
 <div class="c-table--outer mx-0">
-    <table id="table-so-item" class="c-table table table-striped">
+    <table id="table-so-item-pickup" class="c-table table table-striped">
         <thead>
             <tr>
                 <th class="th-item">Sales Order Id</th>

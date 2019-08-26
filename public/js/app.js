@@ -51705,6 +51705,8 @@ __webpack_require__(/*! ./pages/people/index.js */ "./resources/js/pages/people/
 
 __webpack_require__(/*! ./pages/sales_order/index.js */ "./resources/js/pages/sales_order/index.js");
 
+__webpack_require__(/*! ./pages/pickup_schedule/index.js */ "./resources/js/pages/pickup_schedule/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -52801,6 +52803,250 @@ if (formEditUser.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/pickup_schedule/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/pickup_schedule/index.js ***!
+  \*****************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var courierId = $('#courier_id');
+var vehicleId = $('#vehicle_id');
+var tableSoItemPickup = $('#table-so-item-pickup');
+var createPickupForm = $('#form-create-pickup');
+var EditPickupForm = $('#form-edit-pickup');
+
+var chooseSOList = function chooseSOList() {
+  $('.so_id').change(function (e) {
+    var items = JSON.parse(sessionStorage.sales_orders);
+    var getId = e.currentTarget.getAttribute('data-id');
+    var matchData = items.filter(function (res) {
+      return res.id === parseFloat(getId);
+    });
+    $("#customer_".concat(getId)).val(matchData[0].customer.name);
+    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
+    $("#address_".concat(getId)).val(matchData[0].customer.name);
+  });
+};
+
+var createSOListDropdown = function createSOListDropdown() {
+  var items = JSON.parse(sessionStorage.sales_orders);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var item = _step.value;
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      $('.so_id').append(option);
+      $('.select2').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  chooseSOList();
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id.',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 so_id\" id=\"so_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"transaction_id\"><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"customer_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"customer\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"sales_date_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"sales_date\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"address_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"address\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"time\" class=\"form-control\" id=\"eta_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"eta\">");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      createSOListDropdown();
+    }
+  });
+};
+
+var dataFormPickup = function dataFormPickup(tableList) {
+  var courier_schedule_lines = [];
+  $('.so_id').each(function (i, item) {
+    var $parent = item.parentElement.parentElement;
+
+    if ($(item).val() !== '') {
+      courier_schedule_lines.push({
+        transaction_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value
+      });
+    }
+  });
+  return {
+    courier_id: $('#courier_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines
+  };
+};
+
+if (courierId.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
+    var items = res.couriers.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        courierId.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (vehicleId.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/vehicles').then(function (res) {
+    var items = res.vehicles.data;
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var item = _step3.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.number);
+        vehicleId.append(option);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+          _iterator3["return"]();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (tableSoItemPickup.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
+    createTable(tableSoItemPickup, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (createPickupForm.length > 0) {
+  $('#button-delete').remove();
+  createPickupForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/pickup_schedules', data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (EditPickupForm.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  EditPickupForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/pickup_schedules/".concat(id), data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/pickup_schedules/".concat(id)).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/price/index.js":
 /*!*******************************************!*\
   !*** ./resources/js/pages/price/index.js ***!
@@ -53452,8 +53698,6 @@ var createTable = function createTable(target, data) {
     }
   });
 };
-
-"";
 
 if (tableVehicle.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/vehicles').then(function (res) {

@@ -25,7 +25,7 @@ const createTable = (target, data) => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
   })
-};``
+};
 
 if (tableVehicle.length > 0) {
   ajx.get('/api/vehicles').then((res) => {

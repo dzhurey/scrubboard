@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Create Sales Invoice')
 
 @section('content')
 <div id="customers-form">

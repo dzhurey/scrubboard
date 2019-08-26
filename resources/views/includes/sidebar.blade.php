@@ -24,7 +24,7 @@
             </a>
         </div>
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
-            <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="./../sales_invoices">
+            <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="{{ route('sales_invoices.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
                 </span>
@@ -32,7 +32,7 @@
             </a>
         </div>
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
-            <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="./../pickup_schedules">
+            <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('pickup_schedules.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
                 </span>

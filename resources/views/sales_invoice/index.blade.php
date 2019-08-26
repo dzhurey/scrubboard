@@ -2,7 +2,7 @@
 @section('title', 'Sales Invoices')
 
 @section('content')
-<div id="sub-category-list">
+<div id="sales-invoice-list">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
           <h1 class="mb-0">Sales Invoices</h1>

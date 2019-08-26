@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item active" aria-current="page">Add sales order data</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add sales order data</h1>
+            <h1 class="mb-0">Add sales invoice data</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

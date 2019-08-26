@@ -1,8 +1,8 @@
 <div class="c-sidebar">
-    <div class="c-sidebar--logo mb-5">
+    <div class="c-sidebar--logo mb-4">
         <div class="mb-4 text-center">
           <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}" href="{{ route('home') }}">
-            <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="64">
+            <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="50">
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">
           </a>
         </div>
@@ -15,7 +15,7 @@
         </a>
     </div>
     <nav class="c-nav">
-        <div class="c-nav--item" id="sales" data-toggle="tooltip" data-placement="right" title="Sales Order">
+        <div class="c-nav--item" id="sales" data-toggle="tooltip" data-placement="right" title="Sales Order" data-container="body">
             <a class="{{ (request()->segment(1) == 'sales_orders') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/shopping-bag.svg') }}">
@@ -24,7 +24,7 @@
             </a>
         </div>
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
-            <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="./../sales_invoices">
+            <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="{{ route('sales_invoices.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
                 </span>
@@ -32,7 +32,7 @@
             </a>
         </div>
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
-            <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="./../pickup_schedules">
+            <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('pickup_schedules.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
                 </span>

@@ -82,8 +82,8 @@
             <textarea class="form-control" id="note" rows="6"></textarea>
         </div>
     </div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="original_amount">Total Before Discount</label>
             <input class="form-control" id="original_amount" value="0" readonly>
@@ -125,8 +125,7 @@
                 Copy to
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">AR Invoice</a>
-                <a class="dropdown-item" href="#">A/R DP Invoice</a>
+                <a class="dropdown-item" href="{{ route('sales_invoices.create', ['from_order' => $sales_order->id]) }}">AR Invoice</a>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Submit</button>

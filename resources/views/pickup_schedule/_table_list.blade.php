@@ -1,10 +1,14 @@
-@if ($pickup_schedules->count() > 0 || !empty($query))
+@if ($pickup_schedules->count() == 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-price" class="c-table table table-striped">
+    <table id="table-pickup-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Total item</th>
+                <th>Courier Name</th>
+                <th>Vehicle</th>
+                <th>Sales Order Id</th>
+                <th>Address</th>
+                <th>Total Items</th>
+                <th>ETA</th>
                 <th></th>
             </tr>
         </thead>
@@ -12,7 +16,7 @@
 </div>
 @else
 <div class="text-center py-5">
-    <img src="{{ asset('assets/images/icons/shopping-bag.svg') }}" width="120" style="opacity: 0.7">
+    <img src="{{ asset('assets/images/icons/calendar.svg') }}" width="120" style="opacity: 0.7">
     <h1 class="mt-3 mb-2">No data pick up schedules</h1>
     <p style="opacity: 0.5">Your pick up schedules data will show here</p>
 </div>

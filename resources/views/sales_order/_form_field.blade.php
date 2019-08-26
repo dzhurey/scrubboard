@@ -64,6 +64,7 @@
         <thead>
             <tr>
                 <th class="th-item">Item</th>
+                <th class="th-price">BOR</th>
                 <th class="th-note">Notes</th>
                 <th class="th-qty text-right">Qty</th>
                 <th class="th-dcs text-right">Disc (%)</th>
@@ -86,29 +87,29 @@
     <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="original_amount">Total Before Discount</label>
-            <input class="form-control" id="original_amount" value="0" readonly>
+            <input class="form-control is-number" id="original_amount" value="0" readonly>
         </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="c-form--label" for="discount">Discount %</label>
-                    <input class="form-control" id="discount" value="0">
+                    <input class="form-control is-number" id="discount" value="0">
                 </div>
             </div>
             <div class="col-sm-9">
                 <div class="form-group">
                     <label class="c-form--label" for="discount_amount">Amount Discount</label>
-                    <input class="form-control" id="discount_amount" value="0" readonly>
+                    <input class="form-control is-number" id="discount_amount" value="0" readonly>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="freight">Freight</label>
-            <input class="form-control" id="freight" value="0">
+            <input class="form-control is-number" id="freight" value="0">
         </div>
         <div class="form-group">
             <label class="c-form--label" for="total_amount">Total</label>
-            <input class="form-control" id="total_amount" value="0" readonly>
+            <input class="form-control is-number" id="total_amount" value="0" readonly>
         </div>
     </div>
 </div>

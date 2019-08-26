@@ -31,12 +31,20 @@
                 <span>Invoices</span>
             </a>
         </div>
-        <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
+        <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
             <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('pickup_schedules.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
                 </span>
                 <span>Pickup Schedules</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Delivery schedule">
+            <a class="{{ (request()->segment(1) == 'delivery_schedules') ? 'is-active' : '' }}" href="{{ route('delivery_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Delivery Schedules</span>
             </a>
         </div>
         <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Customer">

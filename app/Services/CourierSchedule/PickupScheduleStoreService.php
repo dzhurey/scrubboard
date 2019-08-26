@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\PickupSchedule;
 use App\Services\CourierSchedule\CourierScheduleStoreService;
 
-class DeliveryScheduleStoreService extends CourierScheduleStoreService
+class PickupScheduleStoreService extends CourierScheduleStoreService
 {
     const SCHEDULE_TYPE = 'pickup';
     protected $model;

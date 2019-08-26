@@ -104,7 +104,6 @@ class PickupScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $pickup_schedule->transactionLines->each->delete();
         $pickup_schedule->delete();
         return $this->renderView($request, '', [], ['route' => 'pickup_schedules.index', 'data' => []], 204);
     }

@@ -2,7 +2,7 @@
 @section('title', 'Create Pickup Schedule')
 
 @section('content')
-<div id="customers-form">
+<div id="pickup-schedule-form">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
             <nav aria-label="breadcrumb">

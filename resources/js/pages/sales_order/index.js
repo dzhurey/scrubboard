@@ -23,6 +23,7 @@ const dataFormSalesOrder = () => {
       transaction_lines.push({
         item_id: $(item).val(),
         note: target.querySelector('input[name="note"]').value,
+        bor: target.querySelector('input[name="bor"]').value,
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
@@ -137,6 +138,7 @@ const createItemListDropdown = (isEditable) => {
             if (resIndex === index) {
               item.value = id;
               item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+              item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
               item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
               item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
               item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
@@ -167,6 +169,7 @@ const createItemListDropdown = (isEditable) => {
   })
 
   $('.discount, .quantity').change((e) => {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
     const items = JSON.parse(sessionStorage.prices);
     const id = e.target.getAttribute('data-id');
     const itemQuantity = $(`#quantity_${id}`).val();
@@ -211,31 +214,37 @@ const createTableSO = (target, data, isEditable) => {
       { 
         data: 'id',
         render(data, type, row) {
+          return `<input type="text" class="form-control" id="bor_${row.item_id}" data-id="${row.item_id}" name="bor">`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
           return `<input type="text" class="form-control" id="note_${row.item_id}" data-id="${row.item_id}" name="note">`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control quantity text-right" id="quantity_${row.item_id}" data-id="${row.item_id}" value="0" name="quantity">`
+          return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.item_id}" data-id="${row.item_id}" value="0" name="quantity">`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right" id="discount_${row.item_id}" data-id="${row.item_id}" value="0" name="discount">`
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.item_id}" data-id="${row.item_id}" value="0" name="discount">`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right" id="unit_price_${row.item_id}" data-id="${row.item_id}" name="unit_price" value="0" readonly>`
+          return `<input type="text" class="form-control text-right is-number" id="unit_price_${row.item_id}" data-id="${row.item_id}" name="unit_price" value="0" readonly>`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right item_total" id="amount_${row.item_id}" data-id="${row.item_id}" name="amount" value="0" readonly>`
+          return `<input type="text" class="form-control text-right item_total is-number" id="amount_${row.item_id}" data-id="${row.item_id}" name="amount" value="0" readonly>`
         }
       },
       {
@@ -342,5 +351,12 @@ if (formEditSalesOrder.length > 0) {
     ajx.delete(`/api/sales_orders/${id}`).then(res => window.location = '/sales_orders').catch(res => {
       alert(res.responseJSON.message)
     });
+  })
+}
+
+if ($('.is-number').length > 0) {
+  $('.is-number').change((e) => {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
+    e.target.value = e.target.value === 'NaN' ? 0 : e.target.value;
   })
 }

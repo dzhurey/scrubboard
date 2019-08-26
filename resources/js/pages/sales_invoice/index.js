@@ -75,7 +75,7 @@ salesOrderList.change((e) => {
       $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#delivery_date').val(res.sales_order.delivery_date);
+      $('#due_date').val(res.sales_order.due_date);
       $('#customer_id').val(res.sales_order.customer_id);
       $('#outlet').val(res.sales_order.agent_id);
 
@@ -116,6 +116,12 @@ const createTableSO = (target, data, isEditable) => {
         }
       },
       {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" id="bor_${row.item_id}" data-id="${row.item_id}" name="bor" readonly>`
+        }
+      },
+      { 
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control" id="note_${row.item_id}" data-id="${row.item_id}" name="note" readonly>`
@@ -201,6 +207,7 @@ const createItemListDropdown = (isEditable) => {
             if (resIndex === index) {
               item.value = id;
               item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+              item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
               item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
               item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
               item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
@@ -269,6 +276,7 @@ const dataFormSalesOrder = () => {
       transaction_lines.push({
         item_id: $(item).val(),
         note: target.querySelector('input[name="note"]').value,
+        bor: target.querySelector('input[name="bor"]').value,
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
@@ -281,10 +289,12 @@ const dataFormSalesOrder = () => {
   return {
     order_id: $('#sales_order_id').val(),
     customer_id: $('#customer_id').val(),
+    order_id: $('#sales_order_id').val(),
     agent_id: $('#outlet').val(),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
     delivery_date: $('#delivery_date').val(),
+    due_date: $('#due_date').val(),
     original_amount: $('#original_amount').val(),
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
@@ -345,7 +355,7 @@ if (formEditSalesInvoice.length > 0) {
   ajx.get(`/api/sales_invoices/${id}`)
     .then(res => {
       sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
-      $('#sales_order_id').val(res.sales_invoice.order_id);
+      $('#sales_order_id').val(res.sales_invoice.order_id)
       $('#order_type').val(res.sales_invoice.order_type);
       $('#note').val(res.sales_invoice.note);
       $('#discount').val(res.sales_invoice.discount);
@@ -355,11 +365,12 @@ if (formEditSalesInvoice.length > 0) {
       $('#transaction_date').val(res.sales_invoice.transaction_date);
       $('#pickup_date').val(res.sales_invoice.pickup_date);
       $('#delivery_date').val(res.sales_invoice.delivery_date);
+      $('#due_date').val(res.sales_invoice.due_date);
       $('#customer_id').val(res.sales_invoice.customer_id);
       $('#outlet').val(res.sales_invoice.agent_id);
 
       getDataTableSO(res.sales_invoice.customer_id, true);
-      $('#customer_id, #outlet').select2({
+      $('#customer_id, #outlet, #sales_order_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
       }).trigger('change');

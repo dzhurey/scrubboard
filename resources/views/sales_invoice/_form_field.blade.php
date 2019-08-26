@@ -69,6 +69,13 @@
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="due_date">Due date</label>
+                    <input class="form-control datetimepicker" id="due_date" name="due_date" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -78,6 +85,7 @@
         <thead>
             <tr>
                 <th class="th-item">Item</th>
+                <th class="th-price">BOR</th>
                 <th class="th-note">Notes</th>
                 <th class="th-qty text-right">Qty</th>
                 <th class="th-dcs text-right">Disc (%)</th>

@@ -104,7 +104,6 @@ class DeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $delivery_schedule->transactionLines->each->delete();
         $delivery_schedule->delete();
         return $this->renderView($request, '', [], ['route' => 'delivery_schedules.index', 'data' => []], 204);
     }

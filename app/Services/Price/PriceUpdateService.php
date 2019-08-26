@@ -49,6 +49,7 @@ class PriceUpdateService extends BaseService
     {
         $price_lines = [];
         foreach ($attributes['price_lines'] as $key => $value) {
+            $value['price_id'] = $this->model->id;
             $price_line = $this->getOrCreatePriceLine($value);
             array_push($price_lines, $this->assignAttributes($price_line, $value));
         }
@@ -57,10 +58,7 @@ class PriceUpdateService extends BaseService
 
     private function getOrCreatePriceLine($value)
     {
-        $price_line = PriceLine::where([
-            ['price_id', '=', $value['price_id']],
-            ['item_id', '=', $value['item_id']]
-        ])->first();
+        $price_line = $this->model->priceLines->where('item_id', '=', $value['item_id'])->first();
 
         if (empty($price_line)) {
             $price_line = new PriceLine();

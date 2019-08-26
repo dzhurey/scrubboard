@@ -430,7 +430,7 @@ h5 {
 .c-table.table tbody td .btn {
   opacity: 0.5;
   position: relative;
-  top: -4px;
+  top: 2px;
 }
 
 .c-table.table tbody td a:hover,

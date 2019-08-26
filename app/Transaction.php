@@ -32,6 +32,7 @@ class Transaction extends BaseModel
         'transaction_status',
         'order_type',
         'customer_id',
+        'agent_id',
         'transaction_date',
         'pickup_date',
         'delivery_date',
@@ -40,7 +41,9 @@ class Transaction extends BaseModel
         'discount_amount',
         'freight',
         'total_amount',
+        'balance_due',
         'note',
+        'order_id',
     ];
 
     protected $searchable = [
@@ -55,5 +58,10 @@ class Transaction extends BaseModel
     public function customer()
     {
         return $this->belongsTo('App\Customer');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo('App\Agent');
     }
 }

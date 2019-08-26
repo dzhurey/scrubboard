@@ -24,11 +24,19 @@
             </a>
         </div>
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
-            <a class="{{ (request()->segment(1) == 'invoices') ? 'is-active' : '' }}" href="./../sales/list-invoice">
+            <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="./../sales_invoices">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
                 </span>
                 <span>Invoices</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
+            <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="./../pickup_schedules">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Pickup Schedules</span>
             </a>
         </div>
         <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Customer">
@@ -68,7 +76,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/dollar-sign.svg') }}">
                 </span>
-                <span>Price</span>
+                <span>Price list</span>
             </a>
         </div>
         <div class="c-nav--item" id="vehicle" data-toggle="tooltip" data-placement="right" title="Vehicle">
@@ -100,7 +108,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/users.svg') }}">
                 </span>
-                <span>Courir</span>
+                <span>Courier</span>
             </a>
         </div>
         <div class="c-nav--item" id="user" data-toggle="tooltip" data-placement="right" title="User">

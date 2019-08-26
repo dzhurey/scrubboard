@@ -95,7 +95,6 @@ if (formCreatePrice.length > 0) {
     e.preventDefault();
     ajx.post('/api/prices', {
       name: $('#name').val(),
-      price_lines: priceList,
     }).then(res => window.location = '/prices').catch(res => console.log(res));
     return false;
   });
@@ -123,7 +122,7 @@ if (formEditPrice.length > 0) {
     e.preventDefault();
     ajx.put(`/api/prices/${id}`, {
       name: $('#name').val(),
-      price_lines: priceList,
+      price_lines: priceList.length > 0 ? priceList : '',
     }).then(res => window.location = '/prices').catch(res => console.log(res));
     return false;
   })

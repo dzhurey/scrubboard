@@ -36,11 +36,14 @@ class StoreSalesOrder extends FormRequest
      *      "freight": 10000,
      *      "total_amount": 80000,
      *      "note": "",
+     *      "agent_id": 1,
      *      "transaction_lines": [
      *          {
      *              "item_id": 1,
      *              "note": "",
      *              "quantity": 2,
+     *              "discount": 0,
+     *              "discount_amount": 0,
      *              "unit_price": 35000,
      *              "amount": 70000
      *          }
@@ -51,16 +54,18 @@ class StoreSalesOrder extends FormRequest
     {
         $rules = [
             'customer_id' => 'required',
+            'agent_id' => 'required',
             'order_type' => 'required|in:'.join(array_keys(Transaction::ORDER_TYPES), ','),
             'transaction_date' => 'required|date_format:"Y-m-d"',
             'pickup_date' => 'required|date_format:"Y-m-d"',
             'delivery_date' => 'required|date_format:"Y-m-d"',
             'original_amount' => 'required|numeric',
-            'discount' => 'numeric',
-            'discount_amount' => 'numeric',
-            'freight' => 'numeric',
+            'discount' => 'required|numeric',
+            'discount_amount' => 'required|numeric',
+            'freight' => 'required|numeric',
             'total_amount' => 'required|numeric',
             'note' => 'nullable|string',
+            'order_id' => 'nullable',
         ];
 
         foreach($this->request->get('transaction_lines') as $key => $val)
@@ -69,6 +74,8 @@ class StoreSalesOrder extends FormRequest
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.unit_price'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.discount'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.discount_amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
         }
 

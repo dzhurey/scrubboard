@@ -17,4 +17,9 @@ class SalesOrder extends Transaction
 
         static::addGlobalScope(new OrderScope);
     }
+
+    public function invoice()
+    {
+        return $this->hasOne('App\Transaction', 'order_id', 'id');
+    }
 }

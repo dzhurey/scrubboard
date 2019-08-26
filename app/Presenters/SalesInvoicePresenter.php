@@ -17,6 +17,8 @@ class SalesInvoicePresenter extends BasePresenter
     public function transform($input)
     {
         $input->customer = $input->customer;
+        $input->agent = $input->agent;
+        $input->order = $input->order;
         $input->transaction_lines = $input->transactionLines;
         return $input;
     }

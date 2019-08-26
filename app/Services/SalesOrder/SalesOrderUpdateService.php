@@ -41,7 +41,8 @@ class SalesOrderUpdateService extends BaseService
 
     private function updateTransaction($attributes)
     {
-        $this->model = $this->assignAttributes($this->model, $attributes, ['transaction_type', 'transaction_status']);
+        $attributes['balance_due'] = $this->model->balance_due;
+        $this->model = $this->assignAttributes($this->model, $attributes, ['transaction_type', 'transaction_status', 'order_id']);
         $this->model->save();
     }
 

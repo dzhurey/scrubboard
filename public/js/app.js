@@ -53311,6 +53311,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     }
   });
   return {
+    order_id: $('#sales_order_id').val(),
     customer_id: $('#customer_id').val(),
     agent_id: $('#outlet').val(),
     transaction_date: $('#transaction_date').val(),
@@ -53331,6 +53332,37 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
 if (formCreateSalesInvoice.length > 0) {
   sessionStorage.clear();
   $('#button-delete').remove();
+  var queries = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  var fromOrder = queries.filter(function (item) {
+    return item.indexOf('from_order') > -1;
+  });
+
+  if (fromOrder.length > 0) {
+    var orderId = fromOrder[0].slice(fromOrder[0].indexOf('=') + 1);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(orderId)).then(function (res) {
+      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
+      $('#sales_order_id').val(orderId);
+      $('#order_type').val(res.sales_order.order_type);
+      $('#note').val(res.sales_order.note);
+      $('#discount').val(res.sales_order.discount);
+      $('#discount_amount').val(res.sales_order.discount_amount);
+      $('#freight').val(res.sales_order.freight);
+      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#transaction_date').val(res.sales_order.transaction_date);
+      $('#pickup_date').val(res.sales_order.pickup_date);
+      $('#delivery_date').val(res.sales_order.delivery_date);
+      $('#customer_id').val(res.sales_order.customer_id);
+      $('#outlet').val(res.sales_order.agent_id);
+      getDataTableSO(res.sales_order.customer_id, true);
+      $('#customer_id, #outlet').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      }).trigger('change');
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  }
+
   formCreateSalesInvoice.submit(function (e) {
     e.preventDefault();
     var data = dataFormSalesOrder();
@@ -53348,6 +53380,7 @@ if (formEditSalesInvoice.length > 0) {
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
     sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
+    $('#sales_order_id').val(res.sales_invoice.order_id);
     $('#order_type').val(res.sales_invoice.order_type);
     $('#note').val(res.sales_invoice.note);
     $('#discount').val(res.sales_invoice.discount);

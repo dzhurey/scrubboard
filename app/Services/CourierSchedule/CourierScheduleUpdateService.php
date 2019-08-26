@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Lib\Services\BaseService;
 use App\CourierSchedule;
-use App\TransactionLine;
+use App\CourierScheduleLine;
 
 class CourierScheduleUpdateService extends BaseService
 {

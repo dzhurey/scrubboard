@@ -40,6 +40,44 @@
     </table>
 </div>
 
+<div class="row">
+    <div class="col-sm-4">
+        <div class="form-group">
+            <label class="c-form--label" for="note">Note</label>
+            <textarea class="form-control" id="note" rows="6"></textarea>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-5">
+        <div class="form-group">
+            <label class="c-form--label" for="total-bd">Total Before Discount</label>
+            <input class="form-control" id="total-bd" value="Rp. 200.000" readonly="">
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label class="c-form--label" for="discount">Discount %</label>
+                    <input class="form-control" id="discount" value="10">
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="form-group">
+                    <label class="c-form--label" for="amount-discount">Amount Discount</label>
+                    <input class="form-control" id="amount-discount" value="Rp. 50.000" readonly="">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="freight">Freight</label>
+            <input class="form-control" id="freight" value="Rp. 50.000">
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="total">Total</label>
+            <input class="form-control" id="total" value="Rp. 200.000" readonly="">
+        </div>
+    </div>
+</div>
+
 <hr class="my-4">
 <div class="row">
     <div class="col-sm-6 text-left">

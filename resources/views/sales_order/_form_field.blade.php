@@ -83,8 +83,8 @@
             <textarea class="form-control" id="note" rows="6"></textarea>
         </div>
     </div>
-    <div class="col-sm-4"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="original_amount">Total Before Discount</label>
             <input class="form-control is-number" id="original_amount" value="0" readonly>

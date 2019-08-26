@@ -36,6 +36,7 @@ class Transaction extends BaseModel
         'transaction_date',
         'pickup_date',
         'delivery_date',
+        'due_date',
         'original_amount',
         'discount',
         'discount_amount',

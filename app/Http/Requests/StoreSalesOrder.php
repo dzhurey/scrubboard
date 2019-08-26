@@ -30,6 +30,7 @@ class StoreSalesOrder extends FormRequest
      *      "transaction_date": "2019-08-20",
      *      "pickup_date": "2019-08-21",
      *      "delivery_date": "2019-08-22",
+     *      "due_date": "2019-08-22",
      *      "original_amount": 70000,
      *      "discount": 0,
      *      "discount_amount": 0,
@@ -58,6 +59,7 @@ class StoreSalesOrder extends FormRequest
             'order_type' => 'required|in:'.join(array_keys(Transaction::ORDER_TYPES), ','),
             'transaction_date' => 'required|date_format:"Y-m-d"',
             'pickup_date' => 'required|date_format:"Y-m-d"',
+            'due_date' => 'sometimes|required|date_format:"Y-m-d"',
             'delivery_date' => 'required|date_format:"Y-m-d"',
             'original_amount' => 'required|numeric',
             'discount' => 'required|numeric',
@@ -72,6 +74,7 @@ class StoreSalesOrder extends FormRequest
         {
             $rules['transaction_lines.'.$key.'.item_id'] = 'required';
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
+            $rules['transaction_lines.'.$key.'.bor'] = 'required|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.unit_price'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.discount'] = 'required|numeric';

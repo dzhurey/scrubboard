@@ -121,6 +121,7 @@
     </div>
     <div class="col-sm-6 text-right">
         <button class="btn btn-light mr-2" type="button">Cancel</button>
+        @if(!empty($sales_order))
         <div class="dropdown d-inline-block mr-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Copy to
@@ -129,6 +130,7 @@
                 <a class="dropdown-item" href="{{ route('sales_invoices.create', ['from_order' => $sales_order->id]) }}">AR Invoice</a>
             </div>
         </div>
+        @endif
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

@@ -43,7 +43,6 @@ class CourierScheduleStoreService extends BaseService
     {
         $attributes['schedule_type'] = self::SCHEDULE_TYPE;
         $this->model = $this->assignAttributes($this->model, $attributes);
-        $this->validatePerson();
         $this->model->save();
     }
 
@@ -58,15 +57,5 @@ class CourierScheduleStoreService extends BaseService
             array_push($lines, $this->assignAttributes($model_line, $value, $excluded));
         }
         return ($lines);
-    }
-
-    public function validatePerson()
-    {
-        if (!empty($this->model->person)) {
-            throw new \App\Exceptions\UnprocessableEntityException('asd');
-        }
-        if ($this->model->person->user->role !== 'courier') {
-            throw new \App\Exceptions\UnprocessableEntityException('asds');
-        }
     }
 }

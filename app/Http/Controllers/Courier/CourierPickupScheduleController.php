@@ -8,7 +8,7 @@ use App\CourierScheduleLine;
 use App\Presenters\CourierScheduleLinePresenter;
 use App\Traits\CourierScheduleTrait;
 
-class CourierDeliveryScheduleController extends Controller
+class CourierPickupScheduleController extends Controller
 {
     use CourierScheduleTrait;
 
@@ -27,7 +27,7 @@ class CourierDeliveryScheduleController extends Controller
 
         $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
             $query->where([
-                ['schedule_type', '=', 'delivery'],
+                ['schedule_type', '=', 'pickup'],
                 ['person_id', '=', $request->user()->id],
             ]);
         });
@@ -49,7 +49,7 @@ class CourierDeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
+        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 
@@ -84,7 +84,7 @@ class CourierDeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
+        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 

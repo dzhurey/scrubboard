@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\DeliverySchedule;
-use App\DeliveryScheduleLine;
+use App\CourierScheduleLine;
 use App\Presenters\CourierDeliveryScheduleLinePresenter;
-use App\Http\Requests\StoreCourierSchedule;
+use App\Http\Requests\StoreCourierConfirmation;
 use App\Services\CourierSchedule\DeliveryScheduleStoreService;
 use App\Services\CourierSchedule\DeliveryScheduleUpdateService;
 
@@ -26,7 +26,14 @@ class CourierDeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
-        $results = $presenter->performCollection($request);
+        $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
+            $query->where([
+                ['schedule_type', '=', 'delivery'],
+                ['person_id', '=', $request->user()->id],
+            ]);
+        });
+
+        $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
             'delivery_schedules' => $results->getCollection(),
@@ -36,77 +43,63 @@ class CourierDeliveryScheduleController extends Controller
 
     public function show(
         Request $request,
-        DeliverySchedule $delivery_schedule,
+        CourierScheduleLine $courier_schedule_line,
         CourierDeliveryScheduleLinePresenter $presenter
     ) {
         if (!$this->allowUser('courier-only')) {
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
+        if ($courier_schedule_line->courierSchedule->person->user->id !== $request->user()->id) {
+            return $this->renderError($request, __("authorize.not_found"), 404);
+        }
+
         $data = [
-            'delivery_schedule' => $presenter->transform($delivery_schedule),
+            'courier_schedule_line' => $presenter->transform($courier_schedule_line),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function edit(CourierScheduleLine $courier_schedule_line)
     {
         if (!$this->allowUser('courier-only')) {
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
-        $data = [
-        ];
-        return view('delivery_schedule.create', $data);
+        return view('delivery_schedule.edit', []);
     }
 
-    public function store(
-        StoreCourierSchedule $request,
-        DeliveryScheduleStoreService $service
-    ) {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
-        }
-
-        $validated = $request->validated();
-        $service->perform($validated);
-
-        return $this->renderView($request, '', [], ['route' => 'delivery_schedules.index', 'data' => []], 201);
-    }
-
-    public function edit(DeliverySchedule $delivery_schedule)
-    {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
-        }
-
-        $data = [
-            'delivery_schedule' => $delivery_schedule,
-        ];
-        return view('delivery_schedule.edit', $data);
-    }
-
+    /**
+     * Request method POST
+     *
+     * use multipart/formdata
+     * form attributes:
+     *  image: "image_uploaded.jpg/png"
+     *  _method: "put"
+     */
     public function update(
-        StoreCourierSchedule $request,
-        DeliverySchedule $delivery_schedule,
+        Request $request,
+        CourierScheduleLine $courier_schedule_line,
         DeliveryScheduleUpdateService $service
     ) {
         if (!$this->allowUser('courier-only')) {
             return $this->renderError($request, __("authorize.not_courier"), 401);
         }
 
-        $validated = $request->validated();
-        $service->perform($validated, $delivery_schedule);
-        return $this->renderView($request, '', [], ['route' => 'delivery_schedules.edit', 'data' => ['delivery_schedule' => $delivery_schedule->id]], 204);
-    }
-
-    public function destroy(Request $request, DeliverySchedule $delivery_schedule)
-    {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
+        if ($courier_schedule_line->courierSchedule->person->user->id !== $request->user()->id) {
+            return $this->renderError($request, __("authorize.not_found"), 404);
         }
 
-        $delivery_schedule->delete();
-        return $this->renderView($request, '', [], ['route' => 'delivery_schedules.index', 'data' => []], 204);
+        $validated = $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $uploadedFile = $request->file('image');
+        $path = $uploadedFile->store('public/uploads');
+        $courier_schedule_line->image_name = $path;
+        $courier_schedule_line->status= 'done';
+        $courier_schedule_line->save();
+
+        return $this->renderView($request, '', [], ['route' => 'delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }
 }

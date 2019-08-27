@@ -44,7 +44,7 @@ class CourierController extends Controller
             'query' => $results->getValidated(),
             'people' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'person.index', $data, [], 200);
+        return $this->renderView($request, 'courier.index', $data, [], 200);
     }
 
     /**
@@ -58,7 +58,7 @@ class CourierController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        return view('person.create');
+        return view('courier.create');
     }
 
     /**
@@ -77,7 +77,7 @@ class CourierController extends Controller
         $validated = $request->validated();
         $validated['role'] = 'courier';
         $service->perform($validated);
-        return $this->renderView($request, '', [], ['route' => 'people.index', 'data' => []], 201);
+        return $this->renderView($request, '', [], ['route' => 'courier.index', 'data' => []], 201);
     }
 
     /**
@@ -113,7 +113,7 @@ class CourierController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        return view('person.edit', ['person' => $person]);
+        return view('courier.edit', ['person' => $person]);
     }
 
     /**
@@ -135,7 +135,7 @@ class CourierController extends Controller
         $validated = $request->validated();
         $validated['role'] = $person->user->role;
         $service->perform($person, $validated);
-        return $this->renderView($request, '', [], ['route' => 'people.edit', 'data' => ['person' => $person->id]], 204);
+        return $this->renderView($request, '', [], ['route' => 'courier.edit', 'data' => ['person' => $person->id]], 204);
     }
 
     /**
@@ -151,6 +151,6 @@ class CourierController extends Controller
         }
 
         $person->user->delete();
-        return $this->renderView($request, '', [], ['route' => 'people.index', 'data' => []], 204);
+        return $this->renderView($request, '', [], ['route' => 'courier.index', 'data' => []], 204);
     }
 }

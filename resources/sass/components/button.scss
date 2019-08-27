@@ -17,9 +17,13 @@
       background-color: $blue-dodger;
     }
   }
+  &-secondary {
+    border: 0;
+  }
   &-light {
     background-color: $blank;
     border-color: $blank;
+    border: 0;
   }
   &-danger {
     border: 0;

@@ -51681,6 +51681,8 @@ __webpack_require__(/*! datatables.net-dt */ "./node_modules/datatables.net-dt/j
 
 __webpack_require__(/*! ./../assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js */ "./resources/assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
 
+__webpack_require__(/*! ./pages/login/index.js */ "./resources/js/pages/login/index.js");
+
 __webpack_require__(/*! ./pages/customers/index.js */ "./resources/js/pages/customers/index.js");
 
 __webpack_require__(/*! ./pages/item_sub_categories/index.js */ "./resources/js/pages/item_sub_categories/index.js");
@@ -51693,9 +51695,58 @@ __webpack_require__(/*! ./pages/price/index.js */ "./resources/js/pages/price/in
 
 __webpack_require__(/*! ./pages/vehicle/index.js */ "./resources/js/pages/vehicle/index.js");
 
+__webpack_require__(/*! ./pages/bank/index.js */ "./resources/js/pages/bank/index.js");
+
+__webpack_require__(/*! ./pages/agent/index.js */ "./resources/js/pages/agent/index.js");
+
+__webpack_require__(/*! ./pages/courir/index.js */ "./resources/js/pages/courir/index.js");
+
+__webpack_require__(/*! ./pages/people/index.js */ "./resources/js/pages/people/index.js");
+
+__webpack_require__(/*! ./pages/sales_order/index.js */ "./resources/js/pages/sales_order/index.js");
+
+__webpack_require__(/*! ./pages/pickup_schedule/index.js */ "./resources/js/pages/pickup_schedule/index.js");
+
+__webpack_require__(/*! ./pages/delivery_schedule/index.js */ "./resources/js/pages/delivery_schedule/index.js");
+
+__webpack_require__(/*! ./pages/sales_invoice/index.js */ "./resources/js/pages/sales_invoice/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
+
+/***/ }),
+
+/***/ "./resources/js/pages/agent/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/agent/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/agent/index.js'");
+
+/***/ }),
+
+/***/ "./resources/js/pages/bank/index.js":
+/*!******************************************!*\
+  !*** ./resources/js/pages/bank/index.js ***!
+  \******************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/bank/index.js'");
+
+/***/ }),
+
+/***/ "./resources/js/pages/courir/index.js":
+/*!********************************************!*\
+  !*** ./resources/js/pages/courir/index.js ***!
+  \********************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/courir/index.js'");
 
 /***/ }),
 
@@ -51726,6 +51777,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'id'
     }, {
@@ -51753,8 +51806,12 @@ var assignValue = function assignValue(data) {
   keys.forEach(function (key) {
     if ($("input[name=".concat(key, "]")).length > 0) {
       var input = $("input[name=".concat(key, "]"));
-      if (input.attr('type') === 'radio') $("#".concat(key, "_").concat(data[key])).attr('checked', true);
-      input.val(data[key]);
+
+      if (input.attr('type') === 'radio') {
+        $("#".concat(key, "_").concat(data[key])).attr('checked', true);
+      } else {
+        input.val(data[key]);
+      }
     }
 
     if ($("select[name=".concat(key, "]")).length > 0) $("select[name=".concat(key, "]")).val(data[key]);
@@ -51763,7 +51820,7 @@ var assignValue = function assignValue(data) {
 };
 
 if (tableCustomer.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/customers').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/customers').then(function (res) {
     createTable(tableCustomer, res.customers.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -51773,7 +51830,7 @@ if (tableCustomer.length > 0) {
 if (formEditCustomer.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCustomer = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/customers/".concat(idCustomer)).then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(idCustomer)).then(function (res) {
     assignValue(res.customer);
     $('#billing_address').val(res.customer.billing_address.description);
     $('#billing_district').val(res.customer.billing_address.district);
@@ -51796,12 +51853,19 @@ if (formEditCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/customers/".concat(idCustomer, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/customers/".concat(idCustomer)).then(function (res) {
+      return window.location = '/customers';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 
@@ -51813,7 +51877,7 @@ if (formCreateCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/customers', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
       return console.log(res);
@@ -51822,6 +51886,17 @@ if (formCreateCustomer.length > 0) {
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/delivery_schedule/index.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/pages/delivery_schedule/index.js ***!
+  \*******************************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/delivery_schedule/index.js'");
 
 /***/ }),
 
@@ -51835,9 +51910,18 @@ if (formCreateCustomer.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var tableItem = $('#table-item');
 var formCreateItem = $('#form-create-item');
+var formEditItem = $('#form-edit-item');
+var selectSubCategory = $('#item_sub_category_id');
+var selectPriceLists = $('#price_list');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -51845,6 +51929,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'description'
     }, {
@@ -51875,10 +51961,128 @@ var createTable = function createTable(target, data) {
 };
 
 if (tableItem.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/items').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/items').then(function (res) {
     createTable(tableItem, res.items.data);
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (selectSubCategory.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/item_sub_categories').then(function (res) {
+    var items = res.item_sub_categories.data;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        selectSubCategory.append(option);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (selectPriceLists.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/prices').then(function (res) {
+    var items = res.prices.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        selectPriceLists.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateItem.length > 0) {
+  $('#button-delete').remove();
+  formCreateItem.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateItem.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/items', data).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditItem.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(id)).then(function (res) {
+    $('#item_type').val(res.item.item_type);
+    $('#description').val(res.item.description);
+    $('#item_group_id').val(res.item.item_group.id);
+    $('#item_sub_category_id').val(res.item.item_sub_category.id);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditItem.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditItem.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/items/".concat(id)).then(function (res) {
+      return window.location = '/items';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -51912,6 +52116,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -51937,7 +52143,7 @@ var assignValue = function assignValue(data) {
 };
 
 if (tableCategory.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/item_groups').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/item_groups').then(function (res) {
     createTable(tableCategory, res.item_groups.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -51952,7 +52158,7 @@ if (formCreateCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/item_groups', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_groups', data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
       return console.log(res);
@@ -51963,8 +52169,8 @@ if (formCreateCategory.length > 0) {
 
 if (formEditCategory.length > 0) {
   var urlArray = window.location.href.split('/');
-  var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/item_groups/".concat(idCategory)).then(function (res) {
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_groups/".concat(id)).then(function (res) {
     return assignValue(res.item_group);
   })["catch"](function (res) {
     return console.log(res);
@@ -51975,12 +52181,19 @@ if (formEditCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/item_groups/".concat(idCategory, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_groups/".concat(id), data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
+      return window.location = '/item_groups';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52015,6 +52228,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -52091,7 +52306,7 @@ if (formCreateSubCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/item_sub_categories', data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_sub_categories', data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
       return console.log(res);
@@ -52102,8 +52317,8 @@ if (formCreateSubCategory.length > 0) {
 
 if (formEditSubCategory.length > 0) {
   var urlArray = window.location.href.split('/');
-  var idCategory = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/item_sub_categories/".concat(idCategory)).then(function (res) {
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/item_sub_categories/".concat(id)).then(function (res) {
     return assignValue(res.item_sub_category);
   })["catch"](function (res) {
     return console.log(res);
@@ -52114,15 +52329,55 @@ if (formEditSubCategory.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/item_sub_categories/".concat(idCategory, "/update"), data).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_sub_categories/".concat(id), data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
       return console.log(res);
     });
     return false;
   });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_sub_categories/".concat(id)).then(function (res) {
+      return window.location = '/item_sub_categories';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/login/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/login/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/login/index.js'");
+
+/***/ }),
+
+/***/ "./resources/js/pages/people/index.js":
+/*!********************************************!*\
+  !*** ./resources/js/pages/people/index.js ***!
+  \********************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/people/index.js'");
+
+/***/ }),
+
+/***/ "./resources/js/pages/pickup_schedule/index.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/pages/pickup_schedule/index.js ***!
+  \*****************************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/pickup_schedule/index.js'");
 
 /***/ }),
 
@@ -52137,8 +52392,11 @@ if (formEditSubCategory.length > 0) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
+var priceList = [];
 var tablePrice = $('#table-price');
-var formCreateSubCategory = $('#form-create-price');
+var tableItemsList = $('#table-item-price-list');
+var formCreatePrice = $('#form-create-price');
+var formEditPrice = $('#form-edit-price');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -52146,6 +52404,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
@@ -52165,46 +52425,142 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var collectPriceLines = function collectPriceLines() {
+  $('.check-price-item').change(function (e) {
+    var item_id = e.target.value;
+    var amount = e.target.parentElement.parentElement.querySelector('.field-price-item').value;
+
+    if (e.target.checked) {
+      priceList.push({
+        item_id: item_id,
+        amount: amount,
+        price_id: e.target.hasAttribute('price_id') ? e.target.getAttribute('price_id') : 0
+      });
+    } else {
+      priceList = priceList.filter(function (item) {
+        return item.item_id !== parseInt(e.target.value);
+      });
+    }
+  });
+};
+
+var createTableItemLists = function createTableItemLists(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'id',
+      className: 'checkbox',
+      render: function render(data, type, row) {
+        return "<input id=\"check-".concat(data, "\" class=\"check-price-item\" type=\"checkbox\" name=\"price_lines[item_id][]\" value=\"").concat(data, "\"/>");
+      }
+    }, {
+      data: 'description'
+    }, {
+      data: 'price',
+      render: function render(data) {
+        return "<input class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"".concat(data, "\"/>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      collectPriceLines();
+    }
+  });
+};
+
 if (tablePrice.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/prices').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/prices').then(function (res) {
     createTable(tablePrice, res.prices.data);
   })["catch"](function (res) {
     return console.log(res);
   });
 }
 
-var $form = $('#formPrice');
-var $submitButton = $('#buttonSubmit');
-$submitButton.on('click', function () {
-  var priceLines = [];
-  $('#dynamicForm .entry').each(function () {
-    data = {
-      item_id: $(this).find('select option:selected').val(),
-      amount: $(this).find('input[name="price_lines[amount][]"]').val()
-    };
-    priceLines.push(data);
+if (tableItemsList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/items').then(function (res) {
+    createTableItemLists(tableItemsList, res.items.data);
+  })["catch"](function (res) {
+    return console.log(res);
   });
-  debugger;
-  var data = {
-    name: $form.find('input[name="name"]').val(),
-    price_lines: priceLines
-  };
-  $.ajax({
-    url: $form.attr('action'),
-    type: 'post',
-    data: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json",
-      "X-CSRF-TOKEN": $form.find('input[name="_token"]').val()
-    },
-    dataType: 'json',
-    success: function success(data) {
-      alert('data berhasil disimpan');
-    }
+}
+
+if (formCreatePrice.length > 0) {
+  $('#button-delete').remove();
+  formCreatePrice.submit(function (e) {
+    e.preventDefault();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
+      name: $('#name').val()
+    }).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
   });
-});
+}
+
+if (formEditPrice.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
+    $('#name').val(res.price.name);
+    $('.check-price-item').attr('price_id', res.price.id);
+    res.price.price_lines.map(function (res) {
+      $("#check-".concat(res.item_id)).attr('checked', true);
+      priceList.push({
+        item_id: res.item_id,
+        amount: res.amount,
+        price_id: res.price_id
+      });
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditPrice.submit(function (e) {
+    e.preventDefault();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
+      name: $('#name').val(),
+      price_lines: priceList.length > 0 ? priceList : ''
+    }).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/prices/".concat(id)).then(function (res) {
+      return window.location = '/prices';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/sales_invoice/index.js":
+/*!***************************************************!*\
+  !*** ./resources/js/pages/sales_invoice/index.js ***!
+  \***************************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/sales_invoice/index.js'");
+
+/***/ }),
+
+/***/ "./resources/js/pages/sales_order/index.js":
+/*!*************************************************!*\
+  !*** ./resources/js/pages/sales_order/index.js ***!
+  \*************************************************/
+/*! no exports provided */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/sales_order/index.js'");
 
 /***/ }),
 
@@ -52218,9 +52574,16 @@ $submitButton.on('click', function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var tableVehicle = $('#table-vehicle');
-var formCreateSubCategory = $('#form-create-vehicle');
+var formCreateVehicle = $('#form-create-vehicle');
+var formEditVehicle = $('#form-edit-vehicle');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -52228,6 +52591,8 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'number'
     }, {
@@ -52243,10 +52608,56 @@ var createTable = function createTable(target, data) {
 };
 
 if (tableVehicle.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/vehicles').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/vehicles').then(function (res) {
     createTable(tableVehicle, res.vehicles.data);
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (formCreateVehicle.length > 0) {
+  formCreateVehicle.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateVehicle.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/vehicles', data).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditVehicle.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/vehicles/".concat(id)).then(function (res) {
+    $('#number-plate').val(res.vehicle.number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditVehicle.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditVehicle.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/vehicles/".concat(id), data).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/vehicles/".concat(id)).then(function (res) {
+      return window.location = '/vehicles';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52295,7 +52706,6 @@ if (tableVehicle.length > 0) {
     useCurrent: true,
     defaultDate: new Date(),
     locale: 'id',
-    debug: true,
     icons: {
       time: 'fa fa-time',
       date: 'fa fa-calendar',
@@ -52328,7 +52738,8 @@ if (tableVehicle.length > 0) {
   };
 
   $('.select2').select2({
-    theme: 'bootstrap'
+    theme: 'bootstrap',
+    placeholder: 'Choose option'
   });
   $('#is_same_address').change(function (e) {
     var target = $('#is_same_address_content');
@@ -55207,8 +55618,8 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {$.ajaxSetup({
   beforeSend: function beforeSend(xhr) {
-    var token = $("meta[name='csrf-token']").attr("content");
-    xhr.setRequestHeader('_token', token);
+    var token = localStorage.token;
+    xhr.setRequestHeader('Authorization', token);
     xhr.setRequestHeader('accept', 'application/json');
   },
   error: function error(xhr, textStatus, _error) {
@@ -55240,6 +55651,12 @@ __webpack_require__.r(__webpack_exports__);
       contentType: 'application/json',
       data: JSON.stringify(data)
     });
+  },
+  "delete": function _delete(url, data) {
+    return $.ajax({
+      type: 'DELETE',
+      url: url
+    });
   }
 });
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -55264,8 +55681,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

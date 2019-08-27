@@ -1,4 +1,4 @@
-@if ($customers->count() > 0 || !empty($query))
+@if ($customers->count() > 0|| !empty($query))
 <div class="c-table--outer">
     <table id="table-customer" class="c-table table table-striped">
         <thead>

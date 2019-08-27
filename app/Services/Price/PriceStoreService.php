@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Lib\Services\BaseService;
 use App\Price;
+use App\Item;
 use App\PriceLine;
 
 class PriceStoreService extends BaseService
@@ -46,12 +47,26 @@ class PriceStoreService extends BaseService
 
     private function createPriceLines($attributes)
     {
+        $attributes['price_lines'] = empty($attributes['price_lines']) ? [] : $attributes['price_lines'];
+        $price_line_item_ids = array_map(function ($item) { return $item['item_id']; }, $attributes['price_lines']);
+        $item_ids = Item::all()->pluck('id')->toArray();
+        $item_ids = array_diff($item_ids, $price_line_item_ids);
         $price_lines = [];
         foreach ($attributes['price_lines'] as $key => $value) {
             $value['price_id'] = $this->model->id;
             $model_line = new PriceLine();
             array_push($price_lines, $this->assignAttributes($model_line, $value));
         }
+        foreach ($item_ids as $item) {
+            $value = [
+                'price_id' => $this->model->id,
+                'item_id' => $item,
+                'amount' => 0
+            ];
+            $model_line = new PriceLine();
+            array_push($price_lines, $this->assignAttributes($model_line, $value));
+        }
+
         return ($price_lines);
     }
 }

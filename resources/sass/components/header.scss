@@ -4,7 +4,7 @@
   left: 300px;
   top: 0;
   background-color: $blank;
-  border-bottom: 1px solid #E8EEF3;
+  border-bottom: 1px solid #e9ecef;
   z-index: 4;
   transition: all 0s;
   &.is-close {
@@ -43,7 +43,7 @@
   .c-user {
     width: 255px;
     padding: 20px 30px;
-    border-left: 1px solid #E8EEF3;
+    border-left: 1px solid #e9ecef;
     &--avatar {
       height: 30px;
       width: 30px;

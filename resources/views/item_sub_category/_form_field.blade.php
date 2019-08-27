@@ -1,11 +1,6 @@
-{{ csrf_field() }}
 <div class="form-group">
     <label>Sub Category</label>
     <input class="form-control" type="text" name="name" required>
-</div>
-<div class="form-group">
-    <label>Categories</label>
-    <select id="item_group_id" class="form-control" name="item_group_id" required></select>
 </div>
 
 <hr class="my-4">

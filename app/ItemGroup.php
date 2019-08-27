@@ -19,8 +19,8 @@ class ItemGroup extends BaseModel
         'name',
     ];
 
-    public function itemSubCategories()
+    public function items()
     {
-        return $this->hasMany('App\ItemSubCategory');
+        return $this->hasMany('App\Item');
     }
 }

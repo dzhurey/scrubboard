@@ -1,47 +1,17 @@
 @extends('layouts.app')
+@section('title', 'User List')
 
 @section('content')
-<div class="card">
-    <div class="card-header">User</div>
-
-    <div class="card-body">
-        <a href="{{ route('people.create') }}" class="btn btn-primary">Buat</a>
-
-        @if ($people->count() > 0 || !empty($query))
-            @include('includes/index_navigation')
-            <table class="table">
-                <thead>
-                    <td>Nama</td>
-                    <td>Role</td>
-                    <td>No. HP</td>
-                    <td>Aksi</td>
-                </thead>
-                <tbody>
-                    @foreach ($people as $person)
-                        <tr>
-                            <td>{{ $person->name }}</td>
-                            <td>{{ App\User::ROLES[$person->user->role] }}</td>
-                            <td>{{ $person->phone_number }}</td>
-                            <td>
-                                {{ Form::open(['url' => route('people.destroy', ['person' => $person->id]), 'method' => 'delete']) }}
-                                    {{ csrf_field() }}
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a href="{{ route('people.edit', ['person' => $person->id]) }}" class="btn btn-light">Edit</a>
-                                        {{ Form::submit('Hapus', ['class' => 'btn btn-danger']) }}
-                                    </div>
-                                {{ Form::close() }}
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div>
-                {{ $people->links() }}
-            </div>
-        @else
-            <p>Belum ada user yang dibuat</p>
-        @endif
+<div id="sub-category-list">
+    <div class="c-title row no-gutters">
+        <div class="col-sm-6">
+          <h1 class="mb-0 mt-1">User Data</h1>
+        </div>
+        <div class="col-sm-6 text-right">
+            <a class="btn btn-primary" href="{{ route('people.create') }}">Add user data</a>
+        </div>
     </div>
+
+    @include('person._table_list')
 </div>
-<span id="pageConstant" class="hidden" data-url="{{ route('people.index') }}"></span>
 @endsection

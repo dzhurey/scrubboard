@@ -1,4 +1,3 @@
-{{ csrf_field() }}
 <div class="form-group">
     <label>Category name</label>
     <input class="form-control" type="text" name="name">

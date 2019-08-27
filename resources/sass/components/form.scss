@@ -2,10 +2,14 @@
   background-color: $blank;
   border-radius: 4px;
   box-shadow: 0 2px 5px 0 rgba(13,38,57,0.05);
-  margin: 20px auto;
+  margin: 20px auto 120px;
   padding: 30px;
   max-width: 1024px;
   display: block;
+  border-color: #e9ecef;
+  &.is-fluid {
+    max-width: calc(100% - 40px);
+  }
   &--title {
     color: $blue-dodger;
     font-size: 13px;
@@ -31,9 +35,6 @@
     font-size: 14px;
     color: #0D2639;
     letter-spacing: 0.2px;
-    &[type=text] {
-      text-transform: capitalize;
-    }
     &-radio, &-box {
       width: 24px;
       height: 24px;
@@ -104,9 +105,6 @@ select.form-control {
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: calc(100% - 10px);
-  option {
-    text-transform: capitalize;
-  }
 }
 
 input.datetimepicker {

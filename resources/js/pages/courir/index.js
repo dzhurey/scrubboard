@@ -65,7 +65,7 @@ if (formCreateCourier.length > 0) {
     e.preventDefault();
     const dataForm = formCreateCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/couriers', data).then(res => window.location = '/people').catch(res => console.log(res));
+    ajx.post('/api/couriers', data).then(res => window.location = '/couriers').catch(res => console.log(res));
     return false;
   });
 }

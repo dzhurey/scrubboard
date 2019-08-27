@@ -52039,7 +52039,7 @@ if (formCreateCourier.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
-      return window.location = '/people';
+      return window.location = '/couriers';
     })["catch"](function (res) {
       return console.log(res);
     });

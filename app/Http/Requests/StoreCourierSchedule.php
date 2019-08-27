@@ -38,7 +38,7 @@ class StoreCourierSchedule extends FormRequest
     public function rules()
     {
         $rules = [
-            'courier_id' => 'required',
+            'person_id' => 'required',
             'vehicle_id' => 'required',
             'schedule_date' => 'required|date_format:"Y-m-d"'
         ];

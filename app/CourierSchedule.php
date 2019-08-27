@@ -28,19 +28,19 @@ class CourierSchedule extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'courier_id',
+        'person_id',
         'vehicle_id',
         'schedule_date',
     ];
 
     protected $searchable = [
-        'courier__name',
+        'person__name',
         'vehicle__number',
     ];
 
-    public function courier()
+    public function person()
     {
-        return $this->belongsTo('App\Courier');
+        return $this->belongsTo('App\Person');
     }
 
     public function vehicle()

@@ -44,4 +44,9 @@ class Person extends BaseModel
     {
         return $this->belongsTo('App\User');
     }
+
+    public function courierSchedules()
+    {
+        return $this->belongsTo('App\CourierSchedules');
+    }
 }

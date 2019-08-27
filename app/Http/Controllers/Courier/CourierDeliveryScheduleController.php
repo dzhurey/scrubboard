@@ -37,6 +37,7 @@ class CourierDeliveryScheduleController extends Controller
             'query' => $results->getValidated(),
             'delivery_schedules' => $results->getCollection(),
         ];
+
         return $this->renderView($request, 'delivery_schedule.index', $data, [], 200);
     }
 
@@ -59,10 +60,14 @@ class CourierDeliveryScheduleController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function edit(CourierScheduleLine $courier_schedule_line)
+    public function edit(Request $request, CourierScheduleLine $courier_schedule_line)
     {
         if (!$this->allowUser('courier-only')) {
             return $this->renderError($request, __("authorize.not_courier"), 401);
+        }
+
+        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
+            return $this->renderError($request, __("authorize.not_found"), 404);
         }
 
         return view('delivery_schedule.edit', []);

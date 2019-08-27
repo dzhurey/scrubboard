@@ -59,10 +59,14 @@ class CourierPickupScheduleController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function edit(CourierScheduleLine $courier_schedule_line)
+    public function edit(Request $request, CourierScheduleLine $courier_schedule_line)
     {
         if (!$this->allowUser('courier-only')) {
             return $this->renderError($request, __("authorize.not_courier"), 401);
+        }
+
+        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
+            return $this->renderError($request, __("authorize.not_found"), 404);
         }
 
         return view('delivery_schedule.edit', []);

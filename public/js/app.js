@@ -51969,6 +51969,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
+var priceList = [];
 var tableCourier = $('#table-courier');
 var formCreateCourier = $('#form-create-courier');
 var formEditCourier = $('#form-edit-courier');
@@ -51979,10 +51980,20 @@ var createTable = function createTable(target, data) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [{
       data: 'name'
     }, {
-      data: 'phone_number'
+      data: 'user',
+      render: function render(data) {
+        return data.email;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
+        return data.role;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -51995,22 +52006,32 @@ var createTable = function createTable(target, data) {
   });
 };
 
-"";
+var assignValue = function assignValue(data) {
+  var keys = Object.keys(data);
+  keys.forEach(function (key) {
+    if ($("input[name=".concat(key, "]")).length > 0) {
+      var input = $("input[name=".concat(key, "]"));
+
+      if (input.attr('type') === 'radio') {
+        $("#".concat(key, "_").concat(data[key])).attr('checked', true);
+      } else {
+        input.val(data[key]);
+      }
+    }
+
+    if ($("select[name=".concat(key, "]")).length > 0) $("select[name=".concat(key, "]")).val(key === 'role' ? data[user.role] : data[key]);
+  });
+};
 
 if (tableCourier.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
-    createTable(tableCourier, res.couriers.data);
+    createTable(tableCourier, res.people.data);
   })["catch"](function (res) {
-    console.log(res);
-
-    if (res.status == 401) {
-      window.location = '/login';
-    }
+    return console.log(res);
   });
 }
 
 if (formCreateCourier.length > 0) {
-  $('#button-delete').remove();
   formCreateCourier.submit(function (e) {
     e.preventDefault();
     var dataForm = formCreateCourier.serializeArray();
@@ -52018,9 +52039,9 @@ if (formCreateCourier.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
-      window.location = '/couriers';
+      return window.location = '/couriers';
     })["catch"](function (res) {
-      console.log(res);
+      return console.log(res);
     });
     return false;
   });
@@ -52030,7 +52051,14 @@ if (formEditCourier.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/couriers/".concat(id)).then(function (res) {
-    $('#number-plate').val(res.courier.number);
+    assignValue(res.person);
+    $('#email').val(res.person.user.email);
+    $('#email').attr('disabled', true);
+    $('#address').val(res.person.address);
+    $('#district').val(res.person.district);
+    $('#city').val(res.person.city);
+    $('#country').val(res.person.country);
+    $('#zip_code').val(res.person.city);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52041,7 +52069,7 @@ if (formEditCourier.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
-      return window.location = '/couriers';
+      return window.location = '/people';
     })["catch"](function (res) {
       return console.log(res);
     });
@@ -52049,7 +52077,7 @@ if (formEditCourier.length > 0) {
   });
   $('#button-delete').click(function () {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/couriers/".concat(id)).then(function (res) {
-      return window.location = '/couriers';
+      return window.location = '/people';
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });

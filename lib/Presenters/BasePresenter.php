@@ -12,6 +12,7 @@ abstract class BasePresenter
     protected $validated;
     protected $collection;
     protected $single;
+    protected $builder;
 
     public function getCollection()
     {
@@ -46,21 +47,34 @@ abstract class BasePresenter
     public function search($attributes)
     {
         $searchable = $this->model->getSearchable();
+        if (!isset($this->builder)) {
+            $this->builder = $this->model;
+        }
 
         if(!empty($attributes['q']) && !empty($searchable)) {
             foreach ($searchable as $field) {
                 $sanitized = trim($attributes['q']);
                 $exploded_field = explode('__', $field);
                 if (count($exploded_field) > 1) {
-                    $this->model = $this->model->orWhereHas($exploded_field[0], function (Builder $query) use ($exploded_field, $sanitized) {
+                    $this->builder = $this->model->orWhereHas($exploded_field[0], function (Builder $query) use ($exploded_field, $sanitized) {
                         $query->where($exploded_field[1], 'ILIKE', "%".$sanitized."%");
                     });
                 } else {
-                    $this->model = $this->model->orWhere($field,'ILIKE',"%".$sanitized."%");
+                    $this->builder = $this->model->orWhere($field,'ILIKE',"%".$sanitized."%");
                 }
             }
         }
 
-        return $this->model;
+        return $this->builder;
+    }
+
+    public function filter($parameters) {
+        $this->model = $this->model->where($parameters);
+        return $this;
+    }
+
+    public function setBuilder($builder) {
+        $this->builder = $builder;
+        return $this;
     }
 }

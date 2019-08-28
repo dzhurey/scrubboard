@@ -21,7 +21,7 @@ class CourierSchedulePresenter extends BasePresenter
 
     public function transform($input)
     {
-        $input->courier = $input->courier;
+        $input->person = $input->person;
         $input->vehicle = $input->vehicle;
         $input->courier_schedule_lines = $input->courierScheduleLines->transform(function ($item) {
             return $this->courier_schedule_line_presenter->transform($item);

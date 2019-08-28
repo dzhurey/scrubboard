@@ -3,49 +3,55 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Courier;
-use App\Presenters\CourierPresenter;
+use App\Person;
+use App\Presenters\PersonPresenter;
 use App\Http\Requests\StoreCourier;
-use App\Services\Courier\CourierStoreService;
+use App\Services\Person\PersonCreateService;
+use App\Services\Person\PersonUpdateService;
 
 class CourierController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(
         Request $request,
-        CourierPresenter $presenter
+        PersonPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $results = $presenter->performCollection($request);
+        $couriers = Person::whereHas('user', function ($query) {
+            $query->where('role', '=', 'courier');
+        });
+
+        $results = $presenter->setBuilder($couriers)->performCollection($request);
+
         $data = [
             'query' => $results->getValidated(),
-            'couriers' => $results->getCollection(),
+            'people' => $results->getCollection(),
         ];
         return $this->renderView($request, 'courier.index', $data, [], 200);
     }
 
-    public function show(
-        Request $request,
-        Courier $courier,
-        CourierPresenter $presenter
-    ) {
-        if (!$this->allowUser('superadmin-only')) {
-            return $this->renderError($request, __("authorize.not_superadmin"), 401);
-        }
-
-        $data = [
-            'courier' => $presenter->transform($courier),
-        ];
-        return $this->renderView($request, '', $data, [], 200);
-    }
-
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         if (!$this->allowUser('superadmin-only')) {
@@ -55,49 +61,96 @@ class CourierController extends Controller
         return view('courier.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(
         StoreCourier $request,
-        CourierStoreService $service
+        PersonCreateService $service
+    ) {
+        if (!$this->allowUser('superadmin-only')) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
+        }
+        $validated = $request->validated();
+        $validated['role'] = 'courier';
+        $service->perform($validated);
+        return $this->renderView($request, '', [], ['route' => 'courier.index', 'data' => []], 201);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Person  $person
+     * @return \Illuminate\Http\Response
+     */
+    public function show(
+        Request $request,
+        Person $person,
+        PersonPresenter $presenter
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $validated = $request->validated();
-        $service->perform($validated);
-        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 201);
+        $data = [
+            'person' => $presenter->transform($person),
+        ];
+        return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function edit(Courier $courier)
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Person  $person
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        return view('courier.edit', ['courier' => $courier]);
+        return view('courier.edit', ['person' => $person]);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Person  $person
+     * @return \Illuminate\Http\Response
+     */
     public function update(
         StoreCourier $request,
-        Courier $courier,
-        CourierStoreService $service
+        Person $person,
+        PersonUpdateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
-        $service->perform($validated, $courier);
-        return $this->renderView($request, '', [], ['route' => 'couriers.edit', 'data' => ['courier' => $courier->id]], 204);
+        $validated['role'] = $person->user->role;
+        $service->perform($person, $validated);
+        return $this->renderView($request, '', [], ['route' => 'courier.edit', 'data' => ['person' => $person->id]], 204);
     }
 
-    public function destroy(Request $request, Courier $courier)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Person  $person
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $courier->delete();
-        return $this->renderView($request, '', [], ['route' => 'couriers.index', 'data' => []], 204);
+        $person->user->delete();
+        return $this->renderView($request, '', [], ['route' => 'courier.index', 'data' => []], 204);
     }
 }

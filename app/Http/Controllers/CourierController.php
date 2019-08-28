@@ -30,7 +30,7 @@ class CourierController extends Controller
         Request $request,
         PersonPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -91,7 +91,7 @@ class CourierController extends Controller
         Person $person,
         PersonPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

@@ -29,7 +29,7 @@ class PaymentMeanController extends Controller
         Request $request,
         PaymentMeanPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -48,7 +48,7 @@ class PaymentMeanController extends Controller
      */
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -66,7 +66,7 @@ class PaymentMeanController extends Controller
         StorePaymentMean $request,
         PaymentMeanStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -86,7 +86,7 @@ class PaymentMeanController extends Controller
         PaymentMean $bank_account,
         PaymentMeanPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class PaymentMeanController extends Controller
      */
     public function edit(Request $request, PaymentMean $payment_mean)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -128,7 +128,7 @@ class PaymentMeanController extends Controller
         PaymentMean $payment_mean,
         PaymentMeanStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -145,7 +145,7 @@ class PaymentMeanController extends Controller
      */
     public function destroy(Request $request, PaymentMean $payment_mean)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

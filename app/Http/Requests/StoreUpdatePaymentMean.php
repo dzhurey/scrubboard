@@ -22,7 +22,18 @@ class StoreUpdatePaymentMean extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * input json
+     *  {
+     *      "payment_id" : 2,
+     *      "payment_type" : "bank_transfer",
+     *      "bank_account_id" : 1,
+     *      "note" : "",
+     *      "amount" : 5000,
+     *      "payment_date" : "2019-08-27"
+     *  }
      */
+
     public function rules()
     {
         return [

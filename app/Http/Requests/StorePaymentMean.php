@@ -22,7 +22,31 @@ class StorePaymentMean extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * input json
+     *   {
+     *       "payment_means" :
+     *       [
+     *           {
+     *               "payment_id" : 2,
+     *               "payment_type" : "bank_transfer",
+     *               "bank_account_id" : 1,
+     *               "note" : "",
+     *               "amount" : 9000,
+     *               "payment_date" : "2019-08-27"
+     *           },
+     *           {
+     *               "payment_id" : 2,
+     *               "payment_type" : "cash",
+     *               "bank_account_id" : "",
+     *               "note" : "",
+     *               "amount" : 1000,
+     *               "payment_date" : "2019-08-27"
+     *           }
+     *       ]
+     *   }
      */
+
     public function rules()
     {
         // dd($this->request);

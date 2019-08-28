@@ -22,7 +22,7 @@ class SalesOrderController extends Controller
         Request $request,
         SalesOrderPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'sales'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -39,7 +39,7 @@ class SalesOrderController extends Controller
         SalesOrder $sales_order,
         SalesOrderPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'sales'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

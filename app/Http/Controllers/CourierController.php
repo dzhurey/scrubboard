@@ -52,7 +52,7 @@ class CourierController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -107,7 +107,7 @@ class CourierController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function edit(Person $person)
+    public function edit(Request $request, Person $person)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

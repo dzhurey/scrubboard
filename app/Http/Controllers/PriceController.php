@@ -22,7 +22,7 @@ class PriceController extends Controller
         Request $request,
         PricePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'sales'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -39,7 +39,7 @@ class PriceController extends Controller
         Price $price,
         PricePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'sales'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

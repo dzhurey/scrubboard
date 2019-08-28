@@ -47,7 +47,7 @@ class PickupScheduleController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -72,7 +72,7 @@ class PickupScheduleController extends Controller
         return $this->renderView($request, '', [], ['route' => 'pickup_schedules.index', 'data' => []], 201);
     }
 
-    public function edit(PickupSchedule $pickup_schedule)
+    public function edit(Request $request, PickupSchedule $pickup_schedule)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

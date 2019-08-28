@@ -18,4 +18,9 @@ class Controller extends BaseController
     {
         return Gate::allows($permission, auth()->user());
     }
+
+    public function allowAny($permissions)
+    {
+        return Gate::any($permissions, auth()->user());
+    }
 }

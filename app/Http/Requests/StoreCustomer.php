@@ -32,7 +32,7 @@ class StoreCustomer extends FormRequest
             'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'required|date_format:"Y-m-d"',
             'gender' => 'required|in:'.join(array_keys(Customer::GENDERS), ','),
-            'religion' => 'required|in:'.join(array_keys(Customer::RELIGIONS), ','),
+            'religion' => 'nullable|in:'.join(array_keys(Customer::RELIGIONS), ','),
             'billing_address' => 'required',
             'billing_district' => 'required|max:150',
             'billing_city' => 'required|max:150',

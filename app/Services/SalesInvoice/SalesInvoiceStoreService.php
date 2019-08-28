@@ -31,6 +31,10 @@ class SalesInvoiceStoreService extends BaseService
                 $lines = $this->createTransactionLines($attributes);
                 $this->model->transactionLines()->saveMany($lines);
             }
+            if (!empty($this->model->order)) {
+                $this->model->order->transaction_status = 'closed';
+                $this->model->order->save();
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);

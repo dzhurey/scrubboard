@@ -23,7 +23,7 @@ class BankAccountController extends Controller
         Request $request,
         BankAccountPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -35,7 +35,7 @@ class BankAccountController extends Controller
         return $this->renderView($request, 'bank_account.index', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -58,7 +58,7 @@ class BankAccountController extends Controller
         return $this->renderView($request, '', [], ['route' => 'bank_accounts.index', 'data' => []], 201);
     }
 
-    public function edit(BankAccount $bank_account)
+    public function edit(Request $request, BankAccount $bank_account)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -77,7 +77,7 @@ class BankAccountController extends Controller
         BankAccount $bank_account,
         BankAccountPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

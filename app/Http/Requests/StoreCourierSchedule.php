@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\CourierSchedule;
+use App\Person;
 
 class StoreCourierSchedule extends FormRequest
 {
@@ -24,7 +25,7 @@ class StoreCourierSchedule extends FormRequest
      * @return array
      *
      * {
-     *     "courier_id": 1,
+     *     "person_id": 1,
      *     "vehicle_id": 1,
      *     "schedule_date": "2019-08-29",
      *     "courier_schedule_lines": [
@@ -38,7 +39,7 @@ class StoreCourierSchedule extends FormRequest
     public function rules()
     {
         $rules = [
-            'courier_id' => 'required',
+            'person_id' => 'required',
             'vehicle_id' => 'required',
             'schedule_date' => 'required|date_format:"Y-m-d"'
         ];
@@ -50,5 +51,29 @@ class StoreCourierSchedule extends FormRequest
         }
 
         return $rules;
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->personIsNotCourier()) {
+                $validator->errors()->add('person', __('rules.person_not_courier'));
+            }
+        });
+    }
+
+    public function personIsNotCourier()
+    {
+        $person = Person::find($this->request->get('person_id'));
+
+        if (empty($person)) {
+            return true;
+        }
+
+        if ($person->user->role !== 'courier') {
+            return true;
+        }
+
+        return false;
     }
 }

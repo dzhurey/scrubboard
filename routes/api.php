@@ -23,7 +23,9 @@ Route::middleware('auth:api')->resource('customers', 'CustomerController', ['as'
 Route::middleware('auth:api')->resource('people', 'PersonController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('vehicles', 'VehicleController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('bank_accounts', 'BankAccountController', ['as' => 'api'])->except(['create', 'edit']);
-Route::middleware('auth:api')->resource('couriers', 'CourierController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')
+->resource('couriers', 'CourierController', ['as' => 'api', 'parameters' => ['couriers' => 'person']])
+->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('item_groups', 'ItemGroupController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('item_sub_categories', 'ItemSubCategoryController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('items', 'ItemController', ['as' => 'api'])->except(['create', 'edit']);
@@ -31,5 +33,13 @@ Route::middleware('auth:api')->resource('prices', 'PriceController', ['as' => 'a
 Route::middleware('auth:api')->resource('agents', 'AgentController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('sales_orders', 'SalesOrderController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('sales_invoices', 'SalesInvoiceController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('payments', 'PaymentController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('payment_means', 'PaymentMeanController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('pickup_schedules', 'PickupScheduleController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('delivery_schedules', 'DeliveryScheduleController', ['as' => 'api'])->except(['create', 'edit']);
+
+// Courier only
+Route::namespace('Courier')->prefix('courier')->group(function () {
+    Route::middleware('auth:api')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'api.courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'show', 'update']);
+    Route::middleware('auth:api')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'api.courier', 'parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['index', 'show', 'update']);
+});

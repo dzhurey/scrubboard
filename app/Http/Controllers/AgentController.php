@@ -20,7 +20,7 @@ class AgentController extends Controller
         Request $request,
         AgentPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -37,7 +37,7 @@ class AgentController extends Controller
         Agent $agent,
         AgentPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -47,7 +47,7 @@ class AgentController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -73,7 +73,7 @@ class AgentController extends Controller
         return $this->renderView($request, '', [], ['route' => 'agents.index', 'data' => []], 201);
     }
 
-    public function edit(Agent $agent)
+    public function edit(Request $request, Agent $agent)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

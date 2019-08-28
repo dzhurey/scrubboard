@@ -51722,9 +51722,123 @@ __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js
   !*** ./resources/js/pages/agent/index.js ***!
   \*******************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/agent/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableAgent = $('#table-agent');
+var formCreateAgent = $('#form-create-agent');
+var formEditAgent = $('#form-edit-agent');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'agent_group',
+      render: function render(data) {
+        return data.id === 1 ? 'Agent' : '-';
+      }
+    }, {
+      data: 'name'
+    }, {
+      data: 'phone_number'
+    }, {
+      data: 'mobile_number'
+    }, {
+      data: 'district'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/agents/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableAgent.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
+    createTable(tableAgent, res.agents.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateAgent.length > 0) {
+  $('#button-delete').remove();
+  formCreateAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/agents', data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditAgent.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/agents/".concat(id)).then(function (res) {
+    $('#agent_group_id').val(res.agent.agent_group_id);
+    $('#name').val(res.agent.name);
+    $('#phone_number').val(res.agent.phone_number);
+    $('#mobile_number').val(res.agent.mobile_number);
+    $('#email').val(res.agent.email);
+    $('#address').val(res.agent.address);
+    $('#sub_district').val(res.agent.sub_district);
+    $('#district').val(res.agent.district);
+    $('#city').val(res.agent.city);
+    $('#country').val(res.agent.country);
+    $('#zip_code').val(res.agent.zip_code);
+    $('#contact_name').val(res.agent.contact_name);
+    $('#contact_phone_number').val(res.agent.contact_phone_number);
+    $('#contact_mobile_number').val(res.agent.contact_mobile_number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditAgent.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditAgent.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/agents/".concat(id)).then(function (res) {
+      return window.location = '/agents';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -51733,9 +51847,108 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   !*** ./resources/js/pages/bank/index.js ***!
   \******************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/bank/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableBank = $('#table-bank');
+var formCreateBank = $('#form-create-bank');
+var formEditBank = $('#form-edit-bank');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'bank',
+      render: function render(data) {
+        return data.name;
+      }
+    }, {
+      data: 'account_number'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/bank_accounts/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableBank.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
+    createTable(tableBank, res.bank_accounts.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateBank.length > 0) {
+  $('#button-delete').remove();
+  formCreateBank.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateBank.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/bank_accounts', data).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditBank.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var idCategory = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/bank_accounts/".concat(idCategory)).then(function (res) {
+    $('#name').val(res.bank_account.name);
+    $('#bank_id').val(res.bank_account.bank_id);
+    $('#account-number').val(res.bank_account.account_number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditBank.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditBank.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/bank_accounts/".concat(idCategory), data).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
+      return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -51744,9 +51957,105 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   !*** ./resources/js/pages/courir/index.js ***!
   \********************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/courir/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableCourier = $('#table-courier');
+var formCreateCourier = $('#form-create-courier');
+var formEditCourier = $('#form-edit-courier');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'phone_number'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/couriers/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+"";
+
+if (tableCourier.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
+    createTable(tableCourier, res.couriers.data);
+  })["catch"](function (res) {
+    console.log(res);
+
+    if (res.status == 401) {
+      window.location = '/login';
+    }
+  });
+}
+
+if (formCreateCourier.length > 0) {
+  $('#button-delete').remove();
+  formCreateCourier.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateCourier.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
+      window.location = '/couriers';
+    })["catch"](function (res) {
+      console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditCourier.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/couriers/".concat(id)).then(function (res) {
+    $('#number-plate').val(res.courier.number);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditCourier.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditCourier.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
+      return window.location = '/couriers';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/couriers/".concat(id)).then(function (res) {
+      return window.location = '/couriers';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -51894,9 +52203,239 @@ if (formCreateCustomer.length > 0) {
   !*** ./resources/js/pages/delivery_schedule/index.js ***!
   \*******************************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/delivery_schedule/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tabledelivery = $('#table-delivery-schedule');
+var tableSoItemdelivery = $('#table-so-item-delivery');
+var createdeliveryForm = $('#form-create-delivery');
+var EditdeliveryForm = $('#form-edit-delivery');
+
+var chooseSOList = function chooseSOList() {
+  $('.so_id').change(function (e) {
+    var items = JSON.parse(sessionStorage.sales_orders);
+    var getId = e.currentTarget.getAttribute('data-id');
+    var matchData = items.filter(function (res) {
+      return res.id === parseFloat(getId);
+    });
+    $("#customer_".concat(getId)).val(matchData[0].customer.name);
+    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
+    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+  });
+};
+
+var createSOListDropdown = function createSOListDropdown() {
+  var items = JSON.parse(sessionStorage.sales_orders);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var item = _step.value;
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      $('.so_id').append(option);
+      $('.select2').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  chooseSOList();
+};
+
+var createTableSOdeliverySchedule = function createTableSOdeliverySchedule(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id.',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 so_id\" id=\"so_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"transaction_id\"><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"customer_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"customer\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"sales_date_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"sales_date\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"address_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"address\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"time\" class=\"form-control\" id=\"eta_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"eta\">");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      createSOListDropdown();
+    }
+  });
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'courier.name'
+    }, {
+      data: 'vehicle.number'
+    }, {
+      data: 'schedule_date'
+    }, {
+      data: 'courier_schedule_lines.length'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/delivery_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var dataFormdelivery = function dataFormdelivery(tableList) {
+  var courier_schedule_lines = [];
+  $('.so_id').each(function (i, item) {
+    var $parent = item.parentElement.parentElement;
+
+    if ($(item).val() !== '') {
+      courier_schedule_lines.push({
+        transaction_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value
+      });
+    }
+  });
+  return {
+    courier_id: $('#courier_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines
+  };
+};
+
+if (tableSoItemdelivery.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
+    createTableSOdeliverySchedule(tableSoItemdelivery, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (createdeliveryForm.length > 0) {
+  $('#button-delete').remove();
+  createdeliveryForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormdelivery(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/delivery_schedules', data).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (EditdeliveryForm.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/delivery_schedules/".concat(id)).then(function (res) {
+    var itemsSO = JSON.parse(sessionStorage.sales_orders);
+    $('#courier_id').val(res.delivery_schedule.courier_id);
+    $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
+    $('#date').val(res.delivery_schedule.schedule_date);
+    $('#courier_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $('.so_id').each(function (i, item) {
+      if (i <= res.delivery_schedule.courier_schedule_lines.length) {
+        var $parent = item.parentElement.parentElement;
+        var transId = res.delivery_schedule.courier_schedule_lines[i].transaction_id;
+        var filterSO = itemsSO.filter(function (res) {
+          return res.id === transId;
+        });
+        $(item).val(transId);
+        $parent.querySelector('input[name="eta"]').value = res.delivery_schedule.courier_schedule_lines[i].estimation_time;
+        $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
+        $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
+        $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;
+        $(item).select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  EditdeliveryForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormdelivery(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/delivery_schedules/".concat(id), data).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/delivery_schedules/".concat(id)).then(function (res) {
+      return window.location = '/delivery_schedules';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+
+if (tabledelivery.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+    createTable(tabledelivery, res.delivery_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52353,9 +52892,28 @@ if (formEditSubCategory.length > 0) {
   !*** ./resources/js/pages/login/index.js ***!
   \*******************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/login/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var loginForm = $('#login-form');
+var homePage = $('#home');
+
+if (loginForm.length > 0) {
+  loginForm.submit(function (e) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', {
+      "email": $('#email').val(),
+      "password": $('#password').val()
+    }).then(function (res) {
+      localStorage.setItem('token', "Bearer ".concat(res.access_token));
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52364,9 +52922,133 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   !*** ./resources/js/pages/people/index.js ***!
   \********************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/people/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var priceList = [];
+var tableUser = $('#table-user');
+var formCreateUser = $('#form-create-user');
+var formEditUser = $('#form-edit-user');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'user',
+      render: function render(data) {
+        return data.email;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
+        return data.role;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/people/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var assignValue = function assignValue(data) {
+  var keys = Object.keys(data);
+  keys.forEach(function (key) {
+    if ($("input[name=".concat(key, "]")).length > 0) {
+      var input = $("input[name=".concat(key, "]"));
+
+      if (input.attr('type') === 'radio') {
+        $("#".concat(key, "_").concat(data[key])).attr('checked', true);
+      } else {
+        input.val(data[key]);
+      }
+    }
+
+    if ($("select[name=".concat(key, "]")).length > 0) $("select[name=".concat(key, "]")).val(key === 'role' ? data[user.role] : data[key]);
+  });
+};
+
+if (tableUser.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/people').then(function (res) {
+    createTable(tableUser, res.people.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateUser.length > 0) {
+  formCreateUser.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formCreateUser.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/people', data).then(function (res) {
+      return window.location = '/people';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditUser.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/people/".concat(id)).then(function (res) {
+    assignValue(res.person);
+    $('#email').val(res.person.user.email);
+    $('#email').attr('disabled', true);
+    $('#address').val(res.person.address);
+    $('#district').val(res.person.district);
+    $('#city').val(res.person.city);
+    $('#country').val(res.person.country);
+    $('#zip_code').val(res.person.city);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditUser.submit(function (e) {
+    e.preventDefault();
+    var dataForm = formEditUser.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/people/".concat(id), data).then(function (res) {
+      return window.location = '/people';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/people/".concat(id)).then(function (res) {
+      return window.location = '/people';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52375,9 +53057,309 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   !*** ./resources/js/pages/pickup_schedule/index.js ***!
   \*****************************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/pickup_schedule/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var courierId = $('#courier_id');
+var vehicleId = $('#vehicle_id');
+var tablePickup = $('#table-pickup-schedule');
+var tableSoItemPickup = $('#table-so-item-pickup');
+var createPickupForm = $('#form-create-pickup');
+var EditPickupForm = $('#form-edit-pickup');
+
+var chooseSOList = function chooseSOList() {
+  $('.so_id').change(function (e) {
+    var items = JSON.parse(sessionStorage.sales_orders);
+    var getId = e.currentTarget.getAttribute('data-id');
+    var matchData = items.filter(function (res) {
+      return res.id === parseFloat(getId);
+    });
+    $("#customer_".concat(getId)).val(matchData[0].customer.name);
+    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
+    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+  });
+};
+
+var createSOListDropdown = function createSOListDropdown() {
+  var items = JSON.parse(sessionStorage.sales_orders);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var item = _step.value;
+      var option = document.createElement('option');
+      option.value = item.id;
+      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      $('.so_id').append(option);
+      $('.select2').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      });
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  chooseSOList();
+};
+
+var createTableSOPickupSchedule = function createTableSOPickupSchedule(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id.',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 so_id\" id=\"so_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"transaction_id\"><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"customer_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"customer\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"sales_date_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"sales_date\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"address_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"address\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"time\" class=\"form-control\" id=\"eta_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"eta\">");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      createSOListDropdown();
+    }
+  });
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'courier.name'
+    }, {
+      data: 'vehicle.number'
+    }, {
+      data: 'schedule_date'
+    }, {
+      data: 'courier_schedule_lines.length'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var dataFormPickup = function dataFormPickup(tableList) {
+  var courier_schedule_lines = [];
+  $('.so_id').each(function (i, item) {
+    var $parent = item.parentElement.parentElement;
+
+    if ($(item).val() !== '') {
+      courier_schedule_lines.push({
+        transaction_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value
+      });
+    }
+  });
+  return {
+    courier_id: $('#courier_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines
+  };
+};
+
+if (courierId.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
+    var items = res.couriers.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        courierId.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (vehicleId.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/vehicles').then(function (res) {
+    var items = res.vehicles.data;
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var item = _step3.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.number);
+        vehicleId.append(option);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+          _iterator3["return"]();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (tableSoItemPickup.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
+    createTableSOPickupSchedule(tableSoItemPickup, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (createPickupForm.length > 0) {
+  $('#button-delete').remove();
+  createPickupForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/pickup_schedules', data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (EditPickupForm.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/pickup_schedules/".concat(id)).then(function (res) {
+    var itemsSO = JSON.parse(sessionStorage.sales_orders);
+    $('#courier_id').val(res.pickup_schedule.courier_id);
+    $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
+    $('#date').val(res.pickup_schedule.schedule_date);
+    $('#courier_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $('.so_id').each(function (i, item) {
+      if (i <= res.pickup_schedule.courier_schedule_lines.length - 1) {
+        var $parent = item.parentElement.parentElement;
+        var transId = res.pickup_schedule.courier_schedule_lines[i].transaction_id;
+        var filterSO = itemsSO.filter(function (res) {
+          return res.id === transId;
+        });
+        $(item).val(transId);
+        $parent.querySelector('input[name="eta"]').value = res.pickup_schedule.courier_schedule_lines[i].estimation_time;
+        $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
+        $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
+        $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;
+        $(item).select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  EditPickupForm.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/pickup_schedules/".concat(id), data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/pickup_schedules/".concat(id)).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+
+if (tablePickup.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+    createTable(tablePickup, res.pickup_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52547,9 +53529,451 @@ if (formEditPrice.length > 0) {
   !*** ./resources/js/pages/sales_invoice/index.js ***!
   \***************************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/sales_invoice/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var transaction_lines = [];
+var tableInvoice = $('#table-sales-invoice');
+var salesOrderList = $('#sales_order_id');
+var formCreateSalesInvoice = $('#form-create-sales-invoice');
+var formEditSalesInvoice = $('#form-edit-sales-invoice');
+var tableSOItems = $('#table-so-item');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'id'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'agent.name'
+    }, {
+      data: 'order_type'
+    }, {
+      data: 'transaction_date'
+    }, {
+      data: 'pickup_date'
+    }, {
+      data: 'delivery_date'
+    }, {
+      data: 'total_amount',
+      render: function render(data) {
+        return parseFloat(data).toFixed(0);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/sales_invoices/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableInvoice.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+    createTable(tableInvoice, res.sales_invoices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (salesOrderList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    var items = res.sales_orders.data;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "#".concat(item.id, " - ").concat(item.customer.name);
+        salesOrderList.append(option);
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+salesOrderList.change(function (e) {
+  var salesOrderSelected = salesOrderList.val();
+
+  if (!$.active) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(salesOrderSelected)).then(function (res) {
+      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
+      $('#order_type').val(res.sales_order.order_type);
+      $('#note').val(res.sales_order.note);
+      $('#discount').val(res.sales_order.discount);
+      $('#discount_amount').val(res.sales_order.discount_amount);
+      $('#freight').val(res.sales_order.freight);
+      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#transaction_date').val(res.sales_order.transaction_date);
+      $('#pickup_date').val(res.sales_order.pickup_date);
+      $('#due_date').val(res.sales_order.due_date);
+      $('#customer_id').val(res.sales_order.customer_id);
+      $('#outlet').val(res.sales_order.agent_id);
+      getDataTableSO(res.sales_order.customer_id, true);
+      $('#customer_id, #outlet').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      }).trigger('change');
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  }
+});
+
+var getDataTableSO = function getDataTableSO(id, isEditable) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(id)).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
+      var prices = res.price.price_lines;
+      sessionStorage.setItem('prices', JSON.stringify(prices));
+      createTableSO(tableSOItems, prices, isEditable);
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+};
+
+var createTableSO = function createTableSO(target, data, isEditable) {
+  target.DataTable({
+    destroy: true,
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paginate: false,
+    pageLength: 5,
+    columns: [{
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 item_id\" id=\"item_id_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" required disabled><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"bor_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"bor\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control quantity text-right\" id=\"quantity_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"quantity\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control discount text-right\" id=\"discount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"discount\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control text-right\" id=\"unit_price_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"unit_price\" value=\"0\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control text-right item_total\" id=\"amount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"0\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback(settings) {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+      createItemListDropdown(isEditable); // chooseCustomer();
+    }
+  });
+};
+
+var totalBeforeDisc = function totalBeforeDisc() {
+  var price = 0;
+  var totalBeforeDiscField = $('#total-bd');
+  var itemPrice = $('.item_total');
+  itemPrice.each(function (i, item) {
+    price = parseFloat(price) + parseFloat(item.value);
+    totalBeforeDiscField.val(price);
+    $('#original_amount').val(price);
+    finalTotal($('#discount').val());
+  });
+  $('#discount').change(function (e) {
+    return finalTotal(e.target.value);
+  });
+  $('#freight').change(function (e) {
+    return finalTotal($('#discount').val(), e.target.value);
+  });
+};
+
+var finalTotal = function finalTotal(value, freightValue) {
+  var discount_amount = $('#discount_amount');
+  var original_amount = $('#original_amount').val();
+  var discountCount = parseFloat(value) / 100 * parseFloat(original_amount);
+  var discount = discount_amount.val(parseFloat(discountCount));
+  var freight = freightValue ? freightValue : $('#freight').val();
+  var total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
+  $('#total_amount').val(parseFloat(total));
+};
+
+var createItemListDropdown = function createItemListDropdown(isEditable) {
+  var items = JSON.parse(sessionStorage.prices);
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    var _loop = function _loop() {
+      var item = _step2.value;
+      var option = document.createElement('option');
+      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item.item_id)).then(function (res) {
+        option.value = item.item_id;
+        option.textContent = "".concat(res.item.description);
+        $('.item_id').append(option);
+
+        if (isEditable) {
+          var _transaction_lines = JSON.parse(sessionStorage.transaction_lines);
+
+          _transaction_lines.forEach(function (res, resIndex) {
+            var id = res.item_id;
+            $('.item_id').each(function (index, item) {
+              if (resIndex === index) {
+                item.value = id;
+                item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+                item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
+                item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
+              }
+            });
+            totalBeforeDisc();
+          });
+        }
+      })["catch"](function (res) {
+        return console.log(res);
+      });
+    };
+
+    for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      _loop();
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+        _iterator2["return"]();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+
+  $('.select2').select2({
+    theme: 'bootstrap',
+    placeholder: 'Choose option'
+  });
+  $('.select2').change(function (e) {
+    var items = JSON.parse(sessionStorage.prices);
+    var id = e.target.getAttribute('data-id');
+    var value = e.target.value;
+    var data = items.filter(function (res) {
+      return parseInt(value) === res.item_id;
+    });
+    $("#quantity_".concat(id)).val('1');
+    $("#discount_".concat(id)).val('0');
+    $("#unit_price_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
+    $("#amount_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
+    totalBeforeDisc();
+  });
+  $('.discount, .quantity').change(function (e) {
+    var items = JSON.parse(sessionStorage.prices);
+    var id = e.target.getAttribute('data-id');
+    var itemQuantity = $("#quantity_".concat(id)).val();
+    var itemPrice = $("#unit_price_".concat(id)).val();
+    var discPrice = $("#discount_".concat(id)).val();
+    var countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
+    var calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - parseFloat(discPrice) / 100 * parseFloat(countItemPrice) : parseFloat(countItemPrice);
+    $("#amount_".concat(id)).val(parseFloat(calculate));
+    totalBeforeDisc();
+  });
+  $('.table-action').click(function (e) {
+    var id = e.currentTarget.getAttribute('data-id');
+    $("#item_id_".concat(id)).val('');
+    $("#item_id_".concat(id)).select2('destroy');
+    $("#item_id_".concat(id)).select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $("#quantity_".concat(id)).val('0');
+    $("#discount_".concat(id)).val('0');
+    $("#unit_price_".concat(id)).val('0');
+    $("#amount_".concat(id)).val('0');
+  });
+};
+
+var dataFormSalesOrder = function dataFormSalesOrder() {
+  var _ref;
+
+  $('.item_id').each(function (i, item) {
+    var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
+
+    if ($(item).val() !== '') {
+      var target = item.parentElement.parentElement;
+      var unit_price = target.querySelector('input[name="unit_price"]').value;
+      var amount = target.querySelector('input[name="amount"]').value;
+
+      var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
+
+      transaction_lines.push({
+        item_id: $(item).val(),
+        note: target.querySelector('input[name="note"]').value,
+        bor: target.querySelector('input[name="bor"]').value,
+        quantity: target.querySelector('input[name="quantity"]').value,
+        unit_price: unit_price,
+        discount: target.querySelector('input[name="discount"]').value,
+        amount: amount,
+        discount_amount: _discount_amount
+      });
+    }
+  });
+  return _ref = {
+    order_id: $('#sales_order_id').val(),
+    customer_id: $('#customer_id').val()
+  }, _defineProperty(_ref, "order_id", $('#sales_order_id').val()), _defineProperty(_ref, "agent_id", $('#outlet').val()), _defineProperty(_ref, "transaction_date", $('#transaction_date').val()), _defineProperty(_ref, "pickup_date", $('#pickup_date').val()), _defineProperty(_ref, "delivery_date", $('#delivery_date').val()), _defineProperty(_ref, "due_date", $('#due_date').val()), _defineProperty(_ref, "original_amount", $('#original_amount').val()), _defineProperty(_ref, "discount", $('#discount').val()), _defineProperty(_ref, "discount_amount", $('#discount_amount').val()), _defineProperty(_ref, "total_amount", $('#total_amount').val()), _defineProperty(_ref, "note", $('#note').val()), _defineProperty(_ref, "order_type", $('#order_type').val()), _defineProperty(_ref, "status_order", $('#status_order').val()), _defineProperty(_ref, "freight", $('#freight').val()), _defineProperty(_ref, "transaction_lines", transaction_lines), _ref;
+};
+
+if (formCreateSalesInvoice.length > 0) {
+  sessionStorage.clear();
+  $('#button-delete').remove();
+  var queries = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+  var fromOrder = queries.filter(function (item) {
+    return item.indexOf('from_order') > -1;
+  });
+
+  if (fromOrder.length > 0) {
+    var orderId = fromOrder[0].slice(fromOrder[0].indexOf('=') + 1);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(orderId)).then(function (res) {
+      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
+      $('#sales_order_id').val(orderId);
+      $('#order_type').val(res.sales_order.order_type);
+      $('#note').val(res.sales_order.note);
+      $('#discount').val(res.sales_order.discount);
+      $('#discount_amount').val(res.sales_order.discount_amount);
+      $('#freight').val(res.sales_order.freight);
+      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#transaction_date').val(res.sales_order.transaction_date);
+      $('#pickup_date').val(res.sales_order.pickup_date);
+      $('#delivery_date').val(res.sales_order.delivery_date);
+      $('#customer_id').val(res.sales_order.customer_id);
+      $('#outlet').val(res.sales_order.agent_id);
+      getDataTableSO(res.sales_order.customer_id, true);
+      $('#customer_id, #outlet').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose option'
+      }).trigger('change');
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  }
+
+  formCreateSalesInvoice.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_invoices', data).then(function (res) {
+      return window.location = '/sales_invoices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (formEditSalesInvoice.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+    sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
+    $('#sales_order_id').val(res.sales_invoice.order_id);
+    $('#order_type').val(res.sales_invoice.order_type);
+    $('#note').val(res.sales_invoice.note);
+    $('#discount').val(res.sales_invoice.discount);
+    $('#discount_amount').val(res.sales_invoice.discount_amount);
+    $('#freight').val(res.sales_invoice.freight);
+    $('#status_order').val(res.sales_invoice.order_type === 'general' ? 'open' : 'closed');
+    $('#transaction_date').val(res.sales_invoice.transaction_date);
+    $('#pickup_date').val(res.sales_invoice.pickup_date);
+    $('#delivery_date').val(res.sales_invoice.delivery_date);
+    $('#due_date').val(res.sales_invoice.due_date);
+    $('#customer_id').val(res.sales_invoice.customer_id);
+    $('#outlet').val(res.sales_invoice.agent_id);
+    getDataTableSO(res.sales_invoice.customer_id, true);
+    $('#customer_id, #outlet, #sales_order_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    }).trigger('change');
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditSalesInvoice.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_invoices/".concat(id), data).then(function (res) {
+      return window.location = '/sales_invoices';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_invoices/".concat(id)).then(function (res) {
+      return window.location = '/sales_invoices';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52558,9 +53982,463 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   !*** ./resources/js/pages/sales_order/index.js ***!
   \*************************************************/
 /*! no exports provided */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nError: ENOENT: no such file or directory, open '/Users/zuhri/project/scrubboard/resources/js/pages/sales_order/index.js'");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var idCustomer = '';
+var idAgent = '';
+var transaction_lines = [];
+var customerList = $('#customer_id');
+var outletList = $('#outlet');
+var orderType = $('#order_type');
+var statusOrder = $('#status_order');
+var listItems = $('.list-item');
+var tableSalesOrder = $('#table-sales-order');
+var formCreateSalesOrder = $('#form-create-sales-order');
+var formEditSalesOrder = $('#form-edit-sales-order');
+var tableSOItems = $('#table-so-item');
+
+var dataFormSalesOrder = function dataFormSalesOrder() {
+  $('.item_id').each(function (i, item) {
+    var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
+
+    if ($(item).val() !== '') {
+      var target = item.parentElement.parentElement;
+      var unit_price = target.querySelector('input[name="unit_price"]').value;
+      var amount = target.querySelector('input[name="amount"]').value;
+
+      var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
+
+      transaction_lines.push({
+        item_id: $(item).val(),
+        note: target.querySelector('input[name="note"]').value,
+        bor: target.querySelector('input[name="bor"]').value,
+        quantity: target.querySelector('input[name="quantity"]').value,
+        unit_price: unit_price,
+        discount: target.querySelector('input[name="discount"]').value,
+        amount: amount,
+        discount_amount: _discount_amount
+      });
+    }
+  });
+  return {
+    customer_id: $('#customer_id').val(),
+    agent_id: $('#outlet').val(),
+    transaction_date: $('#transaction_date').val(),
+    pickup_date: $('#pickup_date').val(),
+    delivery_date: $('#delivery_date').val(),
+    original_amount: $('#original_amount').val(),
+    discount: $('#discount').val(),
+    discount_amount: $('#discount_amount').val(),
+    total_amount: $('#total_amount').val(),
+    note: $('#note').val(),
+    order_type: $('#order_type').val(),
+    status_order: $('#status_order').val(),
+    freight: $('#freight').val(),
+    transaction_lines: transaction_lines
+  };
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'id'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'agent.name'
+    }, {
+      data: 'order_type'
+    }, {
+      data: 'transaction_date'
+    }, {
+      data: 'pickup_date'
+    }, {
+      data: 'delivery_date'
+    }, {
+      data: 'total_amount',
+      render: function render(data) {
+        return parseFloat(data).toFixed(0);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/sales_orders/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var getDataTableSO = function getDataTableSO(id, isEditable) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(id)).then(function (res) {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
+      var prices = res.price.price_lines;
+      sessionStorage.setItem('prices', JSON.stringify(prices));
+      createTableSO(tableSOItems, prices, isEditable);
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+};
+
+var chooseCustomer = function chooseCustomer() {
+  customerList.change(function (e) {
+    if (!$.active) getDataTableSO(e.target.value);
+  });
+};
+
+var totalBeforeDisc = function totalBeforeDisc() {
+  var price = 0;
+  var totalBeforeDiscField = $('#total-bd');
+  var itemPrice = $('.item_total');
+  itemPrice.each(function (i, item) {
+    price = parseFloat(price) + parseFloat(item.value);
+    totalBeforeDiscField.val(price);
+    $('#original_amount').val(price);
+    finalTotal($('#discount').val());
+  });
+  $('#discount').change(function (e) {
+    return finalTotal(e.target.value);
+  });
+  $('#freight').change(function (e) {
+    return finalTotal($('#discount').val(), e.target.value);
+  });
+};
+
+var finalTotal = function finalTotal(value, freightValue) {
+  var discount_amount = $('#discount_amount');
+  var original_amount = $('#original_amount').val();
+  var discountCount = parseFloat(value) / 100 * parseFloat(original_amount);
+  var discount = discount_amount.val(parseFloat(discountCount));
+  var freight = freightValue ? freightValue : $('#freight').val();
+  var total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
+  $('#total_amount').val(parseFloat(total));
+};
+
+var createItemListDropdown = function createItemListDropdown(isEditable) {
+  var items = JSON.parse(sessionStorage.prices);
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    var _loop = function _loop() {
+      var item = _step.value;
+      var option = document.createElement('option');
+      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item.item_id)).then(function (res) {
+        option.value = item.item_id;
+        option.textContent = "".concat(res.item.description);
+        $('.item_id').append(option);
+
+        if (isEditable) {
+          var _transaction_lines = JSON.parse(sessionStorage.transaction_lines);
+
+          _transaction_lines.forEach(function (res, resIndex) {
+            var id = res.item_id;
+            $('.item_id').each(function (index, item) {
+              if (resIndex === index) {
+                item.value = id;
+                item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
+                item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
+                item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
+                item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
+              }
+            });
+            totalBeforeDisc();
+          });
+        }
+      })["catch"](function (res) {
+        return console.log(res);
+      });
+    };
+
+    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      _loop();
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+        _iterator["return"]();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  $('.select2').select2({
+    theme: 'bootstrap',
+    placeholder: 'Choose option'
+  });
+  $('.select2').change(function (e) {
+    var items = JSON.parse(sessionStorage.prices);
+    var id = e.target.getAttribute('data-id');
+    var value = e.target.value;
+    var data = items.filter(function (res) {
+      return parseInt(value) === res.item_id;
+    });
+    $("#quantity_".concat(id)).val('1');
+    $("#discount_".concat(id)).val('0');
+    $("#unit_price_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
+    $("#amount_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
+    totalBeforeDisc();
+  });
+  $('.discount, .quantity').change(function (e) {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
+    var items = JSON.parse(sessionStorage.prices);
+    var id = e.target.getAttribute('data-id');
+    var itemQuantity = $("#quantity_".concat(id)).val();
+    var itemPrice = $("#unit_price_".concat(id)).val();
+    var discPrice = $("#discount_".concat(id)).val();
+    var countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
+    var calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - parseFloat(discPrice) / 100 * parseFloat(countItemPrice) : parseFloat(countItemPrice);
+    $("#amount_".concat(id)).val(parseFloat(calculate));
+    totalBeforeDisc();
+  });
+  $('.table-action').click(function (e) {
+    var id = e.currentTarget.getAttribute('data-id');
+    $("#item_id_".concat(id)).val('');
+    $("#item_id_".concat(id)).select2('destroy');
+    $("#item_id_".concat(id)).select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    $("#quantity_".concat(id)).val('0');
+    $("#discount_".concat(id)).val('0');
+    $("#unit_price_".concat(id)).val('0');
+    $("#amount_".concat(id)).val('0');
+  });
+};
+
+var createTableSO = function createTableSO(target, data, isEditable) {
+  target.DataTable({
+    destroy: true,
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paginate: false,
+    pageLength: 5,
+    columns: [{
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<select class=\"form-control select2 item_id\" id=\"item_id_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" required><option></option></select>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"bor_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"bor\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"quantity\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"discount\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"unit_price\" value=\"0\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"0\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback(settings) {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+      createItemListDropdown(isEditable);
+      chooseCustomer();
+    }
+  });
+};
+
+if (customerList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/customers').then(function (res) {
+    var items = res.customers.data;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        customerList.append(option);
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (outletList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
+    var items = res.agents.data;
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = items[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var item = _step3.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.name);
+        outletList.append(option);
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+          _iterator3["return"]();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateSalesOrder.length > 0) {
+  statusOrder.val(orderType.val() === 'general' ? 'open' : 'closed');
+  orderType.change(function (e) {
+    statusOrder.val(e.target.value === 'general' ? 'open' : 'closed');
+  });
+  chooseCustomer();
+}
+
+if (formCreateSalesOrder.length > 0) {
+  sessionStorage.clear();
+  $('#button-delete').remove();
+  formCreateSalesOrder.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_orders', data).then(function (res) {
+      return window.location = '/sales_orders';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+
+if (tableSalesOrder.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
+    createTable(tableSalesOrder, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formEditSalesOrder.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
+    sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
+    $('#customer_id').val(res.sales_order.customer_id);
+    $('#outlet').val(res.sales_order.agent_id);
+    $('#order_type').val(res.sales_order.order_type);
+    $('#note').val(res.sales_order.note);
+    $('#discount').val(res.sales_order.discount);
+    $('#discount_amount').val(res.sales_order.discount_amount);
+    $('#freight').val(res.sales_order.freight);
+    $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+    $('#transaction_date').val(res.sales_order.transaction_date);
+    $('#pickup_date').val(res.sales_order.pickup_date);
+    $('#delivery_date').val(res.sales_order.delivery_date);
+    getDataTableSO(res.sales_order.customer_id, true);
+    $('.select2').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    }).trigger('change');
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditSalesOrder.submit(function (e) {
+    e.preventDefault();
+    var data = dataFormSalesOrder();
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_orders/".concat(id), data).then(function (res) {
+      return window.location = '/sales_orders';
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_orders/".concat(id)).then(function (res) {
+      return window.location = '/sales_orders';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+
+if ($('.is-number').length > 0) {
+  $('.is-number').change(function (e) {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
+    e.target.value = e.target.value === 'NaN' ? 0 : e.target.value;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 

@@ -19,7 +19,7 @@ class VehicleController extends Controller
         Request $request,
         VehiclePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -36,7 +36,7 @@ class VehicleController extends Controller
         Vehicle $vehicle,
         VehiclePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

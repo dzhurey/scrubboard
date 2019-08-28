@@ -20,7 +20,7 @@ class PickupScheduleController extends Controller
         Request $request,
         PickupSchedulePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -37,7 +37,7 @@ class PickupScheduleController extends Controller
         PickupSchedule $pickup_schedule,
         PickupSchedulePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -49,7 +49,7 @@ class PickupScheduleController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -62,7 +62,7 @@ class PickupScheduleController extends Controller
         StoreCourierSchedule $request,
         PickupScheduleStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -74,7 +74,7 @@ class PickupScheduleController extends Controller
 
     public function edit(Request $request, PickupSchedule $pickup_schedule)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -89,7 +89,7 @@ class PickupScheduleController extends Controller
         PickupSchedule $pickup_schedule,
         PickupScheduleUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -100,7 +100,7 @@ class PickupScheduleController extends Controller
 
     public function destroy(Request $request, PickupSchedule $pickup_schedule)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

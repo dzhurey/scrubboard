@@ -34,7 +34,7 @@ class StoreCourier extends FormRequest
             'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'required|date_format:"Y-m-d"',
             'gender' => 'required|in:'.join(array_keys(Person::GENDERS), ','),
-            'religion' => 'required|in:'.join(array_keys(Person::RELIGIONS), ','),
+            'religion' => 'nullable|in:'.join(array_keys(Person::RELIGIONS), ','),
             'address' => 'required',
             'district' => 'required|max:150',
             'city' => 'required|max:150',

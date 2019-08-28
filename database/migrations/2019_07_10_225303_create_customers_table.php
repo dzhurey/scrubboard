@@ -19,7 +19,7 @@ class CreateCustomersTable extends Migration
             $table->string('name', 255);
             $table->date('birth_date');
             $table->enum('gender', ['male', 'female']);
-            $table->enum('religion', ['islam', 'christian', 'catholic', 'hindu', 'buddhis', 'kong hu chu', 'belief']);
+            $table->enum('religion', ['islam', 'christian', 'catholic', 'hindu', 'buddhis', 'kong hu chu', 'belief'])->nullable();
             $table->string('phone_number', 15);
             $table->string('email');
         });

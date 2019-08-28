@@ -30,6 +30,7 @@ class PaymentStoreService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->createPaymentLines($attributes);
                 $this->model->paymentLines()->saveMany($lines);
+                $this->updateTransactionStatus();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -53,5 +54,13 @@ class PaymentStoreService extends BaseService
             array_push($lines, $this->assignAttributes($model_line, $value));
         }
         return ($lines);
+    }
+
+    public function updateTransactionStatus()
+    {
+        $this->model->paymentLines->each(function ($payment_line) {
+            $payment_line->transaction->transaction_status = 'closed';
+            $payment_line->transaction->save();
+        });
     }
 }

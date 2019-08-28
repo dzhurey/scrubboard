@@ -34,7 +34,6 @@
     useCurrent: true,
     defaultDate: new Date(),
     locale: 'id',
-    debug: true,
     icons: {
       time: 'fa fa-time',
       date: 'fa fa-calendar',
@@ -68,7 +67,10 @@
     );
   };
 
-  $('.select2').select2({ theme: 'bootstrap'});
+  $('.select2').select2({ 
+    theme: 'bootstrap',
+    placeholder: 'Choose option',
+  });
   $('#is_same_address').change((e) => {
     const target = $('#is_same_address_content');
     e.target.checked ? target.hide() : target.show();

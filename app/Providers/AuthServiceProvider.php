@@ -28,5 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('superadmin-only', function ($user) {
             return $user->isSuperAdmin();
         });
+
+        Gate::define('courier-only', function ($user) {
+            return $user->role == 'courier';
+        });
     }
 }

@@ -9,6 +9,8 @@ const createTable = (target, data) => {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: true,
+    pageLength: 5,
     columns: [
       { data: 'name' },
       {
@@ -35,7 +37,7 @@ const assignValue = (data) => {
 };
 
 if (tableCategory.length > 0) {
-  ajx.get('/item_groups').then((res) => {
+  ajx.get('/api/item_groups').then((res) => {
     createTable(tableCategory, res.item_groups.data);
   }).catch(res => console.log(res));
 }
@@ -46,15 +48,15 @@ if (formCreateCategory.length > 0) {
     e.preventDefault();
     const dataForm = formCreateCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/item_groups', data).then(res => window.location = '/item_groups').catch(res => console.log(res));
+    ajx.post('/api/item_groups', data).then(res => window.location = '/item_groups').catch(res => console.log(res));
     return false;
   });
 }
 
 if (formEditCategory.length > 0) {
   const urlArray = window.location.href.split('/');
-  const idCategory = urlArray[urlArray.length - 2];
-  ajx.get(`/item_groups/${idCategory}`)
+  const id = urlArray[urlArray.length - 2];
+  ajx.get(`/api/item_groups/${id}`)
     .then(res => assignValue(res.item_group))
     .catch(res => console.log(res));
 
@@ -62,7 +64,13 @@ if (formEditCategory.length > 0) {
     e.preventDefault();
     const dataForm = formEditCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/item_groups/${idCategory}/update`, data).then(res => window.location = '/item_groups').catch(res => console.log(res));
+    ajx.put(`/api/item_groups/${id}`, data).then(res => window.location = '/item_groups').catch(res => console.log(res));
     return false;
+  })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/item_groups/${id}`).then(res => window.location = '/item_groups').catch(res => {
+      alert(res.responseJSON.message)
+    });
   })
 }

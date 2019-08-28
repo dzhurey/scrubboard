@@ -27,3 +27,9 @@ h5 { font-size: .85rem; }
     padding-left: 0;
   }
 }
+
+::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar-track { background: #fff; }
+::-webkit-scrollbar-track:hover { background: #e9ecef; }
+::-webkit-scrollbar-thumb { background: #ced4da; }
+::-webkit-scrollbar-thumb:hover { background: #adb5bd; }

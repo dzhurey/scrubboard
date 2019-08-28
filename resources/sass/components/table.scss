@@ -1,7 +1,7 @@
 .c-table {
   margin-bottom: 0;
   &--outer {
-    border: 1px solid #E8EEF3;
+    border: 1px solid #e9ecef;
     border-radius: 4px;
     overflow: hidden;
     margin: 30px;
@@ -10,6 +10,13 @@
   &.table {
     thead {
       th {
+        padding: 12px;
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
         &.checkbox {
           width: 50px;
         }
@@ -19,13 +26,20 @@
     tbody {
       td {
         border-color: #E8EEF3;
+        padding: 12px;
+        &:first-child {
+          padding-left: 20px;
+        }
+        &:last-child {
+          padding-right: 20px;
+        }
         &.checkbox {
           width: 50px;
         }
         a, .btn {
           opacity: .5;
           position: relative;
-          top: -4px;
+          top: 2px;
           &:hover,
           &:active,
           &:focus {
@@ -42,19 +56,22 @@
     }
     th, td {
       &.th-item {
-        width: 290px;
+        width: 260px !important;
       }
       &.th-note {
-        width: 230px;
+        width: 200px !important;
       }
       &.th-qty,
       &.th-action,
       &:last-child {
-        width: 50px;
+        width: 50px !important;
       }
       &.th-price,
       &.th-total {
-        width: 130px;
+        width: 130px !important;
+      }
+      &.th-dcs {
+        width: 85px !important;
       }
     }
   }

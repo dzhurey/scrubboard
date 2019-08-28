@@ -11,7 +11,10 @@ class TransactionLine extends BaseModel
         'item_id',
         'quantity',
         'unit_price',
+        'discount',
+        'discount_amount',
         'amount',
+        'bor',
         'note',
     ];
 

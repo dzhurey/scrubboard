@@ -1,100 +1,123 @@
-{{ csrf_field() }}
-<div class="form-group">
-    <label>Kategori Agen</label>
-    {{ Form::select('agent_group_id', $agent_groups, !empty($agent->id) ? $agent->agent_group_id : old('agent_group_id'), ['class' => 'form-control'.($errors->has('agent_group_id') ? 'is-invalid' : '') ]) }}
-    @if ($errors->has('agent_group_id'))
-        <div class="invalid-feedback">{{ $errors->first('agent_group_id') }}</div>
-    @endif
+<div class="row">
+    <div class="col-sm-6">
+        <h2 class="c-form--title">Outlet Data</h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="agent_group_id">Outlet type</label>
+                    <select class="form-control" id="agent_group_id" name="agent_group_id" required>
+                        <option value="1">Agent</option>
+                    </select>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="name">Name</label>
+            <input class="form-control" id="name" name="name" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="phone_number">Telephone</label>
+                    <input class="form-control" id="phone_number" name="phone_number" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="mobile_number">Mobile Phone</label>
+                    <input class="form-control" id="mobile_number" name="mobile_number" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="email">Email</label>
+            <input class="form-control" id="email" name="email" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <label>Nama</label>
-    <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ !empty($agent->id) ? $agent->name : old('name') }}">
-    @if ($errors->has('name'))
-        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-    @endif
+<div class="row mt-4">
+    <div class="col-sm-6">
+        <h2 class="c-form--title">Address</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="address">Address</label>
+            <textarea class="form-control" id="address" name="address" required></textarea>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="sub_district">Sub District</label>
+                    <input class="form-control" id="sub_district" name="sub_district" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="district">District</label>
+                    <input class="form-control" id="district" name="district" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="city">City</label>
+                    <input class="form-control" id="city" name="city" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="country">Country</label>
+                    <input class="form-control" id="country" name="country" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="zip_code">Zip Code</label>
+                    <input class="form-control" id="zip_code" name="zip_code" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h2 class="c-form--title">Contact Person</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="contact_name">Name</label>
+            <input class="form-control" id="contact_name" name="contact_name" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="contact_phone_number">Telephone</label>
+                    <input class="form-control" id="contact_phone_number" name="contact_phone_number" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="contact_mobile_number">Mobile Phone</label>
+                    <input class="form-control" id="contact_mobile_number" name="contact_mobile_number" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <label>No. Telepon</label>
-    <input class="form-control @error('phone_number') is-invalid @enderror" type="text" name="phone_number" value="{{ !empty($agent->id) ? $agent->phone_number : old('phone_number') }}">
-    @if ($errors->has('phone_number'))
-        <div class="invalid-feedback">{{ $errors->first('phone_number') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>No. Handphone</label>
-    <input class="form-control @error('mobile_number') is-invalid @enderror" type="text" name="mobile_number" value="{{ !empty($agent->id) ? $agent->mobile_number : old('mobile_number') }}">
-    @if ($errors->has('mobile_number'))
-        <div class="invalid-feedback">{{ $errors->first('mobile_number') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Email</label>
-    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($agent->id) ? $agent->email : old('email') }}">
-    @if ($errors->has('email'))
-        <div class="invalid-feedback">{{ $errors->first('email') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Alamat</label>
-    <textarea class="form-control @error('address') is-invalid @enderror" name="address">{{ !empty($agent->id) ? $agent->address : old('address') }}</textarea>
-    @if ($errors->has('address'))
-        <div class="invalid-feedback">{{ $errors->first('address') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kelurahan</label>
-    <input class="form-control @error('sub_district') is-invalid @enderror" type="text" name="sub_district" value="{{ !empty($agent->id) ? $agent->sub_district : old('sub_district') }}">
-    @if ($errors->has('sub_district'))
-        <div class="invalid-feedback">{{ $errors->first('sub_district') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kecamatan</label>
-    <input class="form-control @error('district') is-invalid @enderror" type="text" name="district" value="{{ !empty($agent->id) ? $agent->district : old('district') }}">
-    @if ($errors->has('district'))
-        <div class="invalid-feedback">{{ $errors->first('district') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kota</label>
-    <input class="form-control @error('city') is-invalid @enderror" type="text" name="city" value="{{ !empty($agent->id) ? $agent->city : old('city') }}">
-    @if ($errors->has('city'))
-        <div class="invalid-feedback">{{ $errors->first('city') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Negara</label>
-    <input class="form-control @error('country') is-invalid @enderror" type="text" name="country" value="{{ !empty($agent->id) ? $agent->country : old('country') }}">
-    @if ($errors->has('country'))
-        <div class="invalid-feedback">{{ $errors->first('country') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kode Pos</label>
-    <input class="form-control @error('zip_code') is-invalid @enderror" type="text" name="zip_code" value="{{ !empty($agent->id) ? $agent->zip_code : old('zip_code') }}">
-    @if ($errors->has('zip_code'))
-        <div class="invalid-feedback">{{ $errors->first('zip_code') }}</div>
-    @endif
-</div>
-<h5>Kontak</h5>
-<div class="form-group">
-    <label>Nama</label>
-    <input class="form-control @error('contact_name') is-invalid @enderror" type="text" name="contact_name" value="{{ !empty($agent->id) ? $agent->contact_name : old('contact_name') }}">
-    @if ($errors->has('contact_name'))
-        <div class="invalid-feedback">{{ $errors->first('contact_name') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>No. Telepon</label>
-    <input class="form-control @error('contact_phone_number') is-invalid @enderror" type="text" name="contact_phone_number" value="{{ !empty($agent->id) ? $agent->contact_phone_number : old('contact_phone_number') }}">
-    @if ($errors->has('contact_phone_number'))
-        <div class="invalid-feedback">{{ $errors->first('contact_phone_number') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>No. Handphone</label>
-    <input class="form-control @error('contact_mobile_number') is-invalid @enderror" type="text" name="contact_mobile_number" value="{{ !empty($agent->id) ? $agent->contact_mobile_number : old('contact_mobile_number') }}">
-    @if ($errors->has('contact_mobile_number'))
-        <div class="invalid-feedback">{{ $errors->first('contact_mobile_number') }}</div>
-    @endif
+<hr class="my-4">
+<div class="row">
+    <div class="col-sm-6 text-left">
+        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+    </div>
+    <div class="col-sm-6 text-right">
+        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
 </div>

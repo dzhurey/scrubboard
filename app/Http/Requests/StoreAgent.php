@@ -27,7 +27,7 @@ class StoreAgent extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:agents',
             'email' => 'required|email',
             'phone_number' => ['max:15', new PhoneNumber],
             'mobile_number' => ['required', 'max:15', new PhoneNumber],

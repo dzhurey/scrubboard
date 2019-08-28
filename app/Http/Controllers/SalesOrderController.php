@@ -108,6 +108,10 @@ class SalesOrderController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($sales_order->invoice)) {
+            return $this->renderError($request, __("rules.order_has_invoice"), 422);
+        }
+
         $sales_order->transactionLines->each->delete();
         $sales_order->delete();
         return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 204);

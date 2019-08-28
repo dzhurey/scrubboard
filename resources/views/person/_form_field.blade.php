@@ -1,101 +1,135 @@
-{{ csrf_field() }}
-<div class="form-group">
-    <label>Nama</label>
-    <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" value="{{ !empty($person->id) ? $person->name : old('name') }}">
-    @if ($errors->has('name'))
-        <div class="invalid-feedback">{{ $errors->first('name') }}</div>
-    @endif
+<div class="row">
+    <div class="col-sm-6">
+        <h2 class="c-form--title">User Data</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="name">Nama</label>
+            <input class="form-control" id="name" type="text" name="name" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="email">Email</label>
+            <input class="form-control" id="email" type="text" name="email" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="role">Role</label>
+            <select class="form-control" id="role" name="role">
+                <option value="superadmin">Superadmin</option>
+                <option value="sales">Sales</option>
+                <option value="finance">Finance</option>
+                <option value="operation">Operation</option>
+                <option value="courier">Kurir</option>
+                <option value="workshop">Workshop</option>
+            </select>
+        </div>
+        @if (empty($person->id))
+        <div class="form-group">
+            <label class="c-form--label" for="password">Password</label>
+            <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" value="{{ old('password') }}">
+            @if ($errors->has('password'))
+                <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+            @endif
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="confirm_password">Konfirmasi Password</label>
+            <input class="form-control @error('confirm_password') is-invalid @enderror" id="confirm_password" type="password" name="confirm_password" value="{{ old('password') }}">
+            @if ($errors->has('confirm_password'))
+                <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
+            @endif
+        </div>
+        @endif
+        <div class="form-group">
+            <label class="c-form--label" for="phone_number">No. Handphone</label>
+            <input class="form-control" id="phone_number" type="text" name="phone_number" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" id="birthday">Tanggal Lahir</label>
+                    <input class="form-control datetimepicker @error('birth_date') is-invalid @enderror" id="birthday" name="birth_date" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="gender">Gender</label>
+                    
+                    <div class="mt-1" id="gender">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input form-check-radio" id="gender_male" type="radio" name="gender" 
+                                value="male" required>
+                            <label class="form-check-label" for="gender_male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input form-check-radio" id="gender_female" type="radio" name="gender" 
+                                value="female" required>
+                            <label class="form-check-label" for="gender_female">Female</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="religion">Religion</label>
+            <select id="religion" class="form-control" required name="religion">
+                <option value="islam">Islam</option>
+                <option value="christian">Kristen</option>
+                <option value="catholic">Katolik</option>
+                <option value="hindu">Hindu</option>
+                <option value="buddhis">Budha</option>
+                <option value="kong hu chu">Kong Hu Chu</option>
+            </select>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+
+        <h2 class="c-form--title mt-5">User Address</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="address">Address</label>
+            <textarea class="form-control" id="address" name="address"></textarea>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="district">District</label>
+                    <input class="form-control" id="district" name="district" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="city">City</label>
+                    <input class="form-control" id="city" name="city" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="country">Country</label>
+                    <input class="form-control" id="country" name="country" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="zip_code">Zip code</label>
+                    <input class="form-control" id="zip_code" name="zip_code" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <label>Email</label>
-    <input class="form-control @error('email') is-invalid @enderror" type="text" name="email" value="{{ !empty($person->id) ? $person->user->email : old('email') }}" @if(!empty($person->id)) disabled @endif>
-    @if ($errors->has('email'))
-        <div class="invalid-feedback">{{ $errors->first('email') }}</div>
-    @endif
-</div>
-@if (empty($person->id))
-<div class="form-group">
-    <label>Password</label>
-    <input class="form-control @error('password') is-invalid @enderror" type="password" name="password" value="{{ old('password') }}">
-    @if ($errors->has('password'))
-        <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Konfirmasi Password</label>
-    <input class="form-control @error('confirm_password') is-invalid @enderror" type="password" name="confirm_password" value="{{ old('password') }}">
-    @if ($errors->has('confirm_password'))
-        <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
-    @endif
-</div>
-@endif
-<div class="form-group">
-    <label>No. Handphone</label>
-    <input class="form-control @error('phone_number') is-invalid @enderror" type="text" name="phone_number" value="{{ !empty($person->id) ? $person->phone_number : old('phone_number') }}">
-    @if ($errors->has('phone_number'))
-        <div class="invalid-feedback">{{ $errors->first('phone_number') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Tanggal Lahir</label>
-    <input class="form-control @error('birth_date') is-invalid @enderror" type="date" name="birth_date" value="{{ !empty($person->id) ? $person->birth_date : old('birth_date') }}">
-    @if ($errors->has('birth_date'))
-        <div class="invalid-feedback">{{ $errors->first('birth_date') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Gender</label>
-    {{ Form::select('gender', App\Person::GENDERS, !empty($person->id) ? $person->gender : old('gender'), ['class' => 'form-control'.($errors->has('gender') ? 'is-invalid' : '') ]) }}
-    @if ($errors->has('gender'))
-        <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Agama</label>
-    {{ Form::select('religion', App\Person::RELIGIONS, !empty($person->id) ? $person->religion : old('religion'), ['class' => 'form-control'.($errors->has('religion') ? 'is-invalid' : '') ]) }}
-    @if ($errors->has('religion'))
-        <div class="invalid-feedback">{{ $errors->first('religion') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Alamat</label>
-    <textarea class="form-control @error('address') is-invalid @enderror" name="address">{{ !empty($person->id) ? $person->address : old('address') }}</textarea>
-    @if ($errors->has('address'))
-        <div class="invalid-feedback">{{ $errors->first('address') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kecamatan</label>
-    <input class="form-control @error('district') is-invalid @enderror" type="text" name="district" value="{{ !empty($person->id) ? $person->district : old('district') }}">
-    @if ($errors->has('district'))
-        <div class="invalid-feedback">{{ $errors->first('district') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kota</label>
-    <input class="form-control @error('city') is-invalid @enderror" type="text" name="city" value="{{ !empty($person->id) ? $person->city : old('city') }}">
-    @if ($errors->has('city'))
-        <div class="invalid-feedback">{{ $errors->first('city') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Negara</label>
-    <input class="form-control @error('country') is-invalid @enderror" type="text" name="country" value="{{ !empty($person->id) ? $person->country : old('country') }}">
-    @if ($errors->has('country'))
-        <div class="invalid-feedback">{{ $errors->first('country') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Kode Pos</label>
-    <input class="form-control @error('zip_code') is-invalid @enderror" type="text" name="zip_code" value="{{ !empty($person->id) ? $person->zip_code : old('zip_code') }}">
-    @if ($errors->has('zip_code'))
-        <div class="invalid-feedback">{{ $errors->first('zip_code') }}</div>
-    @endif
-</div>
-<div class="form-group">
-    <label>Role</label>
-    {{ Form::select('role', App\User::ROLES, !empty($person->id) ? $person->user->role : old('role'), ['class' => 'form-control'.($errors->has('role') ? 'is-invalid' : '') ]) }}
-    @if ($errors->has('role'))
-        <div class="invalid-feedback">{{ $errors->first('role') }}</div>
-    @endif
+
+<hr class="my-4">
+<div class="row">
+    <div class="col-sm-6 text-left">
+        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+    </div>
+    <div class="col-sm-6 text-right">
+        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
 </div>

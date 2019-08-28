@@ -5,16 +5,19 @@ namespace App;
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
 use App\BaseModel;
 use App\SalesOrder;
+use App\SalesInvoice;
 
 class Transaction extends BaseModel
 {
     use SingleTableInheritanceTrait;
 
+    protected $transaction_number_prefix = '';
+
     protected $table = 'transactions';
 
     protected static $singleTableTypeField = 'transaction_type';
 
-    protected static $singleTableSubclasses = [SalesOrder::class];
+    protected static $singleTableSubclasses = [SalesOrder::class, SalesInvoice::class];
 
     const TRANSACTION_TYPES = [
         'order' => 'Sales Order',
@@ -31,15 +34,19 @@ class Transaction extends BaseModel
         'transaction_status',
         'order_type',
         'customer_id',
+        'agent_id',
         'transaction_date',
         'pickup_date',
         'delivery_date',
+        'due_date',
         'original_amount',
         'discount',
         'discount_amount',
         'freight',
         'total_amount',
+        'balance_due',
         'note',
+        'order_id',
     ];
 
     protected $searchable = [
@@ -54,5 +61,23 @@ class Transaction extends BaseModel
     public function customer()
     {
         return $this->belongsTo('App\Customer');
+    }
+
+    public function agent()
+    {
+        return $this->belongsTo('App\Agent');
+    }
+
+    public function generateTransactionNumber()
+    {
+        $latest = $this->getLatest();
+
+        if (! $latest) {
+            return $this->transaction_number_prefix . '0001';
+        }
+
+        $string = preg_replace("/[^0-9\.]/", '', $latest->transaction_number);
+
+        return $this->transaction_number_prefix . sprintf('%04d', $string + 1);
     }
 }

@@ -38,6 +38,7 @@ class Customer extends BaseModel
         'bebe_name',
         'bebe_gender',
         'bebe_birth_date',
+        'price_id',
     ];
 
     protected $searchable = [
@@ -49,6 +50,11 @@ class Customer extends BaseModel
     public function addresses()
     {
         return $this->hasMany('App\Address');
+    }
+
+    public function price()
+    {
+        return $this->belongsTo('App\Price');
     }
 
     public function billingAddress()

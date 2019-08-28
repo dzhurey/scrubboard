@@ -32,5 +32,29 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('courier-only', function ($user) {
             return $user->role == 'courier';
         });
+
+        Gate::define('sales', function ($user) {
+            return $user->role == 'sales';
+        });
+
+        Gate::define('finance', function ($user) {
+            return $user->role == 'finance';
+        });
+
+        Gate::define('operation', function ($user) {
+            return $user->role == 'operation';
+        });
+
+        Gate::define('courier', function ($user) {
+            return $user->role == 'courier';
+        });
+
+        Gate::define('workshop', function ($user) {
+            return $user->role == 'workshop';
+        });
+
+        Gate::define('superadmin', function ($user) {
+            return $user->role == 'superadmin';
+        });
     }
 }

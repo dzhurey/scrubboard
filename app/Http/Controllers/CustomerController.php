@@ -20,8 +20,7 @@ class CustomerController extends Controller
         Request $request,
         CustomerPresenter $presenter
     ) {
-
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -38,7 +37,7 @@ class CustomerController extends Controller
         Customer $customer,
         CustomerPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -48,9 +47,9 @@ class CustomerController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -61,7 +60,7 @@ class CustomerController extends Controller
         StoreCustomer $request,
         CustomerStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -70,9 +69,9 @@ class CustomerController extends Controller
         return $this->renderView($request, '', [], ['route' => 'customers.index', 'data' => []], 201);
     }
 
-    public function edit(Customer $customer)
+    public function edit(Request $request, Customer $customer)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -84,7 +83,7 @@ class CustomerController extends Controller
         Customer $customer,
         CustomerUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -95,7 +94,7 @@ class CustomerController extends Controller
 
     public function destroy(Request $request, Customer $customer)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

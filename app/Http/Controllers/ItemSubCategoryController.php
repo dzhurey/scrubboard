@@ -23,7 +23,7 @@ class ItemSubCategoryController extends Controller
         Request $request,
         ItemSubCategoryPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -40,7 +40,7 @@ class ItemSubCategoryController extends Controller
         ItemSubCategory $item_sub_category,
         ItemSubCategoryPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -50,7 +50,7 @@ class ItemSubCategoryController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -73,7 +73,7 @@ class ItemSubCategoryController extends Controller
         return $this->renderView($request, '', [], ['route' => 'item_sub_categories.index', 'data' => []], 201);
     }
 
-    public function edit(ItemSubCategory $item_sub_category)
+    public function edit(Request $request, ItemSubCategory $item_sub_category)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

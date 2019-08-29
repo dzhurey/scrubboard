@@ -53495,6 +53495,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     lengthChange: false,
     searching: false,
     info: false,
+    paging: false,
     columns: [{
       data: 'description',
       render: function render(data) {

@@ -51971,15 +51971,43 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
 var tableCourierPS = $('#table-courier-pickup-schedule');
+var formEditCourierPS = $('#form-edit-courier-pickup-schedule');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'transaction.transaction_number'
+    }, {
+      data: 'estimation_time'
+    }, {
+      data: 'status'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
 
 if (tableCourierPS.length > 0) {
-  debugger;
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('api/courier/pickup_schedules').then(function (res) {
-    debugger; // createTable(tablePrice, res.prices.data);
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
+    createTable(tableCourierPS, res.courier_pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
 }
+
+if (formEditCourierPS.length > 0) {}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

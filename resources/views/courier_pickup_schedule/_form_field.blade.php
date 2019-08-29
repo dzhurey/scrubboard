@@ -3,7 +3,8 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="courier_id">Upload Gambar Pickup</label>
-            <input type="file" class="form-control-file" name="image">
+            <input type="file" accept="image/*" capture>
+            <!-- <input type="file" class="form-control-file" name="image"> -->
             <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>

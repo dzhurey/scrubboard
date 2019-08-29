@@ -3,10 +3,9 @@
     <table id="table-courier-pickup-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Order Number</th>
-                <th>Customer</th>
-                <th>Address</th>
-                <th>Total Order</th>
+                <th>Sales Order ID</th>
+                <th>ETA</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>

@@ -95,4 +95,9 @@
       $img.replaceWith($svg);
     }, 'xml');
   });
+
+  $('input[type="text"], input[type="number"]').each((i, item) => {
+    $(item).attr('autocomplete', 'off');
+  }); 
+  $('form').attr('autocomplete', 'off');
 })();

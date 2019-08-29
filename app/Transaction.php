@@ -24,6 +24,13 @@ class Transaction extends BaseModel
         'invoice' => 'Sales Invoice',
     ];
 
+    const TRANSACTION_STATUS = [
+        'open' => 'Open',
+        'scheduled' => 'Scheduled',
+        'delivered' => 'Delivered',
+        'closed' => 'Closed',
+    ];
+
     const ORDER_TYPES = [
         'general' => 'General',
         'endorser' => 'Endorser',

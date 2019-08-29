@@ -11,9 +11,14 @@ const chooseSOList = () => {
     const items = JSON.parse(sessionStorage.sales_orders);
     const getId = e.currentTarget.getAttribute('data-id');
     const matchData = items.filter(res => res.id === parseFloat(getId));
-    $(`#customer_${getId}`).val(matchData[0].customer.name);
-    $(`#sales_date_${getId}`).val(matchData[0].transaction_date);
-    $(`#address_${getId}`).val(matchData[0].customer.shipping_address.description);
+    if (matchData.length > 0) {
+      $(`#customer_${getId}`).val(matchData[0].customer.name);
+      $(`#sales_date_${getId}`).val(matchData[0].transaction_date);
+      $(`#address_${getId}`).val(matchData[0].customer.shipping_address.description);
+    } else {
+      // $(`#${e.currentTarget.id}`).val(null);
+      $(`#${e.currentTarget.id}`).val('');
+    }
   })
 };
 const createSOListDropdown = () => {
@@ -21,7 +26,7 @@ const createSOListDropdown = () => {
   for (let item of items) {
     const option = document.createElement('option');
     option.value = item.id;
-    option.textContent = `${item.id} - ${item.customer.name}`;
+    option.textContent = `${item.transaction_number}`;
     $('.so_id').append(option);
 
     $('.select2').select2({ 
@@ -85,7 +90,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'courier.name' },
+      { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
       { data: 'courier_schedule_lines.length' },
@@ -114,7 +119,7 @@ const dataFormPickup = (tableList) => {
     }
   });
   return {
-    courier_id: $('#courier_id').val(),
+    person_id: $('#courier_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines,
@@ -123,7 +128,7 @@ const dataFormPickup = (tableList) => {
 
 if (courierId.length > 0) {
   ajx.get('/api/couriers').then((res) => {
-    const items = res.couriers.data;
+    const items = res.people.data;
     for (let item of items) {
       const option = document.createElement('option');
       option.value = item.id;
@@ -148,8 +153,13 @@ if (vehicleId.length > 0) {
 if (tableSoItemPickup.length > 0) {
   sessionStorage.clear();
   ajx.get('/api/sales_orders').then((res) => {
-    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTableSOPickupSchedule(tableSoItemPickup, res.sales_orders.data);
+    const dataOpen = [];
+    const dataAll = res.sales_orders.data;
+    dataAll.map((res) => {
+      if (res.transaction_status === 'open') dataOpen.push(res);
+    })
+    sessionStorage.setItem('sales_orders', JSON.stringify(dataOpen));
+    createTableSOPickupSchedule(tableSoItemPickup, dataOpen);
   }).catch(res => console.log(res));
 }
 
@@ -157,6 +167,7 @@ if (createPickupForm.length > 0) {
   $('#button-delete').remove();
   createPickupForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
     ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
     return false;
@@ -170,7 +181,7 @@ if (EditPickupForm.length > 0) {
   ajx.get(`/api/pickup_schedules/${id}`)
     .then(res => {
       const itemsSO = JSON.parse(sessionStorage.sales_orders);
-      $('#courier_id').val(res.pickup_schedule.courier_id);
+      $('#courier_id').val(res.pickup_schedule.person_id);
       $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
       $('#date').val(res.pickup_schedule.schedule_date);
       $('#courier_id, #vehicle_id').select2({ 
@@ -198,6 +209,7 @@ if (EditPickupForm.length > 0) {
 
   EditPickupForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
     ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
     return false;

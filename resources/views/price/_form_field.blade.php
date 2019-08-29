@@ -9,7 +9,6 @@
         <table id="table-item-price-list" class="c-table table table-striped">
             <thead>
                 <tr>
-                    <th class="checkbox"></th>
                     <th>Description</th>
                     <th>Price</th>
                 </tr>

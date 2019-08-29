@@ -63,6 +63,7 @@ if (tableUser.length > 0) {
 if (formCreateUser.length > 0) {
   formCreateUser.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/people', data).then(res => window.location = '/people').catch(res => console.log(res));
@@ -88,6 +89,7 @@ if (formEditUser.length > 0) {
 
   formEditUser.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/people/${id}`, data).then(res => window.location = '/people').catch(res => console.log(res));

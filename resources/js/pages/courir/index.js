@@ -63,6 +63,7 @@ if (tableCourier.length > 0) {
 if (formCreateCourier.length > 0) {
   formCreateCourier.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/couriers', data).then(res => window.location = '/couriers').catch(res => console.log(res));
@@ -88,6 +89,7 @@ if (formEditCourier.length > 0) {
 
   formEditCourier.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/people').catch(res => console.log(res));

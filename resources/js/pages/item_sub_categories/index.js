@@ -60,6 +60,7 @@ if (formCreateSubCategory.length > 0) {
   $('#button-delete').remove();
   formCreateSubCategory.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateSubCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/item_sub_categories', data).then(res => window.location = '/item_sub_categories').catch(res => console.log(res));
@@ -76,6 +77,7 @@ if (formEditSubCategory.length > 0) {
 
   formEditSubCategory.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditSubCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/item_sub_categories/${id}`, data).then(res => window.location = '/item_sub_categories').catch(res => console.log(res));

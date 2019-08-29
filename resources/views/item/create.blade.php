@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('items.index') }}">Items data</a>
+                        <a href="{{ route('items.index') }}">Items Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add item data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Item</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add items data</h1>
+            <h1 class="mb-0">Add Item</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

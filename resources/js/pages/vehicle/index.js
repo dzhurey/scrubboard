@@ -36,6 +36,7 @@ if (tableVehicle.length > 0) {
 if (formCreateVehicle.length > 0) {
   formCreateVehicle.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateVehicle.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/vehicles', data).then(res => window.location = '/vehicles').catch(res => console.log(res));
@@ -54,6 +55,7 @@ if (formEditVehicle.length > 0) {
 
   formEditVehicle.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditVehicle.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => console.log(res));

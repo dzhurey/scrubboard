@@ -30,7 +30,7 @@
     <table id="table-so-item-delivery" class="c-table table table-striped">
         <thead>
             <tr>
-                <th class="th-item">Sales Order Id</th>
+                <th class="th-item">Sales Invoice Id</th>
                 <th class="th-note">Customer</th>
                 <th class="th-note">Sales Date</th>
                 <th class="th-item">Address</th>

@@ -46,9 +46,13 @@ if (formCreateAgent.length > 0) {
   $('#button-delete').remove();
   formCreateAgent.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateAgent.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/agents', data).then(res => window.location = '/agents').catch(res => console.log(res));
+    ajx.post('/api/agents', data).then(res => window.location = '/agents').catch(res => {
+      alert(res.responseJSON.errors.name);
+      console.log(res);
+    });
     return false;
   })
 }
@@ -77,6 +81,7 @@ if (formEditAgent.length > 0) {
 
   formEditAgent.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditAgent.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/agents/${id}`, data).then(res => window.location = '/agents').catch(res => console.log(res));

@@ -5,10 +5,10 @@
 <div id="sales-invoice-list">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
-          <h1 class="mb-0">Sales Invoices</h1>
+          <h1 class="mb-0">Sales Invoice Data</h1>
         </div>
         <div class="col-sm-6 text-right">
-            <a class="btn btn-primary" href="{{ route('sales_invoices.create') }}">Add Sales Invoices</a>
+            <a class="btn btn-primary" href="{{ route('sales_invoices.create') }}">Add Sales Invoice</a>
         </div>
     </div>
 

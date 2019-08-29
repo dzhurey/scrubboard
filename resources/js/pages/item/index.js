@@ -81,6 +81,7 @@ if (formCreateItem.length > 0) {
   $('#button-delete').remove();
   formCreateItem.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => console.log(res));
@@ -102,6 +103,7 @@ if (formEditItem.length > 0) {
 
   formEditItem.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => console.log(res));

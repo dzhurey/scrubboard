@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('people.index') }}">User data</a>
+                        <a href="{{ route('people.index') }}">User Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add user data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add User</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add user data</h1>
+            <h1 class="mb-0">Add User</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

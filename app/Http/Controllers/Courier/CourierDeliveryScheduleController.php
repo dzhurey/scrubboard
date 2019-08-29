@@ -38,7 +38,7 @@ class CourierDeliveryScheduleController extends Controller
             'delivery_schedules' => $results->getCollection(),
         ];
 
-        return $this->renderView($request, 'delivery_schedule.index', $data, [], 200);
+        return $this->renderView($request, 'courier_delivery_schedule.index', $data, [], 200);
     }
 
     public function show(
@@ -70,7 +70,7 @@ class CourierDeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 
-        return view('delivery_schedule.edit', []);
+        return view('courier_delivery_schedule.edit', []);
     }
 
     /**
@@ -103,6 +103,9 @@ class CourierDeliveryScheduleController extends Controller
         $courier_schedule_line->status= 'done';
         $courier_schedule_line->save();
 
-        return $this->renderView($request, '', [], ['route' => 'delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
+        $courier_schedule_line->transaction->transaction_status= 'delivered';
+        $courier_schedule_line->transaction->save();
+
+        return $this->renderView($request, '', [], ['route' => 'courier.delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }
 }

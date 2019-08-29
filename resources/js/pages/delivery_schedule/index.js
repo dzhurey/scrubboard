@@ -19,7 +19,7 @@ const createSOListDropdown = () => {
   for (let item of items) {
     const option = document.createElement('option');
     option.value = item.id;
-    option.textContent = `${item.id} - ${item.customer.name}`;
+    option.textContent = `${item.transaction_number}`;
     $('.so_id').append(option);
 
     $('.select2').select2({ 
@@ -83,7 +83,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'courier.name' },
+      { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
       { data: 'courier_schedule_lines.length' },
@@ -112,7 +112,7 @@ const dataFormdelivery = (tableList) => {
     }
   });
   return {
-    courier_id: $('#courier_id').val(),
+    person_id: $('#courier_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines,
@@ -121,9 +121,14 @@ const dataFormdelivery = (tableList) => {
 
 if (tableSoItemdelivery.length > 0) {
   sessionStorage.clear();
-  ajx.get('/api/sales_orders').then((res) => {
-    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTableSOdeliverySchedule(tableSoItemdelivery, res.sales_orders.data);
+  ajx.get('/api/sales_invoices').then((res) => {
+    const dataOpen = [];
+    const dataAll = res.sales_invoices.data;
+    dataAll.map((res) => {
+      if (res.transaction_status === 'open') dataOpen.push(res);
+    })
+    sessionStorage.setItem('sales_orders', JSON.stringify(dataOpen));
+    createTableSOdeliverySchedule(tableSoItemdelivery, dataOpen);
   }).catch(res => console.log(res));
 }
 
@@ -131,6 +136,7 @@ if (createdeliveryForm.length > 0) {
   $('#button-delete').remove();
   createdeliveryForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormdelivery(e.target);
     ajx.post('/api/delivery_schedules', data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;
@@ -172,6 +178,7 @@ if (EditdeliveryForm.length > 0) {
 
   EditdeliveryForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormdelivery(e.target);
     ajx.put(`/api/delivery_schedules/${id}`, data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;

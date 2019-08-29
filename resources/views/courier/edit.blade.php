@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('couriers.index') }}">Courier data</a>
+                        <a href="{{ route('couriers.index') }}">Courier Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit courier</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Courier</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Edit courier data</h1>
+            <h1 class="mb-0">Edit Courier</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

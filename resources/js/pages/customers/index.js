@@ -75,6 +75,7 @@ if (formEditCustomer.length > 0) {
 
   formEditCustomer.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => console.log(res));
@@ -92,6 +93,7 @@ if (formCreateCustomer.length > 0) {
   $('#button-delete').remove();
   formCreateCustomer.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => console.log(res));

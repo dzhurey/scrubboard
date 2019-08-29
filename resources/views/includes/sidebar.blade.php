@@ -127,5 +127,13 @@
                 <span>Invoices</span>
             </a>
         </div>
+        <div class="c-nav--item" id="payment" data-toggle="tooltip" data-placement="right" title="Payments">
+            <a class="{{ (request()->segment(1) == 'payments') ? 'is-active' : '' }}" href="{{ route('payments.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
+                </span>
+                <span>Payments</span>
+            </a>
+        </div>
     </nav>
 </div>

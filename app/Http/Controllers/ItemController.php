@@ -21,7 +21,7 @@ class ItemController extends Controller
         Request $request,
         ItemPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -38,7 +38,7 @@ class ItemController extends Controller
         Item $item,
         ItemPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -48,7 +48,7 @@ class ItemController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -76,7 +76,7 @@ class ItemController extends Controller
         return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 201);
     }
 
-    public function edit(Item $item)
+    public function edit(Request $request, Item $item)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

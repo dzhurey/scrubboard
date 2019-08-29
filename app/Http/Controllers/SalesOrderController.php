@@ -22,7 +22,7 @@ class SalesOrderController extends Controller
         Request $request,
         SalesOrderPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -39,7 +39,7 @@ class SalesOrderController extends Controller
         SalesOrder $sales_order,
         SalesOrderPresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -49,9 +49,9 @@ class SalesOrderController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -65,7 +65,7 @@ class SalesOrderController extends Controller
         StoreSalesOrder $request,
         SalesOrderStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -75,9 +75,9 @@ class SalesOrderController extends Controller
         return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 201);
     }
 
-    public function edit(SalesOrder $sales_order)
+    public function edit(Request $request, SalesOrder $sales_order)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class SalesOrderController extends Controller
         SalesOrder $sales_order,
         SalesOrderUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class SalesOrderController extends Controller
 
     public function destroy(Request $request, SalesOrder $sales_order)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

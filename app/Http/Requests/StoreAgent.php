@@ -28,7 +28,7 @@ class StoreAgent extends FormRequest
     {
         return [
             'name' => 'required|max:255|unique:agents',
-            'email' => 'required|email',
+            'email' => 'nullable|email',
             'phone_number' => ['max:15', new PhoneNumber],
             'mobile_number' => ['required', 'max:15', new PhoneNumber],
             'address' => 'required',

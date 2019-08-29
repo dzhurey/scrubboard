@@ -38,6 +38,11 @@ Route::middleware('web')->resource('pickup_schedules', 'PickupScheduleController
 Route::middleware('web')->resource('delivery_schedules', 'DeliveryScheduleController');
 
 Route::namespace('Courier')->prefix('courier')->group(function () {
+<<<<<<< HEAD
     Route::middleware('web')->resource('couriers_delivery_schedule', 'CourierDeliveryScheduleController', ['parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
     Route::middleware('web')->resource('couriers_pickup_schedules', 'CourierPickupScheduleController', ['parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
+=======
+    Route::middleware('web')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
+    Route::middleware('web')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'courier', 'parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
+>>>>>>> a1d1c16c3a28732573e456b8f85680b286c4a6ba
 });

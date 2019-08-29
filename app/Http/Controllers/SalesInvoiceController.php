@@ -22,7 +22,7 @@ class SalesInvoiceController extends Controller
         Request $request,
         SalesInvoicePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -39,7 +39,7 @@ class SalesInvoiceController extends Controller
         SalesInvoice $sales_invoice,
         SalesInvoicePresenter $presenter
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -49,9 +49,9 @@ class SalesInvoiceController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -65,7 +65,7 @@ class SalesInvoiceController extends Controller
         StoreSalesInvoice $request,
         SalesInvoiceStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -75,9 +75,9 @@ class SalesInvoiceController extends Controller
         return $this->renderView($request, '', [], ['route' => 'sales_invoices.index', 'data' => []], 201);
     }
 
-    public function edit(SalesInvoice $sales_invoice)
+    public function edit(Request $request, SalesInvoice $sales_invoice)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class SalesInvoiceController extends Controller
         SalesInvoice $sales_invoice,
         SalesInvoiceUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class SalesInvoiceController extends Controller
 
     public function destroy(Request $request, SalesInvoice $sales_invoice)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

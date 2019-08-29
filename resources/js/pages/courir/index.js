@@ -89,6 +89,7 @@ if (formEditCourier.length > 0) {
 
   formEditCourier.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/people').catch(res => console.log(res));

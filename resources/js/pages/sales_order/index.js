@@ -59,7 +59,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'id' },
+      { data: 'transaction_number' },
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'order_type' },
@@ -351,7 +351,7 @@ if (formEditSalesOrder.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/sales_orders/${id}`).then(res => window.location = '/sales_orders').catch(res => {
-      alert(res.responseJSON.message)
+      alert(res.responseJSON.error_messages);
     });
   })
 }

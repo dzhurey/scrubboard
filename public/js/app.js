@@ -52070,6 +52070,7 @@ if (formEditCourier.length > 0) {
   });
   formEditCourier.submit(function (e) {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     var dataForm = formEditCourier.serializeArray();
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
@@ -52274,7 +52275,7 @@ var createSOListDropdown = function createSOListDropdown() {
       var item = _step.value;
       var option = document.createElement('option');
       option.value = item.id;
-      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      option.textContent = "".concat(item.transaction_number);
       $('.so_id').append(option);
       $('.select2').select2({
         theme: 'bootstrap',
@@ -52348,7 +52349,7 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'courier.name'
+      data: 'person.name'
     }, {
       data: 'vehicle.number'
     }, {
@@ -52380,7 +52381,7 @@ var dataFormdelivery = function dataFormdelivery(tableList) {
     }
   });
   return {
-    courier_id: $('#courier_id').val(),
+    person_id: $('#courier_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines
@@ -52389,9 +52390,14 @@ var dataFormdelivery = function dataFormdelivery(tableList) {
 
 if (tableSoItemdelivery.length > 0) {
   sessionStorage.clear();
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
-    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTableSOdeliverySchedule(tableSoItemdelivery, res.sales_orders.data);
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+    var dataOpen = [];
+    var dataAll = res.sales_invoices.data;
+    dataAll.map(function (res) {
+      if (res.transaction_status === 'open') dataOpen.push(res);
+    });
+    sessionStorage.setItem('sales_orders', JSON.stringify(dataOpen));
+    createTableSOdeliverySchedule(tableSoItemdelivery, dataOpen);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53123,9 +53129,15 @@ var chooseSOList = function chooseSOList() {
     var matchData = items.filter(function (res) {
       return res.id === parseFloat(getId);
     });
-    $("#customer_".concat(getId)).val(matchData[0].customer.name);
-    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
-    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+
+    if (matchData.length > 0) {
+      $("#customer_".concat(getId)).val(matchData[0].customer.name);
+      $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
+      $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+    } else {
+      // $(`#${e.currentTarget.id}`).val(null);
+      $("#".concat(e.currentTarget.id)).val('');
+    }
   });
 };
 
@@ -53140,7 +53152,7 @@ var createSOListDropdown = function createSOListDropdown() {
       var item = _step.value;
       var option = document.createElement('option');
       option.value = item.id;
-      option.textContent = "".concat(item.id, " - ").concat(item.customer.name);
+      option.textContent = "".concat(item.transaction_number);
       $('.so_id').append(option);
       $('.select2').select2({
         theme: 'bootstrap',
@@ -53214,7 +53226,7 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'courier.name'
+      data: 'person.name'
     }, {
       data: 'vehicle.number'
     }, {
@@ -53246,7 +53258,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
     }
   });
   return {
-    courier_id: $('#courier_id').val(),
+    person_id: $('#courier_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines
@@ -53324,8 +53336,13 @@ if (vehicleId.length > 0) {
 if (tableSoItemPickup.length > 0) {
   sessionStorage.clear();
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
-    sessionStorage.setItem('sales_orders', JSON.stringify(res.sales_orders.data));
-    createTableSOPickupSchedule(tableSoItemPickup, res.sales_orders.data);
+    var dataOpen = [];
+    var dataAll = res.sales_orders.data;
+    dataAll.map(function (res) {
+      if (res.transaction_status === 'open') dataOpen.push(res);
+    });
+    sessionStorage.setItem('sales_orders', JSON.stringify(dataOpen));
+    createTableSOPickupSchedule(tableSoItemPickup, dataOpen);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53352,7 +53369,7 @@ if (EditPickupForm.length > 0) {
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/pickup_schedules/".concat(id)).then(function (res) {
     var itemsSO = JSON.parse(sessionStorage.sales_orders);
-    $('#courier_id').val(res.pickup_schedule.courier_id);
+    $('#courier_id').val(res.pickup_schedule.person_id);
     $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
     $('#date').val(res.pickup_schedule.schedule_date);
     $('#courier_id, #vehicle_id').select2({
@@ -53606,7 +53623,7 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'id'
+      data: 'transaction_number'
     }, {
       data: 'customer.name'
     }, {
@@ -54106,7 +54123,7 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'id'
+      data: 'transaction_number'
     }, {
       data: 'customer.name'
     }, {
@@ -54484,7 +54501,7 @@ if (formEditSalesOrder.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_orders/".concat(id)).then(function (res) {
       return window.location = '/sales_orders';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert(res.responseJSON.error_messages);
     });
   });
 }

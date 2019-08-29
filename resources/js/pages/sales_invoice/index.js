@@ -15,7 +15,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'id' },
+      { data: 'transaction_number' },
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'order_type' },

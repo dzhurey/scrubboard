@@ -102,6 +102,9 @@ class CourierPickupScheduleController extends Controller
         $courier_schedule_line->status= 'done';
         $courier_schedule_line->save();
 
+        $courier_schedule_line->transaction->transaction_status= 'delivered';
+        $courier_schedule_line->transaction->save();
+
         return $this->renderView($request, '', [], ['route' => 'courier.delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }
 }

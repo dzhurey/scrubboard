@@ -1,4 +1,4 @@
-@if ($pickup_schedules->count() > 0 || !empty($query))
+@if ($courier_pickup_schedules->count() > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-courier-pickup-schedule" class="c-table table table-striped">
         <thead>

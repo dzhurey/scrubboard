@@ -35,7 +35,7 @@ class CourierDeliveryScheduleController extends Controller
         $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'delivery_schedules' => $results->getCollection(),
+            'courier_delivery_schedules' => $results->getCollection(),
         ];
 
         return $this->renderView($request, 'courier_delivery_schedule.index', $data, [], 200);

@@ -31,4 +31,9 @@ class CourierScheduleLine extends BaseModel
     {
         return $this->belongsTo('App\CourierSchedule');
     }
+
+    public function transaction()
+    {
+        return $this->belongsTo('App\Transaction');
+    }
 }

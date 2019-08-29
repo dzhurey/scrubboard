@@ -24,6 +24,7 @@ require('./pages/sales_order/index.js');
 require('./pages/pickup_schedule/index.js');
 require('./pages/delivery_schedule/index.js');
 require('./pages/sales_invoice/index.js');
+require('./pages/courier_pickup/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

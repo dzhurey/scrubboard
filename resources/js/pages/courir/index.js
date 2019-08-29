@@ -66,7 +66,9 @@ if (formCreateCourier.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/couriers', data).then(res => window.location = '/couriers').catch(res => console.log(res));
+    ajx.post('/api/couriers', data).then(res => {
+      window.location = '/couriers'
+    }).catch(res => console.log(res));
     return false;
   });
 }
@@ -92,12 +94,12 @@ if (formEditCourier.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/people').catch(res => console.log(res));
+    ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/couriers').catch(res => console.log(res));
     return false;
   })
 
   $('#button-delete').click(() => {
-    ajx.delete(`/api/couriers/${id}`).then(res => window.location = '/people').catch(res => {
+    ajx.delete(`/api/couriers/${id}`).then(res => window.location = '/couriers').catch(res => {
       alert(res.responseJSON.message)
     });
   })

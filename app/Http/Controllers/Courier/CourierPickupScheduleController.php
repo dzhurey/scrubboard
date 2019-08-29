@@ -21,8 +21,8 @@ class CourierPickupScheduleController extends Controller
         Request $request,
         CourierScheduleLinePresenter $presenter
     ) {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
@@ -45,8 +45,8 @@ class CourierPickupScheduleController extends Controller
         CourierScheduleLine $courier_schedule_line,
         CourierScheduleLinePresenter $presenter
     ) {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
@@ -61,8 +61,8 @@ class CourierPickupScheduleController extends Controller
 
     public function edit(Request $request, CourierScheduleLine $courier_schedule_line)
     {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
@@ -84,8 +84,8 @@ class CourierPickupScheduleController extends Controller
         Request $request,
         CourierScheduleLine $courier_schedule_line
     ) {
-        if (!$this->allowUser('courier-only')) {
-            return $this->renderError($request, __("authorize.not_courier"), 401);
+        if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {

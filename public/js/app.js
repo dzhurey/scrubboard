@@ -51711,6 +51711,8 @@ __webpack_require__(/*! ./pages/delivery_schedule/index.js */ "./resources/js/pa
 
 __webpack_require__(/*! ./pages/sales_invoice/index.js */ "./resources/js/pages/sales_invoice/index.js");
 
+__webpack_require__(/*! ./pages/courier_pickup/index.js */ "./resources/js/pages/courier_pickup/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51957,6 +51959,31 @@ if (formEditBank.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/courier_pickup/index.js":
+/*!****************************************************!*\
+  !*** ./resources/js/pages/courier_pickup/index.js ***!
+  \****************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tableCourierPS = $('#table-courier-pickup-schedule');
+
+if (tableCourierPS.length > 0) {
+  debugger;
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('api/courier/pickup_schedules').then(function (res) {
+    debugger; // createTable(tablePrice, res.prices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/courir/index.js":
 /*!********************************************!*\
   !*** ./resources/js/pages/courir/index.js ***!
@@ -52045,7 +52072,7 @@ if (formCreateCourier.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
-      return window.location = '/couriers';
+      window.location = '/couriers';
     })["catch"](function (res) {
       return console.log(res);
     });
@@ -52076,7 +52103,7 @@ if (formEditCourier.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
-      return window.location = '/people';
+      return window.location = '/couriers';
     })["catch"](function (res) {
       return console.log(res);
     });
@@ -52084,7 +52111,7 @@ if (formEditCourier.length > 0) {
   });
   $('#button-delete').click(function () {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/couriers/".concat(id)).then(function (res) {
-      return window.location = '/people';
+      return window.location = '/couriers';
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });
@@ -52952,6 +52979,8 @@ var loginForm = $('#login-form');
 var homePage = $('#home');
 
 if (loginForm.length > 0) {
+  sessionStorage.clear();
+  localStorage.clear();
   loginForm.submit(function (e) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', {
       "email": $('#email').val(),

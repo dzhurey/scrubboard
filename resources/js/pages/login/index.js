@@ -3,6 +3,8 @@ const loginForm = $('#login-form');
 const homePage = $('#home');
 
 if (loginForm.length > 0) {
+  sessionStorage.clear();
+  localStorage.clear();
   loginForm.submit((e) => {
     ajx.post('/api/login', {
       "email": $('#email').val(),

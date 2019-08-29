@@ -127,5 +127,21 @@
                 <span>Invoices</span>
             </a>
         </div>
+        <div class="c-nav--item" id="courier_delivery_schedules" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
+            <a class="{{ (request()->segment(1) == 'courier.delivery_schedules') ? 'is-active' : '' }}" href="{{ route('courier.delivery_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Courier Pickup</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="courier_delivery_schedules" data-toggle="tooltip" data-placement="right" title="Delivery schedule">
+            <a class="{{ (request()->segment(1) == 'courier.delivery_schedules') ? 'is-active' : '' }}" href="{{ route('courier.delivery_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Courier Delivery</span>
+            </a>
+        </div>
     </nav>
 </div>

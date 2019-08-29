@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'User List')
+@section('title', 'User')
 
 @section('content')
 <div id="sub-category-list">
@@ -8,7 +8,7 @@
           <h1 class="mb-0 mt-1">User Data</h1>
         </div>
         <div class="col-sm-6 text-right">
-            <a class="btn btn-primary" href="{{ route('people.create') }}">Add user data</a>
+            <a class="btn btn-primary" href="{{ route('people.create') }}">Add User</a>
         </div>
     </div>
 

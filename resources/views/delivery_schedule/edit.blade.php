@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('delivery_schedules.index') }}">Delivery Schedule data</a>
+                        <a href="{{ route('delivery_schedules.index') }}">Delivery Schedule Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit delivery Schedule</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Delivery Schedule</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Edit delivery Schedule data</h1>
+            <h1 class="mb-0">Edit Delivery Schedule</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

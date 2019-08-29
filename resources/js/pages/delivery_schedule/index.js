@@ -131,6 +131,7 @@ if (createdeliveryForm.length > 0) {
   $('#button-delete').remove();
   createdeliveryForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormdelivery(e.target);
     ajx.post('/api/delivery_schedules', data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;
@@ -172,6 +173,7 @@ if (EditdeliveryForm.length > 0) {
 
   EditdeliveryForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormdelivery(e.target);
     ajx.put(`/api/delivery_schedules/${id}`, data).then(res => window.location = '/delivery_schedules').catch(res => console.log(res));
     return false;

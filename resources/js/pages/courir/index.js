@@ -63,6 +63,7 @@ if (tableCourier.length > 0) {
 if (formCreateCourier.length > 0) {
   formCreateCourier.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/couriers', data).then(res => window.location = '/couriers').catch(res => console.log(res));

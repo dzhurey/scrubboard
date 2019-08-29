@@ -44,6 +44,7 @@ if (formCreateBank.length > 0) {
   $('#button-delete').remove();
   formCreateBank.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateBank.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/bank_accounts', data).then(res => window.location = '/bank_accounts').catch(res => console.log(res));
@@ -64,6 +65,7 @@ if (formEditBank.length > 0) {
 
   formEditBank.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditBank.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/bank_accounts/${idCategory}`, data).then(res => window.location = '/bank_accounts').catch(res => console.log(res));

@@ -343,6 +343,7 @@ if (formCreateSalesInvoice.length > 0) {
 
   formCreateSalesInvoice.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.post('/api/sales_invoices', data).then(res => window.location = '/sales_invoices').catch(res => console.log(res));
     return false;
@@ -379,6 +380,7 @@ if (formEditSalesInvoice.length > 0) {
 
   formEditSalesInvoice.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.put(`/api/sales_invoices/${id}`, data).then(res => window.location = '/sales_invoices').catch(res => console.log(res));
     return false;

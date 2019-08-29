@@ -8,9 +8,9 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('sales_orders.index') }}">Sales order data</a>
+                        <a href="{{ route('sales_orders.index') }}">Sales Order Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add sales order data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Sales Order</li>
                 </ol>
             </nav>
             <h1 class="mb-0">Add sales order data</h1>

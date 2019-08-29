@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('item_groups.index') }}">Item categories data</a>
+                        <a href="{{ route('item_groups.index') }}">Item Category Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add item category</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Item Category</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add item category data</h1>
+            <h1 class="mb-0">Add Item Category</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

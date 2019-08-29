@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Create Price Lists')
+@section('title', 'Create Price List')
 
 @section('content')
 <div id="customers-form">
@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('prices.index') }}">Price lists data</a>
+                        <a href="{{ route('prices.index') }}">Price List Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add price lists data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Price List</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add price lists data</h1>
+            <h1 class="mb-0">Add Price List</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

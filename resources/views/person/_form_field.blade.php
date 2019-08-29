@@ -74,6 +74,7 @@
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
             <select id="religion" class="form-control" required name="religion">
+                <option value=""></option>
                 <option value="islam">Islam</option>
                 <option value="christian">Kristen</option>
                 <option value="catholic">Katolik</option>

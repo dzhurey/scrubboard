@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('pickup_schedules.index') }}">Pickup Schedule data</a>
+                        <a href="{{ route('pickup_schedules.index') }}">Pickup Schedule Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit pickup Schedule</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Pickup Schedule</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Edit pickup Schedule data</h1>
+            <h1 class="mb-0">Edit Pickup Schedule</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

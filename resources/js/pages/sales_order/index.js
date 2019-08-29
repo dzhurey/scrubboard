@@ -156,7 +156,7 @@ const createItemListDropdown = (isEditable) => {
     placeholder: 'Choose option',
   });
 
-  $('.select2').change((e) => {
+  $('.item_id').change((e) => {
     const items = JSON.parse(sessionStorage.prices);
     const id = e.target.getAttribute('data-id');
     const value = e.target.value;
@@ -300,6 +300,7 @@ if (formCreateSalesOrder.length > 0) {
   $('#button-delete').remove();
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.post('/api/sales_orders', data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
     return false;
@@ -342,6 +343,7 @@ if (formEditSalesOrder.length > 0) {
 
   formEditSalesOrder.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.put(`/api/sales_orders/${id}`, data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
     return false;

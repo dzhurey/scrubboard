@@ -123,7 +123,7 @@ const dataFormPickup = (tableList) => {
 
 if (courierId.length > 0) {
   ajx.get('/api/couriers').then((res) => {
-    const items = res.couriers.data;
+    const items = res.people.data;
     for (let item of items) {
       const option = document.createElement('option');
       option.value = item.id;
@@ -157,6 +157,7 @@ if (createPickupForm.length > 0) {
   $('#button-delete').remove();
   createPickupForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
     ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
     return false;
@@ -198,6 +199,7 @@ if (EditPickupForm.length > 0) {
 
   EditPickupForm.submit((e) => {
     e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
     ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
     return false;

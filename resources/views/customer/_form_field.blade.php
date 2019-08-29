@@ -50,6 +50,7 @@
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
             <select id="religion" class="form-control" required name="religion">
+                <option value=""></option>
                 <option value="islam">Islam</option>
                 <option value="christian">Kristen</option>
                 <option value="catholic">Katolik</option>
@@ -70,7 +71,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="email">Email</label>
-                    <input class="form-control" id="email" name="email" required>
+                    <input class="form-control" id="email" name="email">
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>

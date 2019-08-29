@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('vehicles.index') }}">Vehicle data</a>
+                        <a href="{{ route('vehicles.index') }}">Vehicle Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit Vehicle data</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Vehicle</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Edit vehicle data</h1>
+            <h1 class="mb-0">Edit Vehicle</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

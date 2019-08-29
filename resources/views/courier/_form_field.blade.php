@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-6">
-        <h2 class="c-form--title">User Data</h2>
+        <h2 class="c-form--title">Courier Data</h2>
         <div class="form-group">
             <label class="c-form--label" for="name">Nama</label>
             <input class="form-control" id="name" type="text" name="name" required>
@@ -69,6 +69,7 @@
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
             <select id="religion" class="form-control" required name="religion">
+                <option value=""></option>
                 <option value="islam">Islam</option>
                 <option value="christian">Kristen</option>
                 <option value="catholic">Katolik</option>

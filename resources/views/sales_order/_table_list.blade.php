@@ -19,7 +19,7 @@
 @else
 <div class="text-center py-5 mt-5">
     <img src="{{ asset('assets/images/icons/shopping-bag.svg') }}" width="90" style="opacity: 0.7">
-    <h2 class="mt-3 mb-2">No data sales order</h2>
+    <h2 class="mt-3 mb-2">No Data Sales Order</h2>
     <p style="opacity: 0.5">Your sales order data will show here</p>
 </div>
 @endif

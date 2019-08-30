@@ -1,8 +1,5 @@
 <h2 class="c-form--title">Transaction Data</h2>
 <div class="row">
-<<<<<<< HEAD
-    <div class="col-sm-8">
-=======
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="order_type">Order type</label>
@@ -36,7 +33,6 @@
     </div>
     <div class="col-sm-2"></div>
     <div class="col-sm-6">
->>>>>>> e500649d9a3e7ecc030efcfc2af491748b71ae26
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">

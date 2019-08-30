@@ -8,6 +8,8 @@ use App\Payment;
 use App\PaymentMean;
 use App\BankAccount;
 use App\Bank;
+use App\Transaction;
+use App\Customer;
 
 class StorePayment extends FormRequest
 {

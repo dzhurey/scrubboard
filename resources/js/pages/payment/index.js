@@ -1,9 +1,28 @@
 import ajx from './../../shared/index.js';
 
+const tablePayment = $('#table-payment');
 const formCreatePayment = $('#form-create-payment');
 const salesInvoicePayment = $('#payment-sales-invoice-id');
 const paymentMethod = $('#payment_method');
 const bankAccount = $('#bank_account');
+const createTable = (target, data) => {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [
+      { data: 'customer.name' },
+      { data: 'payment_date' },
+      { data: 'total_amount' },
+    ],
+    drawCallback: () => {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  })
+};
 
 if (salesInvoicePayment.length > 0) {
   ajx.get('/api/sales_invoices').then((res) => {
@@ -90,7 +109,7 @@ if (formCreatePayment.length > 0) {
       ajx.post('/api/payment_means', {
         "payment_means" : [
           {
-            "payment_id" : $('#payment-sales-invoice-id').val(),
+            "payment_id" : res.payment.id,
             "payment_type" : $('#payment_method').val(),
             "bank_account_id" : $('#bank_account').val(),
             "note" : `${$('#credit_card').val()} - ${$('#bank_name').val()}`,
@@ -102,4 +121,10 @@ if (formCreatePayment.length > 0) {
     }).catch(res => console.log(res));
     return false;
   })
+}
+
+if (tablePayment.length > 0) {
+  ajx.get('/api/payments').then((res) => {
+    createTable(tablePayment, res.payments.data);
+  }).catch(res => console.log(res));
 }

@@ -53228,10 +53228,32 @@ if (loginForm.length > 0) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
+var tablePayment = $('#table-payment');
 var formCreatePayment = $('#form-create-payment');
 var salesInvoicePayment = $('#payment-sales-invoice-id');
 var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'customer.name'
+    }, {
+      data: 'payment_date'
+    }, {
+      data: 'total_amount'
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
 
 if (salesInvoicePayment.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
@@ -53377,7 +53399,7 @@ if (formCreatePayment.length > 0) {
     }).then(function (res) {
       _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payment_means', {
         "payment_means": [{
-          "payment_id": $('#payment-sales-invoice-id').val(),
+          "payment_id": res.payment.id,
           "payment_type": $('#payment_method').val(),
           "bank_account_id": $('#bank_account').val(),
           "note": "".concat($('#credit_card').val(), " - ").concat($('#bank_name').val()),
@@ -53393,6 +53415,14 @@ if (formCreatePayment.length > 0) {
       return console.log(res);
     });
     return false;
+  });
+}
+
+if (tablePayment.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/payments').then(function (res) {
+    createTable(tablePayment, res.payments.data);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

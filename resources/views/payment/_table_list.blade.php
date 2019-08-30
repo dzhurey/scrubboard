@@ -1,16 +1,11 @@
 @if ($payments->count() > 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-sales-invoice" class="c-table table table-striped">
+    <table id="table-payment" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Document No</th>
-                <th>Document Type</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>Balance Due</th>
-                <th>Total Payment</th>
-                <th></th>
+                <th>Customer Name</th>
+                <th>Payment Date</th>
+                <th>Total Amount</th>
             </tr>
         </thead>
     </table>

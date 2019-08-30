@@ -76,7 +76,10 @@ if (formEditCourierDS.length > 0) {
     $('#phone_number').text(customer.phone_number);
     $('#address').text(`${customer.shipping_address.description}, ${customer.shipping_address.district}, ${customer.shipping_address.city}, ${customer.shipping_address.country}, ${customer.shipping_address.zip_code}`);
     createTableItemCourierSP(formItemCourierDS, items);
-  }).catch(res => console.log(res));
+  }).catch(res => {
+    console.log(res);
+    $('button[type="submit"]').attr('disabled', false);
+  });
 
   formEditCourierDS.submit((e) => {
     e.preventDefault();
@@ -95,7 +98,8 @@ if (formEditCourierDS.length > 0) {
         window.location = '/courier/delivery_schedules'
       },
       error: (res) => {
-        console.log(res)
+        console.log(res);
+        $('button[type="submit"]').attr('disabled', false);
       }
     });
 

@@ -49,7 +49,10 @@ if (formCreateCategory.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/item_groups', data).then(res => window.location = '/item_groups').catch(res => console.log(res));
+    ajx.post('/api/item_groups', data).then(res => window.location = '/item_groups').catch(res => {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   });
 }
@@ -66,7 +69,10 @@ if (formEditCategory.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/item_groups/${id}`, data).then(res => window.location = '/item_groups').catch(res => console.log(res));
+    ajx.put(`/api/item_groups/${id}`, data).then(res => window.location = '/item_groups').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

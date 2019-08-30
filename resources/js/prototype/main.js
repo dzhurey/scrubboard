@@ -9,6 +9,7 @@
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+          $('button[type="submit"]').attr('disabled', false);
         }
         form.classList.add('was-validated');
       }, false);
@@ -100,4 +101,11 @@
     $(item).attr('autocomplete', 'off');
   }); 
   $('form').attr('autocomplete', 'off');
+
+  $('.btn-light[type="button"]').click(() => {
+    const urlArray = window.location.href.split('/');
+    const id = urlArray[3];
+    const link = id === 'courier' ? `${id}/${urlArray[4]}` : id;
+    window.location = `/${link}`;
+  })
 })();

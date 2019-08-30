@@ -84,7 +84,10 @@ if (formCreateItem.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => console.log(res));
+    ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }
@@ -106,7 +109,10 @@ if (formEditItem.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => console.log(res));
+    ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

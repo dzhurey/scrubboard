@@ -302,7 +302,10 @@ if (formCreateSalesOrder.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
-    ajx.post('/api/sales_orders', data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
+    ajx.post('/api/sales_orders', data).then(res => window.location = '/sales_orders').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }
@@ -345,7 +348,10 @@ if (formEditSalesOrder.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
-    ajx.put(`/api/sales_orders/${id}`, data).then(res => window.location = '/sales_orders').catch(res => console.log(res));
+    ajx.put(`/api/sales_orders/${id}`, data).then(res => window.location = '/sales_orders').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

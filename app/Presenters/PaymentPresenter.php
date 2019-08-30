@@ -18,6 +18,7 @@ class PaymentPresenter extends BasePresenter
     {
         $input->customer = $input->customer;
         $input->payment_lines = $input->paymentLines;
+        $input->payment_means = $input->paymentMeans;
         return $input;
     }
 }

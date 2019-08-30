@@ -16,6 +16,7 @@ class PaymentMean extends BaseModel
     protected $fillable = [
         'payment_id',
         'bank_account_id',
+        'bank_id',
         'payment_type',
         'amount',
         'payment_date',

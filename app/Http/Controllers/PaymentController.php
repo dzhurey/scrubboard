@@ -97,11 +97,7 @@ class PaymentController extends Controller
         $validated = $request->validated();
         $service->perform($validated);
 
-        $data = [
-            'payment' => $presenter->transform($service->getModel())
-        ];
-
-        return $this->renderView($request, '', $data, ['route' => 'payments.index', 'data' => []], 201);
+        return $this->renderView($request, '', [], ['route' => 'payments.index', 'data' => []], 201);
     }
 
     /**

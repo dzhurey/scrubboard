@@ -22,6 +22,11 @@ class Payment extends BaseModel
         return $this->hasMany('App\PaymentLine', 'payment_id');
     }
 
+    public function paymentMeans()
+    {
+        return $this->hasMany('App\PaymentMean', 'payment_id');
+    }
+
     public function customer()
     {
         return $this->belongsTo('App\Customer');

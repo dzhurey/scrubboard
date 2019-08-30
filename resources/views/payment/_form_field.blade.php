@@ -31,6 +31,13 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
+            <label class="c-form--label" for="customer_id">Customer</label>
+            {{
+                Form::select('bank_id', $banks, !empty($bank_account->id) ? $bank_account->bank_id : old('bank_id'), ['class' => 'form-control'])
+            }}
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="outlet">Outlet</label>
             <select class="form-control select2" id="outlet" name="outlet" required disabled>
                 <option></option>

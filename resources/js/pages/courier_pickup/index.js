@@ -77,4 +77,28 @@ if (formEditCourierPS.length > 0) {
     $('#address').text(`${customer.shipping_address.description}, ${customer.shipping_address.district}, ${customer.shipping_address.city}, ${customer.shipping_address.country}, ${customer.shipping_address.zip_code}`);
     createTableItemCourierSP(formItemCourierPS, items);
   }).catch(res => console.log(res));
+
+  formEditCourierPS.submit((e) => {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    const formData = new FormData(e.currentTarget);
+
+    $.ajax({
+      type: 'PUt',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: `/api/courier/pickup_schedules/${id}`,
+      data: formData,
+      success: (res) => {
+        debugger
+      },
+      error: (res) => {
+        debugger
+      }
+    });
+
+    return false;
+  });
 }

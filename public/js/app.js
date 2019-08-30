@@ -52054,6 +52054,27 @@ if (formEditCourierPS.length > 0) {
   })["catch"](function (res) {
     return console.log(res);
   });
+  formEditCourierPS.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var formData = new FormData(e.currentTarget);
+    $.ajax({
+      type: 'PUt',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/pickup_schedules/".concat(id),
+      data: formData,
+      success: function success(res) {
+        debugger;
+      },
+      error: function error(res) {
+        debugger;
+      }
+    });
+    return false;
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

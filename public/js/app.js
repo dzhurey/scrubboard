@@ -51713,6 +51713,8 @@ __webpack_require__(/*! ./pages/sales_invoice/index.js */ "./resources/js/pages/
 
 __webpack_require__(/*! ./pages/courier_pickup/index.js */ "./resources/js/pages/courier_pickup/index.js");
 
+__webpack_require__(/*! ./pages/courier_delivery/index.js */ "./resources/js/pages/courier_delivery/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51953,6 +51955,127 @@ if (formEditBank.length > 0) {
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/courier_delivery/index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/courier_delivery/index.js ***!
+  \******************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tableCourierDS = $('#table-courier-delivery-schedule');
+var formEditCourierDS = $('#form-edit-courier-delivery-schedule');
+var formItemCourierDS = $('#table-item-courier-delivery-schedule');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'transaction.transaction_number'
+    }, {
+      data: 'transaction.customer.shipping_address.description',
+      render: function render(data, type, row) {
+        var address = row.transaction.customer.shipping_address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
+    }, {
+      data: 'transaction.delivery_date'
+    }, {
+      data: 'estimation_time'
+    }, {
+      data: 'status'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/courier/delivery_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'item.description'
+    }, {
+      data: 'bor'
+    }, {
+      data: 'note'
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableCourierDS.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/delivery_schedules').then(function (res) {
+    createTable(tableCourierDS, res.courier_delivery_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formEditCourierDS.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/delivery_schedules/".concat(id)).then(function (res) {
+    var data = res.courier_schedule_line;
+    var customer = data.transaction.customer;
+    var items = data.transaction.transaction_lines;
+    $('#transaction_number').text(data.transaction.transaction_number);
+    $('#estimation_time').text(data.estimation_time);
+    $('#courier_schedule').text(data.courier_schedule.schedule_date);
+    $('#customer_name').text(customer.name);
+    $('#phone_number').text(customer.phone_number);
+    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
+    createTableItemCourierSP(formItemCourierDS, items);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditCourierDS.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var formData = new FormData(e.currentTarget);
+    $.ajax({
+      type: 'PUt',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/delivery_schedules/".concat(id),
+      data: formData,
+      success: function success(res) {
+        debugger;
+      },
+      error: function error(res) {
+        debugger;
+      }
+    });
+    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

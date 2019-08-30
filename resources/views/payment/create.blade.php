@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-create-sales-invoice" class="c-form is-fluid needs-validation" novalidate>
+<form id="form-create-payment" class="c-form needs-validation" novalidate>
     @include('payment._form_field')
 </form>
 @endsection

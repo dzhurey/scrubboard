@@ -51715,6 +51715,8 @@ __webpack_require__(/*! ./pages/courier_pickup/index.js */ "./resources/js/pages
 
 __webpack_require__(/*! ./pages/courier_delivery/index.js */ "./resources/js/pages/courier_delivery/index.js");
 
+__webpack_require__(/*! ./pages/payment/index.js */ "./resources/js/pages/payment/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -52069,10 +52071,10 @@ if (formEditCourierDS.length > 0) {
       url: "/api/courier/delivery_schedules/".concat(id),
       data: formData,
       success: function success(res) {
-        debugger;
+        window.location = '/courier/delivery_schedules';
       },
       error: function error(res) {
-        debugger;
+        console.log(res);
       }
     });
     return false;
@@ -52190,10 +52192,10 @@ if (formEditCourierPS.length > 0) {
       url: "/api/courier/pickup_schedules/".concat(id),
       data: formData,
       success: function success(res) {
-        debugger;
+        window.location = '/courier/pickup_schedules';
       },
       error: function error(res) {
-        debugger;
+        console.log(res);
       }
     });
     return false;
@@ -53215,6 +53217,188 @@ if (loginForm.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/payment/index.js":
+/*!*********************************************!*\
+  !*** ./resources/js/pages/payment/index.js ***!
+  \*********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var formCreatePayment = $('#form-create-payment');
+var salesInvoicePayment = $('#payment-sales-invoice-id');
+var paymentMethod = $('#payment_method');
+var bankAccount = $('#bank_account');
+
+if (salesInvoicePayment.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+    sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = res.sales_invoices.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.transaction_number);
+        salesInvoicePayment.append(option);
+        salesInvoicePayment.select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  salesInvoicePayment.change(function (e) {
+    var items = JSON.parse(sessionStorage.sales_invoices);
+    var id = parseFloat(e.target.value);
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+
+        if (item.id === id) {
+          $('#customer-name').val(item.customer.name);
+          $('#customer-name').attr('customer-id', item.customer.id);
+          $('#transaction_type').val(item.transaction_type);
+          $('#total-amount').val(item.total_amount);
+          $('#amount').val(item.total_amount);
+        }
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+          _iterator2["return"]();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
+  });
+}
+
+if (bankAccount.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
+    sessionStorage.setItem('bank_accounts', JSON.stringify(res.bank_accounts.data));
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+      for (var _iterator3 = res.bank_accounts.data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+        var item = _step3.value;
+        var option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
+        bankAccount.append(option);
+        bankAccount.select2({
+          theme: 'bootstrap',
+          placeholder: 'Choose option'
+        });
+      }
+    } catch (err) {
+      _didIteratorError3 = true;
+      _iteratorError3 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+          _iterator3["return"]();
+        }
+      } finally {
+        if (_didIteratorError3) {
+          throw _iteratorError3;
+        }
+      }
+    }
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (paymentMethod.length > 0) {
+  $('#field-transfer').hide();
+  $('#field-credit-card').hide();
+  paymentMethod.change(function (e) {
+    if (e.target.value === 'bank_transfer') {
+      $('#field-credit-card').hide();
+      $('#field-transfer').show();
+    } else if (e.target.value === 'credit_card') {
+      $('#field-transfer').hide();
+      $('#field-credit-card').show();
+    } else {
+      $('#field-transfer').hide();
+      $('#field-credit-card').hide();
+    }
+  });
+}
+
+if (formCreatePayment.length > 0) {
+  $('#button-delete').remove();
+  formCreatePayment.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payments', {
+      "customer_id": $('#customer-name').attr('customer-id'),
+      "payment_date": $('#date').val(),
+      "note": $('#note').val(),
+      "total_amount": $('#total-amount').val(),
+      "payment_lines": [{
+        "transaction_id": $('#payment-sales-invoice-id').val(),
+        "amount": $('#total-amount').val()
+      }]
+    }).then(function (res) {
+      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payment_means', {
+        "payment_means": [{
+          "payment_id": $('#payment-sales-invoice-id').val(),
+          "payment_type": $('#payment_method').val(),
+          "bank_account_id": $('#bank_account').val(),
+          "note": "".concat($('#credit_card').val(), " - ").concat($('#bank_name').val()),
+          "amount": $('#total-amount').val(),
+          "payment_date": $('#transaction_date').val()
+        }]
+      }).then(function (res) {
+        return window.location = '/payments';
+      })["catch"](function (res) {
+        return console.log(res);
+      });
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+    return false;
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/people/index.js":
 /*!********************************************!*\
   !*** ./resources/js/pages/people/index.js ***!
@@ -53880,7 +54064,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'agent.name'
     }, {
-      data: 'order_type'
+      data: 'transaction_status'
     }, {
       data: 'transaction_date'
     }, {
@@ -53924,7 +54108,7 @@ if (salesOrderList.length > 0) {
         var item = _step.value;
         var option = document.createElement('option');
         option.value = item.id;
-        option.textContent = "#".concat(item.id, " - ").concat(item.customer.name);
+        option.textContent = "".concat(item.transaction_number);
         salesOrderList.append(option);
       }
     } catch (err) {
@@ -57890,8 +58074,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

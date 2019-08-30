@@ -92,10 +92,10 @@ if (formEditCourierDS.length > 0) {
       url: `/api/courier/delivery_schedules/${id}`,
       data: formData,
       success: (res) => {
-        debugger
+        window.location = '/courier/delivery_schedules'
       },
       error: (res) => {
-        debugger
+        console.log(res)
       }
     });
 

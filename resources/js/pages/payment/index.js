@@ -16,6 +16,12 @@ const createTable = (target, data) => {
     columns: [
       { data: 'customer.name' },
       { data: 'payment_date' },
+      { 
+        data: 'payment_means[0].payment_type',
+        render(h) {
+          return h === "" ? "-" : h;
+        },
+      },
       { data: 'total_amount' },
     ],
     drawCallback: () => {

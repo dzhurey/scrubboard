@@ -5,6 +5,7 @@
             <tr>
                 <th>Customer Name</th>
                 <th>Payment Date</th>
+                <th>Payment Method</th>
                 <th>Total Amount</th>
             </tr>
         </thead>

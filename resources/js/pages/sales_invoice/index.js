@@ -54,7 +54,7 @@ if (salesOrderList.length > 0) {
     for (let item of items) {
       const option = document.createElement('option');
       option.value = item.id;
-      option.textContent = `#${item.id} - ${item.customer.name}`;
+      option.textContent = `${item.transaction_number}`;
       salesOrderList.append(option);
     }
   }).catch(res => console.log(res));

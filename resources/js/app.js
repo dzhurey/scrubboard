@@ -26,6 +26,7 @@ require('./pages/delivery_schedule/index.js');
 require('./pages/sales_invoice/index.js');
 require('./pages/courier_pickup/index.js');
 require('./pages/courier_delivery/index.js');
+require('./pages/payment/index.js');
 
 require('./prototype/select2.js');
 require('./prototype/main.js');

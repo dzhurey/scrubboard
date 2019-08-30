@@ -14,7 +14,7 @@
             <span>Add Sales Order</span>
         </a>
     </div>
-    <nav class="c-nav">
+    <nav class="c-nav pb-5">
         <div class="c-nav--item" id="item" data-toggle="tooltip" data-placement="right" title="Item">
             <a class="{{ (request()->segment(1) == 'item_groups') ? 'is-active' : '' }}" href="{{ route('item_groups.index') }}">
                 <span class="mr-4">
@@ -125,6 +125,22 @@
                     <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
                 </span>
                 <span>Invoices</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="courier_delivery_schedules" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
+            <a class="{{ (request()->segment(2) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('courier.pickup_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Courier Pickup</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="courier_delivery_schedules" data-toggle="tooltip" data-placement="right" title="Delivery schedule">
+            <a class="{{ (request()->segment(2) == 'delivery_schedules') ? 'is-active' : '' }}" href="{{ route('courier.delivery_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/calendar.svg') }}">
+                </span>
+                <span>Courier Delivery</span>
             </a>
         </div>
         <div class="c-nav--item" id="payment" data-toggle="tooltip" data-placement="right" title="Payments">

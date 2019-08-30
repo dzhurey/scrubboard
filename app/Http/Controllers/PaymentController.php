@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment;
+use App\Bank;
 use App\Transaction;
 use App\Customer;
 use App\Presenters\PaymentPresenter;
@@ -72,7 +73,8 @@ class PaymentController extends Controller
         }
 
         $data = [
-            'items' => Customer::orderBy('id', 'ASC')->pluck('name', 'id')
+            'items' => Customer::orderBy('id', 'ASC')->pluck('name', 'id'),
+            'banks' => Bank::orderBy('id', 'ASC')->pluck('name', 'id'),
         ];
         return view('payment.create', $data);
     }
@@ -85,7 +87,8 @@ class PaymentController extends Controller
      */
     public function store(
         StorePayment $request,
-        PaymentStoreService $service
+        PaymentStoreService $service,
+        PaymentPresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -94,7 +97,11 @@ class PaymentController extends Controller
         $validated = $request->validated();
         $service->perform($validated);
 
-        return $this->renderView($request, '', [], ['route' => 'payments.index', 'data' => []], 201);
+        $data = [
+            'payment' => $presenter->transform($service->getModel())
+        ];
+
+        return $this->renderView($request, '', $data, ['route' => 'payments.index', 'data' => []], 201);
     }
 
     /**
@@ -111,7 +118,8 @@ class PaymentController extends Controller
 
         $data = [
             'payment' => $payment,
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id'),
+            'banks' => Bank::orderBy('id', 'ASC')->pluck('name', 'id'),
         ];
         return view('payment.edit', $data);
     }

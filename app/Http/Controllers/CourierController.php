@@ -33,7 +33,7 @@ class CourierController extends Controller
         if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
-
+        
         $couriers = Person::whereHas('user', function ($query) {
             $query->where('role', '=', 'courier');
         });

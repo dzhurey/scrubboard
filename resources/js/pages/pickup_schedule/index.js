@@ -93,6 +93,7 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
+      { data: 'schedule_type' },
       { data: 'courier_schedule_lines.length' },
       {
         data: 'id',

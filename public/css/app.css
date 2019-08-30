@@ -734,6 +734,12 @@ h5 {
   cursor: pointer;
 }
 
+.form-control.is-height-auto,
+.select2-container--default .is-height-auto.select2-selection--single,
+.form-check.is-height-auto {
+  height: auto;
+}
+
 select.form-control,
 .select2-container--default select.select2-selection--single {
   -webkit-appearance: none;

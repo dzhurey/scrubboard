@@ -1,12 +1,13 @@
-@if ($delivery_schedules->count() > 0 || !empty($query))
+@if ($courier_delivery_schedules->count() > 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-delivery-schedule" class="c-table table table-striped">
+    <table id="table-courier-delivery-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Invoice Number</th>
-                <th>Customer</th>
+                <th>Sales Invoice ID</th>
                 <th>Address</th>
-                <th>Total Order</th>
+                <th>Schedule Date</th>
+                <th>ETA</th>
+                <th>Status</th>
                 <th></th>
             </tr>
         </thead>

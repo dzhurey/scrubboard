@@ -1,6 +1,6 @@
 import ajx from './../../shared/index.js';
 
-const transaction_lines = [];
+let transaction_lines = [];
 const tableInvoice = $('#table-sales-invoice');
 const salesOrderList = $('#sales_order_id');
 const formCreateSalesInvoice = $('#form-create-sales-invoice');
@@ -266,6 +266,7 @@ const createItemListDropdown = (isEditable) => {
 
 
 const dataFormSalesOrder = () => {
+  transaction_lines = [];
   $('.item_id').each((i, item) => {
     const discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
     if ($(item).val() !== '') {

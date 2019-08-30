@@ -2,7 +2,7 @@ import ajx from './../../shared/index.js';
 
 let idCustomer = '';
 let idAgent = '';
-const transaction_lines = [];
+let transaction_lines = [];
 const customerList = $('#customer_id');
 const outletList = $('#outlet');
 const orderType = $('#order_type');
@@ -13,6 +13,7 @@ const formCreateSalesOrder = $('#form-create-sales-order');
 const formEditSalesOrder = $('#form-edit-sales-order');
 const tableSOItems = $('#table-so-item');
 const dataFormSalesOrder = () => {
+  transaction_lines = [];
   $('.item_id').each((i, item) => {
     const discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
     if ($(item).val() !== '') {

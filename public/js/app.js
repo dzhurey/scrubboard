@@ -54410,6 +54410,7 @@ var createItemListDropdown = function createItemListDropdown(isEditable) {
 var dataFormSalesOrder = function dataFormSalesOrder() {
   var _ref;
 
+  transaction_lines = [];
   $('.item_id').each(function (i, item) {
     var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
 
@@ -54561,6 +54562,7 @@ var formEditSalesOrder = $('#form-edit-sales-order');
 var tableSOItems = $('#table-so-item');
 
 var dataFormSalesOrder = function dataFormSalesOrder() {
+  transaction_lines = [];
   $('.item_id').each(function (i, item) {
     var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Payment;
+use App\Bank;
 use App\Transaction;
 use App\Customer;
 use App\Presenters\PaymentPresenter;
@@ -72,7 +73,8 @@ class PaymentController extends Controller
         }
 
         $data = [
-            'items' => Customer::orderBy('id', 'ASC')->pluck('name', 'id')
+            'items' => Customer::orderBy('id', 'ASC')->pluck('name', 'id'),
+            'banks' => Bank::orderBy('id', 'ASC')->pluck('name', 'id'),
         ];
         return view('payment.create', $data);
     }
@@ -111,7 +113,8 @@ class PaymentController extends Controller
 
         $data = [
             'payment' => $payment,
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id'),
+            'banks' => Bank::orderBy('id', 'ASC')->pluck('name', 'id'),
         ];
         return view('payment.edit', $data);
     }

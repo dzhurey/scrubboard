@@ -97,27 +97,15 @@ if (formCreatePayment.length > 0) {
     ajx.post('/api/payments', {
       "customer_id" : $('#customer-name').attr('customer-id'),
       "payment_date" : $('#date').val(),
+      "payment_type" : $('#payment_method').val(),
+      "transaction_id" : $('#payment-sales-invoice-id').val(),
+      "bank_account_id" : $('#bank_account').val(),
       "note" : $('#note').val(),
+      "bank_id": $('select[name="bank_id"]').val(),
+      "amount" : $('#total-amount').val(),
       "total_amount" : $('#total-amount').val(),
-      "payment_lines" : [
-        {
-          "transaction_id" : $('#payment-sales-invoice-id').val(),
-          "amount" : $('#total-amount').val()
-        }
-      ]
     }).then(res => {
-      ajx.post('/api/payment_means', {
-        "payment_means" : [
-          {
-            "payment_id" : res.payment.id,
-            "payment_type" : $('#payment_method').val(),
-            "bank_account_id" : $('#bank_account').val(),
-            "note" : `${$('#credit_card').val()} - ${$('#bank_name').val()}`,
-            "amount" : $('#total-amount').val(),
-            "payment_date" : $('#transaction_date').val()
-          },
-        ]
-      }).then(res => window.location = '/payments').catch(res => console.log(res));
+      window.location = '/payments'
     }).catch(res => {
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

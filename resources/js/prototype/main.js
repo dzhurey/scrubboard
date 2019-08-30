@@ -101,4 +101,11 @@
     $(item).attr('autocomplete', 'off');
   }); 
   $('form').attr('autocomplete', 'off');
+
+  $('.btn-light[type="button"]').click(() => {
+    const urlArray = window.location.href.split('/');
+    const id = urlArray[3];
+    debugger;
+    window.location = `/${id === 'courier' ? urlArray[4] : id}`;
+  })
 })();

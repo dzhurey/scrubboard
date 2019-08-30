@@ -63,11 +63,6 @@ if (bankAccount.length > 0) {
       option.value = item.id;
       option.textContent = `${item.bank.name} - ${item.account_number}`;
       bankAccount.append(option);
-  
-      bankAccount.select2({ 
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
-      });
     }
   }).catch(res => console.log(res));
 }

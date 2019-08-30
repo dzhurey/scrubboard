@@ -65,7 +65,6 @@
             <div class="form-group">
                 <label class="c-form--label" for="bank_account">Bank Account</label>
                 <select class="form-control" id="bank_account" name="bank_account" required>
-                    <option></option>
                 </select>
             </div>
         </div>

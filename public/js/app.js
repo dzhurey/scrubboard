@@ -53361,10 +53361,6 @@ if (bankAccount.length > 0) {
         option.value = item.id;
         option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
         bankAccount.append(option);
-        bankAccount.select2({
-          theme: 'bootstrap',
-          placeholder: 'Choose option'
-        });
       }
     } catch (err) {
       _didIteratorError3 = true;
@@ -55214,8 +55210,8 @@ if (formEditVehicle.length > 0) {
   $('.btn-light[type="button"]').click(function () {
     var urlArray = window.location.href.split('/');
     var id = urlArray[3];
-    debugger;
-    window.location = "/".concat(id === 'courier' ? urlArray[4] : id);
+    var link = id === 'courier' ? "".concat(id, "/").concat(urlArray[4]) : id;
+    window.location = "/".concat(link);
   });
 })();
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js"), __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

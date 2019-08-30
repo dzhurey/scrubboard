@@ -51984,6 +51984,12 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'transaction.transaction_number'
     }, {
+      data: 'transaction.customer.shipping_address.description',
+      render: function render(data, type, row) {
+        var address = row.transaction.customer.shipping_address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
+    }, {
       data: 'estimation_time'
     }, {
       data: 'status'
@@ -52007,7 +52013,18 @@ if (tableCourierPS.length > 0) {
   });
 }
 
-if (formEditCourierPS.length > 0) {}
+if (formEditCourierPS.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/pickup_schedules/".concat(id)).then(function (res) {
+    var data = res.courier_schedule_line;
+    var customer = data.transaction.customer;
+    var items = data.transaction.transaction_lines;
+    debugger; // createTable(tableCourierPS, res.courier_pickup_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -53289,6 +53306,8 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
+      data: 'schedule_type'
+    }, {
       data: 'courier_schedule_lines.length'
     }, {
       data: 'id',
@@ -54187,7 +54206,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'agent.name'
     }, {
-      data: 'order_type'
+      data: 'transaction_status'
     }, {
       data: 'transaction_date'
     }, {

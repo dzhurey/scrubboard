@@ -4,6 +4,7 @@
         <thead>
             <tr>
                 <th>Sales Order ID</th>
+                <th>Address</th>
                 <th>ETA</th>
                 <th>Status</th>
                 <th></th>

@@ -62,7 +62,7 @@ const createTable = (target, data) => {
       { data: 'transaction_number' },
       { data: 'customer.name' },
       { data: 'agent.name' },
-      { data: 'order_type' },
+      { data: 'transaction_status' },
       { data: 'transaction_date' },
       { data: 'pickup_date' },
       { data: 'delivery_date' },

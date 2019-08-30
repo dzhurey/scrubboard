@@ -92,10 +92,10 @@ if (formEditCourierPS.length > 0) {
       url: `/api/courier/pickup_schedules/${id}`,
       data: formData,
       success: (res) => {
-        debugger
+        window.location = '/courier/pickup_schedules'
       },
       error: (res) => {
-        debugger
+        console.log(res)
       }
     });
 

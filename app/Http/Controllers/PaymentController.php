@@ -87,7 +87,8 @@ class PaymentController extends Controller
      */
     public function store(
         StorePayment $request,
-        PaymentStoreService $service
+        PaymentStoreService $service,
+        PaymentPresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -96,7 +97,11 @@ class PaymentController extends Controller
         $validated = $request->validated();
         $service->perform($validated);
 
-        return $this->renderView($request, '', [], ['route' => 'payments.index', 'data' => []], 201);
+        $data = [
+            'payment' => $presenter->transform($service->getModel())
+        ];
+
+        return $this->renderView($request, '', $data, ['route' => 'payments.index', 'data' => []], 201);
     }
 
     /**

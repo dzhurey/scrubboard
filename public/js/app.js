@@ -52071,10 +52071,10 @@ if (formEditCourierDS.length > 0) {
       url: "/api/courier/delivery_schedules/".concat(id),
       data: formData,
       success: function success(res) {
-        debugger;
+        window.location = '/courier/delivery_schedules';
       },
       error: function error(res) {
-        debugger;
+        console.log(res);
       }
     });
     return false;
@@ -52192,10 +52192,10 @@ if (formEditCourierPS.length > 0) {
       url: "/api/courier/pickup_schedules/".concat(id),
       data: formData,
       success: function success(res) {
-        debugger;
+        window.location = '/courier/pickup_schedules';
       },
       error: function error(res) {
-        debugger;
+        console.log(res);
       }
     });
     return false;
@@ -54064,7 +54064,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'agent.name'
     }, {
-      data: 'order_type'
+      data: 'transaction_status'
     }, {
       data: 'transaction_date'
     }, {

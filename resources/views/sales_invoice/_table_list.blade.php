@@ -6,7 +6,7 @@
                 <th>ID</th>
                 <th>Customer</th>
                 <th>Outlet</th>
-                <th>Order type</th>
+                <th>Order status</th>
                 <th>Document date</th>
                 <th>Pick Up date</th>
                 <th>Delivery date</th>

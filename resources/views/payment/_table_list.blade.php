@@ -3,8 +3,10 @@
     <table id="table-payment" class="c-table table table-striped">
         <thead>
             <tr>
+                <th>Sales Invoice ID</th>
                 <th>Customer Name</th>
                 <th>Payment Date</th>
+                <th>Status</th>
                 <th>Payment Method</th>
                 <th>Total Amount</th>
             </tr>

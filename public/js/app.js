@@ -53375,24 +53375,23 @@ if (formCreatePayment.length > 0) {
         "amount": $('#total-amount').val()
       }]
     }).then(function (res) {
-      return window.location = '/payments';
+      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payment_means', {
+        "payment_means": [{
+          "payment_id": $('#payment-sales-invoice-id').val(),
+          "payment_type": $('#payment_method').val(),
+          "bank_account_id": $('#bank_account').val(),
+          "note": "".concat($('#credit_card').val(), " - ").concat($('#bank_name').val()),
+          "amount": $('#total-amount').val(),
+          "payment_date": $('#transaction_date').val()
+        }]
+      }).then(function (res) {
+        return window.location = '/payments';
+      })["catch"](function (res) {
+        return console.log(res);
+      });
     })["catch"](function (res) {
       return console.log(res);
-    }); // ajx.post('/api/payment_means', {
-    //   {
-    //     "payment_means" : [
-    //       {
-    //         "payment_id" : 2,
-    //         "payment_type" : $('#payment_method').val(),
-    //         "bank_account_id" : 1,
-    //         "note" : "",
-    //         "amount" : 9000,
-    //         "payment_date" : "2019-08-27"
-    //       },
-    //     ]
-    //   }
-    // }).then(res => window.location = '/payments').catch(res => console.log(res));
-
+    });
     return false;
   });
 }
@@ -58075,8 +58074,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

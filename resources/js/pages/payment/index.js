@@ -86,22 +86,20 @@ if (formCreatePayment.length > 0) {
           "amount" : $('#total-amount').val()
         }
       ]
-    }).then(res => window.location = '/payments').catch(res => console.log(res));
-
-    // ajx.post('/api/payment_means', {
-    //   {
-    //     "payment_means" : [
-    //       {
-    //         "payment_id" : 2,
-    //         "payment_type" : $('#payment_method').val(),
-    //         "bank_account_id" : 1,
-    //         "note" : "",
-    //         "amount" : 9000,
-    //         "payment_date" : "2019-08-27"
-    //       },
-    //     ]
-    //   }
-    // }).then(res => window.location = '/payments').catch(res => console.log(res));
+    }).then(res => {
+      ajx.post('/api/payment_means', {
+        "payment_means" : [
+          {
+            "payment_id" : $('#payment-sales-invoice-id').val(),
+            "payment_type" : $('#payment_method').val(),
+            "bank_account_id" : $('#bank_account').val(),
+            "note" : `${$('#credit_card').val()} - ${$('#bank_name').val()}`,
+            "amount" : $('#total-amount').val(),
+            "payment_date" : $('#transaction_date').val()
+          },
+        ]
+      }).then(res => window.location = '/payments').catch(res => console.log(res));
+    }).catch(res => console.log(res));
     return false;
   })
 }

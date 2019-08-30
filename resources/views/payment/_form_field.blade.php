@@ -59,8 +59,8 @@
     <div class="col-sm-4">
         <div id="field-transfer">
             <div class="form-group">
-                <label class="c-form--label" for="transaction_type">Transfer Date</label>
-                <input class="form-control datetimepicker" id="date" name="date" required>
+                <label class="c-form--label" for="transaction_date">Transfer Date</label>
+                <input class="form-control datetimepicker" id="transaction_date" name="transaction_date" required>
             </div>
             <div class="form-group">
                 <label class="c-form--label" for="bank_account">Bank Account</label>
@@ -85,6 +85,14 @@
             <label class="c-form--label" for="amount">Amount</label>
             <input class="form-control" id="amount" name="amount" required>
         </div>
+        <!-- <div class="form-group">
+            <label class="c-form--label" for="paid">Paid</label>
+            <input class="form-control" id="paid" name="paid" required disabled readonly>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="balance_due">Balance Due</label>
+            <input class="form-control" id="balance_due" name="balance_due" required disabled readonly>
+        </div> -->
         <div class="form-group">
             <label class="c-form--label" for="total-amount">Total Amount</label>
             <input class="form-control" id="total-amount" name="total-amount" required disabled readonly>

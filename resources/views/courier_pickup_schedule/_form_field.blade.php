@@ -47,6 +47,7 @@
 <div class="form-group">
     <label class="c-form--label" for="upload_photo">Upload photo</label>
     <input id="upload_photo" type="file" accept="image/*" capture class="form-control is-height-auto" name="image">
+    <input id="method" type="hidden" name="_method" value="put">
 </div>
 
 <hr class="my-4">

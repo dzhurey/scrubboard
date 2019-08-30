@@ -68,11 +68,11 @@ class StorePayment extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (!empty($this->request->get('bank_account_id')) && $this->bankAccountIdIsNotFound()) {
+            if ($this->request->get('payment_type') == 'bank_transfer' && !empty($this->request->get('bank_account_id')) && $this->bankAccountIdIsNotFound()) {
                 $validator->errors()->add('bank_account', __('rules.data_not_found'));
             }
 
-            if (!empty($this->request->get('bank_id')) && $this->bankIdIsNotFound()) {
+            if ($this->request->get('payment_type') == 'credit_card' && !empty($this->request->get('bank_id')) && $this->bankIdIsNotFound()) {
                 $validator->errors()->add('bank', __('rules.data_not_found'));
             }
 

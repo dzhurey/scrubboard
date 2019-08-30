@@ -13,7 +13,7 @@ const createTable = (target, data) => {
     pageLength: 5,
     columns: [
       { data: 'transaction.transaction_number' },
-      { 
+      {
         data: 'transaction.customer.shipping_address.description',
         render(data, type, row) {
           const address = row.transaction.customer.shipping_address;
@@ -84,7 +84,7 @@ if (formEditCourierPS.length > 0) {
     const formData = new FormData(e.currentTarget);
 
     $.ajax({
-      type: 'PUt',
+      type: 'POST',
       enctype: 'multipart/form-data',
       cache: false,
       processData: false,

@@ -52063,7 +52063,7 @@ if (formEditCourierDS.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     var formData = new FormData(e.currentTarget);
     $.ajax({
-      type: 'PUt',
+      type: 'POST',
       enctype: 'multipart/form-data',
       cache: false,
       processData: false,
@@ -52184,7 +52184,7 @@ if (formEditCourierPS.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     var formData = new FormData(e.currentTarget);
     $.ajax({
-      type: 'PUt',
+      type: 'POST',
       enctype: 'multipart/form-data',
       cache: false,
       processData: false,

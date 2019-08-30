@@ -72,7 +72,7 @@ class PaymentController extends Controller
         }
 
         $data = [
-            'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
+            'items' => Customer::orderBy('id', 'ASC')->pluck('name', 'id')
         ];
         return view('payment.create', $data);
     }

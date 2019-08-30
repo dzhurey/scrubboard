@@ -51972,6 +51972,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var tableCourierPS = $('#table-courier-pickup-schedule');
 var formEditCourierPS = $('#form-edit-courier-pickup-schedule');
+var formItemCourierPS = $('#table-item-courier-pickup-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -51990,6 +51991,8 @@ var createTable = function createTable(target, data) {
         return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
       }
     }, {
+      data: 'transaction.pickup_date'
+    }, {
       data: 'estimation_time'
     }, {
       data: 'status'
@@ -51998,6 +52001,27 @@ var createTable = function createTable(target, data) {
       render: function render(data, type, row) {
         return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
       }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'item.description'
+    }, {
+      data: 'bor'
+    }, {
+      data: 'note'
     }],
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
@@ -52020,7 +52044,13 @@ if (formEditCourierPS.length > 0) {
     var data = res.courier_schedule_line;
     var customer = data.transaction.customer;
     var items = data.transaction.transaction_lines;
-    debugger; // createTable(tableCourierPS, res.courier_pickup_schedules.data);
+    $('#transaction_number').text(data.transaction.transaction_number);
+    $('#estimation_time').text(data.estimation_time);
+    $('#courier_schedule').text(data.courier_schedule.schedule_date);
+    $('#customer_name').text(customer.name);
+    $('#phone_number').text(customer.phone_number);
+    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
+    createTableItemCourierSP(formItemCourierPS, items);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -57716,8 +57746,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

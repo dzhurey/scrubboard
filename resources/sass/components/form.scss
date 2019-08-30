@@ -95,6 +95,9 @@
       line-height: 24px;
       cursor: pointer;
     }
+    &.is-height-auto {
+      height: auto;
+    }
   }
 }
 

@@ -5,6 +5,7 @@
             <tr>
                 <th>Sales Order ID</th>
                 <th>Address</th>
+                <th>Schedule Date</th>
                 <th>ETA</th>
                 <th>Status</th>
                 <th></th>

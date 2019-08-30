@@ -118,7 +118,10 @@ if (formCreatePayment.length > 0) {
           },
         ]
       }).then(res => window.location = '/payments').catch(res => console.log(res));
-    }).catch(res => console.log(res));
+    }).catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }

@@ -39,7 +39,10 @@ if (formCreateVehicle.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateVehicle.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/vehicles', data).then(res => window.location = '/vehicles').catch(res => console.log(res));
+    ajx.post('/api/vehicles', data).then(res => window.location = '/vehicles').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   });
 }
@@ -58,7 +61,10 @@ if (formEditVehicle.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditVehicle.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => console.log(res));
+    ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

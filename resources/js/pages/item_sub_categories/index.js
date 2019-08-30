@@ -63,7 +63,10 @@ if (formCreateSubCategory.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateSubCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/item_sub_categories', data).then(res => window.location = '/item_sub_categories').catch(res => console.log(res));
+    ajx.post('/api/item_sub_categories', data).then(res => window.location = '/item_sub_categories').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   });
 }
@@ -80,7 +83,10 @@ if (formEditSubCategory.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditSubCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/item_sub_categories/${id}`, data).then(res => window.location = '/item_sub_categories').catch(res => console.log(res));
+    ajx.put(`/api/item_sub_categories/${id}`, data).then(res => window.location = '/item_sub_categories').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

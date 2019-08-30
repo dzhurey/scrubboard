@@ -78,7 +78,10 @@ if (formEditCustomer.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => console.log(res));
+    ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 
@@ -96,7 +99,10 @@ if (formCreateCustomer.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => console.log(res));
+    ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }

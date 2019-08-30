@@ -1,42 +1,6 @@
 <h2 class="c-form--title">Transaction Data</h2>
 <div class="row">
-<<<<<<< HEAD
     <div class="col-sm-8">
-=======
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="c-form--label" for="order_type">Order type</label>
-            <select class="form-control" id="order_type" name="order_type" required disabled>
-                <option value="general">General</option>
-                <option value="endorser">Endorser</option>
-            </select>
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-        <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <select class="form-control select2" id="customer_id" name="customer_id" required disabled>
-                <option></option>
-            </select>
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-        <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            {{
-                Form::select('bank_id', $banks, !empty($bank_account->id) ? $bank_account->bank_id : old('bank_id'), ['class' => 'form-control'])
-            }}
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-        <div class="form-group">
-            <label class="c-form--label" for="outlet">Outlet</label>
-            <select class="form-control select2" id="outlet" name="outlet" required disabled>
-                <option></option>
-            </select>
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-    </div>
-    <div class="col-sm-2"></div>
-    <div class="col-sm-6">
->>>>>>> b2ee4d883849711601b4a70579051f9fd93bcd50
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">

@@ -9,6 +9,7 @@
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+          $('button[type="submit"]').attr('disabled', false);
         }
         form.classList.add('was-validated');
       }, false);

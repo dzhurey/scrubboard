@@ -51799,6 +51799,7 @@ if (formCreateAgent.length > 0) {
     })["catch"](function (res) {
       alert(res.responseJSON.errors.name);
       console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -51835,7 +51836,8 @@ if (formEditAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
-      return console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+      console.log(res);
     });
     return false;
   });
@@ -51921,7 +51923,8 @@ if (formCreateBank.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/bank_accounts', data).then(function (res) {
       return window.location = '/bank_accounts';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -51947,7 +51950,8 @@ if (formEditBank.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/bank_accounts/".concat(idCategory), data).then(function (res) {
       return window.location = '/bank_accounts';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52056,7 +52060,8 @@ if (formEditCourierDS.length > 0) {
     $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
     createTableItemCourierSP(formItemCourierDS, items);
   })["catch"](function (res) {
-    return console.log(res);
+    console.log(res);
+    $('button[type="submit"]').attr('disabled', false);
   });
   formEditCourierDS.submit(function (e) {
     e.preventDefault();
@@ -52075,6 +52080,7 @@ if (formEditCourierDS.length > 0) {
       },
       error: function error(res) {
         console.log(res);
+        $('button[type="submit"]').attr('disabled', false);
       }
     });
     return false;
@@ -52177,7 +52183,8 @@ if (formEditCourierPS.length > 0) {
     $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
     createTableItemCourierSP(formItemCourierPS, items);
   })["catch"](function (res) {
-    return console.log(res);
+    console.log(res);
+    $('button[type="submit"]').attr('disabled', false);
   });
   formEditCourierPS.submit(function (e) {
     e.preventDefault();
@@ -52196,6 +52203,7 @@ if (formEditCourierPS.length > 0) {
       },
       error: function error(res) {
         console.log(res);
+        $('button[type="submit"]').attr('disabled', false);
       }
     });
     return false;
@@ -52295,7 +52303,8 @@ if (formCreateCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
       window.location = '/couriers';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52326,7 +52335,8 @@ if (formEditCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
       return window.location = '/couriers';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52449,7 +52459,8 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52474,7 +52485,8 @@ if (formCreateCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52660,7 +52672,8 @@ if (createdeliveryForm.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/delivery_schedules', data).then(function (res) {
       return window.location = '/delivery_schedules';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52707,7 +52720,8 @@ if (EditdeliveryForm.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/delivery_schedules/".concat(id), data).then(function (res) {
       return window.location = '/delivery_schedules';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52879,7 +52893,8 @@ if (formCreateItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/items', data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52906,7 +52921,8 @@ if (formEditItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -52995,7 +53011,8 @@ if (formCreateCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_groups', data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53019,7 +53036,8 @@ if (formEditCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_groups/".concat(id), data).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53145,7 +53163,8 @@ if (formCreateSubCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/item_sub_categories', data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53169,7 +53188,8 @@ if (formEditSubCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/item_sub_categories/".concat(id), data).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53412,7 +53432,8 @@ if (formCreatePayment.length > 0) {
         return console.log(res);
       });
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53519,7 +53540,8 @@ if (formCreateUser.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/people', data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53550,7 +53572,8 @@ if (formEditUser.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/people/".concat(id), data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53821,7 +53844,8 @@ if (createPickupForm.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/pickup_schedules', data).then(function (res) {
       return window.location = '/pickup_schedules';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -53868,7 +53892,8 @@ if (EditPickupForm.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/pickup_schedules/".concat(id), data).then(function (res) {
       return window.location = '/pickup_schedules';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54009,7 +54034,8 @@ if (formCreatePrice.length > 0) {
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54043,7 +54069,8 @@ if (formEditPrice.length > 0) {
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54459,7 +54486,8 @@ if (formCreateSalesInvoice.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_invoices', data).then(function (res) {
       return window.location = '/sales_invoices';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54498,7 +54526,8 @@ if (formEditSalesInvoice.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_invoices/".concat(id), data).then(function (res) {
       return window.location = '/sales_invoices';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54911,7 +54940,8 @@ if (formCreateSalesOrder.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_orders', data).then(function (res) {
       return window.location = '/sales_orders';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -54958,7 +54988,8 @@ if (formEditSalesOrder.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_orders/".concat(id), data).then(function (res) {
       return window.location = '/sales_orders';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -55043,7 +55074,8 @@ if (formCreateVehicle.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/vehicles', data).then(function (res) {
       return window.location = '/vehicles';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -55067,7 +55099,8 @@ if (formEditVehicle.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/vehicles/".concat(id), data).then(function (res) {
       return window.location = '/vehicles';
     })["catch"](function (res) {
-      return console.log(res);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
@@ -55101,6 +55134,7 @@ if (formEditVehicle.length > 0) {
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+          $('button[type="submit"]').attr('disabled', false);
         }
 
         form.classList.add('was-validated');
@@ -58104,8 +58138,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

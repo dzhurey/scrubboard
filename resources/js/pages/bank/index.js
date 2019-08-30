@@ -47,7 +47,10 @@ if (formCreateBank.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateBank.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/bank_accounts', data).then(res => window.location = '/bank_accounts').catch(res => console.log(res));
+    ajx.post('/api/bank_accounts', data).then(res => window.location = '/bank_accounts').catch(res => {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }
@@ -68,7 +71,10 @@ if (formEditBank.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditBank.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/bank_accounts/${idCategory}`, data).then(res => window.location = '/bank_accounts').catch(res => console.log(res));
+    ajx.put(`/api/bank_accounts/${idCategory}`, data).then(res => window.location = '/bank_accounts').catch(res => {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

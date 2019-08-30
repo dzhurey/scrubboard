@@ -345,7 +345,10 @@ if (formCreateSalesInvoice.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
-    ajx.post('/api/sales_invoices', data).then(res => window.location = '/sales_invoices').catch(res => console.log(res));
+    ajx.post('/api/sales_invoices', data).then(res => window.location = '/sales_invoices').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }
@@ -382,7 +385,10 @@ if (formEditSalesInvoice.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
-    ajx.put(`/api/sales_invoices/${id}`, data).then(res => window.location = '/sales_invoices').catch(res => console.log(res));
+    ajx.put(`/api/sales_invoices/${id}`, data).then(res => window.location = '/sales_invoices').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

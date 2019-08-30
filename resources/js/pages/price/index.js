@@ -102,7 +102,10 @@ if (formCreatePrice.length > 0) {
     ajx.post('/api/prices', {
       name: $('#name').val(),
       price_lines: JSON.parse(sessionStorage.item_price),
-    }).then(res => window.location = '/prices').catch(res => console.log(res));
+    }).then(res => window.location = '/prices').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   });
 }
@@ -131,7 +134,10 @@ if (formEditPrice.length > 0) {
     ajx.put(`/api/prices/${id}`, {
       name: $('#name').val(),
       price_lines: JSON.parse(sessionStorage.item_price),
-    }).then(res => window.location = '/prices').catch(res => console.log(res));
+    }).then(res => window.location = '/prices').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

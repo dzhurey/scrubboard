@@ -170,7 +170,10 @@ if (createPickupForm.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
+    ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 }
@@ -212,7 +215,10 @@ if (EditPickupForm.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => console.log(res));
+    ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

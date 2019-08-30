@@ -68,7 +68,10 @@ if (formCreateCourier.length > 0) {
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/couriers', data).then(res => {
       window.location = '/couriers'
-    }).catch(res => console.log(res));
+    }).catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   });
 }
@@ -94,7 +97,10 @@ if (formEditCourier.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/couriers').catch(res => console.log(res));
+    ajx.put(`/api/couriers/${id}`, data).then(res => window.location = '/couriers').catch(res => {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
     return false;
   })
 

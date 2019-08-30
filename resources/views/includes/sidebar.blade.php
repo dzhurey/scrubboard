@@ -6,6 +6,7 @@
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">
           </a>
         </div>
+        @canany(['superadmin', 'sales'])
         <a class="btn btn-primary btn-block btn-lg" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
             title="Sales Order">
             <span>
@@ -13,8 +14,10 @@
             </span>
             <span>Add Sales Order</span>
         </a>
+        @endcanany
     </div>
     <nav class="c-nav pb-5">
+        @canany(['superadmin'])
         <div class="c-nav--item" id="item" data-toggle="tooltip" data-placement="right" title="Item">
             <a class="{{ (request()->segment(1) == 'item_groups') ? 'is-active' : '' }}" href="{{ route('item_groups.index') }}">
                 <span class="mr-4">
@@ -71,6 +74,8 @@
                 <span>User</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin', 'sales'])
         <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Customer">
             <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}"  href="{{ route('customers.index') }}">
                 <span class="mr-4">
@@ -79,6 +84,8 @@
                 <span>Customer</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin'])
         <div class="c-nav--item" id="item" data-toggle="tooltip" data-placement="right" title="Item">
             <a class="{{ (request()->segment(1) == 'items') ? 'is-active' : '' }}" href="{{ route('items.index') }}">
                 <span class="mr-4">
@@ -95,6 +102,8 @@
                 <span>Price list</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin', 'sales'])
         <div class="c-nav--item" id="sales" data-toggle="tooltip" data-placement="right" title="Sales Order" data-container="body">
             <a class="{{ (request()->segment(1) == 'sales_orders') ? 'is-active' : '' }}" href="{{ route('sales_orders.index') }}">
                 <span class="mr-4">
@@ -103,6 +112,8 @@
                 <span>Sales Order</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin', 'operation'])
         <div class="c-nav--item" id="pickup_schedules" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
             <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('pickup_schedules.index') }}">
                 <span class="mr-4">
@@ -119,6 +130,8 @@
                 <span>Delivery Schedules</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin', 'sales'])
         <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
             <a class="{{ (request()->segment(1) == 'sales_invoices') ? 'is-active' : '' }}" href="{{ route('sales_invoices.index') }}">
                 <span class="mr-4">
@@ -127,6 +140,8 @@
                 <span>Invoices</span>
             </a>
         </div>
+        @endcanany
+        @canany(['courier'])
         <div class="c-nav--item" id="courier_delivery_schedules" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
             <a class="{{ (request()->segment(2) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('courier.pickup_schedules.index') }}">
                 <span class="mr-4">
@@ -143,6 +158,8 @@
                 <span>Courier Delivery</span>
             </a>
         </div>
+        @endcanany
+        @canany(['superadmin', 'finance'])
         <div class="c-nav--item" id="payment" data-toggle="tooltip" data-placement="right" title="Payments">
             <a class="{{ (request()->segment(1) == 'payments') ? 'is-active' : '' }}" href="{{ route('payments.index') }}">
                 <span class="mr-4">
@@ -151,5 +168,6 @@
                 <span>Payments</span>
             </a>
         </div>
+        @endcanany
     </nav>
 </div>

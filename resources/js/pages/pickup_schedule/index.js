@@ -9,12 +9,13 @@ const EditPickupForm = $('#form-edit-pickup');
 const chooseSOList = () => {
   $('.so_id').change((e) => {
     const items = JSON.parse(sessionStorage.sales_orders);
-    const getId = e.currentTarget.getAttribute('data-id');
+    const getId = e.currentTarget.value;
     const matchData = items.filter(res => res.id === parseFloat(getId));
+    const parentRow = e.target.closest('tr');
     if (matchData.length > 0) {
-      $(`#customer_${getId}`).val(matchData[0].customer.name);
-      $(`#sales_date_${getId}`).val(matchData[0].transaction_date);
-      $(`#address_${getId}`).val(matchData[0].customer.shipping_address.description);
+      parentRow.querySelector('input[name="customer"]').value = matchData[0].customer.name;
+      parentRow.querySelector('input[name="sales_date"]').value = matchData[0].transaction_date;
+      parentRow.querySelector('input[name="address"]').value = matchData[0].customer.shipping_address.description;
     } else {
       // $(`#${e.currentTarget.id}`).val(null);
       $(`#${e.currentTarget.id}`).val('');

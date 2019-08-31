@@ -52514,13 +52514,20 @@ var EditdeliveryForm = $('#form-edit-delivery');
 var chooseSOList = function chooseSOList() {
   $('.so_id').change(function (e) {
     var items = JSON.parse(sessionStorage.sales_orders);
-    var getId = e.currentTarget.getAttribute('data-id');
+    var getId = e.currentTarget.value;
     var matchData = items.filter(function (res) {
       return res.id === parseFloat(getId);
     });
-    $("#customer_".concat(getId)).val(matchData[0].customer.name);
-    $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
-    $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+    var parentRow = e.target.closest('tr');
+
+    if (matchData.length > 0) {
+      parentRow.querySelector('input[name="customer"]').value = matchData[0].customer.name;
+      parentRow.querySelector('input[name="sales_date"]').value = matchData[0].transaction_date;
+      parentRow.querySelector('input[name="address"]').value = matchData[0].customer.shipping_address.description;
+    } else {
+      // $(`#${e.currentTarget.id}`).val(null);
+      $("#".concat(e.currentTarget.id)).val('');
+    }
   });
 };
 
@@ -53603,15 +53610,16 @@ var EditPickupForm = $('#form-edit-pickup');
 var chooseSOList = function chooseSOList() {
   $('.so_id').change(function (e) {
     var items = JSON.parse(sessionStorage.sales_orders);
-    var getId = e.currentTarget.getAttribute('data-id');
+    var getId = e.currentTarget.value;
     var matchData = items.filter(function (res) {
       return res.id === parseFloat(getId);
     });
+    var parentRow = e.target.closest('tr');
 
     if (matchData.length > 0) {
-      $("#customer_".concat(getId)).val(matchData[0].customer.name);
-      $("#sales_date_".concat(getId)).val(matchData[0].transaction_date);
-      $("#address_".concat(getId)).val(matchData[0].customer.shipping_address.description);
+      parentRow.querySelector('input[name="customer"]').value = matchData[0].customer.name;
+      parentRow.querySelector('input[name="sales_date"]').value = matchData[0].transaction_date;
+      parentRow.querySelector('input[name="address"]').value = matchData[0].customer.shipping_address.description;
     } else {
       // $(`#${e.currentTarget.id}`).val(null);
       $("#".concat(e.currentTarget.id)).val('');
@@ -58139,8 +58147,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -30,6 +30,7 @@ class StorePerson extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'sometimes|required|email|unique:users',
+            'username' => 'sometimes|required|unique:users,username',
             'password' => 'sometimes|required|min:8',
             'confirm_password' => 'sometimes|required|same:password',
             'phone_number' => ['required', 'max:15', new PhoneNumber],

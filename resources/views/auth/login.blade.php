@@ -16,12 +16,12 @@
                                 {{ __('Welcome') }}
                             </h2>
                             <div class="form-group">
-                                <label class="c-form--label" for="email">
-                                    {{ __('Email') }}
+                                <label class="c-form--label" for="username">
+                                    {{ __('Username') }}
                                 </label>
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" required autofocus
-                                    name="email" value="{{ old('email') }}">
-                                @error('email')
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" required autofocus
+                                    name="username" value="{{ old('username') }}">
+                                @error('username')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -31,9 +31,9 @@
                                 <label class="c-form--label" for="password">
                                     {{ __('Password') }}
                                 </label>
-                                <input id="password" type="password" class="form-control @error('email') is-invalid @enderror"
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                                     name="password" required autocomplete="current-password">
-                                @error('email')
+                                @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

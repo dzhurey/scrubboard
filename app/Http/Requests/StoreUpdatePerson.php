@@ -4,11 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
-use App\Rules\PhoneNumber;
-use App\Person;
-use App\User;
+use App\PaymentMean;
 
-class StorePerson extends FormRequest
+class StoreUpdatePerson extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +22,29 @@ class StorePerson extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * input json
+     *  {
+     *      "name" : "M Fadjrin Hidayah",
+     *      "password" : "qwertyuiop",
+     *      "confirm_password" : "qwertyuiop",
+     *      "phone_number" : "085666123444",
+     *      "birth_date" : "2019-06-21",
+     *      "gender" : "male",
+     *      "religion" : "",
+     *      "address" : "alamat",
+     *      "district" : "disini",
+     *      "city" : "disana",
+     *      "country" : "mana",
+     *      "zip_code" : "12490",
+     *      "role" : "operation"
+     *  }
      */
+
     public function rules()
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'sometimes|required|email|unique:users',
-            'username' => 'sometimes|required|unique:users,username',
             'password' => 'sometimes|required|min:8',
             'confirm_password' => 'sometimes|required|same:password',
             'phone_number' => ['required', 'max:15', new PhoneNumber],
@@ -45,28 +59,4 @@ class StorePerson extends FormRequest
             'role' => 'required|in:'.join(array_keys(User::ROLES), ','),
         ];
     }
-
-    // public function withValidator(Validator $validator)
-    // {
-    //     // $validator->after(function ($validator) {
-    //     //     if ($this->somethingElseIsInvalid()) {
-    //     //         $validator->errors()->add('field', 'Something is wrong with this field!');
-    //     //     }
-    //     // });
-    // }
-
-    // public function messages()
-    // {
-    //     return [
-    //         'name.required' => 'Name is required',
-    //         'email.required' => 'Email is required',
-    //     ];
-    // }
-
-    // public function attributes()
-    // {
-    //     // return [
-    //     //     'email' => 'email address',
-    //     // ];
-    // }
 }

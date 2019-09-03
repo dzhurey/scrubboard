@@ -23,6 +23,10 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    public function username(){
+        return 'username';
+    } 
+
     /**
      * Where to redirect users after login.
      *
@@ -42,7 +46,7 @@ class LoginController extends Controller
 
     public function loginApi(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = request(['username', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);

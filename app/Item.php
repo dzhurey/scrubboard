@@ -46,4 +46,9 @@ class Item extends BaseModel
     {
         return $this->hasMany('App\PriceLine');
     }
+
+    public function transactionLines()
+    {
+        return $this->hasMany('App\TransactionLine');
+    }
 }

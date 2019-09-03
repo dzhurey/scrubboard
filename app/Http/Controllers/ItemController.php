@@ -112,6 +112,10 @@ class ItemController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($item->transactionLines)) {
+            return $this->renderError($request, __("rules.item_has_transaction"), 422);
+        }
+
         $item->delete();
         return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 204);
     }

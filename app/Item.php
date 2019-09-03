@@ -19,7 +19,6 @@ class Item extends BaseModel
     protected $fillable = [
         'item_type',
         'description',
-        'price',
         'item_group_id',
         'item_sub_category_id',
     ];

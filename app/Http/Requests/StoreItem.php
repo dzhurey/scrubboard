@@ -25,6 +25,15 @@ class StoreItem extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     *
+     * {
+     *     "item_type": "service",
+     *     "description": "Item B",
+     *     "price": 70000,
+     *     "price_id": 17,
+     *     "item_group_id": 1,
+     *     "item_sub_category_id": 1
+     * }
      */
     public function rules()
     {

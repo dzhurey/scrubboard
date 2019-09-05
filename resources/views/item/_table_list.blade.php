@@ -6,7 +6,6 @@
                 <th>Description</th>
                 <th>Category</th>
                 <th>Sub Category</th>
-                <th>Price</th>
                 <th></th>
             </tr>
         </thead>

@@ -52796,11 +52796,6 @@ var createTable = function createTable(target, data) {
         return data.name;
       }
     }, {
-      data: 'price',
-      render: function render(price) {
-        return "Rp ".concat(price);
-      }
-    }, {
       data: 'id',
       render: function render(data, type, row) {
         return "<a href=\"/items/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
@@ -52809,6 +52804,23 @@ var createTable = function createTable(target, data) {
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
+  });
+};
+
+var updatedPrice = function updatedPrice() {
+  $('#price_list').change(function (e) {
+    var id = e.target.value;
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
+      if (res.price.price_lines.length > 0) {
+        res.price.price_lines.map(function (res, i) {
+          $('#price_amount').val(res.price_id.toString() === id ? res.amount : '0');
+        });
+      } else {
+        $('#price_amount').val('0');
+      }
+    })["catch"](function (res) {
+      return console.log(res);
+    });
   });
 };
 
@@ -52915,6 +52927,13 @@ if (formEditItem.length > 0) {
     $('#description').val(res.item.description);
     $('#item_group_id').val(res.item.item_group.id);
     $('#item_sub_category_id').val(res.item.item_sub_category.id);
+    res.item.price_lines.map(function (res, i) {
+      if (i === 0) {
+        $('#price_list').val(res.price_id);
+        $('#price_amount').val(res.amount);
+      }
+    });
+    updatedPrice();
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53231,7 +53250,7 @@ if (loginForm.length > 0) {
   localStorage.clear();
   loginForm.submit(function (e) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', {
-      "email": $('#email').val(),
+      "username": $('#username').val(),
       "password": $('#password').val()
     }).then(function (res) {
       localStorage.setItem('token', "Bearer ".concat(res.access_token));
@@ -58147,8 +58166,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

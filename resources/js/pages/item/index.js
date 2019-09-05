@@ -28,12 +28,6 @@ const createTable = (target, data) => {
         }
       },
       {
-        data: 'price',
-        render(price) {
-          return `Rp ${price}`
-        },
-      },
-      {
         data: 'id',
         render(data, type, row) {
           return `<a href="/items/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
@@ -45,6 +39,23 @@ const createTable = (target, data) => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
   })
+};
+const updatedPrice = () => {
+  $('#price_list').change((e) => {
+    const id = e.target.value;
+    ajx.get(`/api/prices/${id}`)
+    .then(res => {
+      if (res.price.price_lines.length > 0) {
+        res.price.price_lines.map((res, i) => {
+          $('#price_amount').val(res.price_id.toString() === id ? res.amount : '0');
+        });
+      } else {
+        $('#price_amount').val('0');
+      }
+      
+    })
+    .catch(res => console.log(res));
+  });
 };
 
 if (tableItem.length > 0) {
@@ -92,6 +103,8 @@ if (formCreateItem.length > 0) {
   })
 }
 
+
+
 if (formEditItem.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
@@ -101,8 +114,17 @@ if (formEditItem.length > 0) {
       $('#description').val(res.item.description);
       $('#item_group_id').val(res.item.item_group.id);
       $('#item_sub_category_id').val(res.item.item_sub_category.id);
+      res.item.price_lines.map((res, i) => {
+        if (i === 0) {
+          $('#price_list').val(res.price_id);
+          $('#price_amount').val(res.amount);
+        }
+      });
+      updatedPrice();
     })
     .catch(res => console.log(res));
+
+  
 
   formEditItem.submit((e) => {
     e.preventDefault();

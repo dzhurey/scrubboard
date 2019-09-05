@@ -39,11 +39,12 @@
             <label class="c-form--label" for="price_list">Price</label>
             <div class="row">
                 <div class="col-sm-6">
-                    <select class="form-control" id="price_list" name="price_list" required></select>
+                    <select class="form-control" id="price_list" name="price_id" required></select>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
                 <div class="col-sm-6">
-                    <input class="form-control" id="price" name="price" required="">
+                    <!-- <div id="price"></div> -->
+                    <input class="form-control" id="price_amount" name="price">
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>

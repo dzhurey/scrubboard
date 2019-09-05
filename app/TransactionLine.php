@@ -16,6 +16,8 @@ class TransactionLine extends BaseModel
         'amount',
         'bor',
         'note',
+        'color',
+        'brand_id',
     ];
 
     protected $searchable = [];
@@ -28,5 +30,10 @@ class TransactionLine extends BaseModel
     public function item()
     {
         return $this->belongsTo('App\Item');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo('App\Brand');
     }
 }

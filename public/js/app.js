@@ -54044,13 +54044,20 @@ var renderTable = function renderTable(isEdit) {
 
 if (formCreatePrice.length > 0) {
   $('#button-delete').remove();
-  renderTable(true);
+  renderTable();
   formCreatePrice.submit(function (e) {
     e.preventDefault();
+    var price_lines_data = [];
+    $('.field-price-item').each(function (i, item) {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value
+      });
+    });
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price)
+      price_lines: price_lines_data
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
@@ -54073,6 +54080,7 @@ if (formEditPrice.length > 0) {
   sessionStorage.clear();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  var price_lines_data = [];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
     $('#name').val(res.price.name);
     renderTable(true);
@@ -54081,11 +54089,18 @@ if (formEditPrice.length > 0) {
     return console.log(res);
   });
   formEditPrice.submit(function (e) {
+    var price_lines_data = [];
+    $('.field-price-item').each(function (i, item) {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value
+      });
+    });
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price)
+      price_lines: price_lines_data
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {

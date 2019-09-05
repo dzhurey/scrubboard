@@ -95,13 +95,20 @@ const renderTable = (isEdit) => {
 
 if (formCreatePrice.length > 0) {
   $('#button-delete').remove();
-  renderTable(true);
+  renderTable();
   formCreatePrice.submit((e) => {
     e.preventDefault();
+    const price_lines_data = [];
+    $('.field-price-item').each((i, item) => {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value,
+      })
+    });
     $('button[type="submit"]').attr('disabled', true);
     ajx.post('/api/prices', {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price),
+      price_lines: price_lines_data,
     }).then(res => window.location = '/prices').catch(res => {
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
@@ -120,6 +127,7 @@ if (formEditPrice.length > 0) {
   sessionStorage.clear();
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  const price_lines_data = [];
   ajx.get(`/api/prices/${id}`)
     .then(res => {
       $('#name').val(res.price.name);
@@ -129,11 +137,18 @@ if (formEditPrice.length > 0) {
     .catch(res => console.log(res));
 
   formEditPrice.submit((e) => {
+    const price_lines_data = [];
+    $('.field-price-item').each((i, item) => {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value,
+      })
+    });
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/prices/${id}`, {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price),
+      price_lines: price_lines_data,
     }).then(res => window.location = '/prices').catch(res => {
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

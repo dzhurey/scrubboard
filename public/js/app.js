@@ -54013,7 +54013,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     }, {
       data: 'price',
       render: function render(data, type, row) {
-        return "<input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data, "\"/>");
+        return "<input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data !== undefined ? data : 0, "\"/>");
       }
     }],
     drawCallback: function drawCallback() {

@@ -67,7 +67,7 @@ const createTableItemLists = (target, data, isEdit) => {
       { 
         data: 'price',
         render(data, type, row) {
-          return `<input id="price_${row.id}" data-id="${row.id}" class="field-price-item form-control" style="width: 200px;" type="text" name="price_lines[amount][]" value="${data}"/>`
+          return `<input id="price_${row.id}" data-id="${row.id}" class="field-price-item form-control" style="width: 200px;" type="text" name="price_lines[amount][]" value="${data !== undefined ? data : 0}"/>`
         }
       },
     ],

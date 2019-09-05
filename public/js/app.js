@@ -53231,7 +53231,7 @@ if (loginForm.length > 0) {
   localStorage.clear();
   loginForm.submit(function (e) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', {
-      "email": $('#email').val(),
+      "username": $('#username').val(),
       "password": $('#password').val()
     }).then(function (res) {
       localStorage.setItem('token', "Bearer ".concat(res.access_token));
@@ -58147,8 +58147,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! G:\xampp\htdocs\scrubboard\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! G:\xampp\htdocs\scrubboard\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

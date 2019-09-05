@@ -7,7 +7,7 @@ if (loginForm.length > 0) {
   localStorage.clear();
   loginForm.submit((e) => {
     ajx.post('/api/login', {
-      "email": $('#email').val(),
+      "username": $('#username').val(),
       "password": $('#password').val()
     }).then((res) => {
       localStorage.setItem('token', `Bearer ${res.access_token}`);

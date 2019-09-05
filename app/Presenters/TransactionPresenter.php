@@ -30,6 +30,7 @@ class TransactionPresenter extends BasePresenter
         $input->order = $input->order;
         $input->transaction_lines = $input->transactionLines->transform(function ($item) {
             $item->item = $item->item;
+            $item->brand = $item->brand;
             return $item;
         });
         return $input;

@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\User;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -51,21 +52,26 @@ class LoginController extends Controller
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
+        
+        if ($request->user()->token_expired != null && Carbon::parse($request->user()->token_expired)->diffInDays(Carbon::now()) <= 1) {
+            return $this->respondWithToken($request->user()->api_token);   
+        }
+        
         $token = Str::random(60);
 
         $request->user()->forceFill([
-            'api_token' => hash('sha256', $token),
+            'api_token' => $token,
+            'token_expired' => Carbon::now(),
         ])->save();
-
+        
         return $this->respondWithToken($token);
     }
 
     protected function respondWithToken($token)
     {
         return response()->json([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
+            'access_token'  => $token,
+            'token_type'    => 'bearer',
         ]);
     }
 }

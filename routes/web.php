@@ -36,6 +36,7 @@ Route::middleware('web')->resource('payments', 'PaymentController');
 Route::middleware('web')->resource('payment_means', 'PaymentMeanController');
 Route::middleware('web')->resource('pickup_schedules', 'PickupScheduleController');
 Route::middleware('web')->resource('delivery_schedules', 'DeliveryScheduleController');
+Route::middleware('web')->resource('brands', 'BrandController');
 
 Route::namespace('Courier')->prefix('courier')->group(function () {
     Route::middleware('web')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);

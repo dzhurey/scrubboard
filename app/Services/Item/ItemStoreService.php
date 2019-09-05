@@ -47,7 +47,7 @@ class ItemStoreService extends BaseService
 
     private function assignPrice($attributes)
     {
-        $price = Price::orderBy('id', 'asc')->first();
+        $price = Price::find($attributes['price_id']);
         $price_line = $price->priceLines->where('item_id', '=', $this->model->id)->first();
         if (empty($price_line)) {
             $price_line = new PriceLine();

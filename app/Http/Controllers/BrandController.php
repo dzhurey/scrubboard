@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Item;
-use App\ItemGroup;
-use App\ItemSubCategory;
-use App\Presenters\ItemPresenter;
-use App\Http\Requests\StoreItem;
-use App\Services\Item\ItemStoreService;
+use App\Brand;
+use App\Presenters\BrandPresenter;
+use App\Http\Requests\StoreBrand;
+use App\Services\Brand\BrandStoreService;
 
-class ItemController extends Controller
+class BrandController extends Controller
 {
     public function __construct()
     {
@@ -19,7 +17,7 @@ class ItemController extends Controller
 
     public function index(
         Request $request,
-        ItemPresenter $presenter
+        BrandPresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -28,22 +26,22 @@ class ItemController extends Controller
         $results = $presenter->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'items' => $results->getCollection(),
+            'brands' => $results->getCollection(),
         ];
-        return $this->renderView($request, 'item.index', $data, [], 200);
+        return $this->renderView($request, 'brand.index', $data, [], 200);
     }
 
     public function show(
         Request $request,
-        Item $item,
-        ItemPresenter $presenter
+        Brand $brand,
+        BrandPresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
-            'item' => $presenter->transform($item),
+            'brand' => $presenter->transform($brand),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }
@@ -54,18 +52,12 @@ class ItemController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
-        $item_sub_categories = ItemSubCategory::orderBy('id', 'ASC')->pluck('name', 'id');
-        $data = [
-            'item_groups' => $item_groups,
-            'item_sub_categories' => $item_sub_categories,
-        ];
-        return view('item.create', $data);
+        return view('brand.create');
     }
 
     public function store(
-        StoreItem $request,
-        ItemStoreService $service
+        StoreBrand $request,
+        BrandStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -73,50 +65,43 @@ class ItemController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated);
-        return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 201);
+        return $this->renderView($request, '', [], ['route' => 'brands.index', 'data' => []], 201);
     }
 
-    public function edit(Request $request, Item $item)
+    public function edit(Request $request, Brand $brand)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $item_groups = ItemGroup::orderBy('id', 'ASC')->pluck('name', 'id');
-        $item_sub_categories = ItemSubCategory::orderBy('id', 'ASC')->pluck('name', 'id');
-        $data = [
-            'item_groups' => $item_groups,
-            'item_sub_categories' => $item_sub_categories,
-            'item' => $item,
-        ];
-        return view('item.edit', $data);
+        return view('brand.edit', ['brand' => $brand]);
     }
 
     public function update(
-        StoreItem $request,
-        Item $item,
-        ItemStoreService $service
+        StoreBrand $request,
+        Brand $brand,
+        BrandStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $validated = $request->validated();
-        $service->perform($validated, $item);
-        return $this->renderView($request, '', [], ['route' => 'items.edit', 'data' => ['item' => $item->id]], 204);
+        $service->perform($validated, $brand);
+        return $this->renderView($request, '', [], ['route' => 'brands.edit', 'data' => ['brand' => $brand->id]], 204);
     }
 
-    public function destroy(Request $request, Item $item)
+    public function destroy(Request $request, Brand $brand)
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($item->transactionLines)) {
+        if (!empty($brand->transactionLines)) {
             return $this->renderError($request, __("rules.item_has_transaction"), 422);
         }
 
-        $item->delete();
-        return $this->renderView($request, '', [], ['route' => 'items.index', 'data' => []], 204);
+        $brand->delete();
+        return $this->renderView($request, '', [], ['route' => 'brands.index', 'data' => []], 204);
     }
 }

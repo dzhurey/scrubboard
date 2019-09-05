@@ -68,11 +68,14 @@ class StoreSalesOrder extends FormRequest
             'total_amount' => 'required|numeric',
             'note' => 'nullable|string',
             'order_id' => 'nullable',
+            'transaction_lines' => 'required|array',
         ];
 
         foreach($this->request->get('transaction_lines') as $key => $val)
         {
             $rules['transaction_lines.'.$key.'.item_id'] = 'required';
+            $rules['transaction_lines.'.$key.'.brand_id'] = 'required';
+            $rules['transaction_lines.'.$key.'.color'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.bor'] = 'required|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';

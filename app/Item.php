@@ -19,7 +19,6 @@ class Item extends BaseModel
     protected $fillable = [
         'item_type',
         'description',
-        'price',
         'item_group_id',
         'item_sub_category_id',
     ];
@@ -45,5 +44,10 @@ class Item extends BaseModel
     public function priceLines()
     {
         return $this->hasMany('App\PriceLine');
+    }
+
+    public function transactionLines()
+    {
+        return $this->hasMany('App\TransactionLine');
     }
 }

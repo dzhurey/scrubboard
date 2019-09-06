@@ -34,6 +34,8 @@ class AgentStoreService extends BaseService
 
     private function createAgent($attributes)
     {
+        $a = "A1900000001" + 1;
+        dd($attributes,$a);
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

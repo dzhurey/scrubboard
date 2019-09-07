@@ -7,6 +7,9 @@ use Lib\Services\BaseService;
 use App\Item;
 use App\Price;
 use App\PriceLine;
+use App\ItemGroup;
+use App\ItemSubCategory;
+use Carbon\Carbon;
 
 class ItemStoreService extends BaseService
 {
@@ -41,6 +44,42 @@ class ItemStoreService extends BaseService
 
     private function createItem($attributes)
     {
+        $today = Carbon::now(8);
+        $year = $today->year;
+
+        if (is_null($this->model->item_code)) {
+            $item = Item::where('item_group_id',$attributes['item_group_id'])
+                ->where('item_sub_category_id',$attributes['item_sub_category_id'])
+                ->whereYear('updated_at',$year)
+                ->orderBy('updated_at','desc')
+                ->first();
+            $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
+            $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();
+            
+            if (is_null($item)) {
+                $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.'001';
+            } else {
+                $last_number = (int)substr($item->item_code,-3);
+                $next_number = $last_number+1;
+                $next_number = str_pad($next_number, 3, '0', STR_PAD_LEFT);
+                $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.$next_number;
+            }
+        }
+        else {
+            $item = Item::where('item_group_id',$attributes['item_group_id'])
+                ->where('item_sub_category_id',$attributes['item_sub_category_id'])
+                ->whereYear('updated_at',$year)
+                ->orderBy('updated_at','desc')
+                ->first();
+            $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
+            $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();
+
+            $last_number = (int)substr($item->item_code,-3);
+            $next_number = $last_number+1;
+            $next_number = str_pad($next_number, 3, '0', STR_PAD_LEFT);
+            $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.$next_number;
+        }
+
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

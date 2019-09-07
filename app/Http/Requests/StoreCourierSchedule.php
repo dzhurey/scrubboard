@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\CourierSchedule;
+use App\TransactionLine;
 use App\Person;
 
 class StoreCourierSchedule extends FormRequest
@@ -31,7 +32,8 @@ class StoreCourierSchedule extends FormRequest
      *     "courier_schedule_lines": [
      *     {
      *         "transaction_line_id": 10,
-     *         "estimation_time": "10:30"
+     *         "estimation_time": "10:30",
+     *         "status": "canceled", (if: update)
      *     }
      *     ]
      * }
@@ -49,6 +51,7 @@ class StoreCourierSchedule extends FormRequest
         {
             $rules['courier_schedule_lines.'.$key.'.transaction_line_id'] = 'required';
             $rules['courier_schedule_lines.'.$key.'.estimation_time'] = 'required|date_format:H:i';
+            $rules['courier_schedule_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
         }
 
         return $rules;

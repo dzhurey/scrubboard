@@ -51717,6 +51717,8 @@ __webpack_require__(/*! ./pages/courier_delivery/index.js */ "./resources/js/pag
 
 __webpack_require__(/*! ./pages/payment/index.js */ "./resources/js/pages/payment/index.js");
 
+__webpack_require__(/*! ./pages/brand/index.js */ "./resources/js/pages/brand/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51969,6 +51971,121 @@ if (formEditBank.length > 0) {
   $('#button-delete').click(function () {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
       return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/brand/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/brand/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableCategory = $('#table-brand');
+var formCreateCategory = $('#form-create-brand');
+var formEditCategory = $('#form-edit-brand');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/brands/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var assignValue = function assignValue(data) {
+  var keys = Object.keys(data);
+  keys.forEach(function (key) {
+    if ($("input[name=".concat(key, "]")).length > 0) {
+      var input = $("input[name=".concat(key, "]"));
+      input.val(data[key]);
+    }
+  });
+};
+
+if (tableCategory.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/brands').then(function (res) {
+    createTable(tableCategory, res.brands.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateCategory.length > 0) {
+  $('#button-delete').remove();
+  formCreateCategory.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formCreateCategory.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/brands', data).then(function (res) {
+      return window.location = '/brands';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+if (formEditCategory.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/brands/".concat(id)).then(function (res) {
+    return assignValue(res.item_group);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditCategory.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formEditCategory.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/brands/".concat(id), data).then(function (res) {
+      return window.location = '/brands';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
+      return window.location = '/item_groups';
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });

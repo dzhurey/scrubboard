@@ -50,7 +50,11 @@ class CustomerStoreService extends BaseService
 
     public function createCustomer(Array $attributes)
     {
-        $this->customer = $this->assignAttributes($this->customer, $attributes);
+        $excluded = [];
+        if (!isset($attributes['bebe_gender'])) {
+            array_push($excluded, 'bebe_gender');
+        }
+        $this->customer = $this->assignAttributes($this->customer, $attributes, $excluded);
         $this->customer->save();
     }
 

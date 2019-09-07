@@ -12,7 +12,7 @@ class ItemGroup extends BaseModel
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name','code'
     ];
 
     protected $searchable = [

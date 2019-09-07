@@ -7,7 +7,7 @@ use App\BaseModel;
 class ItemSubCategory extends BaseModel
 {
     protected $fillable = [
-        'name',
+        'name','code'
     ];
 
     protected $searchable = [

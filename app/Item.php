@@ -21,6 +21,7 @@ class Item extends BaseModel
         'description',
         'item_group_id',
         'item_sub_category_id',
+        'item_code'
     ];
 
     protected $searchable = [

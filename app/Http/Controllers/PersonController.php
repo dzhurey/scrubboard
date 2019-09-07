@@ -84,7 +84,7 @@ class PersonController extends Controller
     public function show(
         Request $request,
         Person $person,
-        PersonUpdateService $service
+        PersonPresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

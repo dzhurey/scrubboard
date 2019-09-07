@@ -6,13 +6,6 @@ use App\BaseModel;
 
 class CourierScheduleLine extends BaseModel
 {
-    const SCHEDULE_TYPES = [
-        'scheduled' => 'Scheduled',
-        'overdue' => 'Overdue',
-        'done' => 'Done',
-        'canceled' => 'Canceled',
-    ];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -23,7 +16,6 @@ class CourierScheduleLine extends BaseModel
         'transaction_line_id',
         'estimation_time',
         'image_name',
-        'status',
     ];
 
     protected $searchable = [];
@@ -33,8 +25,8 @@ class CourierScheduleLine extends BaseModel
         return $this->belongsTo('App\CourierSchedule');
     }
 
-    public function transaction()
+    public function transactionLine()
     {
-        return $this->belongsTo('App\Transaction');
+        return $this->belongsTo('App\TransactionLine');
     }
 }

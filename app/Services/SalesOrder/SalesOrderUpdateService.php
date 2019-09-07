@@ -52,6 +52,7 @@ class SalesOrderUpdateService extends BaseService
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
+            $value['status'] = $line->status;
             array_push($lines, $this->assignAttributes($line, $value));
         }
         return $lines;
@@ -62,6 +63,7 @@ class SalesOrderUpdateService extends BaseService
         $line = $this->model->transactionLines->where('item_id', '=', $value['item_id'])->first();
         if (empty($line)) {
             $line = new TransactionLine();
+            $line->status = 'open';
         }
         return $line;
     }
@@ -80,6 +82,6 @@ class SalesOrderUpdateService extends BaseService
             }
         }
 
-        $this->model->transactionLines->whereIn('item_id', $result)->each->delete();
+        $this->model->transactionLines->whereIn('item_id', $result)->each->update(['status' => 'canceled']);
     }
 }

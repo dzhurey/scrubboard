@@ -53569,6 +53569,10 @@ if (formCreateUser.length > 0) {
 if (formEditUser.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  $('#form-change-password').addClass('d-none');
+  $('#button-change-password .btn').click(function (e) {
+    $('#form-change-password').toggleClass('d-none');
+  });
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/people/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
@@ -53588,6 +53592,12 @@ if (formEditUser.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if ($('#form-change-password').hasClass('d-none')) {
+      delete data.password;
+      delete data.confirm_password;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/people/".concat(id), data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {

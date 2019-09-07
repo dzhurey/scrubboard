@@ -77,6 +77,11 @@ if (formCreateUser.length > 0) {
 if (formEditUser.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  $('#form-change-password').addClass('d-none');
+  $('#button-change-password .btn').click((e) => {
+    $('#form-change-password').toggleClass('d-none');
+  });
+
   ajx.get(`/api/people/${id}`)
     .then((res) => {
       assignValue(res.person);
@@ -95,6 +100,11 @@ if (formEditUser.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
+    if ($('#form-change-password').hasClass('d-none')) {
+      delete data.password;
+      delete data.confirm_password;
+    }
+    
     ajx.put(`/api/people/${id}`, data).then(res => window.location = '/people').catch(res => {
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

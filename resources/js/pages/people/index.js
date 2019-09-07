@@ -23,6 +23,12 @@ const createTable = (target, data) => {
       {
         data: 'user',
         render(data) {
+          return data.username
+        }
+      },
+      {
+        data: 'user',
+        render(data) {
           return data.role
         }
       },
@@ -92,12 +98,13 @@ if (formEditUser.length > 0) {
   $('#button-change-password .btn').click((e) => {
     $('#form-change-password').toggleClass('d-none');
   });
-
+  $('#username').attr('readonly', true);
   ajx.get(`/api/people/${id}`)
     .then((res) => {
       assignValue(res.person);
       $('#email').val(res.person.user.email);
       $('#username').val(res.person.user.username);
+      $('#role').val(res.person.user.role);
       $('#email').attr('disabled', true);
       $('#address').val(res.person.address);
       $('#district').val(res.person.district);
@@ -113,7 +120,6 @@ if (formEditUser.length > 0) {
     const dataForm = formEditUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     if ($('#form-change-password').hasClass('d-none')) {
-      debugger;
       delete data.password;
       delete data.confirm_password;
     }

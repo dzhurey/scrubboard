@@ -93,6 +93,14 @@ const renderTable = (isEdit) => {
   }
 }
 
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (formCreatePrice.length > 0) {
   $('#button-delete').remove();
   renderTable();
@@ -110,6 +118,8 @@ if (formCreatePrice.length > 0) {
       name: $('#name').val(),
       price_lines: price_lines_data,
     }).then(res => window.location = '/prices').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -150,6 +160,8 @@ if (formEditPrice.length > 0) {
       name: $('#name').val(),
       price_lines: price_lines_data,
     }).then(res => window.location = '/prices').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });

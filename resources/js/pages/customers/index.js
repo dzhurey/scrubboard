@@ -13,9 +13,9 @@ const createTable = (target, data) => {
     pageLength: 5,
     columns: [
       { data: 'id' },
+      { data: 'partner_type' },
       { data: 'name' },
       { data: 'phone_number' },
-      { data: 'email' },
       { data: 'created_at' },
       {
         data: 'id',
@@ -44,6 +44,13 @@ const assignValue = (data) => {
     if($(`select[name=${key}]`).length > 0) $(`select[name=${key}]`).val(data[key]);
     if($(`textarea[name=${key}]`).length > 0) $(`textarea[name=${key}]`).val(data[key]);
   })
+};
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
 };
 
 if (tableCustomer.length > 0) {
@@ -79,6 +86,8 @@ if (formEditCustomer.length > 0) {
     const dataForm = formEditCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -100,6 +109,8 @@ if (formCreateCustomer.length > 0) {
     const dataForm = formCreateCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });

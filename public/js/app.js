@@ -52264,6 +52264,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'user',
       render: function render(data) {
+        return data.username;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
         return data.role;
       }
     }, {
@@ -52324,6 +52329,8 @@ if (formCreateCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
       window.location = '/couriers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52332,11 +52339,18 @@ if (formCreateCourier.length > 0) {
 }
 
 if (formEditCourier.length > 0) {
+  $('#form-change-password').addClass('d-none');
+  $('#button-change-password .btn').click(function (e) {
+    $('#form-change-password').toggleClass('d-none');
+  });
+  $('#username').attr('readonly', true);
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/couriers/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
+    $('#username').val(res.person.user.username);
+    $('#role').val(res.person.user.role);
     $('#email').attr('disabled', true);
     $('#address').val(res.person.address);
     $('#district').val(res.person.district);
@@ -52353,9 +52367,17 @@ if (formEditCourier.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if ($('#form-change-password').hasClass('d-none')) {
+      delete data.password;
+      delete data.confirm_password;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
       return window.location = '/couriers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52405,11 +52427,11 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'id'
     }, {
+      data: 'partner_type'
+    }, {
       data: 'name'
     }, {
       data: 'phone_number'
-    }, {
-      data: 'email'
     }, {
       data: 'created_at'
     }, {
@@ -52439,6 +52461,14 @@ var assignValue = function assignValue(data) {
 
     if ($("select[name=".concat(key, "]")).length > 0) $("select[name=".concat(key, "]")).val(data[key]);
     if ($("textarea[name=".concat(key, "]")).length > 0) $("textarea[name=".concat(key, "]")).val(data[key]);
+  });
+};
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
 };
 
@@ -52480,6 +52510,8 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52506,6 +52538,8 @@ if (formCreateCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52834,14 +52868,22 @@ var updatedPrice = function updatedPrice() {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
       if (res.price.price_lines.length > 0) {
         res.price.price_lines.map(function (res, i) {
-          $('#price_amount').val(res.price_id.toString() === id ? res.amount : '0');
+          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
         });
       } else {
-        $('#price_amount').val('0');
+        $('#price').val('0');
       }
     })["catch"](function (res) {
       return console.log(res);
     });
+  });
+};
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
 };
 
@@ -52933,6 +52975,8 @@ if (formCreateItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/items', data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52951,7 +52995,7 @@ if (formEditItem.length > 0) {
     res.item.price_lines.map(function (res, i) {
       if (i === 0) {
         $('#price_list').val(res.price_id);
-        $('#price_amount').val(res.amount);
+        $('#price').val(res.amount);
       }
     });
     updatedPrice();
@@ -52968,6 +53012,8 @@ if (formEditItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -53530,6 +53576,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'user',
       render: function render(data) {
+        return data.username;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
         return data.role;
       }
     }, {
@@ -53606,10 +53657,12 @@ if (formEditUser.length > 0) {
   $('#button-change-password .btn').click(function (e) {
     $('#form-change-password').toggleClass('d-none');
   });
+  $('#username').attr('readonly', true);
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/people/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
     $('#username').val(res.person.user.username);
+    $('#role').val(res.person.user.role);
     $('#email').attr('disabled', true);
     $('#address').val(res.person.address);
     $('#district').val(res.person.district);
@@ -53628,7 +53681,6 @@ if (formEditUser.length > 0) {
     }, {});
 
     if ($('#form-change-password').hasClass('d-none')) {
-      debugger;
       delete data.password;
       delete data.confirm_password;
     }
@@ -54089,6 +54141,14 @@ var renderTable = function renderTable(isEdit) {
   }
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (formCreatePrice.length > 0) {
   $('#button-delete').remove();
   renderTable();
@@ -54108,6 +54168,8 @@ if (formCreatePrice.length > 0) {
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -54151,6 +54213,8 @@ if (formEditPrice.length > 0) {
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -58229,8 +58293,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/project/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -12,6 +12,11 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
+            <label class="c-form--label" for="username">Username</label>
+            <input class="form-control" id="username" type="text" name="username" required>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="role">Role</label>
             <select class="form-control" id="role" name="role">
                 <option value="courier">Courier</option>
@@ -24,16 +29,12 @@
             <div class="form-group">
                 <label class="c-form--label" for="password">Password</label>
                 <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" value="{{ old('password') }}">
-                @if ($errors->has('password'))
-                    <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-                @endif
+                <div class="invalid-feedback"></div>
             </div>
             <div class="form-group">
                 <label class="c-form--label" for="confirm_password">Konfirmasi Password</label>
                 <input class="form-control @error('confirm_password') is-invalid @enderror" id="confirm_password" type="password" name="confirm_password" value="{{ old('password') }}">
-                @if ($errors->has('confirm_password'))
-                    <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
-                @endif
+                <div class="invalid-feedback"></div>
             </div>
         </div>
         <div class="form-group">
@@ -71,7 +72,7 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
-            <select id="religion" class="form-control" required name="religion">
+            <select id="religion" class="form-control" name="religion">
                 <option value=""></option>
                 <option value="islam">Islam</option>
                 <option value="christian">Kristen</option>
@@ -86,7 +87,7 @@
         <h2 class="c-form--title mt-5">User Address</h2>
         <div class="form-group">
             <label class="c-form--label" for="address">Address</label>
-            <textarea class="form-control" id="address" name="address"></textarea>
+            <textarea class="form-control" id="address" name="address" required></textarea>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">

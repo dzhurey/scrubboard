@@ -47,14 +47,21 @@ const updatedPrice = () => {
     .then(res => {
       if (res.price.price_lines.length > 0) {
         res.price.price_lines.map((res, i) => {
-          $('#price_amount').val(res.price_id.toString() === id ? res.amount : '0');
+          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
         });
       } else {
-        $('#price_amount').val('0');
+        $('#price').val('0');
       }
       
     })
     .catch(res => console.log(res));
+  });
+};
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
 };
 
@@ -96,14 +103,14 @@ if (formCreateItem.length > 0) {
     const dataForm = formCreateItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   })
 }
-
-
 
 if (formEditItem.length > 0) {
   const urlArray = window.location.href.split('/');
@@ -117,14 +124,12 @@ if (formEditItem.length > 0) {
       res.item.price_lines.map((res, i) => {
         if (i === 0) {
           $('#price_list').val(res.price_id);
-          $('#price_amount').val(res.amount);
+          $('#price').val(res.amount);
         }
       });
       updatedPrice();
     })
     .catch(res => console.log(res));
-
-  
 
   formEditItem.submit((e) => {
     e.preventDefault();
@@ -132,6 +137,8 @@ if (formEditItem.length > 0) {
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });

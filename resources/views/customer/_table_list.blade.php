@@ -4,9 +4,9 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Partner Type</th>
                 <th>Name</th>
                 <th>Phone</th>
-                <th>Email</th>
                 <th>Registered</th>
                 <th></th>
             </tr>

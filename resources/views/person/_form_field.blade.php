@@ -91,7 +91,7 @@
         <h2 class="c-form--title mt-5">User Address</h2>
         <div class="form-group">
             <label class="c-form--label" for="address">Address</label>
-            <textarea class="form-control" id="address" name="address"></textarea>
+            <textarea class="form-control" id="address" name="address" required></textarea>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">

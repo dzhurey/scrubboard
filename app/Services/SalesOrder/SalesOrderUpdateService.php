@@ -30,7 +30,8 @@ class SalesOrderUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->updateTransactionLines($attributes);
                 $this->model->transactionLines()->saveMany($lines);
-                $this->removeExcluded($attributes);
+                // $this->removeExcluded($attributes);
+                $this->updateTransactionStatus();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -52,7 +53,7 @@ class SalesOrderUpdateService extends BaseService
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
-            if ($value['status'] = 'canceled') {
+            if ($value['status'] == 'canceled') {
                 $value['quantity'] = 0;
                 $value['unit_price'] = 0;
                 $value['discount'] = 0;
@@ -89,5 +90,15 @@ class SalesOrderUpdateService extends BaseService
         }
 
         $this->model->transactionLines->whereIn('item_id', $result)->each->update(['status' => 'canceled']);
+    }
+
+    public function updateTransactionStatus()
+    {
+        $counter = $this->model->transactionLines->where('status', '=', 'canceled')->count();
+
+        if ($this->model->transactionLines->count() == $counter) {
+            $this->model->transaction_status = 'canceled';
+            $this->model->save();
+        }
     }
 }

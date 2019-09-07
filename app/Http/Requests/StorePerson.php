@@ -24,6 +24,26 @@ class StorePerson extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     * 
+     * {
+     *      "name" : "M Fadjrin Hidayah",
+     *      "email" : "fadjrin@gmail.com",
+     *      "username" : "fadjrin",
+     *      "password" : "12345678",
+     *      "confirm_password" : "12345678",
+     *      "phone_number" : "085666123444",
+     *      "birth_date" : "2019-06-21",
+     *      "gender" : "male",
+     *      "religion" : "",
+     *      "address" : "alamat",
+     *      "district" : "disini",
+     *      "city" : "disana",
+     *      "country" : "mana",
+     *      "zip_code" : "12490",
+     *      "role" : "operation"
+     *}
+     * 
+     * 
      */
     public function rules()
     {

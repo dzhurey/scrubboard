@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\Transaction;
+use App\TransactionLine;
 
 class StoreSalesOrder extends FormRequest
 {
@@ -46,7 +47,8 @@ class StoreSalesOrder extends FormRequest
      *              "discount": 0,
      *              "discount_amount": 0,
      *              "unit_price": 35000,
-     *              "amount": 70000
+     *              "amount": 70000,
+     *              "status": "canceled" (if update)
      *          }
      *      ]
      *  }
@@ -83,6 +85,7 @@ class StoreSalesOrder extends FormRequest
             $rules['transaction_lines.'.$key.'.discount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.discount_amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
+            $rules['transaction_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
         }
 
         return $rules;

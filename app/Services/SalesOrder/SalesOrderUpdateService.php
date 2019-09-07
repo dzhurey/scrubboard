@@ -52,7 +52,13 @@ class SalesOrderUpdateService extends BaseService
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
-            $value['status'] = $line->status;
+            if ($value['status'] = 'canceled') {
+                $value['quantity'] = 0;
+                $value['unit_price'] = 0;
+                $value['discount'] = 0;
+                $value['discount_amount'] = 0;
+                $value['amount'] = 0;
+            }
             array_push($lines, $this->assignAttributes($line, $value));
         }
         return $lines;

@@ -7,6 +7,7 @@ use App\BaseModel;
 class TransactionLine extends BaseModel
 {
     const STATUS = [
+        'open' => 'Open',
         'scheduled' => 'Scheduled',
         'overdue' => 'Overdue',
         'done' => 'Done',

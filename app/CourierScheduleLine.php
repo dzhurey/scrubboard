@@ -10,6 +10,7 @@ class CourierScheduleLine extends BaseModel
         'scheduled' => 'Scheduled',
         'overdue' => 'Overdue',
         'done' => 'Done',
+        'canceled' => 'Canceled',
     ];
 
     /**
@@ -19,7 +20,7 @@ class CourierScheduleLine extends BaseModel
      */
     protected $fillable = [
         'courier_schedule_id',
-        'transaction_id',
+        'transaction_line_id',
         'estimation_time',
         'image_name',
         'status',

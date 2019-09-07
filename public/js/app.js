@@ -51777,6 +51777,14 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableAgent.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
     createTable(tableAgent, res.agents.data);
@@ -51797,7 +51805,8 @@ if (formCreateAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/agents', data).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
-      alert(res.responseJSON.errors.name);
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -51836,6 +51845,8 @@ if (formEditAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       $('button[type="submit"]').attr('disabled', false);
       console.log(res);
     });
@@ -52284,6 +52295,14 @@ var assignValue = function assignValue(data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableCourier.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
     createTable(tableCourier, res.people.data);
@@ -52293,6 +52312,8 @@ if (tableCourier.length > 0) {
 }
 
 if (formCreateCourier.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateCourier.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -53540,6 +53561,14 @@ var assignValue = function assignValue(data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableUser.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/people').then(function (res) {
     createTable(tableUser, res.people.data);
@@ -53549,6 +53578,8 @@ if (tableUser.length > 0) {
 }
 
 if (formCreateUser.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateUser.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -53559,6 +53590,8 @@ if (formCreateUser.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/people', data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -53576,6 +53609,7 @@ if (formEditUser.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/people/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
+    $('#username').val(res.person.user.username);
     $('#email').attr('disabled', true);
     $('#address').val(res.person.address);
     $('#district').val(res.person.district);
@@ -53594,6 +53628,7 @@ if (formEditUser.length > 0) {
     }, {});
 
     if ($('#form-change-password').hasClass('d-none')) {
+      debugger;
       delete data.password;
       delete data.confirm_password;
     }
@@ -53601,6 +53636,8 @@ if (formEditUser.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/people/".concat(id), data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -55111,6 +55148,7 @@ if (tableVehicle.length > 0) {
 }
 
 if (formCreateVehicle.length > 0) {
+  $('#button-delete').remove();
   formCreateVehicle.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);

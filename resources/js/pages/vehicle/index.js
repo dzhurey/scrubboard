@@ -34,6 +34,7 @@ if (tableVehicle.length > 0) {
 }
 
 if (formCreateVehicle.length > 0) {
+  $('#button-delete').remove();
   formCreateVehicle.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);

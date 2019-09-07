@@ -17,22 +17,25 @@
                 <option value="courier">Courier</option>
             </select>
         </div>
-        @if (empty($person->id))
-        <div class="form-group">
-            <label class="c-form--label" for="password">Password</label>
-            <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" value="{{ old('password') }}">
-            @if ($errors->has('password'))
-                <div class="invalid-feedback">{{ $errors->first('password') }}</div>
-            @endif
+        <div id="button-change-password" class="form-group">
+            <button class="btn btn-primary btn-sm" type="button">Change password</button>
         </div>
-        <div class="form-group">
-            <label class="c-form--label" for="confirm_password">Konfirmasi Password</label>
-            <input class="form-control @error('confirm_password') is-invalid @enderror" id="confirm_password" type="password" name="confirm_password" value="{{ old('password') }}">
-            @if ($errors->has('confirm_password'))
-                <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
-            @endif
+        <div id="form-change-password">
+            <div class="form-group">
+                <label class="c-form--label" for="password">Password</label>
+                <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" value="{{ old('password') }}">
+                @if ($errors->has('password'))
+                    <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label class="c-form--label" for="confirm_password">Konfirmasi Password</label>
+                <input class="form-control @error('confirm_password') is-invalid @enderror" id="confirm_password" type="password" name="confirm_password" value="{{ old('password') }}">
+                @if ($errors->has('confirm_password'))
+                    <div class="invalid-feedback">{{ $errors->first('confirm_password') }}</div>
+                @endif
+            </div>
         </div>
-        @endif
         <div class="form-group">
             <label class="c-form--label" for="phone_number">No. Handphone</label>
             <input class="form-control" id="phone_number" type="text" name="phone_number" required>

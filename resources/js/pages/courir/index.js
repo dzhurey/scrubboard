@@ -53,6 +53,13 @@ const assignValue = (data) => {
     if($(`select[name=${key}]`).length > 0) $(`select[name=${key}]`).val(key === 'role' ? data[user.role] : data[key]);
   })
 };
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
 
 if (tableCourier.length > 0) {
   ajx.get('/api/couriers').then((res) => {
@@ -61,6 +68,8 @@ if (tableCourier.length > 0) {
 }
 
 if (formCreateCourier.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateCourier.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);

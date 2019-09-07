@@ -53,6 +53,13 @@ const assignValue = (data) => {
     if($(`select[name=${key}]`).length > 0) $(`select[name=${key}]`).val(key === 'role' ? data[user.role] : data[key]);
   })
 };
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
 
 if (tableUser.length > 0) {
   ajx.get('/api/people').then((res) => {
@@ -61,12 +68,16 @@ if (tableUser.length > 0) {
 }
 
 if (formCreateUser.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateUser.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/people', data).then(res => window.location = '/people').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -86,6 +97,7 @@ if (formEditUser.length > 0) {
     .then((res) => {
       assignValue(res.person);
       $('#email').val(res.person.user.email);
+      $('#username').val(res.person.user.username);
       $('#email').attr('disabled', true);
       $('#address').val(res.person.address);
       $('#district').val(res.person.district);
@@ -101,11 +113,14 @@ if (formEditUser.length > 0) {
     const dataForm = formEditUser.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     if ($('#form-change-password').hasClass('d-none')) {
+      debugger;
       delete data.password;
       delete data.confirm_password;
     }
     
     ajx.put(`/api/people/${id}`, data).then(res => window.location = '/people').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });

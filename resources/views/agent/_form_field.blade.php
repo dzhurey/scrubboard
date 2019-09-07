@@ -35,8 +35,7 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="email">Email</label>
-            <input class="form-control" id="email" name="email" required>
-            <div class="invalid-feedback">Data invalid.</div>
+            <input class="form-control" id="email" name="email">
         </div>
     </div>
 </div>

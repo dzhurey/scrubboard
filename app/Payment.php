@@ -10,7 +10,8 @@ class Payment extends BaseModel
         'customer_id',
         'payment_date',
         'note',
-        'total_amount'
+        'total_amount',
+        'payment_code'
     ];
 
     protected $searchable = [

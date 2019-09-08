@@ -88,7 +88,7 @@ class Transaction extends BaseModel
             $transaction = Transaction::where('transaction_type',$this->attributes['transaction_type'])
                 ->where('agent_id',$this->attributes['agent_id'])
                 ->whereYear('updated_at',$year)
-                ->orderBy('updated_at','desc')
+                ->orderBy('transaction_number','desc')
                 ->first();
             $agent = Agent::where('id',$this->attributes['agent_id'])->first();
             
@@ -104,7 +104,7 @@ class Transaction extends BaseModel
             $transaction = Transaction::where('transaction_type',$this->attributes['transaction_type'])
                 ->where('agent_id',$this->attributes['agent_id'])
                 ->whereYear('updated_at',$year)
-                ->orderBy('updated_at','desc')
+                ->orderBy('transaction_number','desc')
                 ->first();
             $agent = Agent::where('id',$this->attributes['agent_id'])->first();
 

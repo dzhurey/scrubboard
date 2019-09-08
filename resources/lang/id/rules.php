@@ -7,4 +7,5 @@ return [
     'person_not_courier' => 'role user bukan sebagai kurir',
     'data_not_found' => 'data tidak ditemukan',
     'item_has_transaction' => 'Item memiliki transaksi, hapus transaksi terlebih dahulu untuk menghapus item ini',
+    'cannot_cancel_item_on_invoice' => 'Item tidak dapat di-cancel saat di invoice',
 ];

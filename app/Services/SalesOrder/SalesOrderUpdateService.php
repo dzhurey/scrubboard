@@ -67,7 +67,7 @@ class SalesOrderUpdateService extends BaseService
 
     private function getOrCreateTransactionLine($value)
     {
-        $line = $this->model->transactionLines->where('item_id', '=', $value['item_id'])->first();
+        $line = $this->model->transactionLines->where('id', '=', $value['id'])->first();
         if (empty($line)) {
             $line = new TransactionLine();
             $line->status = 'open';

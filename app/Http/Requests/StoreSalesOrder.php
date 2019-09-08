@@ -77,6 +77,7 @@ class StoreSalesOrder extends FormRequest
 
         foreach($this->request->get('transaction_lines') as $key => $val)
         {
+            $rules['transaction_lines.'.$key.'.id'] = 'sometimes|nullable';
             $rules['transaction_lines.'.$key.'.item_id'] = 'required';
             $rules['transaction_lines.'.$key.'.brand_id'] = 'required';
             $rules['transaction_lines.'.$key.'.color'] = 'nullable|string';

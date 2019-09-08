@@ -99,11 +99,9 @@ class CourierPickupScheduleController extends Controller
         $uploadedFile = $request->file('image');
         $path = $uploadedFile->store('public/uploads');
         $courier_schedule_line->image_name = $path;
-        $courier_schedule_line->status= 'done';
         $courier_schedule_line->save();
-
-        $courier_schedule_line->transaction->transaction_status= 'delivered';
-        $courier_schedule_line->transaction->save();
+        $courier_schedule_line->transactionLine->status = 'done';
+        $courier_schedule_line->transactionLine->save();
 
         return $this->renderView($request, '', [], ['route' => 'courier.pickup_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }

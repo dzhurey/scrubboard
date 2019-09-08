@@ -31,7 +31,7 @@ class CourierScheduleStoreService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->createCourierScheduleLines($attributes);
                 $this->model->courierScheduleLines()->saveMany($lines);
-                $this->updateTransactionStatus();
+                $this->updateTransactionLineStatus();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -59,11 +59,11 @@ class CourierScheduleStoreService extends BaseService
         return ($lines);
     }
 
-    public function updateTransactionStatus()
+    public function updateTransactionLineStatus()
     {
         $this->model->courierScheduleLines->each(function ($line) {
-            $line->transactionLine->transaction->transaction_status = 'scheduled';
-            $line->transactionLine->transaction->save();
+            $line->transactionLine->status = 'scheduled';
+            $line->transactionLine->save();
         });
     }
 }

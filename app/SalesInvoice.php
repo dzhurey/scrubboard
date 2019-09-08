@@ -29,4 +29,19 @@ class SalesInvoice extends Transaction
     {
         return self::latest()->first();
     }
+
+    public function deliveryStatus()
+    {
+        $delivered = $this->transactionLines->where('status', '=', 'done')->count();
+        $scheduled = $this->transactionLines->where('status', '=', 'scheduled')->count();
+        if ($scheduled == 0) {
+            return 'open';
+        }
+        if ($delivered > 0 && $delivered < $this->transactionLines->count()) {
+            return 'partial';
+        } elseif ($delivered != $this->transactionLines->count()) {
+            return 'scheduled';
+        }
+        return 'done';
+    }
 }

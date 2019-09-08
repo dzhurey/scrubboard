@@ -24,7 +24,6 @@ class TransactionLine extends BaseModel
         'amount',
         'bor',
         'note',
-        'color',
         'brand_id',
         'status',
     ];

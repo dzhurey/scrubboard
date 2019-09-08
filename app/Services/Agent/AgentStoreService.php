@@ -40,8 +40,8 @@ class AgentStoreService extends BaseService
             $today = Carbon::now(8);
             $year = $today->year;
             $agent = Agent::where('agent_group_id',$attributes['agent_group_id'])
-                ->whereYear('created_at',$year)
-                ->orderBy('created_at','desc')
+                ->whereYear('updated_at',$year)
+                ->orderBy('updated_at','desc')
                 ->first();
             $agent_group_code = AgentGroup::where('id',$attributes['agent_group_id'])->first();
             

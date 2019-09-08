@@ -51717,6 +51717,8 @@ __webpack_require__(/*! ./pages/courier_delivery/index.js */ "./resources/js/pag
 
 __webpack_require__(/*! ./pages/payment/index.js */ "./resources/js/pages/payment/index.js");
 
+__webpack_require__(/*! ./pages/brand/index.js */ "./resources/js/pages/brand/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -51777,6 +51779,14 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableAgent.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/agents').then(function (res) {
     createTable(tableAgent, res.agents.data);
@@ -51797,7 +51807,8 @@ if (formCreateAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/agents', data).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
-      alert(res.responseJSON.errors.name);
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -51836,6 +51847,8 @@ if (formEditAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/agents/".concat(id), data).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       $('button[type="submit"]').attr('disabled', false);
       console.log(res);
     });
@@ -51958,6 +51971,121 @@ if (formEditBank.length > 0) {
   $('#button-delete').click(function () {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
       return window.location = '/bank_accounts';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/brand/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/brand/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tableCategory = $('#table-brand');
+var formCreateCategory = $('#form-create-brand');
+var formEditCategory = $('#form-edit-brand');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/brands/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var assignValue = function assignValue(data) {
+  var keys = Object.keys(data);
+  keys.forEach(function (key) {
+    if ($("input[name=".concat(key, "]")).length > 0) {
+      var input = $("input[name=".concat(key, "]"));
+      input.val(data[key]);
+    }
+  });
+};
+
+if (tableCategory.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/brands').then(function (res) {
+    createTable(tableCategory, res.brands.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formCreateCategory.length > 0) {
+  $('#button-delete').remove();
+  formCreateCategory.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formCreateCategory.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/brands', data).then(function (res) {
+      return window.location = '/brands';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+if (formEditCategory.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/brands/".concat(id)).then(function (res) {
+    return assignValue(res.item_group);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditCategory.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formEditCategory.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/brands/".concat(id), data).then(function (res) {
+      return window.location = '/brands';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
+      return window.location = '/item_groups';
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });
@@ -52253,6 +52381,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'user',
       render: function render(data) {
+        return data.username;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
         return data.role;
       }
     }, {
@@ -52284,6 +52417,14 @@ var assignValue = function assignValue(data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableCourier.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/couriers').then(function (res) {
     createTable(tableCourier, res.people.data);
@@ -52293,6 +52434,8 @@ if (tableCourier.length > 0) {
 }
 
 if (formCreateCourier.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateCourier.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -52303,6 +52446,8 @@ if (formCreateCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/couriers', data).then(function (res) {
       window.location = '/couriers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52311,11 +52456,18 @@ if (formCreateCourier.length > 0) {
 }
 
 if (formEditCourier.length > 0) {
+  $('#form-change-password').addClass('d-none');
+  $('#button-change-password .btn').click(function (e) {
+    $('#form-change-password').toggleClass('d-none');
+  });
+  $('#username').attr('readonly', true);
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/couriers/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
+    $('#username').val(res.person.user.username);
+    $('#role').val(res.person.user.role);
     $('#email').attr('disabled', true);
     $('#address').val(res.person.address);
     $('#district').val(res.person.district);
@@ -52332,9 +52484,17 @@ if (formEditCourier.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if ($('#form-change-password').hasClass('d-none')) {
+      delete data.password;
+      delete data.confirm_password;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/couriers/".concat(id), data).then(function (res) {
       return window.location = '/couriers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52384,11 +52544,11 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'id'
     }, {
+      data: 'partner_type'
+    }, {
       data: 'name'
     }, {
       data: 'phone_number'
-    }, {
-      data: 'email'
     }, {
       data: 'created_at'
     }, {
@@ -52418,6 +52578,14 @@ var assignValue = function assignValue(data) {
 
     if ($("select[name=".concat(key, "]")).length > 0) $("select[name=".concat(key, "]")).val(data[key]);
     if ($("textarea[name=".concat(key, "]")).length > 0) $("textarea[name=".concat(key, "]")).val(data[key]);
+  });
+};
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
 };
 
@@ -52459,6 +52627,8 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52485,6 +52655,8 @@ if (formCreateCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52796,11 +52968,6 @@ var createTable = function createTable(target, data) {
         return data.name;
       }
     }, {
-      data: 'price',
-      render: function render(price) {
-        return "Rp ".concat(price);
-      }
-    }, {
       data: 'id',
       render: function render(data, type, row) {
         return "<a href=\"/items/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
@@ -52809,6 +52976,31 @@ var createTable = function createTable(target, data) {
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
+  });
+};
+
+var updatedPrice = function updatedPrice() {
+  $('#price_list').change(function (e) {
+    var id = e.target.value;
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
+      if (res.price.price_lines.length > 0) {
+        res.price.price_lines.map(function (res, i) {
+          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
+        });
+      } else {
+        $('#price').val('0');
+      }
+    })["catch"](function (res) {
+      return console.log(res);
+    });
+  });
+};
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
 };
 
@@ -52900,6 +53092,8 @@ if (formCreateItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/items', data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52915,6 +53109,13 @@ if (formEditItem.length > 0) {
     $('#description').val(res.item.description);
     $('#item_group_id').val(res.item.item_group.id);
     $('#item_sub_category_id').val(res.item.item_sub_category.id);
+    res.item.price_lines.map(function (res, i) {
+      if (i === 0) {
+        $('#price_list').val(res.price_id);
+        $('#price').val(res.amount);
+      }
+    });
+    updatedPrice();
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52928,6 +53129,8 @@ if (formEditItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -53490,6 +53693,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'user',
       render: function render(data) {
+        return data.username;
+      }
+    }, {
+      data: 'user',
+      render: function render(data) {
         return data.role;
       }
     }, {
@@ -53521,6 +53729,14 @@ var assignValue = function assignValue(data) {
   });
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (tableUser.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/people').then(function (res) {
     createTable(tableUser, res.people.data);
@@ -53530,6 +53746,8 @@ if (tableUser.length > 0) {
 }
 
 if (formCreateUser.length > 0) {
+  $('#button-change-password').hide();
+  $('#button-delete').hide();
   formCreateUser.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -53540,6 +53758,8 @@ if (formCreateUser.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/people', data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -53550,9 +53770,16 @@ if (formCreateUser.length > 0) {
 if (formEditUser.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  $('#form-change-password').addClass('d-none');
+  $('#button-change-password .btn').click(function (e) {
+    $('#form-change-password').toggleClass('d-none');
+  });
+  $('#username').attr('readonly', true);
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/people/".concat(id)).then(function (res) {
     assignValue(res.person);
     $('#email').val(res.person.user.email);
+    $('#username').val(res.person.user.username);
+    $('#role').val(res.person.user.role);
     $('#email').attr('disabled', true);
     $('#address').val(res.person.address);
     $('#district').val(res.person.district);
@@ -53569,9 +53796,17 @@ if (formEditUser.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if ($('#form-change-password').hasClass('d-none')) {
+      delete data.password;
+      delete data.confirm_password;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/people/".concat(id), data).then(function (res) {
       return window.location = '/people';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -53994,7 +54229,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     }, {
       data: 'price',
       render: function render(data, type, row) {
-        return "<input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data, "\"/>");
+        return "<input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data !== undefined ? data : 0, "\"/>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -54023,18 +54258,35 @@ var renderTable = function renderTable(isEdit) {
   }
 };
 
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
 if (formCreatePrice.length > 0) {
   $('#button-delete').remove();
-  renderTable(true);
+  renderTable();
   formCreatePrice.submit(function (e) {
     e.preventDefault();
+    var price_lines_data = [];
+    $('.field-price-item').each(function (i, item) {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value
+      });
+    });
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price)
+      price_lines: price_lines_data
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -54054,6 +54306,7 @@ if (formEditPrice.length > 0) {
   sessionStorage.clear();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  var price_lines_data = [];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
     $('#name').val(res.price.name);
     renderTable(true);
@@ -54062,14 +54315,23 @@ if (formEditPrice.length > 0) {
     return console.log(res);
   });
   formEditPrice.submit(function (e) {
+    var price_lines_data = [];
+    $('.field-price-item').each(function (i, item) {
+      price_lines_data.push({
+        item_id: item.getAttribute('data-id'),
+        amount: item.value
+      });
+    });
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
       name: $('#name').val(),
-      price_lines: JSON.parse(sessionStorage.item_price)
+      price_lines: price_lines_data
     }).then(function (res) {
       return window.location = '/prices';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -55067,6 +55329,7 @@ if (tableVehicle.length > 0) {
 }
 
 if (formCreateVehicle.length > 0) {
+  $('#button-delete').remove();
   formCreateVehicle.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);

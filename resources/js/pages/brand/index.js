@@ -1,8 +1,8 @@
 import ajx from './../../shared/index.js';
 
-const tableVehicle = $('#table-vehicle');
-const formCreateVehicle = $('#form-create-vehicle');
-const formEditVehicle = $('#form-edit-vehicle');
+const tableCategory = $('#table-brand');
+const formCreateCategory = $('#form-create-brand');
+const formEditCategory = $('#form-edit-brand');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -12,11 +12,11 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'number' },
+      { data: 'name' },
       {
         data: 'id',
         render(data, type, row) {
-          return `<a href="/vehicles/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
+          return `<a href="/brands/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
           data-placement="top" title="Edit"><img src="assets/images/icons/edit.svg" alt="edit" width="16"></a>`
         },
       },
@@ -26,43 +26,50 @@ const createTable = (target, data) => {
     }
   })
 };
+const assignValue = (data) => {
+  const keys = Object.keys(data);
+  keys.forEach((key) => {
+    if($(`input[name=${key}]`).length > 0) {
+      const input = $(`input[name=${key}]`);
+      input.val(data[key]);
+    }
+  })
+};
 
-if (tableVehicle.length > 0) {
-  ajx.get('/api/vehicles').then((res) => {
-    createTable(tableVehicle, res.vehicles.data);
+if (tableCategory.length > 0) {
+  ajx.get('/api/brands').then((res) => {
+    createTable(tableCategory, res.brands.data);
   }).catch(res => console.log(res));
 }
 
-if (formCreateVehicle.length > 0) {
+if (formCreateCategory.length > 0) {
   $('#button-delete').remove();
-  formCreateVehicle.submit((e) => {
+  formCreateCategory.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    const dataForm = formCreateVehicle.serializeArray();
+    const dataForm = formCreateCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.post('/api/vehicles', data).then(res => window.location = '/vehicles').catch(res => {
-      console.log(res)
+    ajx.post('/api/brands', data).then(res => window.location = '/brands').catch(res => {
+      console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
     return false;
   });
 }
 
-if (formEditVehicle.length > 0) {
+if (formEditCategory.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
-  ajx.get(`/api/vehicles/${id}`)
-    .then(res => {
-      $('#number-plate').val(res.vehicle.number);
-    })
+  ajx.get(`/api/brands/${id}`)
+    .then(res => assignValue(res.item_group))
     .catch(res => console.log(res));
 
-  formEditVehicle.submit((e) => {
+  formEditCategory.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    const dataForm = formEditVehicle.serializeArray();
+    const dataForm = formEditCategory.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/vehicles/${id}`, data).then(res => window.location = '/vehicles').catch(res => {
+    ajx.put(`/api/brands/${id}`, data).then(res => window.location = '/brands').catch(res => {
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -70,7 +77,7 @@ if (formEditVehicle.length > 0) {
   })
 
   $('#button-delete').click(() => {
-    ajx.delete(`/api/vehicles/${id}`).then(res => window.location = '/vehicles').catch(res => {
+    ajx.delete(`/api/item_groups/${id}`).then(res => window.location = '/item_groups').catch(res => {
       alert(res.responseJSON.message)
     });
   })

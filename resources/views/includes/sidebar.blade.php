@@ -87,6 +87,14 @@
         @endcanany
         @canany(['superadmin'])
         <div class="c-nav--item" id="item" data-toggle="tooltip" data-placement="right" title="Item">
+            <a class="{{ (request()->segment(1) == 'brands') ? 'is-active' : '' }}" href="{{ route('brands.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/package.svg') }}">
+                </span>
+                <span>Brand</span>
+            </a>
+        </div>
+        <div class="c-nav--item" id="item" data-toggle="tooltip" data-placement="right" title="Item">
             <a class="{{ (request()->segment(1) == 'items') ? 'is-active' : '' }}" href="{{ route('items.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/package.svg') }}">
@@ -94,7 +102,7 @@
                 <span>Item</span>
             </a>
         </div>
-        <div class="c-nav--item" id="price" data-toggle="tooltip" data-placement="right" title="Price">
+        <div class="c-nav--item" id="price-list-sidebar" data-toggle="tooltip" data-placement="right" title="Price">
             <a class="{{ (request()->segment(1) == 'prices') ? 'is-active' : '' }}" href="{{ route('prices.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/dollar-sign.svg') }}">

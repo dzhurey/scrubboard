@@ -1,6 +1,7 @@
 <div class="form-group">
     <label>Sub Category</label>
     <input class="form-control" type="text" name="name" required>
+    <div class="invalid-feedback">Data invalid.</div>
 </div>
 
 <hr class="my-4">

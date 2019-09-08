@@ -7,7 +7,6 @@
                     <label class="c-form--label" for="business-partner">Business Partner</label>
                     <select class="form-control" id="business-partner" name="partner_type" required="">
                         <option value="customer">Customer</option>
-                        <option value="vendor">Vendor</option>
                         <option value="endorser">Endorser</option>
                     </select>
                     <div class="invalid-feedback">Data invalid.</div>
@@ -23,7 +22,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="birthday">Birthday</label>
-                    <input class="form-control datetimepicker" id="birthday" name="birth_date" required>
+                    <input class="form-control datetimepicker" id="birth_date" name="birth_date" required>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -49,7 +48,7 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="religion">Religion</label>
-            <select id="religion" class="form-control" required name="religion">
+            <select id="religion" class="form-control" name="religion">
                 <option value=""></option>
                 <option value="islam">Islam</option>
                 <option value="christian">Kristen</option>
@@ -63,8 +62,8 @@
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="telephone">Telephone</label>
-                    <input class="form-control" id="telephone" name="phone_number" required>
+                    <label class="c-form--label" for="phone_number">Telephone</label>
+                    <input class="form-control" id="phone_number" name="phone_number" required>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -81,14 +80,14 @@
         <h2 class="c-form--title">Bebe’s Data</h2>
         <div class="form-group">
             <label class="c-form--label" for="bebes-name">Bebe's name</label>
-            <input class="form-control" id="bebes-name" name="bebe_name" required>
+            <input class="form-control" id="bebes-name" name="bebe_name">
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="bebe-birthday">Bebe's birthday</label>
-                    <input class="form-control datetimepicker" id="bebe-birthday" name="bebe_birth_date" required>
+                    <input class="form-control datetimepicker" id="bebe-birthday" name="bebe_birth_date">
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -98,12 +97,12 @@
                     <div class="mt-1" id="bebes-gender">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input form-check-radio" id="bebe_gender_male" type="radio" name="bebe_gender" 
-                                value="male" required>
+                                value="male">
                             <label class="form-check-label" for="bebe_gender_male">Male</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input form-check-radio" id="bebe_gender_female" type="radio" name="bebe_gender" 
-                                value="female" required>
+                                value="female">
                             <label class="form-check-label" for="bebe_gender_female">Female</label>
                         </div>
                     </div>
@@ -165,6 +164,7 @@
             <div class="form-group">
                 <label class="c-form--label" for="shipping_address">Address</label>
                 <textarea class="form-control" id="shipping_address" name="shipping_address"></textarea>
+                <div class="invalid-feedback">Data invalid.</div>
             </div>
             <div class="row">
                 <div class="col-sm-6">

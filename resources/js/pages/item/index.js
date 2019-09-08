@@ -28,12 +28,6 @@ const createTable = (target, data) => {
         }
       },
       {
-        data: 'price',
-        render(price) {
-          return `Rp ${price}`
-        },
-      },
-      {
         data: 'id',
         render(data, type, row) {
           return `<a href="/items/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
@@ -45,6 +39,30 @@ const createTable = (target, data) => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
   })
+};
+const updatedPrice = () => {
+  $('#price_list').change((e) => {
+    const id = e.target.value;
+    ajx.get(`/api/prices/${id}`)
+    .then(res => {
+      if (res.price.price_lines.length > 0) {
+        res.price.price_lines.map((res, i) => {
+          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
+        });
+      } else {
+        $('#price').val('0');
+      }
+      
+    })
+    .catch(res => console.log(res));
+  });
+};
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
 };
 
 if (tableItem.length > 0) {
@@ -85,6 +103,8 @@ if (formCreateItem.length > 0) {
     const dataForm = formCreateItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -101,6 +121,13 @@ if (formEditItem.length > 0) {
       $('#description').val(res.item.description);
       $('#item_group_id').val(res.item.item_group.id);
       $('#item_sub_category_id').val(res.item.item_sub_category.id);
+      res.item.price_lines.map((res, i) => {
+        if (i === 0) {
+          $('#price_list').val(res.price_id);
+          $('#price').val(res.amount);
+        }
+      });
+      updatedPrice();
     })
     .catch(res => console.log(res));
 
@@ -110,6 +137,8 @@ if (formEditItem.length > 0) {
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });

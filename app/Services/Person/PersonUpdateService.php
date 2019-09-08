@@ -36,8 +36,9 @@ class PersonUpdateService extends BaseService
     private function saveUser($attributes)
     {
         $excluded = ['email', 'username'];
-        //$excluded = ['email', 'username'];
-        //$this->user = $this->assignAttributes($this->user, $attributes, $excluded);
+        if (!isset($attributes['password'])) {
+            array_push($excluded, 'password');
+        }
         $this->user = $this->assignAttributes($this->user, $attributes, $excluded);
         $this->user->save();
     }

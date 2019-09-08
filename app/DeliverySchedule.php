@@ -6,7 +6,9 @@ use App\CourierSchedule;
 
 class DeliverySchedule extends CourierSchedule
 {
-    const SCHEDULE_TYPE = 'delivery';
+    public const SCHEDULE_TYPE = 'delivery';
+
+    protected $courier_number_prefix = 'DEL';
 
     protected static $singleTableType = self::SCHEDULE_TYPE;
 }

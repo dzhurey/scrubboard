@@ -6,7 +6,9 @@ use App\CourierSchedule;
 
 class PickupSchedule extends CourierSchedule
 {
-    const SCHEDULE_TYPE = 'pickup';
+    public const SCHEDULE_TYPE = 'pickup';
+
+    protected $courier_number_prefix = 'PIC';
 
     protected static $singleTableType = self::SCHEDULE_TYPE;
 }

@@ -44,6 +44,7 @@ class CourierScheduleStoreService extends BaseService
     {
         $attributes['schedule_type'] = self::SCHEDULE_TYPE;
         $this->model = $this->assignAttributes($this->model, $attributes);
+        $this->model->courier_code = $this->model->generateCourierCode();
         $this->model->save();
     }
 

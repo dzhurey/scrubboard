@@ -22,4 +22,6 @@
 <form id="form-create-sales-order" class="c-form is-fluid needs-validation" novalidate>
     @include('sales_order._form_field')
 </form>
+
+@include('sales_order._modal_customer')
 @endsection

@@ -48,6 +48,9 @@
     font-size: 14px;
     color: #0D2639;
     letter-spacing: 0.2px;
+    &.cursor-pointer {
+      cursor: pointer;
+    }
     &-radio, &-box {
       width: 24px;
       height: 24px;

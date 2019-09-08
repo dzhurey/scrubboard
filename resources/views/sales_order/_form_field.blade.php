@@ -11,17 +11,21 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="customer_id">Customer</label>
-            <select class="form-control select2" id="customer_id" name="customer_id" required>
+            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Pilih Customer" data-toggle="modal" data-target="#modal-customer" />
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="agent_id">Outlet</label>
+            <select class="form-control select2" id="agent_id" name="agent_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="outlet">Outlet</label>
-            <select class="form-control select2" id="outlet" name="outlet" required>
-                <option></option>
-            </select>
-            <div class="invalid-feedback">Data invalid.</div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked>
+                <label class="form-check-label" for="is_own_address">Uncheck if you set outlet for pickup destination</label>
+            </div>
         </div>
     </div>
     <div class="col-sm-2"></div>
@@ -60,20 +64,24 @@
 </div>
 
 <div class="c-table--outer mx-0">
-    <table id="table-so-item" class="c-table table table-striped">
-        <thead>
-            <tr>
-                <th class="th-item">Item</th>
-                <th class="th-price">BOR</th>
-                <th class="th-note">Notes</th>
-                <th class="th-qty text-right">Qty</th>
-                <th class="th-dcs text-right">Disc (%)</th>
-                <th class="th-price text-right">Unit Price</th>
-                <th class="th-total text-right">Total</th>
-                <th class="th-action"></th>
-            </tr>
-        </thead>
-    </table>
+    <div class="table-responsive">
+        <table id="table-so-item" class="c-table table table-striped">
+            <thead>
+                <tr>
+                    <th class="th-item">Item</th>
+                    <th class="th-price">BOR</th>
+                    <th class="th-price">Brand</th>
+                    <th class="th-price">Color</th>
+                    <th class="th-note">Notes</th>
+                    <th class="th-qty text-right">Qty</th>
+                    <th class="th-dcs text-right">Disc (%)</th>
+                    <th class="th-price text-right">Unit Price</th>
+                    <th class="th-total text-right">Total</th>
+                    <th class="th-action"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 
 <div class="row">

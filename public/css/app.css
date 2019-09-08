@@ -32,7 +32,7 @@ h5 {
 }
 
 .main {
-  position: absolute;
+  position: unset;
   z-index: 3;
   margin-top: 70px;
   padding-left: 300px;
@@ -444,6 +444,7 @@ h5 {
 
 .c-table {
   margin-bottom: 0;
+  width: 100% !important;
 }
 
 .c-table--outer {
@@ -645,6 +646,12 @@ h5 {
   font-size: 14px;
   color: #0D2639;
   letter-spacing: 0.2px;
+}
+
+.form-control.cursor-pointer,
+.select2-container--default .cursor-pointer.select2-selection--single,
+.form-check.cursor-pointer {
+  cursor: pointer;
 }
 
 .form-control-radio,

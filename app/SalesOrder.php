@@ -9,7 +9,7 @@ class SalesOrder extends Transaction
 {
     const TRANSACTION_TYPE = 'order';
 
-    protected $transaction_number_prefix = 'SO';
+    protected $transaction_number_prefix = 'ORD';
 
     protected static $singleTableType = self::TRANSACTION_TYPE;
 

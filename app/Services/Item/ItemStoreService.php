@@ -51,7 +51,7 @@ class ItemStoreService extends BaseService
             $item = Item::where('item_group_id',$attributes['item_group_id'])
                 ->where('item_sub_category_id',$attributes['item_sub_category_id'])
                 ->whereYear('updated_at',$year)
-                ->orderBy('updated_at','desc')
+                ->orderBy('item_code','desc')
                 ->first();
             $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
             $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();
@@ -69,7 +69,7 @@ class ItemStoreService extends BaseService
             $item = Item::where('item_group_id',$attributes['item_group_id'])
                 ->where('item_sub_category_id',$attributes['item_sub_category_id'])
                 ->whereYear('updated_at',$year)
-                ->orderBy('updated_at','desc')
+                ->orderBy('item_code','desc')
                 ->first();
             $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
             $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();

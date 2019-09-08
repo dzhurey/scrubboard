@@ -30,7 +30,6 @@ class SalesOrderUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->updateTransactionLines($attributes);
                 $this->model->transactionLines()->saveMany($lines);
-                // $this->removeExcluded($attributes);
                 $this->updateTransactionStatus();
             }
         } catch (\Exception $e) {
@@ -73,23 +72,6 @@ class SalesOrderUpdateService extends BaseService
             $line->status = 'open';
         }
         return $line;
-    }
-
-    private function removeExcluded($attributes)
-    {
-        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['transaction_lines']);
-        $lines = $this->model->transactionLines->pluck('item_id');
-        $result = [];
-
-        if (sizeof($from_request) < $lines->count()) {
-            foreach ($lines as $line) {
-                if (!in_array($line, $from_request)) {
-                    array_push($result, $line);
-                }
-            }
-        }
-
-        $this->model->transactionLines->whereIn('item_id', $result)->each->update(['status' => 'canceled']);
     }
 
     public function updateTransactionStatus()

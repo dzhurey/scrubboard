@@ -24,6 +24,7 @@ class TransactionLinePresenter extends BasePresenter
         $input->item = $this->item_presenter->transform($input->item);
         $input->transaction_number = $input->transaction->transaction_number;
         $input->brand = $input->brand;
+        $input->address = $input->transaction->address();
         return $input;
     }
 }

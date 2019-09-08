@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Lib\Services\BaseService;
 use App\SalesInvoice;
 use App\TransactionLine;
+use App\Exceptions\UnprocessableEntityException;
 
 class SalesInvoiceUpdateService extends BaseService
 {
@@ -30,8 +31,10 @@ class SalesInvoiceUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->updateTransactionLines($attributes);
                 $this->model->transactionLines()->saveMany($lines);
-                $this->removeExcluded($attributes);
             }
+        } catch (UnprocessableEntityException $e) {
+            DB::rollBack();
+            throw new UnprocessableEntityException($e->getMessage(), 1);
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);
@@ -53,6 +56,9 @@ class SalesInvoiceUpdateService extends BaseService
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
+            if ($value['status'] == 'canceled') {
+                throw new UnprocessableEntityException(__("rules.cannot_cancel_item_on_invoice"));
+            }
             array_push($lines, $this->assignAttributes($line, $value));
         }
         return $lines;
@@ -65,22 +71,5 @@ class SalesInvoiceUpdateService extends BaseService
             $line = new TransactionLine();
         }
         return $line;
-    }
-
-    private function removeExcluded($attributes)
-    {
-        $from_request = array_map(function ($item) { return $item['item_id']; }, $attributes['transaction_lines']);
-        $lines = $this->model->transactionLines->pluck('item_id');
-        $result = [];
-
-        if (sizeof($from_request) < $lines->count()) {
-            foreach ($lines as $line) {
-                if (!in_array($line, $from_request)) {
-                    array_push($result, $line);
-                }
-            }
-        }
-
-        $this->model->transactionLines->whereIn('item_id', $result)->each->delete();
     }
 }

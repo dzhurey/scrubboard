@@ -184,7 +184,7 @@ const generateItemTable = (target, data) => {
       { 
         data: 'id',
         render(data, type, row) {
-          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" required></select>`;
+          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" required value="${row.brand_id}"></select>`;
         }
       },
       { 
@@ -247,6 +247,9 @@ const generateItemTable = (target, data) => {
           totalBeforeDisc();
         }
       })
+      $('.brand_id').each((i, item) => {
+        item.value = item.getAttribute('value');
+      })
     },
   })
 };
@@ -280,14 +283,14 @@ const getPriceList = (id) => {
 const getBrandList = () => {
   if (sessionStorage.brands !== undefined) {
     const brands = JSON.parse(sessionStorage.brands);
-    for (let brand of brands) {
-      const option = document.createElement('option');
-      option.value = brand.id;
-      option.textContent = `${brand.name}`;
-      if (!$('.brand_id').hasClass('has-updated')) {
-        $('.brand_id').append(option);
-        $('.brand_id').addClass('has-updated');
+    if (!$('.brand_id').hasClass('has-updated')) {
+      for (let brand of brands) {
+        const option = document.createElement('option');
+        option.value = brand.id;
+        option.textContent = `${brand.name}`;
+        $('.brand_id').append(option);   
       }
+      $('.brand_id').addClass('has-updated');
     }
   }
 }

@@ -172,7 +172,7 @@ const generateItemTable = (target, data) => {
       { 
         data: 'name',
         render(data, type, row) {
-          return `<input type="text" class="form-control item_id" id="item_id_${row.id}" data-id="${row.item_id}" name="item_id" readonly value="${data}">`
+          return `<input type="text" class="form-control item_id" id="item_id_${row.id}" data-id="${row.item_id}" name="item_id" readonly value="${data}" ${row.status ? 'line-id="updated"' : ''}}>`
         }
       },
       {
@@ -229,7 +229,7 @@ const generateItemTable = (target, data) => {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
 
-          const status = `<select class="form-control" name="status" readonly="${row.status !== 'open'}"><option value="open">Open</option><option value="canceled">Cancel</option><option value="scheduled">Scheduled</option><option value="done">Done</option></select>`
+          const status = `<select id="status_${row.id}" class="form-control choose-status" name="status" ${row.status !== 'open' ? 'readonly' : ''}><option value="open" ${row.status === 'open' ? 'selected' : ''}>Open</option><option value="canceled" ${row.status === 'canceled' ? 'selected' : ''}>Cancel</option><option value="scheduled" ${row.status === 'scheduled' ? 'selected' : ''}>Scheduled</option><option value="done" ${row.status === 'done' ? 'selected' : ''}>Done</option></select>`
           return row.status ? status : del;
         },
       },
@@ -240,6 +240,13 @@ const generateItemTable = (target, data) => {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.choose-status').change(e => {
+        if (e.target.value === 'canceled') {
+          const id = e.target.id.split('_')[1];
+          $(`#amount_${id}`).val(0);
+          totalBeforeDisc();
+        }
+      })
     },
   })
 };
@@ -335,6 +342,7 @@ const dataFormSalesOrder = () => {
       const discount_amount = parseFloat(unit_price) - parseFloat(amount);
       if (formEditSalesOrder.length > 0) {
         transaction_lines.push({
+          id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
           item_id: $(item).attr('data-id'),
           note: target.querySelector('input[name="note"]').value,
           bor: target.querySelector('input[name="bor"]').value,
@@ -471,7 +479,7 @@ if (formEditSalesOrder.length > 0) {
       const choosed_item = [];
       let id = 0;
       res.sales_order.transaction_lines.forEach(res => {
-        id += 1;
+        id = res.id ? res.id : id + 1;
         choosed_item.push({
           id: id,
           "item_id": res.item_id,
@@ -506,8 +514,8 @@ if (formEditSalesOrder.length > 0) {
       $('#pickup_date').val(res.sales_order.pickup_date);
       $('#delivery_date').val(res.sales_order.delivery_date);
       getPriceList(res.sales_order.customer.price_id);
-      $('#btn-add-item').attr('disabled', false);
-      $('#btn-add-item').removeClass('disabled');
+      $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
+      $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
       $('.select2').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',

@@ -39,7 +39,7 @@ class ItemSubCategoryStoreService extends BaseService
             $today = Carbon::now(8);
             $year = $today->year;
             $item_group_category = ItemSubCategory::whereYear('created_at',$year)
-                ->orderBy('created_at','desc')
+                ->orderBy('code','desc')
                 ->first();
             
             if (is_null($item_group_category)) {

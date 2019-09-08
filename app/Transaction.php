@@ -54,6 +54,7 @@ class Transaction extends BaseModel
         'balance_due',
         'note',
         'order_id',
+        'is_own_address',
     ];
 
     protected $searchable = [
@@ -86,5 +87,26 @@ class Transaction extends BaseModel
         $string = preg_replace("/[^0-9\.]/", '', $latest->transaction_number);
 
         return $this->transaction_number_prefix . sprintf('%04d', $string + 1);
+    }
+
+    public function address()
+    {
+        if ($this->is_own_address) {
+            return [
+                'description' => $this->customer->shippingAddress()->description,
+                'district' => $this->customer->shippingAddress()->district,
+                'city' => $this->customer->shippingAddress()->city,
+                'country' => $this->customer->shippingAddress()->country,
+                'zip_code' => $this->customer->shippingAddress()->zip_code,
+            ];
+        }
+
+        return [
+            'description' => $this->agent->address,
+            'district' => $this->agent->district,
+            'city' => $this->agent->city,
+            'country' => $this->agent->country,
+            'zip_code' => $this->agent->zip_code,
+        ];
     }
 }

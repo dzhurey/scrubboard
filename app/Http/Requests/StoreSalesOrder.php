@@ -37,6 +37,7 @@ class StoreSalesOrder extends FormRequest
      *      "freight": 10000,
      *      "total_amount": 80000,
      *      "note": "",
+     *      "is_own_address": true,
      *      "agent_id": 1,
      *      "transaction_lines": [
      *          {
@@ -67,6 +68,7 @@ class StoreSalesOrder extends FormRequest
             'freight' => 'required|numeric',
             'total_amount' => 'required|numeric',
             'note' => 'nullable|string',
+            'is_own_address' => 'required|boolean',
             'order_id' => 'nullable',
             'transaction_lines' => 'required|array',
         ];

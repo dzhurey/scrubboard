@@ -65,13 +65,13 @@ class PaymentStoreService extends BaseService
                 ->whereYear('updated_at',$year)
                 ->orderBy('payment_code','desc')
                 ->first();
-            
+
             if (is_null($payment)) {
                 $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".substr($year,-2)."000001";
             } else {
-                $last_number = (int)substr($payment->payment_code,-8);
-                $next_number = $last_number+1;
-                $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".$next_number;
+                $last_number = (int)substr($payment->payment_code,-6);
+                $next_number = sprintf('%06d', $last_number+1);
+                $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".substr($year,-2).$next_number;
             }
         }
         else {
@@ -80,11 +80,11 @@ class PaymentStoreService extends BaseService
                 ->orderBy('payment_code','desc')
                 ->first();
 
-            $last_number = (int)substr($payment->payment_code,-8);
-            $next_number = $last_number+1;
-            $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".$next_number;
+            $last_number = (int)substr($payment->payment_code,-6);
+            $next_number = sprintf('%06d', $last_number+1);
+            $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".substr($year,-2).$next_number;
         }
-        
+
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

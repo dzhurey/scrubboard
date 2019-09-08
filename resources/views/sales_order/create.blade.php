@@ -24,4 +24,5 @@
 </form>
 
 @include('sales_order._modal_customer')
+@include('sales_order._modal_item_by_pricelist')
 @endsection

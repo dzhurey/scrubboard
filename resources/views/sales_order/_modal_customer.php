@@ -10,7 +10,7 @@
                         <table id="modal-customer-form-table" class="c-table table table-striped">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th class="checkbox"></th>
                                     <th>ID</th>
                                     <th>Customer Name</th>
                                     <th>Address</th>

@@ -87,6 +87,9 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
+            <button type="button" id="btn-add-item" class="btn btn-primary disabled" data-toggle="modal" data-target="#modal-price" disabled>Tambah item</button>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="note">Note</label>
             <textarea class="form-control" id="note" rows="6"></textarea>
         </div>
@@ -139,6 +142,6 @@
             </div>
         </div>
         @endif
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button id="form-submit" class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

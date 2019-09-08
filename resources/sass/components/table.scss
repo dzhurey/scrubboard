@@ -19,7 +19,7 @@
           padding-right: 20px;
         }
         &.checkbox {
-          width: 50px;
+          width: 50px !important;
         }
         border: 0;
       }
@@ -28,6 +28,7 @@
       td {
         border-color: #E8EEF3;
         padding: 12px;
+        vertical-align: middle;
         &:first-child {
           padding-left: 20px;
         }
@@ -75,5 +76,22 @@
         width: 85px !important;
       }
     }
+  }
+}
+
+.table-responsive {
+  th, td {
+    white-space: nowrap;
+  }
+  &.adjust-width {
+    table.c-table {
+      width: 1600px !important;
+    }
+  }
+}
+
+#form-edit-sales-order {
+  .c-table.table tbody td:last-child {
+    width: 150px !important;
   }
 }

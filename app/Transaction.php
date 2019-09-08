@@ -83,34 +83,26 @@ class Transaction extends BaseModel
     {
         $today = Carbon::now(8);
         $year = $today->year;
+        $transaction = Transaction::where('transaction_type',$this->attributes['transaction_type'])
+            ->where('agent_id',$this->attributes['agent_id'])
+            ->whereYear('updated_at',$year)
+            ->orderBy('transaction_number','desc')
+            ->first();
+        $agent = Agent::where('id',$this->attributes['agent_id'])->first();
 
         if (is_null($this->model)) {
-            $transaction = Transaction::where('transaction_type',$this->attributes['transaction_type'])
-                ->where('agent_id',$this->attributes['agent_id'])
-                ->whereYear('updated_at',$year)
-                ->orderBy('transaction_number','desc')
-                ->first();
-            $agent = Agent::where('id',$this->attributes['agent_id'])->first();
-            
             if (is_null($transaction)) {
                 $transaction_number = "/".$agent->agent_code."/".substr($year,-2).'000001';
             } else {
-                $last_number = (int)substr($transaction->transaction_number,-8);
-                $next_number = $last_number+1;
-                $transaction_number = "/".$agent->agent_code."/".$next_number;
+                $last_number = (int)substr($transaction->transaction_number,-6);
+                $next_number = sprintf('%06d', $last_number+1);
+                $transaction_number = "/".$agent->agent_code."/".substr($year,-2).$next_number;
             }
         }
         else {
-            $transaction = Transaction::where('transaction_type',$this->attributes['transaction_type'])
-                ->where('agent_id',$this->attributes['agent_id'])
-                ->whereYear('updated_at',$year)
-                ->orderBy('transaction_number','desc')
-                ->first();
-            $agent = Agent::where('id',$this->attributes['agent_id'])->first();
-
             $last_number = (int)substr($transaction->transaction_number,-8);
-            $next_number = $last_number+1;
-            $transaction_number = "/".$agent->agent_code."/".$next_number;
+            $next_number = sprintf('%06d', $last_number+1);
+            $transaction_number = "/".$agent->agent_code."/".substr($year,-2).$next_number;
         }
         /*
         $latest = $this->getLatest();
@@ -121,7 +113,7 @@ class Transaction extends BaseModel
 
         $string = preg_replace("/[^0-9\.]/", '', $latest->transaction_number);
         */
-        
+
         return $this->transaction_number_prefix.$transaction_number;
     }
 

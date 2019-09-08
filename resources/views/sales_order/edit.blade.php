@@ -22,4 +22,6 @@
 <form id="form-edit-sales-order" class="c-form is-fluid needs-validation" novalidate>
     @include('sales_order._form_field')
 </form>
+
+@include('sales_order._modal_item_by_pricelist')
 @endsection

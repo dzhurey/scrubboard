@@ -55009,7 +55009,7 @@ var generateItemTable = function generateItemTable(target, data) {
     columns: [{
       data: 'name',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control item_id\" id=\"item_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" readonly value=\"").concat(data, "\">");
+        return "<input type=\"text\" class=\"form-control item_id\" id=\"item_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" readonly value=\"").concat(data, "\" ").concat(row.status ? 'line-id="updated"' : '', "}>");
       }
     }, {
       data: 'id',
@@ -55055,7 +55055,7 @@ var generateItemTable = function generateItemTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var del = "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(row.item_id, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
-        var status = "<select class=\"form-control\" name=\"status\" readonly=\"".concat(row.status !== 'open', "\"><option value=\"open\">Open</option><option value=\"canceled\">Cancel</option><option value=\"scheduled\">Scheduled</option><option value=\"done\">Done</option></select>");
+        var status = "<select id=\"status_".concat(row.id, "\" class=\"form-control choose-status\" name=\"status\" ").concat(row.status !== 'open' ? 'readonly' : '', "><option value=\"open\" ").concat(row.status === 'open' ? 'selected' : '', ">Open</option><option value=\"canceled\" ").concat(row.status === 'canceled' ? 'selected' : '', ">Cancel</option><option value=\"scheduled\" ").concat(row.status === 'scheduled' ? 'selected' : '', ">Scheduled</option><option value=\"done\" ").concat(row.status === 'done' ? 'selected' : '', ">Done</option></select>");
         return row.status ? status : del;
       }
     }],
@@ -55065,6 +55065,13 @@ var generateItemTable = function generateItemTable(target, data) {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.choose-status').change(function (e) {
+        if (e.target.value === 'canceled') {
+          var id = e.target.id.split('_')[1];
+          $("#amount_".concat(id)).val(0);
+          totalBeforeDisc();
+        }
+      });
     }
   });
 };
@@ -55193,6 +55200,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
 
       if (formEditSalesOrder.length > 0) {
         transaction_lines.push({
+          id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
           item_id: $(item).attr('data-id'),
           note: target.querySelector('input[name="note"]').value,
           bor: target.querySelector('input[name="bor"]').value,
@@ -55355,7 +55363,7 @@ if (formEditSalesOrder.length > 0) {
     var choosed_item = [];
     var id = 0;
     res.sales_order.transaction_lines.forEach(function (res) {
-      id += 1;
+      id = res.id ? res.id : id + 1;
       choosed_item.push({
         id: id,
         "item_id": res.item_id,
@@ -55389,8 +55397,8 @@ if (formEditSalesOrder.length > 0) {
     $('#pickup_date').val(res.sales_order.pickup_date);
     $('#delivery_date').val(res.sales_order.delivery_date);
     getPriceList(res.sales_order.customer.price_id);
-    $('#btn-add-item').attr('disabled', false);
-    $('#btn-add-item').removeClass('disabled');
+    $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
+    $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
     $('.select2').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -58557,8 +58565,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

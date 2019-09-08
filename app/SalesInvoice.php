@@ -9,7 +9,7 @@ class SalesInvoice extends Transaction
 {
     const TRANSACTION_TYPE = 'invoice';
 
-    protected $transaction_number_prefix = 'SI';
+    protected $transaction_number_prefix = 'INV';
 
     protected static $singleTableType = self::TRANSACTION_TYPE;
 

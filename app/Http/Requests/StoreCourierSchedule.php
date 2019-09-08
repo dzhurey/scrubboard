@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\CourierSchedule;
+use App\TransactionLine;
 use App\Person;
 
 class StoreCourierSchedule extends FormRequest
@@ -30,8 +31,9 @@ class StoreCourierSchedule extends FormRequest
      *     "schedule_date": "2019-08-29",
      *     "courier_schedule_lines": [
      *     {
-     *         "transaction_id": 10,
-     *         "estimation_time": "10:30"
+     *         "transaction_line_id": 10,
+     *         "estimation_time": "10:30",
+     *         "status": "canceled", (if: update)
      *     }
      *     ]
      * }
@@ -41,13 +43,15 @@ class StoreCourierSchedule extends FormRequest
         $rules = [
             'person_id' => 'required',
             'vehicle_id' => 'required',
-            'schedule_date' => 'required|date_format:"Y-m-d"'
+            'schedule_date' => 'required|date_format:"Y-m-d"',
+            'courier_schedule_lines' => 'required|array',
         ];
 
         foreach($this->request->get('courier_schedule_lines') as $key => $val)
         {
-            $rules['courier_schedule_lines.'.$key.'.transaction_id'] = 'required';
+            $rules['courier_schedule_lines.'.$key.'.transaction_line_id'] = 'required';
             $rules['courier_schedule_lines.'.$key.'.estimation_time'] = 'required|date_format:H:i';
+            $rules['courier_schedule_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
         }
 
         return $rules;

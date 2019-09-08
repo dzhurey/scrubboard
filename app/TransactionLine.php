@@ -6,6 +6,14 @@ use App\BaseModel;
 
 class TransactionLine extends BaseModel
 {
+    const STATUS = [
+        'open' => 'Open',
+        'scheduled' => 'Scheduled',
+        'overdue' => 'Overdue',
+        'done' => 'Done',
+        'canceled' => 'Canceled',
+    ];
+
     protected $fillable = [
         'transaction_id',
         'item_id',
@@ -18,6 +26,7 @@ class TransactionLine extends BaseModel
         'note',
         'color',
         'brand_id',
+        'status',
     ];
 
     protected $searchable = [];
@@ -35,5 +44,10 @@ class TransactionLine extends BaseModel
     public function brand()
     {
         return $this->belongsTo('App\Brand');
+    }
+
+    public function courierScheduleLine()
+    {
+        return $this->hasOne('App\CourierScheduleLine');
     }
 }

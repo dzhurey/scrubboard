@@ -30,7 +30,8 @@ class CourierScheduleUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->updateCourierScheduleLines($attributes);
                 $this->model->courierScheduleLines()->saveMany($lines);
-                $this->removeExcluded($attributes);
+                // $this->removeExcluded($attributes);
+
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -52,14 +53,16 @@ class CourierScheduleUpdateService extends BaseService
         foreach ($attributes['courier_schedule_lines'] as $key => $value) {
             $value['courier_schedule_id'] = $this->model->id;
             $line = $this->getOrCreateCourierScheduleLine($value);
-            array_push($lines, $this->assignAttributes($line, $value, $excluded));
+            $assigned = $this->assignAttributes($line, $value, $excluded);
+            $this->updateTransactionLineStatus($assigned, $value);
+            array_push($lines, $assigned);
         }
         return $lines;
     }
 
     private function getOrCreateCourierScheduleLine($value)
     {
-        $line = $this->model->courierScheduleLines->where('transaction_id', '=', $value['transaction_id'])->first();
+        $line = $this->model->courierScheduleLines->where('transaction_line_id', '=', $value['transaction_line_id'])->first();
         if (empty($line)) {
             $line = new CourierScheduleLine();
         }
@@ -81,5 +84,15 @@ class CourierScheduleUpdateService extends BaseService
         }
 
         $this->model->courierScheduleLines->whereIn('transaction_id', $result)->each->delete();
+    }
+
+    public function updateTransactionLineStatus($line, $input)
+    {
+        if (!isset($input['status'])) {
+            $input['status'] = 'scheduled';
+        }
+
+        $line->transactionLine->status = $input['status'];
+        $line->transactionLine->save();
     }
 }

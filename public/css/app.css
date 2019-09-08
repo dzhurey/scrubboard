@@ -744,7 +744,7 @@ select.form-control,
 .select2-container--default select.select2-selection--single {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url(/images/chevron-down.svg?9a98ebc88ecb271077d428cdfb0a6cfc);
+  background-image: url(/images/chevron-down.svg?a4def72d2130ad495bd430a382c6e02c);
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: calc(100% - 10px);
@@ -2066,7 +2066,7 @@ input.datetimepicker {
 }
 
 .select2-container--bootstrap .select2-selection {
-  background-image: url(/images/chevron-down.svg?9a98ebc88ecb271077d428cdfb0a6cfc);
+  background-image: url(/images/chevron-down.svg?a4def72d2130ad495bd430a382c6e02c);
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: calc(100% - 10px);

@@ -29,6 +29,7 @@ class Transaction extends BaseModel
         'scheduled' => 'Scheduled',
         'delivered' => 'Delivered',
         'closed' => 'Closed',
+        'canceled' => 'Canceled',
     ];
 
     const ORDER_TYPES = [

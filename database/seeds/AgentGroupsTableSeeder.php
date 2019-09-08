@@ -12,7 +12,8 @@ class AgentGroupsTableSeeder extends Seeder
     public function run()
     {
         DB::table('agent_groups')->insert([
-            'name' => 'Direct'
+            'name' => 'Direct',
+            'agent_group_code' => 'A',
         ]);
     }
 }

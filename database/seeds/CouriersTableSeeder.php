@@ -15,6 +15,7 @@ class CouriersTableSeeder extends Seeder
         DB::table('users')->insert(
             [
                 'email' => 'erwin@gmail.com',
+                'username' => 'erwin',
                 'password' => bcrypt('Scrubboard123'),
                 'role' => 'courier',
                 'created_at' => new DateTime(),

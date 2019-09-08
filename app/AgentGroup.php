@@ -7,11 +7,11 @@ use App\BaseModel;
 class AgentGroup extends BaseModel
 {
     protected $fillable = [
-        'name',
+        'name','agent_group_code'
     ];
 
     protected $searchable = [
-        'name',
+        'name','agent_group_code'
     ];
 
     public function agents()

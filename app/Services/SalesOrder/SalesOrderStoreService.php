@@ -56,6 +56,7 @@ class SalesOrderStoreService extends BaseService
         $lines = [];
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
+            $value['status'] = 'open';
             $model_line = new TransactionLine();
             array_push($lines, $this->assignAttributes($model_line, $value));
         }

@@ -21,6 +21,7 @@ class Agent extends BaseModel
         'contact_phone_number',
         'contact_mobile_number',
         'agent_group_id',
+        'agent_code',
     ];
 
     protected $searchable = [

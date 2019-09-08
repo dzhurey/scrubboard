@@ -97,6 +97,10 @@ class SalesOrderController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($sales_order->invoice)) {
+            return $this->renderError($request, __("rules.cannot_update_order_has_invoice"), 422);
+        }
+
         $validated = $request->validated();
         $service->perform($validated, $sales_order);
         return $this->renderView($request, '', [], ['route' => 'sales_orders.edit', 'data' => ['sales_order' => $sales_order->id]], 204);
@@ -109,7 +113,7 @@ class SalesOrderController extends Controller
         }
 
         if (!empty($sales_order->invoice)) {
-            return $this->renderError($request, __("rules.order_has_invoice"), 422);
+            return $this->renderError($request, __("rules.cannot_delete_order_has_invoice"), 422);
         }
 
         $sales_order->transactionLines->each->delete();

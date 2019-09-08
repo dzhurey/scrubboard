@@ -31,7 +31,7 @@ class CourierScheduleStoreService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->createCourierScheduleLines($attributes);
                 $this->model->courierScheduleLines()->saveMany($lines);
-                $this->updateTransactionStatus();
+                $this->updateTransactionLineStatus();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -44,6 +44,7 @@ class CourierScheduleStoreService extends BaseService
     {
         $attributes['schedule_type'] = self::SCHEDULE_TYPE;
         $this->model = $this->assignAttributes($this->model, $attributes);
+        $this->model->courier_code = $this->model->generateCourierCode();
         $this->model->save();
     }
 
@@ -53,18 +54,17 @@ class CourierScheduleStoreService extends BaseService
         $excluded = ['image_name'];
         foreach ($attributes['courier_schedule_lines'] as $key => $value) {
             $value['courier_schedule_id'] = $this->model->id;
-            $value['status'] = 'scheduled';
             $model_line = new CourierScheduleLine();
             array_push($lines, $this->assignAttributes($model_line, $value, $excluded));
         }
         return ($lines);
     }
 
-    public function updateTransactionStatus()
+    public function updateTransactionLineStatus()
     {
         $this->model->courierScheduleLines->each(function ($line) {
-            $line->transaction->transaction_status = 'scheduled';
-            $line->transaction->save();
+            $line->transactionLine->status = 'scheduled';
+            $line->transactionLine->save();
         });
     }
 }

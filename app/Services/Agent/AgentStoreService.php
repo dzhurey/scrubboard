@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Lib\Services\BaseService;
 use App\Agent;
+use App\AgentGroup;
+use Carbon\Carbon;
 
 class AgentStoreService extends BaseService
 {
@@ -34,6 +36,29 @@ class AgentStoreService extends BaseService
 
     private function createAgent($attributes)
     {
+        if (is_null($this->model->agent_code)) {
+            $today = Carbon::now(8);
+            $year = $today->year;
+            $agent = Agent::where('agent_group_id',$attributes['agent_group_id'])
+                ->whereYear('updated_at',$year)
+                ->orderBy('updated_at','desc')
+                ->first();
+            $agent_group_code = AgentGroup::where('id',$attributes['agent_group_id'])->first();
+            
+            if (is_null($agent)) {
+                // $attributes['agent_code'] = $agent_group_code->agent_group_code.substr($year,-2).'000001';
+                $attributes['agent_code'] = $agent_group_code->agent_group_code.'0001';
+            } else {
+                $last_number = (int)substr($agent->agent_code,1);
+                $next_number = $last_number+1;
+                $next_number = str_pad($next_number, 4, '0', STR_PAD_LEFT);
+                $attributes['agent_code'] = $agent_group_code->agent_group_code.$next_number;
+            }
+        }
+        else {
+            $attributes['agent_code'] = $this->model->agent_code;
+        }
+        
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

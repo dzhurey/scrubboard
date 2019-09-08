@@ -30,7 +30,8 @@ class SalesOrderUpdateService extends BaseService
             if (!empty($this->model->id)) {
                 $lines = $this->updateTransactionLines($attributes);
                 $this->model->transactionLines()->saveMany($lines);
-                $this->removeExcluded($attributes);
+                // $this->removeExcluded($attributes);
+                $this->updateTransactionStatus();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -52,6 +53,13 @@ class SalesOrderUpdateService extends BaseService
         foreach ($attributes['transaction_lines'] as $key => $value) {
             $value['transaction_id'] = $this->model->id;
             $line = $this->getOrCreateTransactionLine($value);
+            if ($value['status'] == 'canceled') {
+                $value['quantity'] = 0;
+                $value['unit_price'] = 0;
+                $value['discount'] = 0;
+                $value['discount_amount'] = 0;
+                $value['amount'] = 0;
+            }
             array_push($lines, $this->assignAttributes($line, $value));
         }
         return $lines;
@@ -62,6 +70,7 @@ class SalesOrderUpdateService extends BaseService
         $line = $this->model->transactionLines->where('item_id', '=', $value['item_id'])->first();
         if (empty($line)) {
             $line = new TransactionLine();
+            $line->status = 'open';
         }
         return $line;
     }
@@ -80,6 +89,16 @@ class SalesOrderUpdateService extends BaseService
             }
         }
 
-        $this->model->transactionLines->whereIn('item_id', $result)->each->delete();
+        $this->model->transactionLines->whereIn('item_id', $result)->each->update(['status' => 'canceled']);
+    }
+
+    public function updateTransactionStatus()
+    {
+        $counter = $this->model->transactionLines->where('status', '=', 'canceled')->count();
+
+        if ($this->model->transactionLines->count() == $counter) {
+            $this->model->transaction_status = 'canceled';
+            $this->model->save();
+        }
     }
 }

@@ -55019,7 +55019,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" required></select>");
+        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" required value=\"").concat(row.brand_id, "\"></select>");
       }
     }, {
       data: 'id',
@@ -55072,6 +55072,9 @@ var generateItemTable = function generateItemTable(target, data) {
           totalBeforeDisc();
         }
       });
+      $('.brand_id').each(function (i, item) {
+        item.value = item.getAttribute('value');
+      });
     }
   });
 };
@@ -55110,35 +55113,36 @@ var getPriceList = function getPriceList(id) {
 var getBrandList = function getBrandList() {
   if (sessionStorage.brands !== undefined) {
     var brands = JSON.parse(sessionStorage.brands);
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
 
-    try {
-      for (var _iterator = brands[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var brand = _step.value;
-        var option = document.createElement('option');
-        option.value = brand.id;
-        option.textContent = "".concat(brand.name);
+    if (!$('.brand_id').hasClass('has-updated')) {
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-        if (!$('.brand_id').hasClass('has-updated')) {
-          $('.brand_id').append(option);
-          $('.brand_id').addClass('has-updated');
-        }
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-          _iterator["return"]();
+        for (var _iterator = brands[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var brand = _step.value;
+          var option = document.createElement('option');
+          option.value = brand.id;
+          option.textContent = "".concat(brand.name);
+          $('.brand_id').append(option);
         }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
       } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
+        try {
+          if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+            _iterator["return"]();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
         }
       }
+
+      $('.brand_id').addClass('has-updated');
     }
   }
 };

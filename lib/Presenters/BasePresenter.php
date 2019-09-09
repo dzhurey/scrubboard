@@ -34,6 +34,7 @@ abstract class BasePresenter
         $this->validated = $request->validate([
             'q' => 'string',
             'page' => 'numeric',
+            'filter' => 'array'
         ]);
 
         $this->collection = $this->search($this->validated)->paginate(Config::get('constants.default_per_page'));
@@ -63,6 +64,14 @@ abstract class BasePresenter
                     $this->builder = $this->model->orWhere($field,'ILIKE',"%".$sanitized."%");
                 }
             }
+        }
+
+        if (isset($attributes['filter'])) {
+            $filters = array_map(function($item) {
+                return explode(',', $item);
+            }, $attributes['filter']);
+
+            $this->builder = $this->builder->where($filters);
         }
 
         return $this->builder;

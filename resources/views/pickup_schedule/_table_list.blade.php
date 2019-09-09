@@ -7,7 +7,6 @@
                 <th>Vehicle</th>
                 <th>Schedule Date</th>
                 <th>Schedule Status</th>
-                <th>Total Pickup Orders</th>
                 <th></th>
             </tr>
         </thead>

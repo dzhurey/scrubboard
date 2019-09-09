@@ -226,7 +226,6 @@ const generateDataPickupEdit = (list_id) => {
       });
     });
     sessionStorage.setItem('choosed_so', JSON.stringify(datas));
-    debugger;
     createSOTable(tableSoItemPickup, datas);
   }).catch(res => console.log(res));
 };

@@ -54039,7 +54039,6 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
       });
     });
     sessionStorage.setItem('choosed_so', JSON.stringify(datas));
-    debugger;
     createSOTable(tableSoItemPickup, datas);
   })["catch"](function (res) {
     return console.log(res);

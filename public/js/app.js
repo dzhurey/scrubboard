@@ -53837,13 +53837,16 @@ __webpack_require__.r(__webpack_exports__);
 function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
 
 
-var courierId = $('#courier_id');
+var list_id = [];
+var courierId = $('#person_id');
 var vehicleId = $('#vehicle_id');
 var modalSalesOrder = $('#modal-sales-order');
 var modalSOFormTable = $('#modal-so-form-table');
 var formCreatePickup = $('#form-create-pickup');
 var modalSOForm = $('#modal-so-form');
 var tableSoItemPickup = $('#table-so-item-pickup');
+var tablePickup = $('#table-pickup-schedule');
+var EditPickupForm = $('#form-edit-pickup');
 
 var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
@@ -53903,9 +53906,9 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr><td><input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\"></td><td>").concat(res.item.description, "</td><td>").concat(res.bor, "</td><td>").concat(res.brand.name, "</td><td>").concat(res.color ? res.color : '-', "</td><td><input type=\"time\" class=\"form-control\" id=\"eta_").concat(res.id, " name=\"eta\"></td><td></td></tr>");
+      row += "<tr>\n        <td>\n          <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', ">\n        </td>\n        <td>").concat(res.status, "</td>\n        <td>").concat(res.item.description, "</td>\n        <td>").concat(res.bor, "</td>\n        <td>").concat(res.brand.name, "</td>\n        <td>").concat(res.color ? res.color : '-', "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? 'disabled' : 'required', ">\n        </td>\n        <td></td>\n      </tr>");
     });
-    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
 
   target.DataTable({
@@ -53932,25 +53935,115 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return '';
+        return "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
-      $('#table-so-item-pickup tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = tableSoItemPickup.DataTable().row(tr);
+      removeItem();
+      $('#table-so-item-pickup tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = tableSoItemPickup.DataTable().row(tr);
 
-        if (row.child.isShown()) {
-          // This row is already open - close it
-          row.child.hide();
-          tr.removeClass('shown');
-        } else {
-          // Open this row
-          row.child(format(row.data())).show();
-          tr.addClass('shown');
-        }
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+        });
       });
     }
+  });
+};
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [{
+      data: 'person.name'
+    }, {
+      data: 'vehicle.number'
+    }, {
+      data: 'schedule_date'
+    }, {
+      data: 'schedule_type'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+var removeItem = function removeItem() {
+  $('.remove-item').click(function (e) {
+    var choosed_so = JSON.parse(sessionStorage.choosed_so);
+    var parent = e.target.closest('tr');
+    var id = e.currentTarget.id.split('_')[1];
+    var latest_choosed_so = choosed_so.filter(function (res) {
+      return res.id !== parseFloat(id);
+    });
+    sessionStorage.setItem('choosed_so', JSON.stringify(latest_choosed_so));
+    tableSoItemPickup.DataTable().row([parent]).remove().draw();
+    tableSoItemPickup.DataTable().destroy();
+    createSOTable(tableSoItemPickup, latest_choosed_so);
+  });
+};
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
+var dataFormPickup = function dataFormPickup(tableList) {
+  var courier_schedule_lines = [];
+  $('.transaction_id').each(function (i, item) {
+    var $parent = item.closest('tr');
+
+    if ($(item).prop('checked')) {
+      courier_schedule_lines.push({
+        transaction_line_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value
+      });
+    }
+  });
+  return {
+    person_id: $('#person_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines
+  };
+};
+
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open').then(function (res) {
+    var datas = JSON.parse(sessionStorage.choosed_so);
+    var sales_orders = res.sales_orders.data;
+    var currentId;
+    sales_orders.map(function (res) {
+      list_id.map(function (res) {
+        return currentId = res;
+      });
+      if (res.id === currentId) datas.push(res);
+    });
+    sessionStorage.setItem('choosed_so', JSON.stringify(datas));
+    createSOTable(tableSoItemPickup, datas);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 };
 
@@ -54035,8 +54128,12 @@ if (modalSOForm.length > 0) {
   modalSOForm.submit(function (e) {
     e.preventDefault();
     var choosed_so = JSON.parse(sessionStorage.choosed_so);
+    tableSoItemPickup.DataTable().destroy();
     createSOTable(tableSoItemPickup, choosed_so);
     $('#modal-sales-order').modal('hide');
+    $('.check-item').each(function (i, item) {
+      item.checked = false;
+    });
     return false;
   });
 }
@@ -54044,6 +54141,75 @@ if (modalSOForm.length > 0) {
 if (formCreatePickup.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_so', '[]');
+  $('#button-delete').remove();
+  formCreatePickup.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/pickup_schedules', data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+if (tablePickup.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+    createTable(tablePickup, res.pickup_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (EditPickupForm.length > 0) {
+  sessionStorage.clear();
+  sessionStorage.setItem('choosed_so', '[]');
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/pickup_schedules/".concat(id)).then(function (res) {
+    $('#person_id').val(res.pickup_schedule.person_id);
+    $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
+    $('#date').val(res.pickup_schedule.schedule_date);
+    $('#person_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+    var courier_schedule_lines = res.pickup_schedule.courier_schedule_lines;
+    courier_schedule_lines.map(function (res) {
+      var id = res.transaction_line.transaction_id;
+      var currentId = list_id.filter(function (res) {
+        return res === id;
+      });
+      if (list_id.length === 0) list_id.push(id);
+    });
+    generateDataPickupEdit(list_id);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  EditPickupForm.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var data = dataFormPickup(e.target);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/pickup_schedules/".concat(id), data).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/pickup_schedules/".concat(id)).then(function (res) {
+      return window.location = '/pickup_schedules';
+    })["catch"](function (res) {
+      alert(res.responseJSON.message);
+    });
+  });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 

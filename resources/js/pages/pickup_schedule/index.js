@@ -1,12 +1,15 @@
 import ajx from './../../shared/index.js';
 
-const courierId = $('#courier_id');
+const list_id = [];
+const courierId = $('#person_id');
 const vehicleId = $('#vehicle_id');
 const modalSalesOrder = $('#modal-sales-order');
 const modalSOFormTable = $('#modal-so-form-table');
 const formCreatePickup = $('#form-create-pickup');
 const modalSOForm = $('#modal-so-form');
 const tableSoItemPickup = $('#table-so-item-pickup');
+const tablePickup = $('#table-pickup-schedule');
+const EditPickupForm = $('#form-edit-pickup');
 
 const createSOFormTable = (target, data) => {
   target.DataTable({
@@ -66,12 +69,26 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      row += `<tr><td><input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}"></td><td>${res.item.description}</td><td>${res.bor}</td><td>${res.brand.name}</td><td>${res.color ? res.color : '-'}</td><td><input type="time" class="form-control" id="eta_${res.id} name="eta"></td><td></td></tr>`;
+      row += `<tr>
+        <td>
+          <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' }>
+        </td>
+        <td>${res.status}</td>
+        <td>${res.item.description}</td>
+        <td>${res.bor}</td>
+        <td>${res.brand.name}</td>
+        <td>${res.color ? res.color : '-'}</td>
+        <td>
+          <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? 'disabled' : 'required' }>
+        </td>
+        <td></td>
+      </tr>`;
     });
 
     return `<table cellpadding="0" cellspacing="0" border="0" width="100%"><thead>
       <tr>
         <th class="checkbox"></th>
+        <th>Status</th>
         <th>Item</th>
         <th>BOR</th>
         <th>Brand</th>
@@ -107,28 +124,110 @@ const createSOTable = (target, data) => {
       { 
         data: 'id',
         render(data, type, row) {
-          return ''
+          return `<a href="javascript:void(0)" id="delete_${data}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip" data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`
         }
       },
     ],
     drawCallback: () => {
-      $('#table-so-item-pickup tbody').on('click', 'td.details-control', function () {
-        var tr = $(this).closest('tr');
-        var row = tableSoItemPickup.DataTable().row( tr );
- 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child( format(row.data()) ).show();
-            tr.addClass('shown');
-        }
-    } );
+      removeItem();
+      $('#table-so-item-pickup tbody td.details-control').each((i, item) => {
+        $(item).click((e) => {
+          const tr = $(e.target).closest('tr');
+          const row = tableSoItemPickup.DataTable().row( tr );
+  
+          if ( row.child.isShown() ) {
+              row.child.hide();
+              tr.removeClass('shown');
+          }
+          else {
+              row.child( format(row.data()) ).show();
+              tr.addClass('shown');
+          }
+        })
+      });
     },
   })
+};
+
+const createTable = (target, data) => {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 5,
+    columns: [
+      { data: 'person.name' },
+      { data: 'vehicle.number' },
+      { data: 'schedule_date' },
+      { data: 'schedule_type' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="/pickup_schedules/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
+          data-placement="top" title="Edit"><img src="assets/images/icons/edit.svg" alt="edit" width="16"></a>`
+        },
+      },
+    ],
+    drawCallback: () => {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  })
+};
+
+const removeItem = () => {
+  $('.remove-item').click((e) => {
+    const choosed_so = JSON.parse(sessionStorage.choosed_so);
+    const parent = e.target.closest('tr');
+    const id = e.currentTarget.id.split('_')[1];
+    const latest_choosed_so = choosed_so.filter(res => res.id !== parseFloat(id));
+    sessionStorage.setItem('choosed_so', JSON.stringify(latest_choosed_so));
+    tableSoItemPickup.DataTable().row([parent]).remove().draw();
+    tableSoItemPickup.DataTable().destroy();
+    createSOTable(tableSoItemPickup, latest_choosed_so);
+  });
+};
+
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
+const dataFormPickup = (tableList) => {
+  const courier_schedule_lines = [];
+  $('.transaction_id').each((i, item) => {
+    const $parent = item.closest('tr');
+    if ($(item).prop('checked')) {
+      courier_schedule_lines.push({
+        transaction_line_id: $(item).val(),
+        estimation_time: $parent.querySelector('input[name="eta"]').value,
+      })
+    }
+  });
+  return {
+    person_id: $('#person_id').val(),
+    vehicle_id: $('#vehicle_id').val(),
+    schedule_date: $('#date').val(),
+    courier_schedule_lines: courier_schedule_lines,
+  }
+};
+
+const generateDataPickupEdit = (list_id) => {
+  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open').then((res) => {
+    const datas = JSON.parse(sessionStorage.choosed_so);
+    const sales_orders = res.sales_orders.data;
+    let currentId;
+    sales_orders.map(res => {
+      list_id.map(res => currentId = res);
+      if (res.id === currentId) datas.push(res);
+    });
+    sessionStorage.setItem('choosed_so', JSON.stringify(datas));
+    createSOTable(tableSoItemPickup, datas);
+  }).catch(res => console.log(res));
 };
 
 if (modalSalesOrder.length > 0) {
@@ -166,8 +265,12 @@ if (modalSOForm.length > 0) {
   modalSOForm.submit((e) => {
     e.preventDefault();
     const choosed_so = JSON.parse(sessionStorage.choosed_so);
+    tableSoItemPickup.DataTable().destroy();
     createSOTable(tableSoItemPickup, choosed_so);
     $('#modal-sales-order').modal('hide');
+    $('.check-item').each((i, item) => {
+      item.checked = false;
+    })
     return false;
   });
 }
@@ -175,4 +278,67 @@ if (modalSOForm.length > 0) {
 if (formCreatePickup.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_so', '[]');
+  $('#button-delete').remove();
+  formCreatePickup.submit((e) => {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    const data = dataFormPickup(e.target);
+    ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  })
+}
+
+if (tablePickup.length > 0) {
+  ajx.get('/api/pickup_schedules').then((res) => {
+    createTable(tablePickup, res.pickup_schedules.data);
+  }).catch(res => console.log(res));
+}
+
+if (EditPickupForm.length > 0) {
+  sessionStorage.clear();
+  sessionStorage.setItem('choosed_so', '[]');
+  const urlArray = window.location.href.split('/');
+  const id = urlArray[urlArray.length - 2];
+  ajx.get(`/api/pickup_schedules/${id}`)
+    .then(res => {
+      $('#person_id').val(res.pickup_schedule.person_id);
+      $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
+      $('#date').val(res.pickup_schedule.schedule_date);
+      $('#person_id, #vehicle_id').select2({ 
+        theme: 'bootstrap',
+        placeholder: 'Choose option',
+      });
+      
+      const courier_schedule_lines = res.pickup_schedule.courier_schedule_lines;
+      courier_schedule_lines.map(res => {
+        const id = res.transaction_line.transaction_id;
+        const currentId = list_id.filter(res => res === id)
+        if (list_id.length === 0) list_id.push(id)
+      });
+
+      generateDataPickupEdit(list_id);
+    })
+    .catch(res => console.log(res));
+
+  EditPickupForm.submit((e) => {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    const data = dataFormPickup(e.target);
+    ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => {
+      console.log(res)
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  })
+
+  $('#button-delete').click(() => {
+    ajx.delete(`/api/pickup_schedules/${id}`).then(res => window.location = '/pickup_schedules').catch(res => {
+      alert(res.responseJSON.message)
+    });
+  })
 }

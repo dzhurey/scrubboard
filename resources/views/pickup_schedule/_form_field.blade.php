@@ -2,13 +2,8 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            <label class="c-form--label" for="transaction_id">Sales Order Number</label>
-            <input class="form-control cursor-pointer" id="transaction_id" name="transaction_id" required readonly placeholder="Pilih Sales Order" data-toggle="modal" data-target="#modal-sales-order" />
-            <div class="invalid-feedback">Data invalid.</div>
-        </div>
-        <div class="form-group">
-            <label class="c-form--label" for="courier_id">Courier Name</label>
-            <select class="form-control select2" id="courier_id" name="courier_id" required>
+            <label class="c-form--label" for="person_id">Courier Name</label>
+            <select class="form-control select2" id="person_id" name="person_id" required>
                 <option></option>
             </select>
             <div class="invalid-feedback">Data invalid.</div>
@@ -31,18 +26,24 @@
     </div>
 </div>
 
-<div class="c-table--outer mx-0">
-    <table id="table-so-item-pickup" class="c-table table table-striped">
-        <thead>
-            <tr>
-                <th class="checkbox"></th>
-                <th class="th-item">Sales Order Id</th>
-                <th class="th-note">Customer</th>
-                <th class="th-item">Address</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
+<div class="form-group">
+    <div id="courier_schedule_lines" class="c-table--outer mx-0">
+        <table id="table-so-item-pickup" class="c-table table table-striped">
+            <thead>
+                <tr>
+                    <th class="checkbox"></th>
+                    <th class="th-item">Sales Order Id</th>
+                    <th class="th-note">Customer</th>
+                    <th class="th-item">Address</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary" id="transaction_id" data-toggle="modal" data-target="#modal-sales-order">Pilih Sales Order</button>
+    </div>
+    <div class="invalid-feedback">Data invalid.</div>
 </div>
 
 <hr class="my-4">

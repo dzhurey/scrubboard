@@ -22,4 +22,5 @@
 <form id="form-edit-pickup" class="c-form needs-validation" novalidate>
     @include('pickup_schedule._form_field')
 </form>
+@include('pickup_schedule._modal_sales_order')
 @endsection

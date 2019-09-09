@@ -54033,14 +54033,13 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open').then(function (res) {
     var datas = JSON.parse(sessionStorage.choosed_so);
     var sales_orders = res.sales_orders.data;
-    var currentId;
     sales_orders.map(function (res) {
-      list_id.map(function (res) {
-        return currentId = res;
+      list_id.map(function (id) {
+        if (res.id === id) datas.push(res);
       });
-      if (res.id === currentId) datas.push(res);
     });
     sessionStorage.setItem('choosed_so', JSON.stringify(datas));
+    debugger;
     createSOTable(tableSoItemPickup, datas);
   })["catch"](function (res) {
     return console.log(res);
@@ -54185,7 +54184,7 @@ if (EditPickupForm.length > 0) {
       var currentId = list_id.filter(function (res) {
         return res === id;
       });
-      if (list_id.length === 0) list_id.push(id);
+      if (currentId.length === 0) list_id.push(id);
     });
     generateDataPickupEdit(list_id);
   })["catch"](function (res) {

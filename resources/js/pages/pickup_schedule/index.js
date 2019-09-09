@@ -220,12 +220,13 @@ const generateDataPickupEdit = (list_id) => {
   ajx.get('/api/sales_orders?filter[]=transaction_status,=,open').then((res) => {
     const datas = JSON.parse(sessionStorage.choosed_so);
     const sales_orders = res.sales_orders.data;
-    let currentId;
     sales_orders.map(res => {
-      list_id.map(res => currentId = res);
-      if (res.id === currentId) datas.push(res);
+      list_id.map(id => {
+        if (res.id === id) datas.push(res);
+      });
     });
     sessionStorage.setItem('choosed_so', JSON.stringify(datas));
+    debugger;
     createSOTable(tableSoItemPickup, datas);
   }).catch(res => console.log(res));
 };
@@ -317,8 +318,8 @@ if (EditPickupForm.length > 0) {
       const courier_schedule_lines = res.pickup_schedule.courier_schedule_lines;
       courier_schedule_lines.map(res => {
         const id = res.transaction_line.transaction_id;
-        const currentId = list_id.filter(res => res === id)
-        if (list_id.length === 0) list_id.push(id)
+        const currentId = list_id.filter(res => res === id);
+        if (currentId.length === 0) list_id.push(id)
       });
 
       generateDataPickupEdit(list_id);

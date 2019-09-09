@@ -22,6 +22,7 @@ class CourierScheduleLinePresenter extends BasePresenter
         $estimation_time = date_create_from_format('H:i:s', $input->estimation_time);
         $input->estimation_time = $estimation_time->format('H:i');
         $input->transaction_line = $this->transaction_presenter->transform($input->transactionLine);
+        $input->transaction_id = $input->transactionLine->transaction_id;
         $input->image_path = Storage::url($input->image_name);
         $input->status = $input->transactionLine->status;
         return $input;

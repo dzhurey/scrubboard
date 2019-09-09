@@ -2,6 +2,11 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
+            <label class="c-form--label" for="transaction_id">Sales Order Number</label>
+            <input class="form-control cursor-pointer" id="transaction_id" name="transaction_id" required readonly placeholder="Pilih Sales Order" data-toggle="modal" data-target="#modal-sales-order" />
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="courier_id">Courier Name</label>
             <select class="form-control select2" id="courier_id" name="courier_id" required>
                 <option></option>
@@ -30,11 +35,11 @@
     <table id="table-so-item-pickup" class="c-table table table-striped">
         <thead>
             <tr>
+                <th class="checkbox"></th>
                 <th class="th-item">Sales Order Id</th>
                 <th class="th-note">Customer</th>
-                <th class="th-note">Sales Date</th>
                 <th class="th-item">Address</th>
-                <th class="th-price">ETA</th>
+                <th></th>
             </tr>
         </thead>
     </table>

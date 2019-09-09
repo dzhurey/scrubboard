@@ -478,6 +478,13 @@ h5 {
   vertical-align: middle;
 }
 
+.c-table.table tbody td.details-control {
+  background-image: url(/images/chevron-down.svg?a4def72d2130ad495bd430a382c6e02c);
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: center;
+}
+
 .c-table.table tbody td:first-child {
   padding-left: 20px;
 }

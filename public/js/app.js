@@ -53834,8 +53834,6 @@ if (formEditUser.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 
 var list_id = [];
 var courierId = $('#person_id');
@@ -53891,9 +53889,9 @@ var createSOFormTable = function createSOFormTable(target, data) {
             sessionStorage.setItem('choosed_so', JSON.stringify(datas));
           });
         } else {
-          datas = (_readOnlyError("datas"), datas.filter(function (res) {
-            return res.id !== id;
-          }));
+          datas = datas.filter(function (res) {
+            return res.id !== parseInt(id);
+          });
           sessionStorage.setItem('choosed_so', JSON.stringify(datas));
         }
       });
@@ -53906,7 +53904,11 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>\n          <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', ">\n        </td>\n        <td>").concat(res.status, "</td>\n        <td>").concat(res.item.description, "</td>\n        <td>").concat(res.bor, "</td>\n        <td>").concat(res.brand.name, "</td>\n        <td>").concat(res.color ? res.color : '-', "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? 'disabled' : 'required', ">\n        </td>\n        <td></td>\n      </tr>");
+      if (res.status === 'open' && formCreatePickup.length > 0) {
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+      } else {
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+      }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -53952,6 +53954,14 @@ var createSOTable = function createSOTable(target, data) {
             row.child(format(row.data())).show();
             tr.addClass('shown');
           }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
         });
       });
     }
@@ -54030,19 +54040,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
 };
 
 var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open').then(function (res) {
-    var datas = JSON.parse(sessionStorage.choosed_so);
-    var sales_orders = res.sales_orders.data;
-    sales_orders.map(function (res) {
-      list_id.map(function (id) {
-        if (res.id === id) datas.push(res);
-      });
-    });
-    sessionStorage.setItem('choosed_so', JSON.stringify(datas));
-    createSOTable(tableSoItemPickup, datas);
-  })["catch"](function (res) {
-    return console.log(res);
-  });
+  createSOTable(tableSoItemPickup, list_id);
 };
 
 if (modalSalesOrder.length > 0) {
@@ -54167,6 +54165,7 @@ if (tablePickup.length > 0) {
 if (EditPickupForm.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_so', '[]');
+  $('#transaction_id').remove();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/pickup_schedules/".concat(id)).then(function (res) {
@@ -54177,15 +54176,23 @@ if (EditPickupForm.length > 0) {
       theme: 'bootstrap',
       placeholder: 'Choose option'
     });
-    var courier_schedule_lines = res.pickup_schedule.courier_schedule_lines;
-    courier_schedule_lines.map(function (res) {
-      var id = res.transaction_line.transaction_id;
-      var currentId = list_id.filter(function (res) {
-        return res === id;
-      });
-      if (currentId.length === 0) list_id.push(id);
-    });
-    generateDataPickupEdit(list_id);
+
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
   })["catch"](function (res) {
     return console.log(res);
   });

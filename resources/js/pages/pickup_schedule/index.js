@@ -20,7 +20,7 @@ const createSOFormTable = (target, data) => {
     paging: false,
     pageLength: 10,
     columns: [
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="checkbox" name="transaction_id" class="check-item" value="${data}" />`;
@@ -29,16 +29,16 @@ const createSOFormTable = (target, data) => {
       { data: 'transaction_number' },
       { data: 'customer.name' },
       { data: 'pickup_date' },
-      { 
+      {
         data: 'address',
         render(data) {
           return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
         }
       },
-      { 
+      {
         data: 'transaction_lines.length',
       },
-      { 
+      {
         data: 'id',
         render() {
           return ''
@@ -115,7 +115,7 @@ const createSOTable = (target, data) => {
       </tr>
     </thead><tbody>${row}</tbody></table>`;
   };
-  
+
   target.DataTable({
     data: data,
     lengthChange: false,
@@ -132,13 +132,13 @@ const createSOTable = (target, data) => {
       },
       { data: 'transaction_number' },
       { data: 'customer.name' },
-      { 
+      {
         data: 'address',
         render(data) {
           return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<a href="javascript:void(0)" id="delete_${data}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip" data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`
@@ -151,7 +151,7 @@ const createSOTable = (target, data) => {
         $(item).click((e) => {
           const tr = $(e.target).closest('tr');
           const row = tableSoItemPickup.DataTable().row( tr );
-  
+
           if ( row.child.isShown() ) {
               row.child.hide();
               tr.removeClass('shown');
@@ -299,7 +299,7 @@ if (formCreatePickup.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
     ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
@@ -325,7 +325,7 @@ if (EditPickupForm.length > 0) {
       $('#person_id').val(res.pickup_schedule.person_id);
       $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
       $('#date').val(res.pickup_schedule.schedule_date);
-      $('#person_id, #vehicle_id').select2({ 
+      $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
       });
@@ -342,7 +342,6 @@ if (EditPickupForm.length > 0) {
         }, {});
       };
       const data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
-      console.log([data_line]);
       sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
       generateDataPickupEdit([data_line]);
     })

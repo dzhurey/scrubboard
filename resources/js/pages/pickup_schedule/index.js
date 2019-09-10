@@ -69,7 +69,6 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      debugger
       if (res.status === 'open' && formCreatePickup.length > 0) {
         row += `<tr>
           <td>

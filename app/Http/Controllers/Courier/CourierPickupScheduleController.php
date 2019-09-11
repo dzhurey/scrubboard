@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CourierScheduleLine;
+use App\PickupSchedule;
+use App\SalesOrder;
 use App\Presenters\CourierScheduleLinePresenter;
+use App\Presenters\PickupSchedulePresenter;
 use App\Traits\CourierScheduleTrait;
 
 class CourierPickupScheduleController extends Controller
@@ -17,44 +20,58 @@ class CourierPickupScheduleController extends Controller
         $this->middleware('auth');
     }
 
+    // public function index(
+    //     Request $request,
+    //     CourierScheduleLinePresenter $presenter
+    // ) {
+    //     if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
+    //         return $this->renderError($request, __("authorize.not_superadmin"), 401);
+    //     }
+
+    //     $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
+    //         $query->where([
+    //             ['schedule_type', '=', 'pickup'],
+    //             ['person_id', '=', $request->user()->id],
+    //         ]);
+    //     });
+
+    //     $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
+    //     $data = [
+    //         'query' => $results->getValidated(),
+    //         'courier_pickup_schedules' => $results->getCollection(),
+    //     ];
+    //     return $this->renderView($request, 'courier_pickup_schedule.index', $data, [], 200);
+    // }
+
     public function index(
         Request $request,
-        CourierScheduleLinePresenter $presenter
+        PickupSchedulePresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
-            $query->where([
-                ['schedule_type', '=', 'pickup'],
-                ['person_id', '=', $request->user()->id],
-            ]);
-        });
+        $courier_schedules = PickupSchedule::where('person_id', '=', $request->user()->id);
 
-        $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
+        $results = $presenter->setBuilder($courier_schedules)->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'courier_pickup_schedules' => $results->getCollection(),
+            'pickup_schedules' => $results->getCollection(),
         ];
         return $this->renderView($request, 'courier_pickup_schedule.index', $data, [], 200);
     }
 
     public function show(
         Request $request,
-        CourierScheduleLine $courier_schedule_line,
-        CourierScheduleLinePresenter $presenter
+        PickupSchedule $pickup_schedule,
+        PickupSchedulePresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'pickup')) {
-            return $this->renderError($request, __("authorize.not_found"), 404);
-        }
-
         $data = [
-            'courier_schedule_line' => $presenter->transform($courier_schedule_line),
+            'pickup_schedule' => $presenter->transform($pickup_schedule),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }

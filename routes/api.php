@@ -41,6 +41,8 @@ Route::middleware('auth:api')->resource('brands', 'BrandController', ['as' => 'a
 
 // Courier only
 Route::namespace('Courier')->prefix('courier')->group(function () {
-    Route::middleware('auth:api')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'api.courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'show', 'update']);
-    Route::middleware('auth:api')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'api.courier', 'parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['index', 'show', 'update']);
+    Route::middleware('auth:api')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'api.courier', 'parameters' => ['delivery_schedules' => 'delivery_schedule']])->only(['index', 'show']);
+    Route::middleware('auth:api')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'api.courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['update']);
+    Route::middleware('auth:api')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'api.courier', 'parameters' => ['pickup_schedules' => 'pickup_schedule']])->only(['index', 'show']);
+    Route::middleware('auth:api')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'api.courier', 'parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['update']);
 });

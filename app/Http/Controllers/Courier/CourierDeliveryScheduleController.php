@@ -53,13 +53,13 @@ class CourierDeliveryScheduleController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function edit(Request $request, CourierScheduleLine $courier_schedule_line)
+    public function edit(Request $request, DeliverySchedule $delivery_schedule)
     {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
+        if (!$this->autorizedCourierSchedule($courier_schedule, $request, 'delivery')) {
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 

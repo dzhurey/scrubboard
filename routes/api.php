@@ -38,6 +38,7 @@ Route::middleware('auth:api')->resource('payment_means', 'PaymentMeanController'
 Route::middleware('auth:api')->resource('pickup_schedules', 'PickupScheduleController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('delivery_schedules', 'DeliveryScheduleController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('brands', 'BrandController', ['as' => 'api'])->except(['create', 'edit']);
+Route::middleware('auth:api')->resource('courier_schedules', 'CourierScheduleController', ['as' => 'api'])->only(['index']);
 
 // Courier only
 Route::namespace('Courier')->prefix('courier')->group(function () {

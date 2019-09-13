@@ -37,8 +37,9 @@ Route::middleware('web')->resource('payment_means', 'PaymentMeanController');
 Route::middleware('web')->resource('pickup_schedules', 'PickupScheduleController');
 Route::middleware('web')->resource('delivery_schedules', 'DeliveryScheduleController');
 Route::middleware('web')->resource('brands', 'BrandController');
+Route::middleware('web')->resource('courier_schedules', 'CourierScheduleController')->only(['index']);
 
 Route::namespace('Courier')->prefix('courier')->group(function () {
-    Route::middleware('web')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'courier', 'parameters' => ['delivery_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
-    Route::middleware('web')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'courier', 'parameters' => ['pickup_schedules' => 'courier_schedule_line']])->only(['index', 'edit']);
+    Route::middleware('web')->resource('delivery_schedules', 'CourierDeliveryScheduleController', ['as' => 'courier', 'parameters' => ['delivery_schedules' => 'delivery_schedule']])->only(['index', 'edit']);
+    Route::middleware('web')->resource('pickup_schedules', 'CourierPickupScheduleController', ['as' => 'courier', 'parameters' => ['pickup_schedules' => 'pickup_schedule']])->only(['index', 'edit']);
 });

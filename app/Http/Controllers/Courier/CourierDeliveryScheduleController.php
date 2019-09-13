@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Courier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CourierScheduleLine;
+use App\DeliverySchedule;
 use App\Presenters\CourierScheduleLinePresenter;
+use App\Presenters\DeliverySchedulePresenter;
 use App\Traits\CourierScheduleTrait;
 
 class CourierDeliveryScheduleController extends Controller
@@ -19,23 +21,18 @@ class CourierDeliveryScheduleController extends Controller
 
     public function index(
         Request $request,
-        CourierScheduleLinePresenter $presenter
+        DeliverySchedulePresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
-            $query->where([
-                ['schedule_type', '=', 'delivery'],
-                ['person_id', '=', $request->user()->id],
-            ]);
-        });
+        $courier_schedules = DeliverySchedule::where('person_id', '=', $request->user()->id);
 
-        $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
+        $results = $presenter->setBuilder($courier_schedules)->performCollection($request);
         $data = [
             'query' => $results->getValidated(),
-            'courier_delivery_schedules' => $results->getCollection(),
+            'delivery_schedules' => $results->getCollection(),
         ];
 
         return $this->renderView($request, 'courier_delivery_schedule.index', $data, [], 200);
@@ -43,30 +40,26 @@ class CourierDeliveryScheduleController extends Controller
 
     public function show(
         Request $request,
-        CourierScheduleLine $courier_schedule_line,
-        CourierScheduleLinePresenter $presenter
+        DeliverySchedule $delivery_schedule,
+        DeliverySchedulePresenter $presenter
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
-            return $this->renderError($request, __("authorize.not_found"), 404);
-        }
-
         $data = [
-            'courier_schedule_line' => $presenter->transform($courier_schedule_line),
+            'delivery_schedule' => $presenter->transform($delivery_schedule),
         ];
         return $this->renderView($request, '', $data, [], 200);
     }
 
-    public function edit(Request $request, CourierScheduleLine $courier_schedule_line)
+    public function edit(Request $request, DeliverySchedule $delivery_schedule)
     {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!$this->autorizedCourierScheduleLine($courier_schedule_line, $request, 'delivery')) {
+        if (!$this->autorizedCourierSchedule($courier_schedule, $request, 'delivery')) {
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 

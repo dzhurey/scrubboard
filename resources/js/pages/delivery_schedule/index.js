@@ -252,7 +252,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesInvoices.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,open').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,closed&filter[]=delivery_status,!=,done').then((res) => {
     const sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   }).catch(res => console.log(res));

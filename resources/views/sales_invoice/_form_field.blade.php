@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <div class="form-check form-check-inline">
-                <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked>
+                <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked readonly>
                 <label class="form-check-label" for="is_own_address">Uncheck if you set outlet for pickup destination</label>
             </div>
         </div>

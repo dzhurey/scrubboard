@@ -14,6 +14,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
+      { data: 'payment_code' },
       { data: 'payment_lines[0].transaction.transaction_number' },
       { data: 'customer.name' },
       { data: 'payment_date' },

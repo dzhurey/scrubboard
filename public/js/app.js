@@ -51719,6 +51719,8 @@ __webpack_require__(/*! ./pages/payment/index.js */ "./resources/js/pages/paymen
 
 __webpack_require__(/*! ./pages/brand/index.js */ "./resources/js/pages/brand/index.js");
 
+__webpack_require__(/*! ./pages/courier_schedule/index.js */ "./resources/js/pages/courier_schedule/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -52503,6 +52505,79 @@ if (formEditCourierPS.length > 0) {
   })["catch"](function (res) {
     console.log(res);
     $('button[type="submit"]').attr('disabled', false);
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
+/***/ "./resources/js/pages/courier_schedule/index.js":
+/*!******************************************************!*\
+  !*** ./resources/js/pages/courier_schedule/index.js ***!
+  \******************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+
+var tableCourierList = $('#table-courier-schedule');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 10,
+    columns: [{
+      data: 'id'
+    }, {
+      data: 'transaction_line.transaction_number'
+    }, {
+      data: 'transaction_line.bor'
+    }, {
+      data: 'transaction_line.transaction',
+      render: function render(data, type, row) {
+        return "".concat(row.transaction_line.transaction.agent ? row.transaction_line.transaction.agent.name : row.transaction_line.transaction.customer.name);
+      }
+    }, {
+      data: 'transaction_line.address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'transaction_line.item.description'
+    }, {
+      data: 'transaction_line.brand.name'
+    }, {
+      data: 'transaction_line.color'
+    }, {
+      data: 'transaction_line.color',
+      render: function render() {
+        return 'courier';
+      }
+    }, {
+      data: 'transaction_line.color',
+      render: function render() {
+        return 'vehicle';
+      }
+    }, {
+      data: 'status'
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (tableCourierList.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier_schedules').then(function (res) {
+    createTable(tableCourierList, res.courier_schedules.data);
+  })["catch"](function (res) {
+    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))

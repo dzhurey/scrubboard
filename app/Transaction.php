@@ -13,6 +13,8 @@ class Transaction extends BaseModel
 {
     use SingleTableInheritanceTrait;
 
+    protected $deliveryStatusName = '';
+
     protected $transaction_number_prefix = '';
 
     protected $table = 'transactions';
@@ -62,6 +64,12 @@ class Transaction extends BaseModel
 
     protected $searchable = [
         'customer__name'
+    ];
+
+    protected $filterable = [
+        'transaction_status',
+        'customer_id',
+        'agent_id'
     ];
 
     public function transactionLines()
@@ -151,5 +159,27 @@ class Transaction extends BaseModel
             return 'scheduled';
         }
         return 'done';
+    }
+
+    public function customFilter($builder, $filters)
+    {
+        foreach ($filters as $value) {
+            if ($value[0] == $this->deliveryStatusName) {
+                if ($value[1] == '=') {
+                    $transactions = $this::all()->filter(function ($item, $key) use ($value) {
+                        return $item->deliveryStatus() == $value[2];
+                    });
+                } else if ($value[1] == '!=') {
+                    $transactions = $this::all()->reject(function ($item, $key) use ($value) {
+                        return $item->deliveryStatus() == $value[2];
+                    });
+                } else {
+                    throw new \App\Exceptions\UnprocessableEntityException('cannot filter with '.$value[1].' notation on '.$value[0].' attributes', 1);
+                }
+                $builder = $builder->whereIn('id', $transactions->pluck('id'));
+            }
+        }
+
+        return $builder;
     }
 }

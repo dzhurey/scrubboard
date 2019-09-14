@@ -53741,7 +53741,7 @@ var createTable = function createTable(target, data) {
 };
 
 if (salesInvoicePayment.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed&filter[]=delivery_status,!=,done').then(function (res) {
     sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -54295,7 +54295,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,closed&filter[]=pickup_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,!=,closed&filter[]=pickup_status,!=,done').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -54983,7 +54983,7 @@ var errorMessage = function errorMessage(data) {
 
 if (salesOrderFormInvoice.length > 0) {
   sessionStorage.clear();
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,done').then(function (res) {
     createInvoiceTableSO(salesOrderFormCreateInvoice, res.sales_orders.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -55254,12 +55254,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color, "\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color ? row.color : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note, "\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
@@ -58799,8 +58799,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

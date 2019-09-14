@@ -22,4 +22,6 @@
 <form id="form-create-sales-invoice" class="c-form is-fluid needs-validation" novalidate>
     @include('sales_invoice._form_field')
 </form>
+
+@include('sales_invoice._modal_sales_order')
 @endsection

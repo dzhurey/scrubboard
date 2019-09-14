@@ -1,8 +1,8 @@
 @extends('layouts.app')
-@section('title', 'Create Delivery Schedule')
+@section('title', 'Edit Delivery Schedule')
 
 @section('content')
-<div id="delivery-schedule-form">
+<div id="Screen Shot 2019-08-26 at 17.48.51-form">
     <div class="c-title row no-gutters">
         <div class="col-sm-6">
             <nav aria-label="breadcrumb">
@@ -10,17 +10,16 @@
                     <li class="breadcrumb-item">
                         <a href="{{ route('delivery_schedules.index') }}">Delivery Schedule Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Delivery Schedule</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Delivery Schedule</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add Delivery Schedule</h1>
+            <h1 class="mb-0">Edit Delivery Schedule</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>
 </div>
 
-<form id="form-create-delivery" class="c-form needs-validation" novalidate>
+<form id="form-edit-delivery" class="c-form needs-validation" novalidate>
     @include('delivery_schedule._form_field')
 </form>
-@include('delivery_schedule._modal_sales_invoice')
 @endsection

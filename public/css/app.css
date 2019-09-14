@@ -516,6 +516,25 @@ h5 {
   border-color: transparent;
 }
 
+.c-table.table tbody td a.btn-primary,
+.c-table.table tbody td .btn.btn-primary {
+  opacity: 1 !important;
+  top: 0 !important;
+  margin-top: 10px;
+}
+
+.c-table.table tbody td a.btn-primary:hover,
+.c-table.table tbody td a.btn-primary:active,
+.c-table.table tbody td a.btn-primary:focus,
+.c-table.table tbody td .btn.btn-primary:hover,
+.c-table.table tbody td .btn.btn-primary:active,
+.c-table.table tbody td .btn.btn-primary:focus {
+  outline: none;
+  opacity: 1;
+  background-color: #0062cc;
+  border-color: #005cbf;
+}
+
 .c-table.table tbody tr:nth-of-type(odd) {
   background-color: #FAFCFD;
 }

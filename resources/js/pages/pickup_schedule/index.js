@@ -27,7 +27,12 @@ const createSOFormTable = (target, data) => {
         },
       },
       { data: 'transaction_number' },
-      { data: 'customer.name' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `${row.customer ? row.customer.name : '-'}`;
+        }
+      },
       { data: 'pickup_date' },
       {
         data: 'address',
@@ -69,7 +74,7 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      if (res.status === 'open' && formCreatePickup.length > 0) {
+      if (formCreatePickup.length > 0) {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
@@ -183,6 +188,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
+      { data: 'courier_code' },
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
@@ -246,7 +252,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesOrder.length > 0) {
-  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open').then((res) => {
+  ajx.get('/api/sales_orders?filter[]=transaction_status,!=,closed&filter[]=pickup_status,!=,done').then((res) => {
     const sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   }).catch(res => console.log(res));
@@ -335,7 +341,7 @@ if (EditPickupForm.length > 0) {
           return {
             id: x[key],
             address: x.transaction_line.address,
-            customer: x.transaction_line.transaction.customer,
+            customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
             transaction_number: x.transaction_line.transaction_number,
             transaction_lines: rv['transaction_lines'],
           };

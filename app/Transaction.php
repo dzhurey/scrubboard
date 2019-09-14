@@ -13,6 +13,8 @@ class Transaction extends BaseModel
 {
     use SingleTableInheritanceTrait;
 
+    protected $deliveryStatusName = '';
+
     protected $transaction_number_prefix = '';
 
     protected $table = 'transactions';
@@ -62,6 +64,12 @@ class Transaction extends BaseModel
 
     protected $searchable = [
         'customer__name'
+    ];
+
+    protected $filterable = [
+        'transaction_status',
+        'customer_id',
+        'agent_id'
     ];
 
     public function transactionLines()
@@ -136,5 +144,42 @@ class Transaction extends BaseModel
             'country' => $this->agent->country,
             'zip_code' => $this->agent->zip_code,
         ];
+    }
+
+    public function deliveryStatus()
+    {
+        $delivered = $this->transactionLines->where('status', '=', 'done')->count();
+        $scheduled = $this->transactionLines->where('status', '=', 'scheduled')->count();
+        if ($scheduled == 0 && $delivered == 0) {
+            return 'open';
+        }
+        if ($delivered > 0 && $delivered < $this->transactionLines->count()) {
+            return 'partial';
+        } elseif ($delivered != $this->transactionLines->count()) {
+            return 'scheduled';
+        }
+        return 'done';
+    }
+
+    public function customFilter($builder, $filters)
+    {
+        foreach ($filters as $value) {
+            if ($value[0] == $this->deliveryStatusName) {
+                if ($value[1] == '=') {
+                    $transactions = $this::all()->filter(function ($item, $key) use ($value) {
+                        return $item->deliveryStatus() == $value[2];
+                    });
+                } else if ($value[1] == '!=') {
+                    $transactions = $this::all()->reject(function ($item, $key) use ($value) {
+                        return $item->deliveryStatus() == $value[2];
+                    });
+                } else {
+                    throw new \App\Exceptions\UnprocessableEntityException('cannot filter with '.$value[1].' notation on '.$value[0].' attributes', 1);
+                }
+                $builder = $builder->whereIn('id', $transactions->pluck('id'));
+            }
+        }
+
+        return $builder;
     }
 }

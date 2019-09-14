@@ -14,6 +14,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
+      { data: 'payment_code' },
       { data: 'payment_lines[0].transaction.transaction_number' },
       { data: 'customer.name' },
       { data: 'payment_date' },
@@ -33,7 +34,7 @@ const createTable = (target, data) => {
 };
 
 if (salesInvoicePayment.length > 0) {
-  ajx.get('/api/sales_invoices').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,!=,closed&filter[]=delivery_status,!=,done').then((res) => {
     sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
     for (let item of res.sales_invoices.data) {
       const option = document.createElement('option');

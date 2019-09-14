@@ -22,5 +22,4 @@
 <form id="form-create-delivery" class="c-form needs-validation" novalidate>
     @include('delivery_schedule._form_field')
 </form>
-@include('delivery_schedule._modal_sales_invoice')
 @endsection

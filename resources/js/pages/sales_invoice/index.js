@@ -1,11 +1,15 @@
 import ajx from './../../shared/index.js';
 
 let transaction_lines = [];
+
 const tableInvoice = $('#table-sales-invoice');
-const salesOrderList = $('#sales_order_id');
+const salesOrderFormCreateInvoice = $('#modal-sales-order-on-invoice-form-table');
+const salesOrderFormInvoice = $('#modal-sales-order-on-invoice-form');
+const modalSalesOrderInvoice = $('#modal-sales-order-on-invoice');
+const tableSOItems = $('#table-so-item');
 const formCreateSalesInvoice = $('#form-create-sales-invoice');
 const formEditSalesInvoice = $('#form-edit-sales-invoice');
-const tableSOItems = $('#table-so-item');
+
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -41,65 +45,50 @@ const createTable = (target, data) => {
     }
   })
 };
-
-if (tableInvoice.length > 0) {
-  ajx.get('/api/sales_invoices').then((res) => {
-    createTable(tableInvoice, res.sales_invoices.data);
-  }).catch(res => console.log(res));
-}
-
-if (salesOrderList.length > 0) {
-  ajx.get('/api/sales_orders').then((res) => {
-    const items = res.sales_orders.data;
-    for (let item of items) {
-      const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.transaction_number}`;
-      salesOrderList.append(option);
+const createInvoiceTableSO = (target, data) => {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 10,
+    columns: [
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="radio" name="transaction_id" class="check-so" value="${data}" transaction-number="${row.transaction_number}" />`;
+        },
+      },
+      { data: 'transaction_number' },
+      { data: 'customer.name' },
+      { data: 'agent.name' },
+      { data: 'transaction_status' },
+      { data: 'transaction_date' },
+      { 
+        data: 'total_amount',
+        render(data) {
+          return parseFloat(data).toFixed(0)
+        }
+      },
+      { 
+        data: 'id',
+        render() {
+          return ''
+        }
+      }
+    ],
+    drawCallback: () => {
+      $('.check-so').change((e) => {
+        const transaction_id = e.target.value;
+        const transaction_number = e.target.getAttribute('transaction-number');
+        sessionStorage.setItem('choosed_so', JSON.stringify({ transaction_id: transaction_id, transaction_number: transaction_number }));
+      });
     }
-  }).catch(res => console.log(res));
-}
+  });
+};
 
-
-salesOrderList.change((e) => {
-  const salesOrderSelected = salesOrderList.val();
-  if (!$.active) {
-    ajx.get(`/api/sales_orders/${salesOrderSelected}`)
-    .then((res) => {
-      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
-      $('#order_type').val(res.sales_order.order_type);
-      $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
-      $('#transaction_date').val(res.sales_order.transaction_date);
-      $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#due_date').val(res.sales_order.due_date);
-      $('#customer_id').val(res.sales_order.customer_id);
-      $('#outlet').val(res.sales_order.agent_id);
-
-      getDataTableSO(res.sales_order.customer_id, true);
-      $('#customer_id, #outlet').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
-      }).trigger('change');
-    })
-    .catch(res => console.log(res));
-  }
-})
-
-const getDataTableSO = (id, isEditable) => {
-  ajx.get(`/api/customers/${id}`).then((res) => {
-    ajx.get(`/api/prices/${res.customer.price_id}`).then((res) => {
-      const prices = res.price.price_lines;
-      sessionStorage.setItem('prices', JSON.stringify(prices));
-      createTableSO(tableSOItems, prices, isEditable);
-    }).catch(res => console.log(res));
-  }).catch(res => console.log(res));
-}
-
-const createTableSO = (target, data, isEditable) => {
+const generateItemTable = (target, data) => {
   target.DataTable({
     destroy: true,
     data: data,
@@ -109,61 +98,126 @@ const createTableSO = (target, data, isEditable) => {
     paginate: false,
     pageLength: 5,
     columns: [
-      {
-        data: 'id',
+      { 
+        data: 'name',
         render(data, type, row) {
-          return `<select class="form-control select2 item_id" id="item_id_${row.item_id}" data-id="${row.item_id}" name="item_id" required disabled><option></option></select>`;
+          return `<input type="text" class="form-control item_id" id="item_id_${row.id}" data-id="${row.item_id}" name="item_id" readonly value="${data}" ${row.status ? 'line-id="updated"' : ''}}>`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="bor_${row.item_id}" data-id="${row.item_id}" name="bor" readonly>`
+          return `<input type="text" class="form-control" id="bor_${row.id}" value="${row.bor}" name="bor" required readonly>`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="note_${row.item_id}" data-id="${row.item_id}" name="note" readonly>`
+          return `<input class="form-control brand_id" id="brand_id_${row.id}" name="brand_id" required readonly brand-id="${row.brand_id}" value="${row.brand_name}"/>`;
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" id="color_${row.id}" name="color" required readonly value="${row.color ? row.color : ''}">`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" required readonly value="${row.quantity}" name="quantity">`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" name="unit_price" value="${row.amount}" readonly>`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly>`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control quantity text-right" id="quantity_${row.item_id}" data-id="${row.item_id}" value="0" name="quantity" readonly>`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right" id="discount_${row.item_id}" data-id="${row.item_id}" value="0" name="discount" readonly>`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control text-right" id="unit_price_${row.item_id}" data-id="${row.item_id}" name="unit_price" value="0" readonly>`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control text-right item_total" id="amount_${row.item_id}" data-id="${row.item_id}" name="amount" value="0" readonly>`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<a href="javascript:void(0)" data-id="${row.item_id}" class="btn btn-light is-small table-action" data-toggle="tooltip"
-          data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`
+          return row.status;
         },
       },
     ],
-    drawCallback: (settings) => {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
-      createItemListDropdown(isEditable);
-      // chooseCustomer();
-    }
+    drawCallback: () => {
+      $('.table-responsive').addClass('adjust-width');
+      totalBeforeDisc();
+      updateDiscountAndQuantity();
+    },
+  })
+};
+
+const getDetailSalesOrder = (url, key, id) => {
+  ajx.get(`/api/${url}/${id}`)
+  .then((res) => {
+    $('#order_id').val(res[key].transaction_number);
+    $('#order_type').val(res[key].order_type);
+    $('#customer_id').val(res[key].customer.name);
+    $('#customer_id').attr('customer-id', res[key].customer_id);
+    $('#agent_outlet').val(res[key].agent.name);
+    $('#agent_outlet').attr('agent-id', res[key].agent_id);
+    $('#status_order').val(res[key].order_type === 'general' ? 'open' : 'closed');
+    $('#note').val(res[key].note);
+    $('#pickup_date').val(res[key].pickup_date);
+    $('#is_own_address').attr('checked', res[key].is_own_address);
+    const choosed_item = [];
+    let id = 0;
+    res[key].transaction_lines.forEach(res => {
+      id = res.id ? res.id : id + 1;
+      choosed_item.push({
+        id: id,
+        "item_id": res.item_id,
+        "brand_id": res.brand_id,
+        "brand_name": res.brand.name,
+        "bor": res.bor,
+        "price_id": res.item.price_id,
+        "unit_price": res.unit_price,
+        discount: res.discount,
+        quantity: res.quantity,
+        color: res.color,
+        note: res.note,
+        name: res.item.description,
+        amount: res.amount,
+        status: res.status,
+      });
+    });
+    sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
+    generateItemTable(tableSOItems, choosed_item);
+  })
+  .catch(res => console.log(res));
+}
+
+const updateDiscountAndQuantity = () => {
+  $('.discount, .quantity').change((e) => {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
+    const id = e.target.id.split('_')[1];
+    const itemQuantity = $(`#quantity_${id}`).val();
+    const itemPrice = $(`#unit_price_${id}`).val();
+    const discPrice = $(`#discount_${id}`).val();
+    const countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
+    const calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - (parseFloat(discPrice)/100 * parseFloat(countItemPrice)): parseFloat(countItemPrice);
+    $(`#amount_${id}`).val(parseFloat(calculate));
+    totalBeforeDisc();
   })
 };
 
@@ -179,6 +233,7 @@ const totalBeforeDisc = () => {
   });
   $('#discount').change((e) => finalTotal(e.target.value));
   $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
+  updateDiscountAndQuantity();
 };
 
 const finalTotal = (value, freightValue) => {
@@ -191,80 +246,6 @@ const finalTotal = (value, freightValue) => {
   $('#total_amount').val(parseFloat(total));
 };
 
-const createItemListDropdown = (isEditable) => {
-  const items = JSON.parse(sessionStorage.prices);
-  for (let item of items) {
-    const option = document.createElement('option');
-    ajx.get(`/api/items/${item.item_id}`).then((res) => {
-      option.value = item.item_id;
-      option.textContent = `${res.item.description}`;
-      $('.item_id').append(option);
-      if (isEditable) {
-        const transaction_lines = JSON.parse(sessionStorage.transaction_lines);
-        transaction_lines.forEach((res, resIndex) => {
-          const id = res.item_id;
-          $('.item_id').each((index, item) => {
-            if (resIndex === index) {
-              item.value = id;
-              item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
-              item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
-              item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
-              item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
-              item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
-              item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
-            }
-          })
-          totalBeforeDisc();
-        })
-      }
-    }).catch(res => console.log(res));
-  }
-
-  $('.select2').select2({
-    theme: 'bootstrap',
-    placeholder: 'Choose option',
-  });
-
-  $('.select2').change((e) => {
-    const items = JSON.parse(sessionStorage.prices);
-    const id = e.target.getAttribute('data-id');
-    const value = e.target.value;
-    const data = items.filter(res => parseInt(value) === res.item_id);
-    $(`#quantity_${id}`).val('1');
-    $(`#discount_${id}`).val('0');
-    $(`#unit_price_${id}`).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
-    $(`#amount_${id}`).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
-    totalBeforeDisc();
-  })
-
-  $('.discount, .quantity').change((e) => {
-    const items = JSON.parse(sessionStorage.prices);
-    const id = e.target.getAttribute('data-id');
-    const itemQuantity = $(`#quantity_${id}`).val();
-    const itemPrice = $(`#unit_price_${id}`).val();
-    const discPrice = $(`#discount_${id}`).val();
-    const countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
-    const calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - (parseFloat(discPrice)/100 * parseFloat(countItemPrice)): parseFloat(countItemPrice);
-    $(`#amount_${id}`).val(parseFloat(calculate));
-    totalBeforeDisc();
-  })
-
-  $('.table-action').click((e) => {
-    const id = e.currentTarget.getAttribute('data-id');
-    $(`#item_id_${id}`).val('');
-    $(`#item_id_${id}`).select2('destroy');
-    $(`#item_id_${id}`).select2({
-      theme: 'bootstrap',
-      placeholder: 'Choose option',
-    });
-    $(`#quantity_${id}`).val('0');
-    $(`#discount_${id}`).val('0');
-    $(`#unit_price_${id}`).val('0');
-    $(`#amount_${id}`).val('0');
-  });
-};
-
-
 const dataFormSalesOrder = () => {
   transaction_lines = [];
   $('.item_id').each((i, item) => {
@@ -275,23 +256,27 @@ const dataFormSalesOrder = () => {
       const amount = target.querySelector('input[name="amount"]').value;
       const discount_amount = parseFloat(unit_price) - parseFloat(amount);
       transaction_lines.push({
-        item_id: $(item).val(),
+        id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+        item_id: $(item).attr('data-id'),
         note: target.querySelector('input[name="note"]').value,
         bor: target.querySelector('input[name="bor"]').value,
+        brand_id: target.querySelector('input[name="brand_id"]').getAttribute('brand-id'),
+        color: target.querySelector('input[name="color"]').value,
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
         amount: amount,
-        discount_amount: discount_amount
+        discount_amount: discount_amount,
+        status: target.querySelector('input[name="status"]') ? target.querySelector('select[name="status"]').value : 'open',
       })
     }
   })
 
   return {
-    order_id: $('#sales_order_id').val(),
-    customer_id: $('#customer_id').val(),
-    order_id: $('#sales_order_id').val(),
-    agent_id: $('#outlet').val(),
+    is_own_address: $('#is_own_address').prop('checked'),
+    order_id: $('#order_id').attr('order-id'),
+    customer_id: $('#customer_id').attr('customer-id'),
+    agent_id: $('#agent_outlet').attr('agent-id'),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
     delivery_date: $('#delivery_date').val(),
@@ -308,45 +293,41 @@ const dataFormSalesOrder = () => {
   }
 };
 
+const errorMessage = (data) => {
+  Object.keys(data).map(key => {
+    const $parent = $(`#${key}`).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
+if (salesOrderFormInvoice.length > 0) {
+  sessionStorage.clear();
+  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,done').then((res) => {
+    createInvoiceTableSO(salesOrderFormCreateInvoice, res.sales_orders.data);
+  }).catch(res => console.log(res));
+
+  salesOrderFormInvoice.submit((e) => {
+    e.preventDefault();
+    const choosed_so = JSON.parse(sessionStorage.choosed_so);
+    modalSalesOrderInvoice.modal('hide');
+    $('#order_id').attr('order-id', choosed_so.transaction_id);
+    $('#order_id').val(choosed_so.transaction_number);
+    getDetailSalesOrder('sales_orders', 'sales_order', choosed_so.transaction_id);
+    return false;
+  });
+}
+
 if (formCreateSalesInvoice.length > 0) {
   sessionStorage.clear();
   $('#button-delete').remove();
-  const queries = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-  const fromOrder = queries.filter(item => item.indexOf('from_order') > -1);
-
-  if (fromOrder.length > 0) {
-    const orderId = fromOrder[0].slice(fromOrder[0].indexOf('=') + 1)
-
-    ajx.get(`/api/sales_orders/${orderId}`)
-    .then(res => {
-      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
-      $('#sales_order_id').val(orderId);
-      $('#order_type').val(res.sales_order.order_type);
-      $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
-      $('#transaction_date').val(res.sales_order.transaction_date);
-      $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#delivery_date').val(res.sales_order.delivery_date);
-      $('#customer_id').val(res.sales_order.customer_id);
-      $('#outlet').val(res.sales_order.agent_id);
-
-      getDataTableSO(res.sales_order.customer_id, true);
-      $('#customer_id, #outlet').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
-      }).trigger('change');
-    })
-    .catch(res => console.log(res));
-  }
-
   formCreateSalesInvoice.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.post('/api/sales_invoices', data).then(res => window.location = '/sales_invoices').catch(res => {
+      const errors = res.responseJSON.errors;      
+      errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -354,48 +335,16 @@ if (formCreateSalesInvoice.length > 0) {
   })
 }
 
+if (tableInvoice.length > 0) {
+  ajx.get('/api/sales_invoices').then((res) => {
+    createTable(tableInvoice, res.sales_invoices.data);
+  }).catch(res => console.log(res));
+}
+
 if (formEditSalesInvoice.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
-  ajx.get(`/api/sales_invoices/${id}`)
-    .then(res => {
-      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
-      $('#sales_order_id').val(res.sales_invoice.order_id)
-      $('#order_type').val(res.sales_invoice.order_type);
-      $('#note').val(res.sales_invoice.note);
-      $('#discount').val(res.sales_invoice.discount);
-      $('#discount_amount').val(res.sales_invoice.discount_amount);
-      $('#freight').val(res.sales_invoice.freight);
-      $('#status_order').val(res.sales_invoice.order_type === 'general' ? 'open' : 'closed');
-      $('#transaction_date').val(res.sales_invoice.transaction_date);
-      $('#pickup_date').val(res.sales_invoice.pickup_date);
-      $('#delivery_date').val(res.sales_invoice.delivery_date);
-      $('#due_date').val(res.sales_invoice.due_date);
-      $('#customer_id').val(res.sales_invoice.customer_id);
-      $('#outlet').val(res.sales_invoice.agent_id);
-
-      getDataTableSO(res.sales_invoice.customer_id, true);
-      $('#customer_id, #outlet, #sales_order_id').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
-      }).trigger('change');
-    })
-    .catch(res => console.log(res));
-
-  formEditSalesInvoice.submit((e) => {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    const data = dataFormSalesOrder();
-    ajx.put(`/api/sales_invoices/${id}`, data).then(res => window.location = '/sales_invoices').catch(res => {
-      console.log(res)
-      $('button[type="submit"]').attr('disabled', false);
-    });
-    return false;
-  })
-
-  $('#button-delete').click(() => {
-    ajx.delete(`/api/sales_invoices/${id}`).then(res => window.location = '/sales_invoices').catch(res => {
-      alert(res.responseJSON.message)
-    });
-  })
+  $('#footer-form').remove();
+  $('#due_date, #transaction_date, #delivery_date, #discount, #freight, #is_own_address').attr('readonly', true);
+  getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }

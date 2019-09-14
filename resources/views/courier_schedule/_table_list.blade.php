@@ -3,7 +3,6 @@
     <table id="table-delivery-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Courier Code</th>
                 <th>Courier Name</th>
                 <th>Vehicle</th>
                 <th>Schedule Date</th>

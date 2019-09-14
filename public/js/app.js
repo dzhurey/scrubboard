@@ -52119,19 +52119,15 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'transaction.transaction_number'
+      data: 'courier_code'
     }, {
-      data: 'transaction.customer.shipping_address.description',
-      render: function render(data, type, row) {
-        var address = row.transaction.customer.shipping_address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
+      data: 'person.name'
     }, {
-      data: 'transaction.delivery_date'
+      data: 'vehicle.number'
     }, {
-      data: 'estimation_time'
+      data: 'schedule_date'
     }, {
-      data: 'status'
+      data: 'schedule_type'
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52144,30 +52140,125 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+var createSOTable = function createSOTable(target, data) {
+  var format = function format(d) {
+    var row = '';
+    var items = d.transaction_lines;
+    items.map(function (res) {
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+    });
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+  };
+
   target.DataTable({
     data: data,
     lengthChange: false,
     searching: false,
     info: false,
-    paging: true,
-    pageLength: 5,
+    paging: false,
+    pageLength: 10,
     columns: [{
-      data: 'item.description'
+      className: 'details-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
     }, {
-      data: 'bor'
+      data: 'transaction_number'
     }, {
-      data: 'note'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return '';
+      }
     }],
     drawCallback: function drawCallback() {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('#table-item-courier-delivery-schedule tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = formItemCourierDS.DataTable().row(tr);
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
+          uploadImage();
+        });
+      });
     }
+  });
+};
+
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  createSOTable(formItemCourierDS, list_id);
+};
+
+var uploadImage = function uploadImage() {
+  $('.img-preview').addClass('d-none');
+  $('.btn-upload-photo').addClass('d-none');
+  $('.upload-photo').change(function (e) {
+    var input = e.target;
+    sessionStorage.clear();
+    sessionStorage.setItem('target_image', input.getAttribute('data-id'));
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
+        $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
+  $('.upload-photo').submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(e.currentTarget);
+    var line_id = e.currentTarget.querySelector('.upload_photo').getAttribute('data-id');
+    $.ajax({
+      type: 'POST',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/delivery_schedules/".concat(line_id),
+      data: formData,
+      success: function success(res) {
+        window.location = '/courier/delivery_schedules';
+      },
+      error: function error(res) {
+        console.log(res);
+      }
+    });
+    return false;
   });
 };
 
 if (tableCourierDS.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/delivery_schedules').then(function (res) {
-    createTable(tableCourierDS, res.courier_delivery_schedules.data);
+    createTable(tableCourierDS, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52177,41 +52268,34 @@ if (formEditCourierDS.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/delivery_schedules/".concat(id)).then(function (res) {
-    var data = res.courier_schedule_line;
-    var customer = data.transaction.customer;
-    var items = data.transaction.transaction_lines;
-    $('#transaction_number').text(data.transaction.transaction_number);
-    $('#estimation_time').text(data.estimation_time);
-    $('#courier_schedule').text(data.courier_schedule.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
-    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
-    createTableItemCourierSP(formItemCourierDS, items);
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+    var data = res.delivery_schedule;
+    var customer = data_line.customer;
+    var address = data_line.address;
+    $('#courier_code').text(data.courier_code);
+    $('#transaction_number').text(data_line.transaction_number);
+    $('#courier_schedule').text(data.schedule_date);
+    $('#customer_name').text(customer ? customer.name : '-');
+    $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
     $('button[type="submit"]').attr('disabled', false);
-  });
-  formEditCourierDS.submit(function (e) {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    var formData = new FormData(e.currentTarget);
-    $.ajax({
-      type: 'POST',
-      enctype: 'multipart/form-data',
-      cache: false,
-      processData: false,
-      contentType: false,
-      url: "/api/courier/delivery_schedules/".concat(id),
-      data: formData,
-      success: function success(res) {
-        window.location = '/courier/delivery_schedules';
-      },
-      error: function error(res) {
-        console.log(res);
-        $('button[type="submit"]').attr('disabled', false);
-      }
-    });
-    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52242,19 +52326,15 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'transaction.transaction_number'
+      data: 'courier_code'
     }, {
-      data: 'transaction.customer.shipping_address.description',
-      render: function render(data, type, row) {
-        var address = row.transaction.customer.shipping_address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
+      data: 'person.name'
     }, {
-      data: 'transaction.pickup_date'
+      data: 'vehicle.number'
     }, {
-      data: 'estimation_time'
+      data: 'schedule_date'
     }, {
-      data: 'status'
+      data: 'schedule_type'
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52267,30 +52347,125 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+var createSOTable = function createSOTable(target, data) {
+  var format = function format(d) {
+    var row = '';
+    var items = d.transaction_lines;
+    items.map(function (res) {
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+    });
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+  };
+
   target.DataTable({
     data: data,
     lengthChange: false,
     searching: false,
     info: false,
-    paging: true,
-    pageLength: 5,
+    paging: false,
+    pageLength: 10,
     columns: [{
-      data: 'item.description'
+      className: 'details-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
     }, {
-      data: 'bor'
+      data: 'transaction_number'
     }, {
-      data: 'note'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return '';
+      }
     }],
     drawCallback: function drawCallback() {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('#table-item-courier-pickup-schedule tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = formItemCourierPS.DataTable().row(tr);
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
+          uploadImage();
+        });
+      });
     }
+  });
+};
+
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  createSOTable(formItemCourierPS, list_id);
+};
+
+var uploadImage = function uploadImage() {
+  $('.img-preview').addClass('d-none');
+  $('.btn-upload-photo').addClass('d-none');
+  $('.upload-photo').change(function (e) {
+    var input = e.target;
+    sessionStorage.clear();
+    sessionStorage.setItem('target_image', input.getAttribute('data-id'));
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
+        $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
+  $('.upload-photo').submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(e.currentTarget);
+    var line_id = e.currentTarget.querySelector('.upload_photo').getAttribute('data-id');
+    $.ajax({
+      type: 'POST',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/pickup_schedules/".concat(line_id),
+      data: formData,
+      success: function success(res) {
+        window.location = '/courier/pickup_schedules';
+      },
+      error: function error(res) {
+        console.log(res);
+      }
+    });
+    return false;
   });
 };
 
 if (tableCourierPS.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
-    createTable(tableCourierPS, res.courier_pickup_schedules.data);
+    createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52300,41 +52475,34 @@ if (formEditCourierPS.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/pickup_schedules/".concat(id)).then(function (res) {
-    var data = res.courier_schedule_line;
-    var customer = data.transaction.customer;
-    var items = data.transaction.transaction_lines;
-    $('#transaction_number').text(data.transaction.transaction_number);
-    $('#estimation_time').text(data.estimation_time);
-    $('#courier_schedule').text(data.courier_schedule.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
-    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
-    createTableItemCourierSP(formItemCourierPS, items);
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+    var data = res.pickup_schedule;
+    var customer = data_line.customer;
+    var address = data_line.address;
+    $('#courier_code').text(data.courier_code);
+    $('#transaction_number').text(data_line.transaction_number);
+    $('#courier_schedule').text(data.schedule_date);
+    $('#customer_name').text(customer ? customer.name : '-');
+    $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
     $('button[type="submit"]').attr('disabled', false);
-  });
-  formEditCourierPS.submit(function (e) {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    var formData = new FormData(e.currentTarget);
-    $.ajax({
-      type: 'POST',
-      enctype: 'multipart/form-data',
-      cache: false,
-      processData: false,
-      contentType: false,
-      url: "/api/courier/pickup_schedules/".concat(id),
-      data: formData,
-      success: function success(res) {
-        window.location = '/courier/pickup_schedules';
-      },
-      error: function error(res) {
-        console.log(res);
-        $('button[type="submit"]').attr('disabled', false);
-      }
-    });
-    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52678,68 +52846,18 @@ if (formCreateCustomer.length > 0) {
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
 
-var tabledelivery = $('#table-delivery-schedule');
-var tableSoItemdelivery = $('#table-so-item-delivery');
-var createdeliveryForm = $('#form-create-delivery');
-var EditdeliveryForm = $('#form-edit-delivery');
+var list_id = [];
+var courierId = $('#person_id');
+var vehicleId = $('#vehicle_id');
+var modalSalesInvoices = $('#modal-sales-invoices');
+var modalSIFormTable = $('#modal-si-form-table');
+var formCreateDelivery = $('#form-create-delivery');
+var modalSIForm = $('#modal-si-form');
+var tableSiItemDelivery = $('#table-si-item-delivery');
+var tableDelivery = $('#table-delivery-schedule');
+var EditDeliveryForm = $('#form-edit-delivery');
 
-var chooseSOList = function chooseSOList() {
-  $('.so_id').change(function (e) {
-    var items = JSON.parse(sessionStorage.sales_orders);
-    var getId = e.currentTarget.value;
-    var matchData = items.filter(function (res) {
-      return res.id === parseFloat(getId);
-    });
-    var parentRow = e.target.closest('tr');
-
-    if (matchData.length > 0) {
-      parentRow.querySelector('input[name="customer"]').value = matchData[0].customer.name;
-      parentRow.querySelector('input[name="sales_date"]').value = matchData[0].transaction_date;
-      parentRow.querySelector('input[name="address"]').value = matchData[0].customer.shipping_address.description;
-    } else {
-      // $(`#${e.currentTarget.id}`).val(null);
-      $("#".concat(e.currentTarget.id)).val('');
-    }
-  });
-};
-
-var createSOListDropdown = function createSOListDropdown() {
-  var items = JSON.parse(sessionStorage.sales_orders);
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var item = _step.value;
-      var option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = "".concat(item.transaction_number);
-      $('.so_id').append(option);
-      $('.select2').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option'
-      });
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-        _iterator["return"]();
-      }
-    } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
-      }
-    }
-  }
-
-  chooseSOList();
-};
-
-var createTableSOdeliverySchedule = function createTableSOdeliverySchedule(target, data) {
+var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
@@ -52748,33 +52866,118 @@ var createTableSOdeliverySchedule = function createTableSOdeliverySchedule(targe
     paging: false,
     pageLength: 10,
     columns: [{
-      data: 'id.',
-      render: function render(data, type, row) {
-        return "<select class=\"form-control select2 so_id\" id=\"so_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"transaction_id\"><option></option></select>");
-      }
-    }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"customer_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"customer\">");
+        return "<input type=\"checkbox\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
       }
     }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"sales_date_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"sales_date\">");
+      data: 'transaction_number'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'pickup_date'
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"address_".concat(row.id, "\" read-only disabled data-id=\"").concat(row.id, "\" name=\"address\">");
-      }
+      data: 'transaction_lines.length'
     }, {
       data: 'id',
-      render: function render(data, type, row) {
-        return "<input type=\"time\" class=\"form-control\" id=\"eta_".concat(row.id, "\" data-id=\"").concat(row.id, "\" name=\"eta\">");
+      render: function render() {
+        return '';
       }
     }],
     drawCallback: function drawCallback() {
-      createSOListDropdown();
+      $('.check-item').change(function (e) {
+        var datas = JSON.parse(sessionStorage.choosed_si);
+        var id = e.target.value;
+
+        if (e.target.checked) {
+          _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+            datas.push(res.sales_invoice);
+            sessionStorage.setItem('choosed_si', JSON.stringify(datas));
+          });
+        } else {
+          datas = datas.filter(function (res) {
+            return res.id !== parseInt(id);
+          });
+          sessionStorage.setItem('choosed_si', JSON.stringify(datas));
+        }
+      });
+    }
+  });
+};
+
+var createSITableDelivery = function createSITableDelivery(target, data) {
+  var format = function format(d) {
+    var row = '';
+    var items = d.transaction_lines;
+    items.map(function (res) {
+      if (formCreateDelivery.length > 0) {
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+      } else {
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.transaction_line_id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+      }
+    });
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+  };
+
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      className: 'details-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
+    }, {
+      data: 'transaction_number'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      removeItem();
+      $('#table-si-item-delivery tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = tableSiItemDelivery.DataTable().row(tr);
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
+        });
+      });
     }
   });
 };
@@ -52788,13 +52991,15 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
+      data: 'courier_code'
+    }, {
       data: 'person.name'
     }, {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
     }, {
-      data: 'courier_schedule_lines.length'
+      data: 'schedule_type'
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52807,50 +53012,89 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var dataFormdelivery = function dataFormdelivery(tableList) {
-  var courier_schedule_lines = [];
-  $('.so_id').each(function (i, item) {
-    var $parent = item.parentElement.parentElement;
+var removeItem = function removeItem() {
+  $('.remove-item').click(function (e) {
+    var choosed_si = JSON.parse(sessionStorage.choosed_si);
+    var parent = e.target.closest('tr');
+    var id = e.currentTarget.id.split('_')[1];
+    var latest_choosed_si = choosed_si.filter(function (res) {
+      return res.id !== parseFloat(id);
+    });
+    sessionStorage.setItem('choosed_si', JSON.stringify(latest_choosed_si));
+    tableSiItemDelivery.DataTable().row([parent]).remove().draw();
+    tableSiItemDelivery.DataTable().destroy();
+    createSITableDelivery(tableSiItemDelivery, latest_choosed_si);
+  });
+};
 
-    if ($(item).val() !== '') {
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
+var dataFormPickup = function dataFormPickup(tableList) {
+  var courier_schedule_lines = [];
+  $('.transaction_id').each(function (i, item) {
+    var $parent = item.closest('tr');
+
+    if ($(item).prop('checked')) {
       courier_schedule_lines.push({
-        transaction_id: $(item).val(),
+        transaction_line_id: $(item).val(),
         estimation_time: $parent.querySelector('input[name="eta"]').value
       });
     }
   });
   return {
-    person_id: $('#courier_id').val(),
+    person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines
   };
 };
 
-if (tableSoItemdelivery.length > 0) {
-  sessionStorage.clear();
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
-    var dataOpen = [];
-    var dataAll = res.sales_invoices.data;
-    dataAll.map(function (res) {
-      if (res.transaction_status === 'open') dataOpen.push(res);
-    });
-    sessionStorage.setItem('sales_orders', JSON.stringify(dataOpen));
-    createTableSOdeliverySchedule(tableSoItemdelivery, dataOpen);
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  createSITableDelivery(tableSiItemDelivery, list_id);
+};
+
+if (modalSalesInvoices.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,closed&filter[]=delivery_status,!=,done').then(function (res) {
+    var sales_invoices = res.sales_invoices.data;
+    createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {
     return console.log(res);
   });
 }
 
-if (createdeliveryForm.length > 0) {
+if (modalSIForm.length > 0) {
+  modalSIForm.submit(function (e) {
+    e.preventDefault();
+    var choosed_si = JSON.parse(sessionStorage.choosed_si);
+    tableSiItemDelivery.DataTable().destroy();
+    createSITableDelivery(tableSiItemDelivery, choosed_si);
+    $('#modal-sales-invoices').modal('hide');
+    $('.check-item').each(function (i, item) {
+      item.checked = false;
+    });
+    return false;
+  });
+}
+
+if (formCreateDelivery.length > 0) {
+  sessionStorage.clear();
+  sessionStorage.setItem('choosed_si', '[]');
   $('#button-delete').remove();
-  createdeliveryForm.submit(function (e) {
+  formCreateDelivery.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    var data = dataFormdelivery(e.target);
+    var data = dataFormPickup(e.target);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/delivery_schedules', data).then(function (res) {
       return window.location = '/delivery_schedules';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -52858,44 +53102,52 @@ if (createdeliveryForm.length > 0) {
   });
 }
 
-if (EditdeliveryForm.length > 0) {
-  sessionStorage.clear();
-  var urlArray = window.location.href.split('/');
-  var id = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/delivery_schedules/".concat(id)).then(function (res) {
-    var itemsSO = JSON.parse(sessionStorage.sales_orders);
-    $('#courier_id').val(res.delivery_schedule.courier_id);
-    $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
-    $('#date').val(res.delivery_schedule.schedule_date);
-    $('#courier_id, #vehicle_id').select2({
-      theme: 'bootstrap',
-      placeholder: 'Choose option'
-    });
-    $('.so_id').each(function (i, item) {
-      if (i <= res.delivery_schedule.courier_schedule_lines.length) {
-        var $parent = item.parentElement.parentElement;
-        var transId = res.delivery_schedule.courier_schedule_lines[i].transaction_id;
-        var filterSO = itemsSO.filter(function (res) {
-          return res.id === transId;
-        });
-        $(item).val(transId);
-        $parent.querySelector('input[name="eta"]').value = res.delivery_schedule.courier_schedule_lines[i].estimation_time;
-        $parent.querySelector('input[name="customer"]').value = filterSO[0].customer.name;
-        $parent.querySelector('input[name="sales_date"]').value = filterSO[0].transaction_date;
-        $parent.querySelector('input[name="address"]').value = filterSO[0].customer.shipping_address.description;
-        $(item).select2({
-          theme: 'bootstrap',
-          placeholder: 'Choose option'
-        });
-      }
-    });
+if (tableDelivery.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+    createTable(tableDelivery, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
-  EditdeliveryForm.submit(function (e) {
+}
+
+if (EditDeliveryForm.length > 0) {
+  sessionStorage.clear();
+  sessionStorage.setItem('choosed_si', '[]');
+  $('#transaction_id').remove();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/delivery_schedules/".concat(id)).then(function (res) {
+    $('#person_id').val(res.delivery_schedule.person_id);
+    $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
+    $('#date').val(res.delivery_schedule.schedule_date);
+    $('#person_id, #vehicle_id').select2({
+      theme: 'bootstrap',
+      placeholder: 'Choose option'
+    });
+
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  EditDeliveryForm.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    var data = dataFormdelivery(e.target);
+    var data = dataFormPickup(e.target);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/delivery_schedules/".concat(id), data).then(function (res) {
       return window.location = '/delivery_schedules';
     })["catch"](function (res) {
@@ -52910,14 +53162,6 @@ if (EditdeliveryForm.length > 0) {
     })["catch"](function (res) {
       alert(res.responseJSON.message);
     });
-  });
-}
-
-if (tabledelivery.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
-    createTable(tabledelivery, res.delivery_schedules.data);
-  })["catch"](function (res) {
-    return console.log(res);
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -53473,6 +53717,8 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
+      data: 'payment_code'
+    }, {
       data: 'payment_lines[0].transaction.transaction_number'
     }, {
       data: 'customer.name'
@@ -53495,7 +53741,7 @@ var createTable = function createTable(target, data) {
 };
 
 if (salesInvoicePayment.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed&filter[]=delivery_status,!=,done').then(function (res) {
     sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -53862,7 +54108,10 @@ var createSOFormTable = function createSOFormTable(target, data) {
     }, {
       data: 'transaction_number'
     }, {
-      data: 'customer.name'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
     }, {
       data: 'pickup_date'
     }, {
@@ -53904,7 +54153,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      if (res.status === 'open' && formCreatePickup.length > 0) {
+      if (formCreatePickup.length > 0) {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.transaction_line_id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
@@ -53977,6 +54226,8 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
+      data: 'courier_code'
+    }, {
       data: 'person.name'
     }, {
       data: 'vehicle.number'
@@ -54044,7 +54295,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,!=,closed&filter[]=pickup_status,!=,done').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -54183,7 +54434,7 @@ if (EditPickupForm.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines']
         };
@@ -54191,7 +54442,6 @@ if (EditPickupForm.length > 0) {
     };
 
     var data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
-    console.log([data_line]);
     sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
     generateDataPickupEdit([data_line]);
   })["catch"](function (res) {
@@ -54427,15 +54677,15 @@ if (formEditPrice.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 var transaction_lines = [];
 var tableInvoice = $('#table-sales-invoice');
-var salesOrderList = $('#sales_order_id');
+var salesOrderFormCreateInvoice = $('#modal-sales-order-on-invoice-form-table');
+var salesOrderFormInvoice = $('#modal-sales-order-on-invoice-form');
+var modalSalesOrderInvoice = $('#modal-sales-order-on-invoice');
+var tableSOItems = $('#table-so-item');
 var formCreateSalesInvoice = $('#form-create-sales-invoice');
 var formEditSalesInvoice = $('#form-edit-sales-invoice');
-var tableSOItems = $('#table-so-item');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -54476,91 +54726,54 @@ var createTable = function createTable(target, data) {
   });
 };
 
-if (tableInvoice.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
-    createTable(tableInvoice, res.sales_invoices.data);
-  })["catch"](function (res) {
-    return console.log(res);
-  });
-}
-
-if (salesOrderList.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders').then(function (res) {
-    var items = res.sales_orders.data;
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var item = _step.value;
-        var option = document.createElement('option');
-        option.value = item.id;
-        option.textContent = "".concat(item.transaction_number);
-        salesOrderList.append(option);
+var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: true,
+    pageLength: 10,
+    columns: [{
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"radio\" name=\"transaction_id\" class=\"check-so\" value=\"".concat(data, "\" transaction-number=\"").concat(row.transaction_number, "\" />");
       }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
-          _iterator["return"]();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
+    }, {
+      data: 'transaction_number'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'agent.name'
+    }, {
+      data: 'transaction_status'
+    }, {
+      data: 'transaction_date'
+    }, {
+      data: 'total_amount',
+      render: function render(data) {
+        return parseFloat(data).toFixed(0);
       }
+    }, {
+      data: 'id',
+      render: function render() {
+        return '';
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.check-so').change(function (e) {
+        var transaction_id = e.target.value;
+        var transaction_number = e.target.getAttribute('transaction-number');
+        sessionStorage.setItem('choosed_so', JSON.stringify({
+          transaction_id: transaction_id,
+          transaction_number: transaction_number
+        }));
+      });
     }
-  })["catch"](function (res) {
-    return console.log(res);
-  });
-}
-
-salesOrderList.change(function (e) {
-  var salesOrderSelected = salesOrderList.val();
-
-  if (!$.active) {
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(salesOrderSelected)).then(function (res) {
-      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
-      $('#order_type').val(res.sales_order.order_type);
-      $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
-      $('#transaction_date').val(res.sales_order.transaction_date);
-      $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#due_date').val(res.sales_order.due_date);
-      $('#customer_id').val(res.sales_order.customer_id);
-      $('#outlet').val(res.sales_order.agent_id);
-      getDataTableSO(res.sales_order.customer_id, true);
-      $('#customer_id, #outlet').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option'
-      }).trigger('change');
-    })["catch"](function (res) {
-      return console.log(res);
-    });
-  }
-});
-
-var getDataTableSO = function getDataTableSO(id, isEditable) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(id)).then(function (res) {
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(res.customer.price_id)).then(function (res) {
-      var prices = res.price.price_lines;
-      sessionStorage.setItem('prices', JSON.stringify(prices));
-      createTableSO(tableSOItems, prices, isEditable);
-    })["catch"](function (res) {
-      return console.log(res);
-    });
-  })["catch"](function (res) {
-    return console.log(res);
   });
 };
 
-var createTableSO = function createTableSO(target, data, isEditable) {
+var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
     destroy: true,
     data: data,
@@ -54570,50 +54783,115 @@ var createTableSO = function createTableSO(target, data, isEditable) {
     paginate: false,
     pageLength: 5,
     columns: [{
-      data: 'id',
+      data: 'name',
       render: function render(data, type, row) {
-        return "<select class=\"form-control select2 item_id\" id=\"item_id_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" required disabled><option></option></select>");
+        return "<input type=\"text\" class=\"form-control item_id\" id=\"item_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"item_id\" readonly value=\"").concat(data, "\" ").concat(row.status ? 'line-id="updated"' : '', "}>");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"bor_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"bor\" readonly>");
+        return "<input type=\"text\" class=\"form-control\" id=\"bor_".concat(row.id, "\" value=\"").concat(row.bor, "\" name=\"bor\" required readonly>");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" readonly>");
+        return "<input class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" name=\"brand_id\" required readonly brand-id=\"").concat(row.brand_id, "\" value=\"").concat(row.brand_name, "\"/>");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control quantity text-right\" id=\"quantity_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"quantity\" readonly>");
+        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" name=\"color\" required readonly value=\"").concat(row.color ? row.color : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right\" id=\"discount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"discount\" readonly>");
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" name=\"note\" required readonly value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right\" id=\"unit_price_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"unit_price\" value=\"0\" readonly>");
+        return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.id, "\" required readonly value=\"").concat(row.quantity, "\" name=\"quantity\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right item_total\" id=\"amount_".concat(row.item_id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"0\" readonly>");
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" required readonly value=\"").concat(row.discount, "\" name=\"discount\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<a href=\"javascript:void(0)\" data-id=\"".concat(row.item_id, "\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+        return "<input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.status;
       }
     }],
-    drawCallback: function drawCallback(settings) {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
-      createItemListDropdown(isEditable); // chooseCustomer();
+    drawCallback: function drawCallback() {
+      $('.table-responsive').addClass('adjust-width');
+      totalBeforeDisc();
+      updateDiscountAndQuantity();
     }
+  });
+};
+
+var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/".concat(url, "/").concat(id)).then(function (res) {
+    $('#order_id').val(res[key].transaction_number);
+    $('#order_type').val(res[key].order_type);
+    $('#customer_id').val(res[key].customer.name);
+    $('#customer_id').attr('customer-id', res[key].customer_id);
+    $('#agent_outlet').val(res[key].agent.name);
+    $('#agent_outlet').attr('agent-id', res[key].agent_id);
+    $('#status_order').val(res[key].order_type === 'general' ? 'open' : 'closed');
+    $('#note').val(res[key].note);
+    $('#pickup_date').val(res[key].pickup_date);
+    $('#is_own_address').attr('checked', res[key].is_own_address);
+    var choosed_item = [];
+    var id = 0;
+    res[key].transaction_lines.forEach(function (res) {
+      id = res.id ? res.id : id + 1;
+      choosed_item.push({
+        id: id,
+        "item_id": res.item_id,
+        "brand_id": res.brand_id,
+        "brand_name": res.brand.name,
+        "bor": res.bor,
+        "price_id": res.item.price_id,
+        "unit_price": res.unit_price,
+        discount: res.discount,
+        quantity: res.quantity,
+        color: res.color,
+        note: res.note,
+        name: res.item.description,
+        amount: res.amount,
+        status: res.status
+      });
+    });
+    sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
+    generateItemTable(tableSOItems, choosed_item);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+};
+
+var updateDiscountAndQuantity = function updateDiscountAndQuantity() {
+  $('.discount, .quantity').change(function (e) {
+    e.target.value = e.target.value === '' ? 0 : e.target.value;
+    var id = e.target.id.split('_')[1];
+    var itemQuantity = $("#quantity_".concat(id)).val();
+    var itemPrice = $("#unit_price_".concat(id)).val();
+    var discPrice = $("#discount_".concat(id)).val();
+    var countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
+    var calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - parseFloat(discPrice) / 100 * parseFloat(countItemPrice) : parseFloat(countItemPrice);
+    $("#amount_".concat(id)).val(parseFloat(calculate));
+    totalBeforeDisc();
   });
 };
 
@@ -54633,6 +54911,7 @@ var totalBeforeDisc = function totalBeforeDisc() {
   $('#freight').change(function (e) {
     return finalTotal($('#discount').val(), e.target.value);
   });
+  updateDiscountAndQuantity();
 };
 
 var finalTotal = function finalTotal(value, freightValue) {
@@ -54645,109 +54924,7 @@ var finalTotal = function finalTotal(value, freightValue) {
   $('#total_amount').val(parseFloat(total));
 };
 
-var createItemListDropdown = function createItemListDropdown(isEditable) {
-  var items = JSON.parse(sessionStorage.prices);
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    var _loop = function _loop() {
-      var item = _step2.value;
-      var option = document.createElement('option');
-      _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item.item_id)).then(function (res) {
-        option.value = item.item_id;
-        option.textContent = "".concat(res.item.description);
-        $('.item_id').append(option);
-
-        if (isEditable) {
-          var _transaction_lines = JSON.parse(sessionStorage.transaction_lines);
-
-          _transaction_lines.forEach(function (res, resIndex) {
-            var id = res.item_id;
-            $('.item_id').each(function (index, item) {
-              if (resIndex === index) {
-                item.value = id;
-                item.parentElement.parentElement.querySelector('input[name="note"]').value = res.note;
-                item.parentElement.parentElement.querySelector('input[name="bor"]').value = res.bor;
-                item.parentElement.parentElement.querySelector('input[name="quantity"]').value = parseFloat(res.quantity).toFixed(0);
-                item.parentElement.parentElement.querySelector('input[name="unit_price"]').value = parseFloat(res.unit_price).toFixed(0);
-                item.parentElement.parentElement.querySelector('input[name="discount"]').value = parseFloat(res.discount).toFixed(0);
-                item.parentElement.parentElement.querySelector('input[name="amount"]').value = parseFloat(res.amount).toFixed(0);
-              }
-            });
-            totalBeforeDisc();
-          });
-        }
-      })["catch"](function (res) {
-        return console.log(res);
-      });
-    };
-
-    for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      _loop();
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-        _iterator2["return"]();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-
-  $('.select2').select2({
-    theme: 'bootstrap',
-    placeholder: 'Choose option'
-  });
-  $('.select2').change(function (e) {
-    var items = JSON.parse(sessionStorage.prices);
-    var id = e.target.getAttribute('data-id');
-    var value = e.target.value;
-    var data = items.filter(function (res) {
-      return parseInt(value) === res.item_id;
-    });
-    $("#quantity_".concat(id)).val('1');
-    $("#discount_".concat(id)).val('0');
-    $("#unit_price_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
-    $("#amount_".concat(id)).val(data.length > 0 ? parseFloat(data[0].amount).toFixed(0) : '0');
-    totalBeforeDisc();
-  });
-  $('.discount, .quantity').change(function (e) {
-    var items = JSON.parse(sessionStorage.prices);
-    var id = e.target.getAttribute('data-id');
-    var itemQuantity = $("#quantity_".concat(id)).val();
-    var itemPrice = $("#unit_price_".concat(id)).val();
-    var discPrice = $("#discount_".concat(id)).val();
-    var countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
-    var calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - parseFloat(discPrice) / 100 * parseFloat(countItemPrice) : parseFloat(countItemPrice);
-    $("#amount_".concat(id)).val(parseFloat(calculate));
-    totalBeforeDisc();
-  });
-  $('.table-action').click(function (e) {
-    var id = e.currentTarget.getAttribute('data-id');
-    $("#item_id_".concat(id)).val('');
-    $("#item_id_".concat(id)).select2('destroy');
-    $("#item_id_".concat(id)).select2({
-      theme: 'bootstrap',
-      placeholder: 'Choose option'
-    });
-    $("#quantity_".concat(id)).val('0');
-    $("#discount_".concat(id)).val('0');
-    $("#unit_price_".concat(id)).val('0');
-    $("#amount_".concat(id)).val('0');
-  });
-};
-
 var dataFormSalesOrder = function dataFormSalesOrder() {
-  var _ref;
-
   transaction_lines = [];
   $('.item_id').each(function (i, item) {
     var discount_amount = item.parentElement.parentElement.querySelector('input[name="unit_price"]').value - item.parentElement.parentElement.querySelector('input[name="amount"]').value;
@@ -54760,57 +54937,71 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
       var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
 
       transaction_lines.push({
-        item_id: $(item).val(),
+        id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+        item_id: $(item).attr('data-id'),
         note: target.querySelector('input[name="note"]').value,
         bor: target.querySelector('input[name="bor"]').value,
+        brand_id: target.querySelector('input[name="brand_id"]').getAttribute('brand-id'),
+        color: target.querySelector('input[name="color"]').value,
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
         amount: amount,
-        discount_amount: _discount_amount
+        discount_amount: _discount_amount,
+        status: target.querySelector('input[name="status"]') ? target.querySelector('select[name="status"]').value : 'open'
       });
     }
   });
-  return _ref = {
-    order_id: $('#sales_order_id').val(),
-    customer_id: $('#customer_id').val()
-  }, _defineProperty(_ref, "order_id", $('#sales_order_id').val()), _defineProperty(_ref, "agent_id", $('#outlet').val()), _defineProperty(_ref, "transaction_date", $('#transaction_date').val()), _defineProperty(_ref, "pickup_date", $('#pickup_date').val()), _defineProperty(_ref, "delivery_date", $('#delivery_date').val()), _defineProperty(_ref, "due_date", $('#due_date').val()), _defineProperty(_ref, "original_amount", $('#original_amount').val()), _defineProperty(_ref, "discount", $('#discount').val()), _defineProperty(_ref, "discount_amount", $('#discount_amount').val()), _defineProperty(_ref, "total_amount", $('#total_amount').val()), _defineProperty(_ref, "note", $('#note').val()), _defineProperty(_ref, "order_type", $('#order_type').val()), _defineProperty(_ref, "status_order", $('#status_order').val()), _defineProperty(_ref, "freight", $('#freight').val()), _defineProperty(_ref, "transaction_lines", transaction_lines), _ref;
+  return {
+    is_own_address: $('#is_own_address').prop('checked'),
+    order_id: $('#order_id').attr('order-id'),
+    customer_id: $('#customer_id').attr('customer-id'),
+    agent_id: $('#agent_outlet').attr('agent-id'),
+    transaction_date: $('#transaction_date').val(),
+    pickup_date: $('#pickup_date').val(),
+    delivery_date: $('#delivery_date').val(),
+    due_date: $('#due_date').val(),
+    original_amount: $('#original_amount').val(),
+    discount: $('#discount').val(),
+    discount_amount: $('#discount_amount').val(),
+    total_amount: $('#total_amount').val(),
+    note: $('#note').val(),
+    order_type: $('#order_type').val(),
+    status_order: $('#status_order').val(),
+    freight: $('#freight').val(),
+    transaction_lines: transaction_lines
+  };
 };
+
+var errorMessage = function errorMessage(data) {
+  Object.keys(data).map(function (key) {
+    var $parent = $("#".concat(key)).closest('.form-group');
+    $parent.addClass('is-error');
+    $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
+  });
+};
+
+if (salesOrderFormInvoice.length > 0) {
+  sessionStorage.clear();
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,done').then(function (res) {
+    createInvoiceTableSO(salesOrderFormCreateInvoice, res.sales_orders.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  salesOrderFormInvoice.submit(function (e) {
+    e.preventDefault();
+    var choosed_so = JSON.parse(sessionStorage.choosed_so);
+    modalSalesOrderInvoice.modal('hide');
+    $('#order_id').attr('order-id', choosed_so.transaction_id);
+    $('#order_id').val(choosed_so.transaction_number);
+    getDetailSalesOrder('sales_orders', 'sales_order', choosed_so.transaction_id);
+    return false;
+  });
+}
 
 if (formCreateSalesInvoice.length > 0) {
   sessionStorage.clear();
   $('#button-delete').remove();
-  var queries = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-  var fromOrder = queries.filter(function (item) {
-    return item.indexOf('from_order') > -1;
-  });
-
-  if (fromOrder.length > 0) {
-    var orderId = fromOrder[0].slice(fromOrder[0].indexOf('=') + 1);
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(orderId)).then(function (res) {
-      sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_order.transaction_lines));
-      $('#sales_order_id').val(orderId);
-      $('#order_type').val(res.sales_order.order_type);
-      $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
-      $('#transaction_date').val(res.sales_order.transaction_date);
-      $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#delivery_date').val(res.sales_order.delivery_date);
-      $('#customer_id').val(res.sales_order.customer_id);
-      $('#outlet').val(res.sales_order.agent_id);
-      getDataTableSO(res.sales_order.customer_id, true);
-      $('#customer_id, #outlet').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option'
-      }).trigger('change');
-    })["catch"](function (res) {
-      return console.log(res);
-    });
-  }
-
   formCreateSalesInvoice.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -54818,6 +55009,8 @@ if (formCreateSalesInvoice.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sales_invoices', data).then(function (res) {
       return window.location = '/sales_invoices';
     })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
     });
@@ -54825,51 +55018,20 @@ if (formCreateSalesInvoice.length > 0) {
   });
 }
 
-if (formEditSalesInvoice.length > 0) {
-  var urlArray = window.location.href.split('/');
-  var id = urlArray[urlArray.length - 2];
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
-    sessionStorage.setItem('transaction_lines', JSON.stringify(res.sales_invoice.transaction_lines));
-    $('#sales_order_id').val(res.sales_invoice.order_id);
-    $('#order_type').val(res.sales_invoice.order_type);
-    $('#note').val(res.sales_invoice.note);
-    $('#discount').val(res.sales_invoice.discount);
-    $('#discount_amount').val(res.sales_invoice.discount_amount);
-    $('#freight').val(res.sales_invoice.freight);
-    $('#status_order').val(res.sales_invoice.order_type === 'general' ? 'open' : 'closed');
-    $('#transaction_date').val(res.sales_invoice.transaction_date);
-    $('#pickup_date').val(res.sales_invoice.pickup_date);
-    $('#delivery_date').val(res.sales_invoice.delivery_date);
-    $('#due_date').val(res.sales_invoice.due_date);
-    $('#customer_id').val(res.sales_invoice.customer_id);
-    $('#outlet').val(res.sales_invoice.agent_id);
-    getDataTableSO(res.sales_invoice.customer_id, true);
-    $('#customer_id, #outlet, #sales_order_id').select2({
-      theme: 'bootstrap',
-      placeholder: 'Choose option'
-    }).trigger('change');
+if (tableInvoice.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices').then(function (res) {
+    createTable(tableInvoice, res.sales_invoices.data);
   })["catch"](function (res) {
     return console.log(res);
   });
-  formEditSalesInvoice.submit(function (e) {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    var data = dataFormSalesOrder();
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/sales_invoices/".concat(id), data).then(function (res) {
-      return window.location = '/sales_invoices';
-    })["catch"](function (res) {
-      console.log(res);
-      $('button[type="submit"]').attr('disabled', false);
-    });
-    return false;
-  });
-  $('#button-delete').click(function () {
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_invoices/".concat(id)).then(function (res) {
-      return window.location = '/sales_invoices';
-    })["catch"](function (res) {
-      alert(res.responseJSON.message);
-    });
-  });
+}
+
+if (formEditSalesInvoice.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  $('#footer-form').remove();
+  $('#due_date, #transaction_date, #delivery_date, #discount, #freight, #is_own_address').attr('readonly', true);
+  getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
@@ -55092,12 +55254,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color ? row.color : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',

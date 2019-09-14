@@ -190,13 +190,13 @@ const generateItemTable = (target, data) => {
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="color_${row.id}" data-id="${row.item_id}" name="color">`
+          return `<input type="text" class="form-control" id="color_${row.id}" data-id="${row.item_id}" name="color" value="${row.color ? row.color : ''}">`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="note_${row.id}" data-id="${row.item_id}" name="note">`
+          return `<input type="text" class="form-control" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
         }
       },
       { 

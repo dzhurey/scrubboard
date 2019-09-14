@@ -122,6 +122,14 @@
         </div>
         @endcanany
         @canany(['superadmin', 'operation'])
+        <div class="c-nav--item" id="courier_schedules" data-toggle="tooltip" data-placement="right" title="Courier schedule">
+            <a class="{{ (request()->segment(1) == 'courier_schedules') ? 'is-active' : '' }}" href="{{ route('courier_schedules.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/clipboard.svg') }}">
+                </span>
+                <span>Courier Schedules</span>
+            </a>
+        </div>
         <div class="c-nav--item" id="pickup_schedules" data-toggle="tooltip" data-placement="right" title="Pickup schedule">
             <a class="{{ (request()->segment(1) == 'pickup_schedules') ? 'is-active' : '' }}" href="{{ route('pickup_schedules.index') }}">
                 <span class="mr-4">

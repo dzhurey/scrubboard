@@ -25,6 +25,7 @@ class CourierScheduleLinePresenter extends BasePresenter
         $input->transaction_id = $input->transactionLine->transaction_id;
         $input->image_path = Storage::url($input->image_name);
         $input->status = $input->transactionLine->status;
+        $input->courier = $input->courierSchedule;
         return $input;
     }
 }

@@ -11,7 +11,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 10,
     columns: [
-      { data: 'id' },
+      { data: 'courier_schedule.schedule_type' },
       { data: 'transaction_line.transaction_number' },
       { data: 'transaction_line.bor' },
       { 
@@ -29,18 +29,9 @@ const createTable = (target, data) => {
       { data: 'transaction_line.item.description' },
       { data: 'transaction_line.brand.name' },
       { data: 'transaction_line.color' },
-      { 
-        data: 'transaction_line.color',
-        render() {
-          return 'courier';
-        }
-      },
-      { 
-        data: 'transaction_line.color',
-        render() {
-          return 'vehicle';
-        }
-      },
+      { data: 'courier.name' },
+      { data: 'vehicle.number' },
+      { data: 'estimation_time' },
       { data: 'status' },
     ],
     drawCallback: () => {

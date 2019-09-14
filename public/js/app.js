@@ -52533,7 +52533,7 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 10,
     columns: [{
-      data: 'id'
+      data: 'courier_schedule.schedule_type'
     }, {
       data: 'transaction_line.transaction_number'
     }, {
@@ -52555,15 +52555,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'transaction_line.color'
     }, {
-      data: 'transaction_line.color',
-      render: function render() {
-        return 'courier';
-      }
+      data: 'courier.name'
     }, {
-      data: 'transaction_line.color',
-      render: function render() {
-        return 'vehicle';
-      }
+      data: 'vehicle.number'
+    }, {
+      data: 'estimation_time'
     }, {
       data: 'status'
     }],

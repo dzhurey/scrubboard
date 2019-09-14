@@ -69,7 +69,7 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      if (res.status === 'open' && formCreatePickup.length > 0) {
+      if (formCreatePickup.length > 0) {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">

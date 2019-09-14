@@ -52165,7 +52165,10 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'transaction_number'
     }, {
-      data: 'customer.name'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
     }, {
       data: 'address',
       render: function render(data) {
@@ -52271,7 +52274,7 @@ if (formEditCourierDS.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines']
         };
@@ -52287,8 +52290,8 @@ if (formEditCourierDS.length > 0) {
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
+    $('#customer_name').text(customer ? customer.name : '-');
+    $('#phone_number').text(customer ? customer.phone_number : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52369,7 +52372,10 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'transaction_number'
     }, {
-      data: 'customer.name'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
     }, {
       data: 'address',
       render: function render(data) {
@@ -52475,7 +52481,7 @@ if (formEditCourierPS.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines']
         };
@@ -52491,8 +52497,8 @@ if (formEditCourierPS.length > 0) {
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
+    $('#customer_name').text(customer ? customer.name : '-');
+    $('#phone_number').text(customer ? customer.phone_number : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52933,7 +52939,10 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     }, {
       data: 'transaction_number'
     }, {
-      data: 'customer.name'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
     }, {
       data: 'address',
       render: function render(data) {
@@ -53122,7 +53131,7 @@ if (EditDeliveryForm.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines']
         };
@@ -54097,7 +54106,10 @@ var createSOFormTable = function createSOFormTable(target, data) {
     }, {
       data: 'transaction_number'
     }, {
-      data: 'customer.name'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "".concat(row.customer ? row.customer.name : '-');
+      }
     }, {
       data: 'pickup_date'
     }, {
@@ -54420,7 +54432,7 @@ if (EditPickupForm.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines']
         };
@@ -55240,12 +55252,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color, "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\">");
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note, "\">");
       }
     }, {
       data: 'id',

@@ -84,7 +84,12 @@ const createSOTable = (target, data) => {
         defaultContent: ''
       },
       { data: 'transaction_number' },
-      { data: 'customer.name' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `${row.customer ? row.customer.name : '-'}`;
+        }
+      },
       {
         data: 'address',
         render(data) {
@@ -194,7 +199,7 @@ if (formEditCourierPS.length > 0) {
         return {
           id: x[key],
           address: x.transaction_line.address,
-          customer: x.transaction_line.transaction.customer,
+          customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
           transaction_number: x.transaction_line.transaction_number,
           transaction_lines: rv['transaction_lines'],
         };
@@ -210,8 +215,8 @@ if (formEditCourierPS.length > 0) {
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
+    $('#customer_name').text(customer ? customer.name : '-');
+    $('#phone_number').text(customer ? customer.phone_number : '-');
     $('#address').text(`${address.description}, ${address.district}, ${address.city}, ${address.country}, ${address.zip_code}`);
   }).catch(res => {
     console.log(res);

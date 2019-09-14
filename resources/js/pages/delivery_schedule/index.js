@@ -131,7 +131,12 @@ const createSITableDelivery = (target, data) => {
         defaultContent: ''
       },
       { data: 'transaction_number' },
-      { data: 'customer.name' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return `${row.customer ? row.customer.name : '-'}`;
+        }
+      },
       {
         data: 'address',
         render(data) {
@@ -312,7 +317,7 @@ if (EditDeliveryForm.length > 0) {
           return {
             id: x[key],
             address: x.transaction_line.address,
-            customer: x.transaction_line.transaction.customer,
+            customer: x.transaction_line.transaction.customer || x.transaction_line.transaction.agent,
             transaction_number: x.transaction_line.transaction_number,
             transaction_lines: rv['transaction_lines'],
           };

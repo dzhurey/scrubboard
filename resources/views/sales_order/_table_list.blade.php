@@ -7,6 +7,7 @@
                 <th>Customer</th>
                 <th>Outlet</th>
                 <th>Order Status</th>
+                <th>Pickup status</th>
                 <th>Document Date</th>
                 <th>Pick Up Date</th>
                 <th>Delivery Date</th>

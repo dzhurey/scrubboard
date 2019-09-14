@@ -54775,6 +54775,8 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'transaction_status'
     }, {
+      data: 'delivery_status'
+    }, {
       data: 'transaction_date'
     }, {
       data: 'pickup_date'
@@ -55159,6 +55161,8 @@ var createTable = function createTable(target, data) {
       data: 'agent.name'
     }, {
       data: 'transaction_status'
+    }, {
+      data: 'pickup_status'
     }, {
       data: 'transaction_date'
     }, {

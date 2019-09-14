@@ -114,7 +114,7 @@ class CourierPickupScheduleController extends Controller
         ]);
 
         $uploadedFile = $request->file('image');
-        $path = $uploadedFile->store('public/uploads');
+        $path = $uploadedFile->store('public');
         $courier_schedule_line->image_name = $path;
         $courier_schedule_line->save();
         $courier_schedule_line->transactionLine->status = 'done';

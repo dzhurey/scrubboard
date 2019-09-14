@@ -8,10 +8,15 @@ use App\Scopes\Transaction\InvoiceScope;
 class SalesInvoice extends Transaction
 {
     const TRANSACTION_TYPE = 'invoice';
+    protected $deliveryStatusName = 'delivery_status';
 
     protected $transaction_number_prefix = 'INV';
 
     protected static $singleTableType = self::TRANSACTION_TYPE;
+
+    protected $custom_filterable = [
+        'delivery_status'
+    ];
 
     protected static function boot()
     {
@@ -28,20 +33,5 @@ class SalesInvoice extends Transaction
     public function getLatest()
     {
         return self::latest()->first();
-    }
-
-    public function deliveryStatus()
-    {
-        $delivered = $this->transactionLines->where('status', '=', 'done')->count();
-        $scheduled = $this->transactionLines->where('status', '=', 'scheduled')->count();
-        if ($scheduled == 0 && $delivered == 0) {
-            return 'open';
-        }
-        if ($delivered > 0 && $delivered < $this->transactionLines->count()) {
-            return 'partial';
-        } elseif ($delivered != $this->transactionLines->count()) {
-            return 'scheduled';
-        }
-        return 'done';
     }
 }

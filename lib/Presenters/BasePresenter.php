@@ -71,7 +71,12 @@ abstract class BasePresenter
                 return explode(',', $item);
             }, $attributes['filter']);
 
-            $this->builder = $this->builder->where($filters);
+            $validated = $this->validateFilter($filters);
+
+            if (!empty($validated['custom_filters'])) {
+                $this->builder = $this->model->customFilter($this->builder, $validated['custom_filters']);
+            }
+            $this->builder = $this->builder->where($validated['normal_filters']);
         }
 
         return $this->builder;
@@ -85,5 +90,28 @@ abstract class BasePresenter
     public function setBuilder($builder) {
         $this->builder = $builder;
         return $this;
+    }
+
+    private function validateFilter($filters)
+    {
+        $filterable = $this->model->getFilterable();
+        $custom_filterable = $this->model->getCustomFilterable();
+        $normal_filters = [];
+        $custom_filters = [];
+
+        foreach ($filters as $value) {
+            if (in_array($value[0], $filterable)) {
+                array_push($normal_filters, $value);
+            } else if (in_array($value[0], $custom_filterable)) {
+                array_push($custom_filters, $value);
+            } else {
+                throw new \App\Exceptions\UnprocessableEntityException('cannot filter with '.$value[0].' attributes', 1);
+            }
+        }
+
+        return [
+            'normal_filters' => $normal_filters,
+            'custom_filters' => $custom_filters
+        ];
     }
 }

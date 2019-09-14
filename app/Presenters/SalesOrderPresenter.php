@@ -23,6 +23,7 @@ class SalesOrderPresenter extends BasePresenter
         $input->agent = $input->agent;
         $input->address = $input->address();
         $input->invoice = $input->invoice;
+        $input->pickup_status = $input->deliveryStatus();
         $input->transaction_lines = $input->transactionLines->transform(function ($item) {
             $item->item = $item->item;
             $item->brand = $item->brand;

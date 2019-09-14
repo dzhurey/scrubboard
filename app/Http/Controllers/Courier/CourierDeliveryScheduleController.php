@@ -59,7 +59,7 @@ class CourierDeliveryScheduleController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!$this->autorizedCourierSchedule($courier_schedule, $request, 'delivery')) {
+        if (!$this->autorizedCourierSchedule($delivery_schedule, $request, 'delivery')) {
             return $this->renderError($request, __("authorize.not_found"), 404);
         }
 

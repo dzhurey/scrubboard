@@ -12,17 +12,11 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'transaction.transaction_number' },
-      {
-        data: 'transaction.customer.shipping_address.description',
-        render(data, type, row) {
-          const address = row.transaction.customer.shipping_address;
-          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
-        }
-      },
-      { data: 'transaction.pickup_date' },
-      { data: 'estimation_time' },
-      { data: 'status' },
+      { data: 'courier_code' },
+      { data: 'person.name' },
+      { data: 'vehicle.number' },
+      { data: 'schedule_date' },
+      { data: 'schedule_type' },
       {
         data: 'id',
         render(data, type, row) {
@@ -37,54 +31,132 @@ const createTable = (target, data) => {
   })
 };
 
-const createTableItemCourierSP = (target, data) => {
+const createSOTable = (target, data) => {
+  const format = (d) => {
+    let row = '';
+    const items = d.transaction_lines;
+    items.map((res) => {
+      row += `<tr>
+        <td>${res.transaction_line.item.description}</td>
+        <td>${res.transaction_line.bor}</td>
+        <td>${res.transaction_line.brand.name}</td>
+        <td>${res.transaction_line.color}</td>
+        <td>
+          <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+        </td>
+        <td>
+          ${res.image_name !== null ? `<img src="${window.location.origin}${res.image_path}" width="100" />` : `<form class="upload-photo" enctype="multipart/form-data">
+          <img class="img-preview img-preview-${res.id}" width="100" />
+          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image">
+          <input id="method" type="hidden" name="_method" value="put">
+          <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}">Upload</button>
+        </form>`}
+        </td>
+        <td></td>
+      </tr>`;
+    });
+
+    return `<table cellpadding="0" cellspacing="0" border="0" width="100%"><thead>
+      <tr>
+        <th>Item</th>
+        <th>BOR</th>
+        <th>Brand</th>
+        <th>Color</th>
+        <th class="th-qty">ETA</th>
+        <th class="th-item">Photo</th>
+        <th></th>
+      </tr>
+    </thead><tbody>${row}</tbody></table>`;
+  };
+
   target.DataTable({
     data: data,
     lengthChange: false,
     searching: false,
     info: false,
-    paging: true,
-    pageLength: 5,
+    paging: false,
+    pageLength: 10,
     columns: [
-      { data: 'item.description' },
-      { data: 'bor' },
-      { data: 'note' },
+      {
+        className: 'details-control',
+        orderable: false,
+        data: null,
+        defaultContent: ''
+      },
+      { data: 'transaction_number' },
+      { data: 'customer.name' },
+      {
+        data: 'address',
+        render(data) {
+          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return '';
+        }
+      },
     ],
     drawCallback: () => {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
-    }
+      $('#table-item-courier-pickup-schedule tbody td.details-control').each((i, item) => {
+        $(item).click((e) => {
+          const tr = $(e.target).closest('tr');
+          const row = formItemCourierPS.DataTable().row( tr );
+          
+          if ( row.child.isShown() ) {
+              row.child.hide();
+              tr.removeClass('shown');
+          }
+          else {
+              row.child( format(row.data()) ).show();
+              tr.addClass('shown');
+          }
+
+          $('.transaction_id').click((e) => {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required')
+            }
+          });
+
+          uploadImage();
+        })
+      });
+    },
   })
 };
 
-if (tableCourierPS.length > 0) {
-  ajx.get('/api/courier/pickup_schedules').then((res) => {
-    createTable(tableCourierPS, res.courier_pickup_schedules.data);
-  }).catch(res => console.log(res));
-}
+const generateDataPickupEdit = (list_id) => {
+  createSOTable(formItemCourierPS, list_id);
+};
 
-if (formEditCourierPS.length > 0) {
-  const urlArray = window.location.href.split('/');
-  const id = urlArray[urlArray.length - 2];
-  ajx.get(`/api/courier/pickup_schedules/${id}`).then((res) => {
-    const data = res.courier_schedule_line;
-    const customer = data.transaction.customer;
-    const items = data.transaction.transaction_lines;
-    $('#transaction_number').text(data.transaction.transaction_number);
-    $('#estimation_time').text(data.estimation_time);
-    $('#courier_schedule').text(data.courier_schedule.schedule_date);
-    $('#customer_name').text(customer.name);
-    $('#phone_number').text(customer.phone_number);
-    $('#address').text(`${customer.shipping_address.description}, ${customer.shipping_address.district}, ${customer.shipping_address.city}, ${customer.shipping_address.country}, ${customer.shipping_address.zip_code}`);
-    createTableItemCourierSP(formItemCourierPS, items);
-  }).catch(res => {
-    console.log(res);
-    $('button[type="submit"]').attr('disabled', false);
-  });
+const uploadImage = () => {
+  $('.img-preview').addClass('d-none');
+  $('.btn-upload-photo').addClass('d-none');
+  $('.upload-photo').change((e) => {
+    const input = e.target;
+    sessionStorage.clear();
+    sessionStorage.setItem('target_image', input.getAttribute('data-id'));
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+    
+      reader.onload = (e) => {
+        $(`.img-preview-${sessionStorage.target_image}`).attr('src', e.target.result);
+        $(`.img-preview-${sessionStorage.target_image}`).removeClass('d-none');
+        $(`.img-preview-${sessionStorage.target_image}`).addClass('mb-3');
+        $(`.btn-upload-photo-${sessionStorage.target_image}`).removeClass('d-none');
+      }
+      
+      reader.readAsDataURL(input.files[0]);
+    }
+  })
 
-  formEditCourierPS.submit((e) => {
+  $('.upload-photo').submit((e) => {
     e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
     const formData = new FormData(e.currentTarget);
+    const line_id = e.currentTarget.querySelector('.upload_photo').getAttribute('data-id');
 
     $.ajax({
       type: 'POST',
@@ -92,17 +164,57 @@ if (formEditCourierPS.length > 0) {
       cache: false,
       processData: false,
       contentType: false,
-      url: `/api/courier/pickup_schedules/${id}`,
+      url: `/api/courier/pickup_schedules/${line_id}`,
       data: formData,
       success: (res) => {
         window.location = '/courier/pickup_schedules'
       },
       error: (res) => {
         console.log(res);
-        $('button[type="submit"]').attr('disabled', false);
       }
     });
 
     return false;
+  })
+};
+
+if (tableCourierPS.length > 0) {
+  ajx.get('/api/courier/pickup_schedules').then((res) => {
+    createTable(tableCourierPS, res.pickup_schedules.data);
+  }).catch(res => console.log(res));
+}
+
+if (formEditCourierPS.length > 0) {
+  const urlArray = window.location.href.split('/');
+  const id = urlArray[urlArray.length - 2];
+  ajx.get(`/api/courier/pickup_schedules/${id}`).then((res) => {
+    const groupBy = (xs, key) => {
+      return xs.reduce((rv, x) => {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines'],
+        };
+      }, {});
+    };
+
+    const data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+    const data = res.pickup_schedule;
+    const customer = data_line.customer;
+    const address = data_line.address;
+    $('#courier_code').text(data.courier_code);
+    $('#transaction_number').text(data_line.transaction_number);
+    $('#courier_schedule').text(data.schedule_date);
+    $('#customer_name').text(customer.name);
+    $('#phone_number').text(customer.phone_number);
+    $('#address').text(`${address.description}, ${address.district}, ${address.city}, ${address.country}, ${address.zip_code}`);
+  }).catch(res => {
+    console.log(res);
+    $('button[type="submit"]').attr('disabled', false);
   });
 }

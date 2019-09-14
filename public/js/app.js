@@ -52119,19 +52119,15 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'transaction.transaction_number'
+      data: 'courier_code'
     }, {
-      data: 'transaction.customer.shipping_address.description',
-      render: function render(data, type, row) {
-        var address = row.transaction.customer.shipping_address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
+      data: 'person.name'
     }, {
-      data: 'transaction.delivery_date'
+      data: 'vehicle.number'
     }, {
-      data: 'estimation_time'
+      data: 'schedule_date'
     }, {
-      data: 'status'
+      data: 'schedule_type'
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52144,30 +52140,122 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+var createSOTable = function createSOTable(target, data) {
+  var format = function format(d) {
+    var row = '';
+    var items = d.transaction_lines;
+    items.map(function (res) {
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+    });
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+  };
+
   target.DataTable({
     data: data,
     lengthChange: false,
     searching: false,
     info: false,
-    paging: true,
-    pageLength: 5,
+    paging: false,
+    pageLength: 10,
     columns: [{
-      data: 'item.description'
+      className: 'details-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
     }, {
-      data: 'bor'
+      data: 'transaction_number'
     }, {
-      data: 'note'
+      data: 'customer.name'
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return '';
+      }
     }],
     drawCallback: function drawCallback() {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('#table-item-courier-delivery-schedule tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = formItemCourierDS.DataTable().row(tr);
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
+          uploadImage();
+        });
+      });
     }
+  });
+};
+
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  createSOTable(formItemCourierDS, list_id);
+};
+
+var uploadImage = function uploadImage() {
+  $('.img-preview').addClass('d-none');
+  $('.btn-upload-photo').addClass('d-none');
+  $('.upload-photo').change(function (e) {
+    var input = e.target;
+    sessionStorage.clear();
+    sessionStorage.setItem('target_image', input.getAttribute('data-id'));
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
+        $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
+  $('.upload-photo').submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(e.currentTarget);
+    var line_id = e.currentTarget.querySelector('.upload_photo').getAttribute('data-id');
+    $.ajax({
+      type: 'POST',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/delivery_schedules/".concat(line_id),
+      data: formData,
+      success: function success(res) {
+        window.location = '/courier/delivery_schedules';
+      },
+      error: function error(res) {
+        console.log(res);
+      }
+    });
+    return false;
   });
 };
 
 if (tableCourierDS.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/delivery_schedules').then(function (res) {
-    createTable(tableCourierDS, res.courier_delivery_schedules.data);
+    createTable(tableCourierDS, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52177,41 +52265,34 @@ if (formEditCourierDS.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/delivery_schedules/".concat(id)).then(function (res) {
-    var data = res.courier_schedule_line;
-    var customer = data.transaction.customer;
-    var items = data.transaction.transaction_lines;
-    $('#transaction_number').text(data.transaction.transaction_number);
-    $('#estimation_time').text(data.estimation_time);
-    $('#courier_schedule').text(data.courier_schedule.schedule_date);
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+    var data = res.delivery_schedule;
+    var customer = data_line.customer;
+    var address = data_line.address;
+    $('#courier_code').text(data.courier_code);
+    $('#transaction_number').text(data_line.transaction_number);
+    $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer.name);
     $('#phone_number').text(customer.phone_number);
-    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
-    createTableItemCourierSP(formItemCourierDS, items);
+    $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
     $('button[type="submit"]').attr('disabled', false);
-  });
-  formEditCourierDS.submit(function (e) {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    var formData = new FormData(e.currentTarget);
-    $.ajax({
-      type: 'POST',
-      enctype: 'multipart/form-data',
-      cache: false,
-      processData: false,
-      contentType: false,
-      url: "/api/courier/delivery_schedules/".concat(id),
-      data: formData,
-      success: function success(res) {
-        window.location = '/courier/delivery_schedules';
-      },
-      error: function error(res) {
-        console.log(res);
-        $('button[type="submit"]').attr('disabled', false);
-      }
-    });
-    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52242,19 +52323,15 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
-      data: 'transaction.transaction_number'
+      data: 'courier_code'
     }, {
-      data: 'transaction.customer.shipping_address.description',
-      render: function render(data, type, row) {
-        var address = row.transaction.customer.shipping_address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
+      data: 'person.name'
     }, {
-      data: 'transaction.pickup_date'
+      data: 'vehicle.number'
     }, {
-      data: 'estimation_time'
+      data: 'schedule_date'
     }, {
-      data: 'status'
+      data: 'schedule_type'
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52267,30 +52344,122 @@ var createTable = function createTable(target, data) {
   });
 };
 
-var createTableItemCourierSP = function createTableItemCourierSP(target, data) {
+var createSOTable = function createSOTable(target, data) {
+  var format = function format(d) {
+    var row = '';
+    var items = d.transaction_lines;
+    items.map(function (res) {
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+    });
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+  };
+
   target.DataTable({
     data: data,
     lengthChange: false,
     searching: false,
     info: false,
-    paging: true,
-    pageLength: 5,
+    paging: false,
+    pageLength: 10,
     columns: [{
-      data: 'item.description'
+      className: 'details-control',
+      orderable: false,
+      data: null,
+      defaultContent: ''
     }, {
-      data: 'bor'
+      data: 'transaction_number'
     }, {
-      data: 'note'
+      data: 'customer.name'
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return '';
+      }
     }],
     drawCallback: function drawCallback() {
-      $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('#table-item-courier-pickup-schedule tbody td.details-control').each(function (i, item) {
+        $(item).click(function (e) {
+          var tr = $(e.target).closest('tr');
+          var row = formItemCourierPS.DataTable().row(tr);
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(format(row.data())).show();
+            tr.addClass('shown');
+          }
+
+          $('.transaction_id').click(function (e) {
+            if (e.target.checked) {
+              e.target.closest('tr').querySelector('input[name="eta"]').setAttribute('required', true);
+            } else {
+              e.target.closest('tr').querySelector('input[name="eta"]').removeAttribute('required');
+            }
+          });
+          uploadImage();
+        });
+      });
     }
+  });
+};
+
+var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
+  createSOTable(formItemCourierPS, list_id);
+};
+
+var uploadImage = function uploadImage() {
+  $('.img-preview').addClass('d-none');
+  $('.btn-upload-photo').addClass('d-none');
+  $('.upload-photo').change(function (e) {
+    var input = e.target;
+    sessionStorage.clear();
+    sessionStorage.setItem('target_image', input.getAttribute('data-id'));
+
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
+        $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  });
+  $('.upload-photo').submit(function (e) {
+    e.preventDefault();
+    var formData = new FormData(e.currentTarget);
+    var line_id = e.currentTarget.querySelector('.upload_photo').getAttribute('data-id');
+    $.ajax({
+      type: 'POST',
+      enctype: 'multipart/form-data',
+      cache: false,
+      processData: false,
+      contentType: false,
+      url: "/api/courier/pickup_schedules/".concat(line_id),
+      data: formData,
+      success: function success(res) {
+        window.location = '/courier/pickup_schedules';
+      },
+      error: function error(res) {
+        console.log(res);
+      }
+    });
+    return false;
   });
 };
 
 if (tableCourierPS.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
-    createTable(tableCourierPS, res.courier_pickup_schedules.data);
+    createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52300,41 +52469,34 @@ if (formEditCourierPS.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/courier/pickup_schedules/".concat(id)).then(function (res) {
-    var data = res.courier_schedule_line;
-    var customer = data.transaction.customer;
-    var items = data.transaction.transaction_lines;
-    $('#transaction_number').text(data.transaction.transaction_number);
-    $('#estimation_time').text(data.estimation_time);
-    $('#courier_schedule').text(data.courier_schedule.schedule_date);
+    var groupBy = function groupBy(xs, key) {
+      return xs.reduce(function (rv, x) {
+        (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        return {
+          id: x[key],
+          address: x.transaction_line.address,
+          customer: x.transaction_line.transaction.customer,
+          transaction_number: x.transaction_line.transaction_number,
+          transaction_lines: rv['transaction_lines']
+        };
+      }, {});
+    };
+
+    var data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
+    sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
+    generateDataPickupEdit([data_line]);
+    var data = res.pickup_schedule;
+    var customer = data_line.customer;
+    var address = data_line.address;
+    $('#courier_code').text(data.courier_code);
+    $('#transaction_number').text(data_line.transaction_number);
+    $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer.name);
     $('#phone_number').text(customer.phone_number);
-    $('#address').text("".concat(customer.shipping_address.description, ", ").concat(customer.shipping_address.district, ", ").concat(customer.shipping_address.city, ", ").concat(customer.shipping_address.country, ", ").concat(customer.shipping_address.zip_code));
-    createTableItemCourierSP(formItemCourierPS, items);
+    $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
     $('button[type="submit"]').attr('disabled', false);
-  });
-  formEditCourierPS.submit(function (e) {
-    e.preventDefault();
-    $('button[type="submit"]').attr('disabled', true);
-    var formData = new FormData(e.currentTarget);
-    $.ajax({
-      type: 'POST',
-      enctype: 'multipart/form-data',
-      cache: false,
-      processData: false,
-      contentType: false,
-      url: "/api/courier/pickup_schedules/".concat(id),
-      data: formData,
-      success: function success(res) {
-        window.location = '/courier/pickup_schedules';
-      },
-      error: function error(res) {
-        console.log(res);
-        $('button[type="submit"]').attr('disabled', false);
-      }
-    });
-    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -52820,6 +52982,8 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
+      data: 'courier_code'
+    }, {
       data: 'person.name'
     }, {
       data: 'vehicle.number'
@@ -54048,6 +54212,8 @@ var createTable = function createTable(target, data) {
     paging: true,
     pageLength: 5,
     columns: [{
+      data: 'courier_code'
+    }, {
       data: 'person.name'
     }, {
       data: 'vehicle.number'

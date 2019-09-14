@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-edit-courier-pickup-schedule" class="c-form needs-validation" enctype="multipart/form-data" novalidate>
+<form id="form-edit-courier-pickup-schedule" class="c-form is-fluid needs-validation" enctype="multipart/form-data" novalidate>
     @include('courier_pickup_schedule._form_field')
 </form>
 @endsection

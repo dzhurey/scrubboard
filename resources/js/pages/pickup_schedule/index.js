@@ -183,6 +183,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
+      { data: 'courier_code' },
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },

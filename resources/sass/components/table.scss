@@ -56,6 +56,19 @@
             background-color: transparent;
             border-color: transparent;
           }
+          &.btn-primary {
+            opacity: 1 !important;
+            top: 0 !important;
+            margin-top: 10px;
+            &:hover,
+            &:active,
+            &:focus {
+              outline: none;
+              opacity: 1;
+              background-color: #0062cc;
+              border-color: #005cbf;
+            }
+          }
         }
       }
       tr:nth-of-type(odd) {

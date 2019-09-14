@@ -1,13 +1,13 @@
-@if ($courier_pickup_schedules->count() > 0 || !empty($query))
+@if ($pickup_schedules->count() > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-courier-pickup-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Sales Order ID</th>
-                <th>Address</th>
+                <th>Courier Code</th>
+                <th>Courier Name</th>
+                <th>Vehicle</th>
                 <th>Schedule Date</th>
-                <th>ETA</th>
-                <th>Status</th>
+                <th>Schedule Status</th>
                 <th></th>
             </tr>
         </thead>

@@ -303,7 +303,7 @@ const errorMessage = (data) => {
 
 if (salesOrderFormInvoice.length > 0) {
   sessionStorage.clear();
-  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open').then((res) => {
+  ajx.get('/api/sales_orders?filter[]=pickup_status,=,done').then((res) => {
     createInvoiceTableSO(salesOrderFormCreateInvoice, res.sales_orders.data);
   }).catch(res => console.log(res));
 

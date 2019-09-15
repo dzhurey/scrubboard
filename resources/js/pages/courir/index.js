@@ -35,7 +35,7 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<a href="/couriers/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
+          return `<a href="/people/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
           data-placement="top" title="Edit"><img src="assets/images/icons/edit.svg" alt="edit" width="16"></a>`
         },
       },

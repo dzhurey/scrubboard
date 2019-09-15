@@ -2,7 +2,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="order_id">Sales Order</label>
-            <input class="form-control cursor-pointer" id="order_id" name="order_id" required readonly placeholder="Pilih Sales Order" data-toggle="modal" data-target="#modal-sales-order-on-invoice" />
+            <input class="form-control cursor-pointer" id="order_id" name="order_id" required readonly placeholder="Sales Order ID" /><button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modal-sales-order-on-invoice">Add Sales Order</button>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>

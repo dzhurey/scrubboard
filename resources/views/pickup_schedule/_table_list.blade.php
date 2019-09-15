@@ -3,7 +3,7 @@
     <table id="table-pickup-schedule" class="c-table table table-striped">
         <thead>
             <tr>
-                <th>Courier Code</th>
+                <th>Pick Up Code</th>
                 <th>Courier Name</th>
                 <th>Vehicle</th>
                 <th>Schedule Date</th>

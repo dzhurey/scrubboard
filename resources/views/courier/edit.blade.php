@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Create Delivery Schedule')
+@section('title', 'Edit Courier')
 
 @section('content')
 <div id="delivery-schedule-form">
@@ -8,18 +8,18 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('delivery_schedules.index') }}">Delivery Schedule Data</a>
+                        <a href="{{ route('delivery_schedules.index') }}">Courier Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Delivery Schedule</li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit Courier</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add Delivery Schedule</h1>
+            <h1 class="mb-0">Edit Courier</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>
 </div>
 
-<form id="form-create-delivery" class="c-form needs-validation" novalidate>
-    @include('delivery_schedule._form_field')
+<form id="form-edit-courier" class="c-form needs-validation" novalidate>
+    @include('courier._form_field')
 </form>
 @endsection

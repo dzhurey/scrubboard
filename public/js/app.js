@@ -52630,7 +52630,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<a href=\"/people/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+        return "<a href=\"/couriers/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -52723,6 +52723,7 @@ if (formEditCourier.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+    delete data.username;
 
     if ($('#form-change-password').hasClass('d-none')) {
       delete data.password;
@@ -54113,6 +54114,7 @@ if (formEditUser.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+    delete data.username;
 
     if ($('#form-change-password').hasClass('d-none')) {
       delete data.password;

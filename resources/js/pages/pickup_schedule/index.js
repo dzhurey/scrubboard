@@ -252,7 +252,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesOrder.length > 0) {
-  ajx.get('/api/sales_orders?filter[]=transaction_status,!=,closed&filter[]=pickup_status,!=,done').then((res) => {
+  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open').then((res) => {
     const sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   }).catch(res => console.log(res));
@@ -338,6 +338,7 @@ if (EditPickupForm.length > 0) {
       const groupBy = (xs, key) => {
         return xs.reduce((rv, x) => {
           (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+          if (x.status === 'done') $('#button-delete').remove();
           return {
             id: x[key],
             address: x.transaction_line.address,

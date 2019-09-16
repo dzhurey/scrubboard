@@ -45,12 +45,12 @@ const createSOTable = (target, data) => {
           <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
         </td>
         <td>
-          ${res.image_name !== null ? `<img src="${window.location.origin}${res.image_path}" width="100" />` : `<form class="upload-photo" enctype="multipart/form-data">
-          <img class="img-preview img-preview-${res.id}" width="100" />
-          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image">
-          <input id="method" type="hidden" name="_method" value="put">
-          <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}">Upload</button>
-        </form>`}
+          <form class="upload-photo" enctype="multipart/form-data">
+          <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
+            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image">
+            <input id="method" type="hidden" name="_method" value="put">
+            <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}">Upload</button>
+          </form>
         </td>
         <td></td>
       </tr>`;
@@ -138,8 +138,6 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 const uploadImage = () => {
-  $('.img-preview').addClass('d-none');
-  $('.btn-upload-photo').addClass('d-none');
   $('.upload-photo').change((e) => {
     const input = e.target;
     sessionStorage.clear();
@@ -149,8 +147,8 @@ const uploadImage = () => {
     
       reader.onload = (e) => {
         $(`.img-preview-${sessionStorage.target_image}`).attr('src', e.target.result);
-        $(`.img-preview-${sessionStorage.target_image}`).removeClass('d-none');
         $(`.img-preview-${sessionStorage.target_image}`).addClass('mb-3');
+        $(`.img-preview-${sessionStorage.target_image}`).removeClass('d-none');
         $(`.btn-upload-photo-${sessionStorage.target_image}`).removeClass('d-none');
       }
       

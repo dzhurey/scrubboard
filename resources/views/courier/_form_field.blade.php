@@ -53,15 +53,15 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="gender">Gender</label>
-
+                    
                     <div class="mt-1" id="gender">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input form-check-radio" id="gender_male" type="radio" name="gender"
+                            <input class="form-check-input form-check-radio" id="gender_male" type="radio" name="gender" 
                                 value="male" required>
                             <label class="form-check-label" for="gender_male">Male</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input form-check-radio" id="gender_female" type="radio" name="gender"
+                            <input class="form-check-input form-check-radio" id="gender_female" type="radio" name="gender" 
                                 value="female" required>
                             <label class="form-check-label" for="gender_female">Female</label>
                         </div>

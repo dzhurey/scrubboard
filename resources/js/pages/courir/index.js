@@ -121,6 +121,7 @@ if (formEditCourier.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCourier.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
+    delete data.username;
     if ($('#form-change-password').hasClass('d-none')) {
       delete data.password;
       delete data.confirm_password;

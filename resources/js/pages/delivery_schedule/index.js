@@ -252,7 +252,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesInvoices.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,closed&filter[]=delivery_status,!=,done').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,open').then((res) => {
     const sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   }).catch(res => console.log(res));
@@ -314,6 +314,7 @@ if (EditDeliveryForm.length > 0) {
       const groupBy = (xs, key) => {
         return xs.reduce((rv, x) => {
           (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+          if (x.status === 'done') $('#button-delete').remove();
           return {
             id: x[key],
             address: x.transaction_line.address,

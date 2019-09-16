@@ -55,7 +55,7 @@ class ItemStoreService extends BaseService
                 ->first();
             $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
             $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();
-            
+
             if (is_null($item)) {
                 $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.'001';
             } else {
@@ -64,20 +64,8 @@ class ItemStoreService extends BaseService
                 $next_number = str_pad($next_number, 3, '0', STR_PAD_LEFT);
                 $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.$next_number;
             }
-        }
-        else {
-            $item = Item::where('item_group_id',$attributes['item_group_id'])
-                ->where('item_sub_category_id',$attributes['item_sub_category_id'])
-                ->whereYear('updated_at',$year)
-                ->orderBy('item_code','desc')
-                ->first();
-            $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();
-            $item_sub_category_code = ItemSubCategory::where('id',$attributes['item_sub_category_id'])->first();
-
-            $last_number = (int)substr($item->item_code,-3);
-            $next_number = $last_number+1;
-            $next_number = str_pad($next_number, 3, '0', STR_PAD_LEFT);
-            $attributes['item_code'] = $item_group_code->code.$item_sub_category_code->code.$next_number;
+        } else {
+            $attributes['item_code'] = $this->model->item_code;
         }
 
         $this->model = $this->assignAttributes($this->model, $attributes);

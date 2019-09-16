@@ -108,16 +108,24 @@ class SalesOrderController extends Controller
 
     public function destroy(Request $request, SalesOrder $sales_order)
     {
-        if (!$this->allowAny(['superadmin', 'sales'])) {
+        if (!$this->allowAny(['superadmin'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($sales_order->invoice)) {
-            return $this->renderError($request, __("rules.cannot_delete_order_has_invoice"), 422);
+        $has_picked = $sales_order->transactionLines->every(function($value, $key) {
+            return $value->status == 'done';
+        });
+
+        if ($has_picked) {
+            return $this->renderError($request, __("rules.cannot_cancel_order_has_picked"), 422);
         }
 
-        $sales_order->transactionLines->each->delete();
-        $sales_order->delete();
+        if (!empty($sales_order->invoice)) {
+            return $this->renderError($request, __("rules.cannot_cancel_order_has_invoice"), 422);
+        }
+
+        $sales_order->transaction_status = 'canceled';
+        $sales_order->save();
         return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 204);
     }
 }

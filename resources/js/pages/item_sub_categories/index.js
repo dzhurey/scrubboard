@@ -14,12 +14,12 @@ const createTable = (target) => {
     },
     lengthChange: true,
     lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
     columns: [
-      { data: 'name' },
+      { data: 'name', searchable: true },
       {
         data: 'id',
         render(data, type, row) {

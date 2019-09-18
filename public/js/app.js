@@ -53598,10 +53598,16 @@ var formCreateSubCategory = $('#form-create-sub-category');
 var formEditSubCategory = $('#form-edit-sub-category');
 var selectCategory = $('#item_group_id');
 
-var createTable = function createTable(target, data) {
+var createTable = function createTable(target) {
   target.DataTable({
-    data: data,
-    lengthChange: false,
+    // data: data,
+    serverSide: true,
+    ajax: {
+      url: "/item_sub_categories",
+      dataSrc: 'item_sub_categories.original.data'
+    },
+    lengthChange: true,
+    lengthMenu: [5, 10, 25, 50, 75, 100],
     searching: false,
     info: false,
     paging: true,
@@ -53667,11 +53673,8 @@ if (selectCategory.length > 0) {
 }
 
 if (tableSubCategory.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/item_sub_categories').then(function (res) {
-    createTable(tableSubCategory, res.item_sub_categories.data);
-  })["catch"](function (res) {
-    return console.log(res);
-  });
+  // ajx.get('/item_sub_categories').then((res) => {
+  createTable(tableSubCategory); // }).catch(res => console.log(res));
 }
 
 if (formCreateSubCategory.length > 0) {
@@ -58874,8 +58877,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

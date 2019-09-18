@@ -4,10 +4,16 @@ const tableSubCategory = $('#table-sub-category');
 const formCreateSubCategory = $('#form-create-sub-category');
 const formEditSubCategory = $('#form-edit-sub-category');
 const selectCategory = $('#item_group_id');
-const createTable = (target, data) => {
+const createTable = (target) => {
   target.DataTable({
-    data: data,
-    lengthChange: false,
+    // data: data,
+    serverSide: true,
+    ajax: {
+      url: "/item_sub_categories",
+      dataSrc: 'item_sub_categories.original.data'
+    },
+    lengthChange: true,
+    lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
     searching: false,
     info: false,
     paging: true,
@@ -51,9 +57,9 @@ if (selectCategory.length > 0) {
 }
 
 if (tableSubCategory.length > 0) {
-  ajx.get('/item_sub_categories').then((res) => {
-    createTable(tableSubCategory, res.item_sub_categories.data);
-  }).catch(res => console.log(res));
+  // ajx.get('/item_sub_categories').then((res) => {
+    createTable(tableSubCategory);
+  // }).catch(res => console.log(res));
 }
 
 if (formCreateSubCategory.length > 0) {

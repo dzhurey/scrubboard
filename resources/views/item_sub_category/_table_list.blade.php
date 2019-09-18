@@ -1,4 +1,4 @@
-@if ($item_sub_categories->count() > 0 || !empty($query))
+@if ($item_sub_categories->original["recordsTotal"] > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-sub-category" class="c-table table table-striped">
         <thead>

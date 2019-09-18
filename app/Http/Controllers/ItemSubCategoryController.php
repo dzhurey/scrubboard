@@ -32,6 +32,7 @@ class ItemSubCategoryController extends Controller
             'query' => $results->getValidated(),
             'item_sub_categories' => $results->getCollection(),
         ];
+
         return $this->renderView($request, 'item_sub_category.index', $data, [], 200);
     }
 

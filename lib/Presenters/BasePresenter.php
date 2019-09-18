@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Builder;
+use Yajra\DataTables\DataTables;
 
 abstract class BasePresenter
 {
@@ -16,7 +17,7 @@ abstract class BasePresenter
 
     public function getCollection()
     {
-        return $this->collection;
+        return Datatables::of($this->collection)->make(true);
     }
 
     public function getSingle()
@@ -37,8 +38,13 @@ abstract class BasePresenter
             'filter' => 'array'
         ]);
 
-        $this->collection = $this->search($this->validated)->paginate(Config::get('constants.default_per_page'));
-        $this->collection->getCollection()->transform(function($single, $key) {
+        // $this->collection = $this->search($this->validated)->paginate(Config::get('constants.default_per_page'));
+        // $this->collection->getCollection()->transform(function($single, $key) {
+        //     return $this->transform($single);
+        // });
+        $this->collection = $this->search($this->validated)->get();
+
+        $this->collection->transform(function($single, $key) {
             return $this->transform($single);
         });
 

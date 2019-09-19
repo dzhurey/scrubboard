@@ -53293,12 +53293,14 @@ var createTable = function createTable(target, data) {
 };
 
 var updatedPrice = function updatedPrice() {
+  var urlArray = window.location.href.split('/');
+  var item_id = urlArray[urlArray.length - 2];
   $('#price_list').change(function (e) {
     var id = e.target.value;
-    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
-      if (res.price.price_lines.length > 0) {
-        res.price.price_lines.map(function (res, i) {
-          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item_id)).then(function (res) {
+      if (res.item.price_lines.length > 0) {
+        res.item.price_lines.forEach(function (res) {
+          if (res.price_id.toString() === id) $('#price').val(res.amount);
         });
       } else {
         $('#price').val('0');
@@ -58874,8 +58876,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

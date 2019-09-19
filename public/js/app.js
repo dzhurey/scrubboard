@@ -53464,7 +53464,7 @@ if (formEditItem.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/items/".concat(id)).then(function (res) {
       return window.location = '/items';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete item that has been used in transaction');
     });
   });
 }

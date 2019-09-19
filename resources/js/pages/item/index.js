@@ -148,7 +148,7 @@ if (formEditItem.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/items/${id}`).then(res => window.location = '/items').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete item that has been used in transaction')
     });
   })
 }

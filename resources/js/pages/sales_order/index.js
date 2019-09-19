@@ -28,6 +28,7 @@ const createTable = (target, data) => {
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'transaction_status' },
+      { data: 'pickup_status' },
       { data: 'transaction_date' },
       { data: 'pickup_date' },
       { data: 'delivery_date' },
@@ -229,7 +230,7 @@ const generateItemTable = (target, data) => {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
 
-          const status = `<select id="status_${row.id}" class="form-control choose-status" name="status" ${row.status !== 'open' ? 'readonly' : ''}><option value="open" ${row.status === 'open' ? 'selected' : ''}>Open</option><option value="canceled" ${row.status === 'canceled' ? 'selected' : ''}>Cancel</option><option value="scheduled" ${row.status === 'scheduled' ? 'selected' : ''}>Scheduled</option><option value="done" ${row.status === 'done' ? 'selected' : ''}>Done</option></select>`
+          const status = `<select id="status_${row.id}" class="form-control choose-status" name="status" ${row.status !== 'open' ? 'readonly' : ''}><option value="open" ${row.status === 'open' ? 'selected' : ''}>Open</option><option value="canceled" ${row.status === 'canceled' ? 'selected' : ''}>Cancel</option><option value="scheduled" ${row.status === 'scheduled' ? 'selected' : ''}>Scheduled</option><option value="done" ${row.status === 'done' ? 'selected' : ''}>Picked</option></select>`
           return row.status ? status : del;
         },
       },

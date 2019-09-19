@@ -24,7 +24,7 @@
         <div class="form-group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked>
-                <label class="form-check-label" for="is_own_address">Uncheck if you set outlet for pickup destination</label>
+                <label class="form-check-label" for="is_own_address">Uncheck for pickup at outlet</label>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
-            <button type="button" id="btn-add-item" class="btn btn-primary disabled" data-toggle="modal" data-target="#modal-price" disabled>Tambah item</button>
+            <button type="button" id="btn-add-item" class="btn btn-primary disabled" data-toggle="modal" data-target="#modal-price" disabled>Add Item</button>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="note">Note</label>
@@ -132,7 +132,7 @@
     </div>
     <div class="col-sm-6 text-right">
         <button class="btn btn-light mr-2" type="button">Cancel</button>
-        @if(!empty($sales_order))
+        <!-- @if(!empty($sales_order))
         <div class="dropdown d-inline-block mr-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Copy to
@@ -141,7 +141,7 @@
                 <a class="dropdown-item" href="{{ route('sales_invoices.create', ['from_order' => $sales_order->id]) }}">AR Invoice</a>
             </div>
         </div>
-        @endif
+        @endif -->
         <button id="form-submit" class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

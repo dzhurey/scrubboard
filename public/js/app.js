@@ -52147,7 +52147,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52215,8 +52215,6 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 var uploadImage = function uploadImage() {
-  $('.img-preview').addClass('d-none');
-  $('.btn-upload-photo').addClass('d-none');
   $('.upload-photo').change(function (e) {
     var input = e.target;
     sessionStorage.clear();
@@ -52227,8 +52225,8 @@ var uploadImage = function uploadImage() {
 
       reader.onload = function (e) {
         $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
-        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
         $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
         $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
       };
 
@@ -52354,7 +52352,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          ").concat(res.image_name !== null ? "<img src=\"".concat(window.location.origin).concat(res.image_path, "\" width=\"100\" />") : "<form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-".concat(res.id, "\" width=\"100\" />\n          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n        </form>"), "\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52422,8 +52420,6 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 var uploadImage = function uploadImage() {
-  $('.img-preview').addClass('d-none');
-  $('.btn-upload-photo').addClass('d-none');
   $('.upload-photo').change(function (e) {
     var input = e.target;
     sessionStorage.clear();
@@ -52434,8 +52430,8 @@ var uploadImage = function uploadImage() {
 
       reader.onload = function (e) {
         $(".img-preview-".concat(sessionStorage.target_image)).attr('src', e.target.result);
-        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
         $(".img-preview-".concat(sessionStorage.target_image)).addClass('mb-3');
+        $(".img-preview-".concat(sessionStorage.target_image)).removeClass('d-none');
         $(".btn-upload-photo-".concat(sessionStorage.target_image)).removeClass('d-none');
       };
 
@@ -52723,6 +52719,7 @@ if (formEditCourier.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+    delete data.username;
 
     if ($('#form-change-password').hasClass('d-none')) {
       delete data.password;
@@ -53131,7 +53128,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesInvoices.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,closed&filter[]=delivery_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,open').then(function (res) {
     var sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {
@@ -53199,6 +53196,7 @@ if (EditDeliveryForm.length > 0) {
     var groupBy = function groupBy(xs, key) {
       return xs.reduce(function (rv, x) {
         (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        if (x.status === 'done') $('#button-delete').remove();
         return {
           id: x[key],
           address: x.transaction_line.address,
@@ -54113,6 +54111,7 @@ if (formEditUser.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+    delete data.username;
 
     if ($('#form-change-password').hasClass('d-none')) {
       delete data.password;
@@ -54366,7 +54365,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,!=,closed&filter[]=pickup_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -54502,6 +54501,7 @@ if (EditPickupForm.length > 0) {
     var groupBy = function groupBy(xs, key) {
       return xs.reduce(function (rv, x) {
         (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);
+        if (x.status === 'done') $('#button-delete').remove();
         return {
           id: x[key],
           address: x.transaction_line.address,
@@ -54774,6 +54774,8 @@ var createTable = function createTable(target, data) {
       data: 'agent.name'
     }, {
       data: 'transaction_status'
+    }, {
+      data: 'delivery_status'
     }, {
       data: 'transaction_date'
     }, {
@@ -55160,6 +55162,8 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'transaction_status'
     }, {
+      data: 'pickup_status'
+    }, {
       data: 'transaction_date'
     }, {
       data: 'pickup_date'
@@ -55356,7 +55360,7 @@ var generateItemTable = function generateItemTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var del = "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(row.item_id, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
-        var status = "<select id=\"status_".concat(row.id, "\" class=\"form-control choose-status\" name=\"status\" ").concat(row.status !== 'open' ? 'readonly' : '', "><option value=\"open\" ").concat(row.status === 'open' ? 'selected' : '', ">Open</option><option value=\"canceled\" ").concat(row.status === 'canceled' ? 'selected' : '', ">Cancel</option><option value=\"scheduled\" ").concat(row.status === 'scheduled' ? 'selected' : '', ">Scheduled</option><option value=\"done\" ").concat(row.status === 'done' ? 'selected' : '', ">Done</option></select>");
+        var status = "<select id=\"status_".concat(row.id, "\" class=\"form-control choose-status\" name=\"status\" ").concat(row.status !== 'open' ? 'readonly' : '', "><option value=\"open\" ").concat(row.status === 'open' ? 'selected' : '', ">Open</option><option value=\"canceled\" ").concat(row.status === 'canceled' ? 'selected' : '', ">Cancel</option><option value=\"scheduled\" ").concat(row.status === 'scheduled' ? 'selected' : '', ">Scheduled</option><option value=\"done\" ").concat(row.status === 'done' ? 'selected' : '', ">Picked</option></select>");
         return row.status ? status : del;
       }
     }],

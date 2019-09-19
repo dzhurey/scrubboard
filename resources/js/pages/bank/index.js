@@ -3,21 +3,28 @@ import ajx from './../../shared/index.js';
 const tableBank = $('#table-bank');
 const formCreateBank = $('#form-create-bank');
 const formEditBank = $('#form-edit-bank');
-const createTable = (target, data) => {
+const createTable = (target) => {
   target.DataTable({
-    data: data,
-    lengthChange: false,
-    searching: false,
+    // data: data,
+    serverSide: true,
+    ajax: {
+      url: "/api/bank_accounts",
+      dataSrc: 'bank_accounts.original.data'
+    },
+    lengthChange: true,
+    lengthMenu: [ 5, 10, 25, 50, 75, 100 ],
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
     columns: [
       { data: 'name' },
-      { 
-        data: 'bank',
-        render(data) {
-          return data.name;
-        }
+      {
+        data: 'bank.name',
+        searchable: true,
+        // render(data) {
+        //   return data.name;
+        // }
       },
       { data: 'account_number' },
       {
@@ -35,9 +42,9 @@ const createTable = (target, data) => {
 };
 
 if (tableBank.length > 0) {
-  ajx.get('/api/bank_accounts').then((res) => {
-    createTable(tableBank, res.bank_accounts.data);
-  }).catch(res => console.log(res));
+  // ajx.get('/api/bank_accounts').then((res) => {
+    createTable(tableBank);
+  // }).catch(res => console.log(res));
 }
 
 if (formCreateBank.length > 0) {

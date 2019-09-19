@@ -1,4 +1,4 @@
-@if ($bank_accounts->count() > 0 || !empty($query))
+@if ($bank_accounts->original["recordsTotal"] > 0 || !empty($query))
 <div class="c-table--outer">
     <table id="table-bank" class="c-table table table-striped">
         <thead>

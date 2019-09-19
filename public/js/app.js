@@ -51889,21 +51889,28 @@ var tableBank = $('#table-bank');
 var formCreateBank = $('#form-create-bank');
 var formEditBank = $('#form-edit-bank');
 
-var createTable = function createTable(target, data) {
+var createTable = function createTable(target) {
   target.DataTable({
-    data: data,
-    lengthChange: false,
-    searching: false,
+    // data: data,
+    serverSide: true,
+    ajax: {
+      url: "/api/bank_accounts",
+      dataSrc: 'bank_accounts.original.data'
+    },
+    lengthChange: true,
+    lengthMenu: [5, 10, 25, 50, 75, 100],
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
     columns: [{
       data: 'name'
     }, {
-      data: 'bank',
-      render: function render(data) {
-        return data.name;
-      }
+      data: 'bank.name',
+      searchable: true // render(data) {
+      //   return data.name;
+      // }
+
     }, {
       data: 'account_number'
     }, {
@@ -51919,11 +51926,8 @@ var createTable = function createTable(target, data) {
 };
 
 if (tableBank.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
-    createTable(tableBank, res.bank_accounts.data);
-  })["catch"](function (res) {
-    return console.log(res);
-  });
+  // ajx.get('/api/bank_accounts').then((res) => {
+  createTable(tableBank); // }).catch(res => console.log(res));
 }
 
 if (formCreateBank.length > 0) {
@@ -53603,7 +53607,7 @@ var createTable = function createTable(target) {
     // data: data,
     serverSide: true,
     ajax: {
-      url: "/item_sub_categories",
+      url: "/api/item_sub_categories",
       dataSrc: 'item_sub_categories.original.data'
     },
     lengthChange: true,

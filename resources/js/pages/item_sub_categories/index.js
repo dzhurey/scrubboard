@@ -9,7 +9,7 @@ const createTable = (target) => {
     // data: data,
     serverSide: true,
     ajax: {
-      url: "/item_sub_categories",
+      url: "/api/item_sub_categories",
       dataSrc: 'item_sub_categories.original.data'
     },
     lengthChange: true,

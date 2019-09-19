@@ -55688,6 +55688,8 @@ if (formEditSalesOrder.length > 0) {
   sessionStorage.clear();
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  $('#agent_id').removeClass('select2');
+  $('#agent_id').attr('disabled', true);
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
     var choosed_item = [];
     var id = 0;
@@ -55714,6 +55716,9 @@ if (formEditSalesOrder.length > 0) {
     $('#customer_id').attr('customer-id', res.sales_order.customer_id);
     $('#customer_id').val(res.sales_order.customer.name);
     $('#agent_id').val(res.sales_order.agent_id);
+    $('#agent_id').attr('readonly', true);
+    $('#is_own_address').attr('readonly', true);
+    $('#is_own_address').attr('disabled', true);
     $('#order_type').val(res.sales_order.order_type);
     $('#note').val(res.sales_order.note);
     $('#discount').val(res.sales_order.discount);
@@ -55728,10 +55733,6 @@ if (formEditSalesOrder.length > 0) {
     getPriceList(res.sales_order.customer.price_id);
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
-    $('.select2').select2({
-      theme: 'bootstrap',
-      placeholder: 'Choose option'
-    }).trigger('change');
   })["catch"](function (res) {
     return console.log(res);
   });

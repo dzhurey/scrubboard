@@ -128,7 +128,7 @@
 <hr class="my-4">
 <div class="row">
     <div class="col-sm-6 text-left">
-        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+        <button id="button-delete" class="btn btn-danger" type="button">Cancel Document</button>
     </div>
     <div class="col-sm-6 text-right">
         <button class="btn btn-light mr-2" type="button">Cancel</button>

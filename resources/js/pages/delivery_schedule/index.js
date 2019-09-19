@@ -69,7 +69,7 @@ const createSITableDelivery = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      if (formCreateDelivery.length > 0) {
+      if (formCreateDelivery.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
@@ -84,7 +84,7 @@ const createSITableDelivery = (target, data) => {
           </td>
           <td></td>
         </tr>`;
-      } else {
+      } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.transaction_line_id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
@@ -327,6 +327,12 @@ if (EditDeliveryForm.length > 0) {
       const data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
       sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
       generateDataPickupEdit([data_line]);
+      const done = res.pickup_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
+      if (done > 0) {
+        $('.remove-item').each((i, item) => {
+          $(item).addClass('d-none');
+        })
+      } 
     })
     .catch(res => console.log(res));
 

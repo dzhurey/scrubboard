@@ -52983,9 +52983,9 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      if (formCreateDelivery.length > 0) {
+      if (formCreateDelivery.length > 0 && res.status === 'open') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
-      } else {
+      } else if (res.status !== 'canceled') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.transaction_line_id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
@@ -53210,6 +53210,15 @@ if (EditDeliveryForm.length > 0) {
     var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
     sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
     generateDataPickupEdit([data_line]);
+    var done = res.pickup_schedule.courier_schedule_lines.filter(function (res) {
+      return res.status === 'done';
+    }).length;
+
+    if (done > 0) {
+      $('.remove-item').each(function (i, item) {
+        $(item).addClass('d-none');
+      });
+    }
   })["catch"](function (res) {
     return console.log(res);
   });

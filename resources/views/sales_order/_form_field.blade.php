@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <div class="form-check form-check-inline">
-                <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked>
+                <input class="form-check-input form-check-box is-reverse" id="is_own_address" type="checkbox" name="is_own_address" checked>
                 <label class="form-check-label" for="is_own_address">Uncheck for pickup at outlet</label>
             </div>
         </div>

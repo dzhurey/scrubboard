@@ -793,6 +793,27 @@ h5 {
   background-color: #3386FF;
 }
 
+.form-control-box.is-reverse,
+.form-check-box.is-reverse {
+  background-color: #3386FF;
+  border-color: #3386FF;
+  outline: none;
+  box-shadow: 3px 3px 10px 0 rgba(51, 134, 255, 0.3);
+}
+
+.form-control-box.is-reverse:checked,
+.form-check-box.is-reverse:checked {
+  background-color: transparent;
+  border: 2px solid #ced4da;
+  box-shadow: none;
+}
+
+.form-control-box.is-reverse:checked:after,
+.form-check-box.is-reverse:checked:after {
+  background-color: transparent;
+  background-image: none;
+}
+
 .form-control-label,
 .form-check-label {
   line-height: 24px;

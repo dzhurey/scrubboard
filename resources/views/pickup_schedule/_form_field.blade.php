@@ -41,7 +41,7 @@
         </table>
     </div>
     <div class="form-group">
-        <button type="button" class="btn btn-primary" id="transaction_id" data-toggle="modal" data-target="#modal-sales-order">Pilih Sales Order</button>
+        <button type="button" class="btn btn-primary" id="transaction_id" data-toggle="modal" data-target="#modal-sales-order">Add Sales Order</button>
     </div>
     <div class="invalid-feedback">Data invalid.</div>
 </div>

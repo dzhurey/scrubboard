@@ -478,6 +478,8 @@ if (formEditSalesOrder.length > 0) {
   sessionStorage.clear();
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  $('#agent_id').removeClass('select2');
+  $('#agent_id').attr('disabled', true);
   ajx.get(`/api/sales_orders/${id}`)
     .then((res) => {
       const choosed_item = [];
@@ -506,6 +508,9 @@ if (formEditSalesOrder.length > 0) {
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
       $('#customer_id').val(res.sales_order.customer.name);
       $('#agent_id').val(res.sales_order.agent_id);
+      $('#agent_id').attr('readonly', true);
+      $('#is_own_address').attr('readonly', true);
+      $('#is_own_address').attr('disabled', true);
       $('#order_type').val(res.sales_order.order_type);
       $('#note').val(res.sales_order.note);
       $('#discount').val(res.sales_order.discount);
@@ -520,10 +525,6 @@ if (formEditSalesOrder.length > 0) {
       getPriceList(res.sales_order.customer.price_id);
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
-      $('.select2').select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
-      }).trigger('change');
     })
     .catch(res => console.log(res));
 

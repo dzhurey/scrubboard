@@ -74,12 +74,12 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
-      if (formCreatePickup.length > 0) {
+      if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
-          <td>${res.status}</td>
+          <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${res.item.description}</td>
           <td>${res.bor}</td>
           <td>${res.brand.name}</td>
@@ -89,12 +89,12 @@ const createSOTable = (target, data) => {
           </td>
           <td></td>
         </tr>`;
-      } else {
+      } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.transaction_line_id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
-          <td>${res.status}</td>
+          <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${res.transaction_line.item.description}</td>
           <td>${res.transaction_line.bor}</td>
           <td>${res.transaction_line.brand.name}</td>
@@ -351,6 +351,12 @@ if (EditPickupForm.length > 0) {
       const data_line = groupBy(res.pickup_schedule.courier_schedule_lines, 'transaction_id');
       sessionStorage.setItem('choosed_so', JSON.stringify([data_line]));
       generateDataPickupEdit([data_line]);
+      const done = res.pickup_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
+      if (done > 0) {
+        $('.remove-item').each((i, item) => {
+          $(item).addClass('d-none');
+        })
+      } 
     })
     .catch(res => console.log(res));
 

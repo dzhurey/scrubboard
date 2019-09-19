@@ -41,18 +41,19 @@ const createTable = (target, data) => {
   })
 };
 const updatedPrice = () => {
+  const urlArray = window.location.href.split('/');
+  const item_id = urlArray[urlArray.length - 2];
   $('#price_list').change((e) => {
     const id = e.target.value;
-    ajx.get(`/api/prices/${id}`)
+    ajx.get(`/api/items/${item_id}`)
     .then(res => {
-      if (res.price.price_lines.length > 0) {
-        res.price.price_lines.map((res, i) => {
-          $('#price').val(res.price_id.toString() === id ? res.amount : '0');
+      if (res.item.price_lines.length > 0) {
+        res.item.price_lines.forEach(res => {
+          if (res.price_id.toString() === id) $('#price').val(res.amount);
         });
       } else {
         $('#price').val('0');
       }
-      
     })
     .catch(res => console.log(res));
   });
@@ -147,7 +148,7 @@ if (formEditItem.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/items/${id}`).then(res => window.location = '/items').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete item that has been used in transaction')
     });
   })
 }

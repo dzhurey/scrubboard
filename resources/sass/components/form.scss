@@ -112,6 +112,21 @@
           background-color: $blue-dodger;
         }
       }
+      &.is-reverse {
+        background-color: $blue-dodger;
+        border-color: $blue-dodger;
+        outline: none;
+        box-shadow: 3px 3px 10px 0 rgba(51,134,255,0.3);
+        &:checked {
+          background-color: transparent;
+          border: 2px solid #ced4da;
+          box-shadow: none;
+          &:after {
+            background-color: transparent;
+            background-image: none;
+          }
+        }
+      }
     }
     &-label {
       line-height: 24px;

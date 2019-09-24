@@ -24,7 +24,7 @@
         <div class="form-group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input form-check-box is-reverse" id="is_own_address" type="checkbox" name="is_own_address" checked>
-                <label class="form-check-label" for="is_own_address">Uncheck for pickup at outlet</label>
+                <label class="form-check-label" for="is_own_address">Pickup at outlet</label>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="status_order">Status order</label>
-                    <input class="form-control" id="status_order" name="status_order" disabled>
+                    <input class="form-control" id="status_order" name="status_order" disabled value="Open">
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -98,29 +98,49 @@
     <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="original_amount">Total Before Discount</label>
-            <input class="form-control is-number" id="original_amount" value="0" readonly>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control is-number" id="original_amount" value="0" readonly>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="c-form--label" for="discount">Discount %</label>
-                    <input class="form-control is-number" id="discount" value="0">
+                    <input class="form-control is-number is-disabled" readonly id="discount" value="0">
                 </div>
             </div>
             <div class="col-sm-9">
                 <div class="form-group">
                     <label class="c-form--label" for="discount_amount">Amount Discount</label>
-                    <input class="form-control is-number" id="discount_amount" value="0" readonly>
+                    <div class="input-group flex-nowrap">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Rp</span>
+                        </div>
+                        <input class="form-control is-number" id="discount_amount" value="0" readonly>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="freight">Freight</label>
-            <input class="form-control is-number" id="freight" value="0">
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control is-number" id="freight" value="0">
+            </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="total_amount">Total</label>
-            <input class="form-control is-number" id="total_amount" value="0" readonly>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control is-number" id="total_amount" value="0" readonly>
+            </div>
         </div>
     </div>
 </div>

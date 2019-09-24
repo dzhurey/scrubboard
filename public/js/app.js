@@ -53308,11 +53308,10 @@ var updatedPrice = function updatedPrice() {
     var id = e.target.value;
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/items/".concat(item_id)).then(function (res) {
       if (res.item.price_lines.length > 0) {
-        res.item.price_lines.forEach(function (res) {
-          if (res.price_id.toString() === id) $('#price').val(res.amount);
+        var getById = res.item.price_lines.find(function (res) {
+          return res.price_id.toString() === id;
         });
-      } else {
-        $('#price').val('0');
+        if (getById !== undefined) $('#price').val(Number.parseFloat(getById.amount));else $('#price').val('0');
       }
     })["catch"](function (res) {
       return console.log(res);
@@ -53436,7 +53435,7 @@ if (formEditItem.length > 0) {
     res.item.price_lines.map(function (res, i) {
       if (i === 0) {
         $('#price_list').val(res.price_id);
-        $('#price').val(res.amount);
+        $('#price').val(Number.parseFloat(res.amount));
       }
     });
     updatedPrice();
@@ -54582,7 +54581,7 @@ var collectPriceLines = function collectPriceLines(isEdit) {
   if (isEdit) {
     var price_lines = JSON.parse(sessionStorage.price_lines);
     price_lines.forEach(function (res) {
-      return $("#price_".concat(res.item_id)).val(res.amount);
+      return $("#price_".concat(res.item_id)).val(Number.parseFloat(res.amount));
     });
   }
 
@@ -54638,7 +54637,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     }, {
       data: 'price',
       render: function render(data, type, row) {
-        return "<input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data !== undefined ? data : 0, "\"/>");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input id=\"price_".concat(row.id, "\" data-id=\"").concat(row.id, "\" class=\"field-price-item form-control\" style=\"width: 200px;\" type=\"text\" name=\"price_lines[amount][]\" value=\"").concat(data !== undefined ? data : 0, "\"/></div>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -55140,18 +55139,10 @@ if (formEditSalesInvoice.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 
 var transaction_lines = [];
+var rowId = 0;
+var currentTimeStamp;
 var customerList = $('#customer_id');
 var statusOrder = $('#status_order');
 var orderType = $('#order_type');
@@ -55266,6 +55257,7 @@ var createTablePriceFormTable = function createTablePriceFormTable(target, data)
     columns: [{
       data: 'item_id',
       render: function render(data, type, row) {
+        rowId += 1;
         return "<input type=\"checkbox\" name=\"item_id_radio\" class=\"check-item\" value=\"".concat(data, "\" price-id=\"").concat(row.price_id, "\" price-name=\"").concat(row.item.description, "\" price-amount=\"").concat(row.amount, "\" />");
       }
     }, {
@@ -55281,34 +55273,34 @@ var createTablePriceFormTable = function createTablePriceFormTable(target, data)
       }
     }],
     drawCallback: function drawCallback() {
-      if (formCreateSalesOrder.length > 0) sessionStorage.setItem('choosed_item', '[]');
-      var id = 0;
       $('.check-item').change(function (e) {
         var datas = JSON.parse(sessionStorage.choosed_item);
-        var price_id = e.target.getAttribute('price-id');
-        var name = e.target.getAttribute('price-name');
-        var amount = e.target.getAttribute('price-amount');
-        var item_id = e.target.value;
-        id = Math.max.apply(Math, _toConsumableArray(datas.map(function (res) {
-          return res.id;
-        })));
+        var choosed_id = datas.length > 0 ? datas[datas.length - 1].id : 0;
+        var price_id = e.currentTarget.getAttribute('price-id');
+        var name = e.currentTarget.getAttribute('price-name');
+        var amount = e.currentTarget.getAttribute('price-amount');
+        var item_id = e.currentTarget.value;
 
-        if (e.target.checked) {
-          id += 1;
+        if (e.currentTarget.checked && e.timeStamp !== currentTimeStamp) {
+          currentTimeStamp = e.timeStamp;
+          choosed_id += 1;
+          e.currentTarget.setAttribute('clicked', choosed_id);
           datas.push({
-            id: id,
+            id: choosed_id,
             "item_id": item_id,
             "price_id": price_id,
             name: name,
             amount: amount
           });
-        } else {
-          datas = (_readOnlyError("datas"), datas.filter(function (res) {
-            return res.item_id !== item_id;
-          }));
+        } else if (e.currentTarget.checked === false) {
+          var id = e.currentTarget.getAttribute('clicked');
+          datas = datas.filter(function (res) {
+            return res.id !== parseFloat(id);
+          });
         }
 
         sessionStorage.setItem('choosed_item', JSON.stringify(datas));
+        return false;
       });
     }
   });
@@ -55369,12 +55361,14 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly>");
+        var val = Number.parseFloat(row.amount);
+        return "<div class=\"input-group flex-nowrap\">\n            <div class=\"input-group-prepend\">\n                <span class=\"input-group-text\">Rp</span>\n            </div>\n            <input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"unit_price\" value=\"").concat(val, "\" readonly>\n          </div>");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly>");
+        var val = Number.parseFloat(row.amount);
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"").concat(val, "\" readonly>\n      </div>");
       }
     }, {
       data: 'id',
@@ -55429,6 +55423,7 @@ var removeItem = function removeItem() {
 var getPriceList = function getPriceList(id) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/prices/".concat(id)).then(function (res) {
     var prices = res.price.price_lines;
+    sessionStorage.setItem('prices', JSON.stringify(prices));
     createTablePriceFormTable(modalPriceFormTable, prices);
   })["catch"](function (res) {
     return console.log(res);
@@ -55600,19 +55595,12 @@ if (modalPriceForm.length > 0) {
   modalPriceForm.submit(function (e) {
     e.preventDefault();
     var choosed_item = JSON.parse(sessionStorage.choosed_item);
+    var prices = JSON.parse(sessionStorage.prices);
     generateItemTable(tableSOItems, choosed_item);
     $('#modal-price').modal('hide');
-    $('.check-item').each(function (i, item) {
-      item.checked = false;
-    });
+    modalPriceFormTable.DataTable().destroy();
+    createTablePriceFormTable(modalPriceFormTable, prices);
     return false;
-  });
-}
-
-if (statusOrder.length > 0) {
-  statusOrder.val(orderType.val() === 'general' ? 'open' : 'closed');
-  orderType.change(function (e) {
-    statusOrder.val(e.target.value === 'general' ? 'open' : 'closed');
   });
 }
 
@@ -55658,6 +55646,7 @@ if (outletList.length > 0) {
 
 if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
+  sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
   formCreateSalesOrder.submit(function (e) {
     e.preventDefault();

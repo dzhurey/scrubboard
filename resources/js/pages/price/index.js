@@ -8,7 +8,7 @@ const formEditPrice = $('#form-edit-price');
 const collectPriceLines = (isEdit) => {
   if (isEdit) {
     const price_lines = JSON.parse(sessionStorage.price_lines);
-    price_lines.forEach((res) => $(`#price_${res.item_id}`).val(res.amount));
+    price_lines.forEach((res) => $(`#price_${res.item_id}`).val(Number.parseFloat(res.amount)));
   }
 
   $('.field-price-item').change((e) => {
@@ -67,7 +67,11 @@ const createTableItemLists = (target, data, isEdit) => {
       { 
         data: 'price',
         render(data, type, row) {
-          return `<input id="price_${row.id}" data-id="${row.id}" class="field-price-item form-control" style="width: 200px;" type="text" name="price_lines[amount][]" value="${data !== undefined ? data : 0}"/>`
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div>
+          <input id="price_${row.id}" data-id="${row.id}" class="field-price-item form-control" style="width: 200px;" type="text" name="price_lines[amount][]" value="${data !== undefined ? data : 0}"/></div>`
         }
       },
     ],

@@ -1,6 +1,8 @@
 import ajx from './../../shared/index.js';
 
 let transaction_lines = [];
+let rowId = 0;
+let currentTimeStamp;
 
 const customerList = $('#customer_id');
 const statusOrder = $('#status_order');
@@ -110,6 +112,7 @@ const createTablePriceFormTable = (target, data) => {
       {
         data: 'item_id',
         render(data, type, row) {
+          rowId += 1;
           return `<input type="checkbox" name="item_id_radio" class="check-item" value="${data}" price-id="${row.price_id}" price-name="${row.item.description}" price-amount="${row.amount}" />`
         }
       },
@@ -123,30 +126,31 @@ const createTablePriceFormTable = (target, data) => {
         }
       },
     ],
-    drawCallback: () => {
-      if (formCreateSalesOrder.length > 0) sessionStorage.setItem('choosed_item', '[]');
-      let id = 0;
+    drawCallback: () => {     
       $('.check-item').change((e) => {
-        const datas = JSON.parse(sessionStorage.choosed_item);
-        const price_id = e.target.getAttribute('price-id');
-        const name = e.target.getAttribute('price-name');
-        const amount = e.target.getAttribute('price-amount');
-        const item_id = e.target.value;
-        id = Math.max(...datas.map(res => res.id));
-        if (e.target.checked) {
-          id += 1;
+        let datas = JSON.parse(sessionStorage.choosed_item);
+        let choosed_id = datas.length > 0 ? datas[datas.length - 1].id : 0;
+        const price_id = e.currentTarget.getAttribute('price-id');
+        const name = e.currentTarget.getAttribute('price-name');
+        const amount = e.currentTarget.getAttribute('price-amount');
+        const item_id = e.currentTarget.value;
+        if (e.currentTarget.checked && e.timeStamp !== currentTimeStamp) {
+          currentTimeStamp = e.timeStamp;
+          choosed_id += 1;
+          e.currentTarget.setAttribute('clicked', choosed_id);
           datas.push({
-            id: id,
+            id: choosed_id,
             "item_id": item_id,
             "price_id": price_id,
             name: name,
             amount: amount,
-          })
-        } else {
-          datas = datas.filter(res => res.item_id !== item_id);
+          });
+        } else if (e.currentTarget.checked === false){
+          const id = e.currentTarget.getAttribute('clicked');
+          datas = datas.filter(res => res.id !== parseFloat(id));
         }
-        
         sessionStorage.setItem('choosed_item', JSON.stringify(datas));
+        return false;
       });
     }
   })
@@ -215,13 +219,25 @@ const generateItemTable = (target, data) => {
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" data-id="${row.item_id}" name="unit_price" value="${row.amount}" readonly>`
+          const val = Number.parseFloat(row.amount);
+          return `<div class="input-group flex-nowrap">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Rp</span>
+            </div>
+            <input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" data-id="${row.item_id}" name="unit_price" value="${val}" readonly>
+          </div>`
         }
       },
       { 
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" data-id="${row.item_id}" name="amount" value="${row.amount}" readonly>`
+          const val = Number.parseFloat(row.amount);
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div>
+          <input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" data-id="${row.item_id}" name="amount" value="${val}" readonly>
+      </div>`
         }
       },
       {
@@ -277,6 +293,7 @@ const removeItem = () => {
 const getPriceList = (id) => {
   ajx.get(`/api/prices/${id}`).then((res) => {
     const prices = res.price.price_lines;
+    sessionStorage.setItem('prices', JSON.stringify(prices));
     createTablePriceFormTable(modalPriceFormTable, prices);
   }).catch(res => console.log(res));
 }
@@ -417,19 +434,12 @@ if (modalPriceForm.length > 0) {
   modalPriceForm.submit((e) => {
     e.preventDefault();
     const choosed_item = JSON.parse(sessionStorage.choosed_item);
+    const prices = JSON.parse(sessionStorage.prices);
     generateItemTable(tableSOItems, choosed_item);
     $('#modal-price').modal('hide');
-    $('.check-item').each((i, item) => {
-      item.checked = false;
-    })
+    modalPriceFormTable.DataTable().destroy();
+    createTablePriceFormTable(modalPriceFormTable, prices);
     return false;
-  });
-}
-
-if (statusOrder.length > 0) {
-  statusOrder.val(orderType.val() === 'general' ? 'open' : 'closed');
-  orderType.change((e) => {
-    statusOrder.val(e.target.value === 'general' ? 'open' : 'closed');
   });
 }
 
@@ -452,6 +462,7 @@ if (outletList.length > 0) {
 
 if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
+  sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();

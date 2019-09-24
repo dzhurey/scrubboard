@@ -48,12 +48,10 @@ const updatedPrice = () => {
     ajx.get(`/api/items/${item_id}`)
     .then(res => {
       if (res.item.price_lines.length > 0) {
-        res.item.price_lines.forEach(res => {
-          if (res.price_id.toString() === id) $('#price').val(res.amount);
-        });
-      } else {
-        $('#price').val('0');
-      }
+        const getById = res.item.price_lines.find(res => res.price_id.toString() === id);
+        if (getById !== undefined) $('#price').val(Number.parseFloat(getById.amount));
+        else $('#price').val('0');
+      } 
     })
     .catch(res => console.log(res));
   });
@@ -125,7 +123,7 @@ if (formEditItem.length > 0) {
       res.item.price_lines.map((res, i) => {
         if (i === 0) {
           $('#price_list').val(res.price_id);
-          $('#price').val(res.amount);
+          $('#price').val(Number.parseFloat(res.amount));
         }
       });
       updatedPrice();

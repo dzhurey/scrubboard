@@ -52986,7 +52986,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       if (formCreateDelivery.length > 0 && res.status === 'open') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.transaction_line_id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53128,7 +53128,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesInvoices.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,open').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,=,open_partial-scheduled').then(function (res) {
     var sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {
@@ -53821,7 +53821,7 @@ var createTable = function createTable(target, data) {
 };
 
 if (salesInvoicePayment.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed&filter[]=delivery_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then(function (res) {
     sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
@@ -54237,7 +54237,7 @@ var createSOTable = function createSOTable(target, data) {
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.transaction_line_id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.transaction_line.item.description, "</td>\n          <td>").concat(res.transaction_line.bor, "</td>\n          <td>").concat(res.transaction_line.brand.name, "</td>\n          <td>").concat(res.transaction_line.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54376,7 +54376,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open_partial-scheduled').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -58895,8 +58895,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

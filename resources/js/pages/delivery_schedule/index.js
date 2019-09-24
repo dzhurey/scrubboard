@@ -87,13 +87,13 @@ const createSITableDelivery = (target, data) => {
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.transaction_line_id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status}</td>
-          <td>${res.transaction_line.item.description}</td>
-          <td>${res.transaction_line.bor}</td>
-          <td>${res.transaction_line.brand.name}</td>
-          <td>${res.transaction_line.color}</td>
+          <td>${res.item.description}</td>
+          <td>${res.bor}</td>
+          <td>${res.brand.name}</td>
+          <td>${res.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>
@@ -131,7 +131,7 @@ const createSITableDelivery = (target, data) => {
         defaultContent: ''
       },
       { data: 'transaction_number' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `${row.customer ? row.customer.name : '-'}`;
@@ -252,7 +252,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesInvoices.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,open').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,=,open_partial-scheduled').then((res) => {
     const sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   }).catch(res => console.log(res));
@@ -332,7 +332,7 @@ if (EditDeliveryForm.length > 0) {
         $('.remove-item').each((i, item) => {
           $(item).addClass('d-none');
         })
-      } 
+      }
     })
     .catch(res => console.log(res));
 

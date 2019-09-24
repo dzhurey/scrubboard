@@ -12,7 +12,7 @@ const createTable = (target, data) => {
     paging: true,
     pageLength: 5,
     columns: [
-      { 
+      {
         data: 'agent_group',
         render(data) {
           return data.id === 1 ? 'Agent' : '-';
@@ -58,7 +58,7 @@ if (formCreateAgent.length > 0) {
     const dataForm = formCreateAgent.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/agents', data).then(res => window.location = '/agents').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res);
       $('button[type="submit"]').attr('disabled', false);
@@ -77,6 +77,7 @@ if (formEditAgent.length > 0) {
       $('#phone_number').val(res.agent.phone_number);
       $('#mobile_number').val(res.agent.mobile_number);
       $('#email').val(res.agent.email);
+      $('#agent_code').val(res.agent.agent_code);
       $('#address').val(res.agent.address);
       $('#sub_district').val(res.agent.sub_district);
       $('#district').val(res.agent.district);
@@ -95,7 +96,7 @@ if (formEditAgent.length > 0) {
     const dataForm = formEditAgent.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/agents/${id}`, data).then(res => window.location = '/agents').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       $('button[type="submit"]').attr('disabled', false);
       console.log(res)

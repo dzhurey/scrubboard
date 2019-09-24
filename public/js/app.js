@@ -51827,6 +51827,7 @@ if (formEditAgent.length > 0) {
     $('#phone_number').val(res.agent.phone_number);
     $('#mobile_number').val(res.agent.mobile_number);
     $('#email').val(res.agent.email);
+    $('#agent_code').val(res.agent.agent_code);
     $('#address').val(res.agent.address);
     $('#sub_district').val(res.agent.sub_district);
     $('#district').val(res.agent.district);

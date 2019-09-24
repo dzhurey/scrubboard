@@ -19,7 +19,7 @@ const createTable = (target, data) => {
       { data: 'customer.name' },
       { data: 'payment_date' },
       { data: 'payment_lines[0].transaction.transaction_status' },
-      { 
+      {
         data: 'payment_means[0].payment_type',
         render(h) {
           return h === "" ? "-" : h;
@@ -34,15 +34,15 @@ const createTable = (target, data) => {
 };
 
 if (salesInvoicePayment.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=transaction_status,!=,closed&filter[]=delivery_status,!=,done').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then((res) => {
     sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
     for (let item of res.sales_invoices.data) {
       const option = document.createElement('option');
       option.value = item.id;
       option.textContent = `${item.transaction_number}`;
       salesInvoicePayment.append(option);
-  
-      salesInvoicePayment.select2({ 
+
+      salesInvoicePayment.select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
       });

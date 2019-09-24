@@ -11,6 +11,13 @@
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="agent_code">Agent code</label>
+                    <input class="form-control" id="agent_code" name="agent_code" disabled>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="name">Name</label>

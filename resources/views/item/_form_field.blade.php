@@ -43,7 +43,12 @@
                 </div>
                 <div class="col-sm-6">
                     <div class="form-group">
-                        <input class="form-control" id="price" name="price" required>
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Rp</span>
+                            </div>
+                            <input class="form-control" id="price" name="price" required>
+                        </div>
                         <div class="invalid-feedback">Data invalid.</div>
                     </div>
                 </div>

@@ -52121,6 +52121,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -52326,6 +52327,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {

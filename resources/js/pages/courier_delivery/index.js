@@ -11,6 +11,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },
       { data: 'person.name' },
@@ -84,7 +85,7 @@ const createSOTable = (target, data) => {
         defaultContent: ''
       },
       { data: 'transaction_number' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `${row.customer ? row.customer.name : '-'}`;
@@ -108,7 +109,7 @@ const createSOTable = (target, data) => {
         $(item).click((e) => {
           const tr = $(e.target).closest('tr');
           const row = formItemCourierDS.DataTable().row( tr );
-          
+
           if ( row.child.isShown() ) {
               row.child.hide();
               tr.removeClass('shown');
@@ -144,14 +145,14 @@ const uploadImage = () => {
     sessionStorage.setItem('target_image', input.getAttribute('data-id'));
     if (input.files && input.files[0]) {
       const reader = new FileReader();
-    
+
       reader.onload = (e) => {
         $(`.img-preview-${sessionStorage.target_image}`).attr('src', e.target.result);
         $(`.img-preview-${sessionStorage.target_image}`).addClass('mb-3');
         $(`.img-preview-${sessionStorage.target_image}`).removeClass('d-none');
         $(`.btn-upload-photo-${sessionStorage.target_image}`).removeClass('d-none');
       }
-      
+
       reader.readAsDataURL(input.files[0]);
     }
   })

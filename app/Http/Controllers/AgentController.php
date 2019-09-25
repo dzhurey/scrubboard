@@ -7,6 +7,7 @@ use App\Agent;
 use App\AgentGroup;
 use App\Presenters\AgentPresenter;
 use App\Http\Requests\StoreAgent;
+use App\Http\Requests\StoreUpdateAgent;
 use App\Services\Agent\AgentStoreService;
 
 class AgentController extends Controller
@@ -60,7 +61,7 @@ class AgentController extends Controller
     }
 
     public function store(
-        StoreAgent $request,
+        StoreUpdateAgent $request,
         AgentStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {

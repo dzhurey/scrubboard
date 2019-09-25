@@ -246,9 +246,11 @@ const generateItemTable = (target, data) => {
         render(data, type, row) {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
-
-          const status = `<select id="status_${row.id}" class="form-control choose-status" name="status" ${row.status !== 'open' ? 'readonly' : ''}><option value="open" ${row.status === 'open' ? 'selected' : ''}>Open</option><option value="canceled" ${row.status === 'canceled' ? 'selected' : ''}>Cancel</option><option value="scheduled" ${row.status === 'scheduled' ? 'selected' : ''}>Scheduled</option><option value="done" ${row.status === 'done' ? 'selected' : ''}>Picked</option></select>`
-          return row.status ? status : del;
+          
+          const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
+          const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
+          const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
+          return row.status ? status + buttonCancel + buttonPicked : del;
         },
       },
     ],
@@ -258,10 +260,18 @@ const generateItemTable = (target, data) => {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
-      $('.choose-status').change(e => {
-        if (e.target.value === 'canceled') {
-          const id = e.target.id.split('_')[1];
+      $('.auto-button').click(e => {
+        const value = e.target.id.split('_')[0];
+        const id = e.target.id.split('_')[1];
+        if (value === 'cancel') {
+          $(`#status_${id}`).val('canceled');
           $(`#amount_${id}`).val(0);
+          totalBeforeDisc();
+        } else {
+          const qty = parseFloat($(`#quantity_${id}`).val());
+          const itm = parseFloat($(`#unit_price_${id}`).val());
+          $(`#amount_${id}`).val(qty * itm);
+          $(`#status_${id}`).val('done');
           totalBeforeDisc();
         }
       })
@@ -375,7 +385,7 @@ const dataFormSalesOrder = () => {
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
           discount_amount: discount_amount,
-          status: target.querySelector('select[name="status"]') ? target.querySelector('select[name="status"]').value : 'open',
+          status: target.querySelector('input[name="status"]') ? target.querySelector('input[name="status"]').value : 'open',
         })
       } else {
         transaction_lines.push({
@@ -523,6 +533,7 @@ if (formEditSalesOrder.length > 0) {
       $('#agent_id').attr('readonly', true);
       $('#is_own_address').attr('readonly', true);
       $('#is_own_address').attr('disabled', true);
+      $('#is_own_address').attr('checked', res.sales_order.is_own_address);
       $('#order_type').val(res.sales_order.order_type);
       $('#note').val(res.sales_order.note);
       $('#discount').val(res.sales_order.discount);

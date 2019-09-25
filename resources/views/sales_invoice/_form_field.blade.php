@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <div class="form-check form-check-inline">
-                <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked readonly>
+                <input class="form-check-input form-check-box is-reverse" id="is_own_address" type="checkbox" name="is_own_address" checked readonly>
                 <label class="form-check-label" for="is_own_address">Deliver to outlet</label>
             </div>
         </div>
@@ -110,7 +110,12 @@
     <div class="col-sm-5">
         <div class="form-group">
             <label class="c-form--label" for="original_amount">Total Before Discount</label>
-            <input class="form-control" id="original_amount" value="0" readonly>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="original_amount" value="0" readonly>
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-3">
@@ -128,11 +133,21 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="freight">Freight</label>
-            <input class="form-control" id="freight" value="0">
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="freight" value="0">
+            </div>
         </div>
         <div class="form-group">
             <label class="c-form--label" for="total_amount">Total</label>
-            <input class="form-control" id="total_amount" value="0" readonly>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="total_amount" value="0" readonly>
+            </div>
         </div>
     </div>
 </div>

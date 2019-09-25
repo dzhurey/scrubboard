@@ -145,13 +145,19 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" name="unit_price" value="${row.amount}" readonly>`
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div><input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" name="unit_price" value="${row.amount}" readonly></div`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly>`
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div><input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly></div>`
         }
       },
       {

@@ -54966,12 +54966,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly>");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly></div");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly>");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly></div>");
       }
     }, {
       data: 'id',

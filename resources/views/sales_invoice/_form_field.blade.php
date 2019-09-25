@@ -31,7 +31,7 @@
         <div class="form-group">
             <div class="form-check form-check-inline">
                 <input class="form-check-input form-check-box" id="is_own_address" type="checkbox" name="is_own_address" checked readonly>
-                <label class="form-check-label" for="is_own_address">Uncheck if you set outlet for pickup destination</label>
+                <label class="form-check-label" for="is_own_address">Deliver to outlet</label>
             </div>
         </div>
     </div>
@@ -116,7 +116,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="c-form--label" for="discount">Discount %</label>
-                    <input class="form-control" id="discount" value="0">
+                    <input class="form-control" id="discount" value="0" readonly>
                 </div>
             </div>
             <div class="col-sm-9">

@@ -52335,7 +52335,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52493,11 +52503,13 @@ if (formEditCourierPS.length > 0) {
     var data = res.pickup_schedule;
     var customer = data_line.customer;
     var address = data_line.address;
+    var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer ? customer.name : '-');
     $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#outlet').text(outlet ? outlet : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52937,7 +52949,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"checkbox\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+        return "<input type=\"radio\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
       }
     }, {
       data: 'transaction_number'
@@ -52965,14 +52977,10 @@ var createSiFormTable = function createSiFormTable(target, data) {
 
         if (e.target.checked) {
           _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+            datas = [];
             datas.push(res.sales_invoice);
             sessionStorage.setItem('choosed_si', JSON.stringify(datas));
           });
-        } else {
-          datas = datas.filter(function (res) {
-            return res.id !== parseInt(id);
-          });
-          sessionStorage.setItem('choosed_si', JSON.stringify(datas));
         }
       });
     }
@@ -52989,7 +52997,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       if (formCreateDelivery.length > 0 && res.status === 'open') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53071,7 +53079,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -54239,8 +54257,8 @@ var createSOTable = function createSOTable(target, data) {
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
-      } else {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled readonly' : 'required', "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+      } else if (res.status !== 'canceled') {
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54275,6 +54293,11 @@ var createSOTable = function createSOTable(target, data) {
     }],
     drawCallback: function drawCallback() {
       removeItem();
+
+      if (EditPickupForm.length > 0) {
+        $('.remove-item').remove();
+      }
+
       $('#table-so-item-pickup tbody td.details-control').each(function (i, item) {
         $(item).click(function (e) {
           var tr = $(e.target).closest('tr');
@@ -54321,7 +54344,13 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        var address = row.courier_schedule_lines[0].transaction_line.address;
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
         return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
       }
     }, {

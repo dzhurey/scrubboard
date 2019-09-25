@@ -317,7 +317,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  ajx.get('/api/pickup_schedules').then((res) => {
+  ajx.get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then((res) => {
     createTable(tablePickup, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }

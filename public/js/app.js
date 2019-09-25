@@ -53173,7 +53173,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then(function (res) {
     createTable(tableDelivery, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -54492,7 +54492,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
     createTable(tablePickup, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);

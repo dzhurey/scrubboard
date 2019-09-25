@@ -292,7 +292,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  ajx.get('/api/delivery_schedules').then((res) => {
+  ajx.get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then((res) => {
     createTable(tableDelivery, res.delivery_schedules.data);
   }).catch(res => console.log(res));
 }

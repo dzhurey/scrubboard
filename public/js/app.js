@@ -52984,10 +52984,12 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
+      var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53059,6 +53061,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -53172,7 +53175,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then(function (res) {
     createTable(tableDelivery, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -53189,6 +53192,7 @@ if (EditDeliveryForm.length > 0) {
     $('#person_id').val(res.delivery_schedule.person_id);
     $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
     $('#date').val(res.delivery_schedule.schedule_date);
+    $('#document_status').val(res.delivery_schedule.document_status);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -53796,6 +53800,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'payment_code'
     }, {
@@ -54234,10 +54239,12 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
+      var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54306,6 +54313,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -54487,7 +54495,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
     createTable(tablePickup, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -54504,6 +54512,7 @@ if (EditPickupForm.length > 0) {
     $('#person_id').val(res.pickup_schedule.person_id);
     $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
     $('#date').val(res.pickup_schedule.schedule_date);
+    $('#document_status').val(res.pickup_schedule.document_status);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -54786,6 +54795,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -55165,6 +55175,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {

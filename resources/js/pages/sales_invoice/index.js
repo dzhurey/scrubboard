@@ -18,6 +18,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -55,7 +56,7 @@ const createInvoiceTableSO = (target, data) => {
     paging: true,
     pageLength: 10,
     columns: [
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="radio" name="transaction_id" class="check-so" value="${data}" transaction-number="${row.transaction_number}" />`;
@@ -66,13 +67,13 @@ const createInvoiceTableSO = (target, data) => {
       { data: 'agent.name' },
       { data: 'transaction_status' },
       { data: 'transaction_date' },
-      { 
+      {
         data: 'total_amount',
         render(data) {
           return parseFloat(data).toFixed(0)
         }
       },
-      { 
+      {
         data: 'id',
         render() {
           return ''
@@ -99,7 +100,7 @@ const generateItemTable = (target, data) => {
     paginate: false,
     pageLength: 5,
     columns: [
-      { 
+      {
         data: 'name',
         render(data, type, row) {
           return `<input type="text" class="form-control item_id" id="item_id_${row.id}" data-id="${row.item_id}" name="item_id" readonly value="${data}" ${row.status ? 'line-id="updated"' : ''}}>`
@@ -111,43 +112,43 @@ const generateItemTable = (target, data) => {
           return `<input type="text" class="form-control" id="bor_${row.id}" value="${row.bor}" name="bor" required readonly>`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input class="form-control brand_id" id="brand_id_${row.id}" name="brand_id" required readonly brand-id="${row.brand_id}" value="${row.brand_name}"/>`;
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control" id="color_${row.id}" name="color" required readonly value="${row.color ? row.color : ''}">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" required readonly value="${row.quantity}" name="quantity">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control text-right is-number" id="unit_price_${row.id}" name="unit_price" value="${row.amount}" readonly>`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly>`
@@ -327,7 +328,7 @@ if (formCreateSalesInvoice.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.post('/api/sales_invoices', data).then(res => window.location = '/sales_invoices').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

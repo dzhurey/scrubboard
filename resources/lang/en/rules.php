@@ -10,4 +10,6 @@ return [
     'cannot_cancel_item_on_invoice' => 'Item could not be canceled on invoice',
     "cannot_cancel_order_has_invoice" => "This order has invoice, delete invoice first to cancel this order",
     "cannot_cancel_order_has_picked" => "Items on this order has picked up, cannot cancel this order",
+    "cannot_cancel_pickup_has_picked" => "Item on this pickup has picked up, cannot cancel this pickup",
+    "cannot_cancel_delivery_has_picked" => "Item on this delivery has delivered, cannot cancel this delivery",
 ];

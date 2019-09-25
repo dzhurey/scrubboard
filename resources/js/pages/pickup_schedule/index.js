@@ -74,16 +74,17 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
+      const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${transactionLine.item.description}</td>
+          <td>${transactionLine.bor}</td>
+          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>
@@ -95,10 +96,10 @@ const createSOTable = (target, data) => {
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${transactionLine.item.description}</td>
+          <td>${transactionLine.bor}</td>
+          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>
@@ -187,6 +188,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },
       { data: 'person.name' },
@@ -315,7 +317,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  ajx.get('/api/pickup_schedules').then((res) => {
+  ajx.get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then((res) => {
     createTable(tablePickup, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }
@@ -331,6 +333,7 @@ if (EditPickupForm.length > 0) {
       $('#person_id').val(res.pickup_schedule.person_id);
       $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
       $('#date').val(res.pickup_schedule.schedule_date);
+      $('#document_status').val(res.pickup_schedule.document_status);
       $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',

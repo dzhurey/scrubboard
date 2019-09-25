@@ -88,10 +88,10 @@ const createSOTable = (target, data) => {
           </td>
           <td></td>
         </tr>`;
-      } else {
+      } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled readonly' : 'required' }">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' ? '' : 'checked' }>
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -99,7 +99,7 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '' }>
           </td>
           <td></td>
         </tr>`;
@@ -151,6 +151,9 @@ const createSOTable = (target, data) => {
     ],
     drawCallback: () => {
       removeItem();
+      if (EditPickupForm.length > 0) {
+        $('.remove-item').remove();
+      }
       $('#table-so-item-pickup tbody td.details-control').each((i, item) => {
         $(item).click((e) => {
           const tr = $(e.target).closest('tr');
@@ -195,7 +198,14 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          const address = row.courier_schedule_lines[0].transaction_line.address;
+          const agent = row.transaction.agent;
+          return `${agent.name}`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          const address = row.transaction.address;
           return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
         }
       },

@@ -17,7 +17,20 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { data: 'schedule_type' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          const agent = row.transaction.agent;
+          return `${agent.name}`
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          const address = row.transaction.address;
+          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
+        }
+      },
       {
         data: 'id',
         render(data, type, row) {
@@ -171,7 +184,7 @@ const uploadImage = () => {
       url: `/api/courier/delivery_schedules/${line_id}`,
       data: formData,
       success: (res) => {
-        window.location = '/courier/delivery_schedules'
+        window.location.reload();
       },
       error: (res) => {
         console.log(res);
@@ -211,11 +224,13 @@ if (formEditCourierDS.length > 0) {
     const data = res.delivery_schedule;
     const customer = data_line.customer;
     const address = data_line.address;
+    const outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer ? customer.name : '-');
     $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#outlet').text(outlet ? outlet : '-');
     $('#address').text(`${address.description}, ${address.district}, ${address.city}, ${address.country}, ${address.zip_code}`);
   }).catch(res => {
     console.log(res);

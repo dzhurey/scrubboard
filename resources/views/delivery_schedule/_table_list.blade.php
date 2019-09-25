@@ -7,7 +7,8 @@
                 <th>Courier Name</th>
                 <th>Vehicle</th>
                 <th>Schedule Date</th>
-                <th>Total Order</th>
+                <th>Outlet</th>
+                <th class="th-item">Delivery Address</th>
                 <th></th>
             </tr>
         </thead>

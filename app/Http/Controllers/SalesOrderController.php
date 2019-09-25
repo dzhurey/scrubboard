@@ -112,9 +112,7 @@ class SalesOrderController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $has_picked = $sales_order->transactionLines->every(function($value, $key) {
-            return $value->status == 'done';
-        });
+        $has_picked = in_array($sales_order->deliveryStatus(), ['partial', 'done']);
 
         if ($has_picked) {
             return $this->renderError($request, __("rules.cannot_cancel_order_has_picked"), 422);

@@ -258,7 +258,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesOrder.length > 0) {
-  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open_partial-scheduled').then((res) => {
+  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial').then((res) => {
     const sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   }).catch(res => console.log(res));

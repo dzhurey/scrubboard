@@ -112,7 +112,7 @@ class SalesOrderController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $has_picked = in_array($sales_order->deliveryStatus(), ['partial', 'done']);
+        $has_picked = in_array($sales_order->deliveryStatus(), ['done']);
 
         if ($has_picked) {
             return $this->renderError($request, __("rules.cannot_cancel_order_has_picked"), 422);
@@ -122,8 +122,19 @@ class SalesOrderController extends Controller
             return $this->renderError($request, __("rules.cannot_cancel_order_has_invoice"), 422);
         }
 
+        if (!in_array($sales_order->deliveryStatus(), ['open'])) {
+            $sales_order->transaction_status = 'canceled';
+            $sales_order->transactionLines->each(function ($item, $key) {
+                $item->status = 'canceled';
+                $item->save();
+            });
+            $courierSchedule = $sales_order->transactionLines->first()->courierScheduleLine->courierSchedule;
+            $courierSchedule->document_status = 'canceled';
+            $courierSchedule->save();
+        }
         $sales_order->transaction_status = 'canceled';
         $sales_order->save();
+
         return $this->renderView($request, '', [], ['route' => 'sales_orders.index', 'data' => []], 204);
     }
 }

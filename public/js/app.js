@@ -53165,7 +53165,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesInvoices.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done_partial_scheduled').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=delivery_status,!=,done_partial_scheduled').then(function (res) {
     var sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {

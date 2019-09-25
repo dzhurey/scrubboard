@@ -88,10 +88,10 @@ const createSOTable = (target, data) => {
           </td>
           <td></td>
         </tr>`;
-      } else if (res.status !== 'canceled') {
+      } else {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled readonly' : 'required' }">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -99,7 +99,7 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' ? 'disabled' : '' }>
           </td>
           <td></td>
         </tr>`;

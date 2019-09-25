@@ -75,10 +75,10 @@ const createSITableDelivery = (target, data) => {
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${res.transaction_line.item.description}</td>
+          <td>${res.transaction_line.bor}</td>
+          <td>${res.transaction_line.brand.name}</td>
+          <td>${res.transaction_line.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>
@@ -90,10 +90,10 @@ const createSITableDelivery = (target, data) => {
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${res.transaction_line.item.description}</td>
+          <td>${res.transaction_line.bor}</td>
+          <td>${res.transaction_line.brand.name}</td>
+          <td>${res.transaction_line.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>

@@ -74,16 +74,17 @@ const createSOTable = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
+      console.log(res)
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${res.transaction_line.item.description}</td>
+          <td>${res.transaction_line.bor}</td>
+          <td>${res.transaction_line.brand.name}</td>
+          <td>${res.transaction_line.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>
@@ -95,10 +96,10 @@ const createSOTable = (target, data) => {
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${res.transaction_line.item.description}</td>
+          <td>${res.transaction_line.bor}</td>
+          <td>${res.transaction_line.brand.name}</td>
+          <td>${res.transaction_line.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
           </td>

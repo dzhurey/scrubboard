@@ -184,7 +184,7 @@ const uploadImage = () => {
       url: `/api/courier/pickup_schedules/${line_id}`,
       data: formData,
       success: (res) => {
-        window.location = '/courier/pickup_schedules'
+        window.location.reload();
       },
       error: (res) => {
         console.log(res);

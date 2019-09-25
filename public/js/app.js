@@ -52131,7 +52131,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52248,7 +52258,7 @@ var uploadImage = function uploadImage() {
       url: "/api/courier/delivery_schedules/".concat(line_id),
       data: formData,
       success: function success(res) {
-        window.location = '/courier/delivery_schedules';
+        window.location.reload();
       },
       error: function error(res) {
         console.log(res);
@@ -52289,11 +52299,13 @@ if (formEditCourierDS.length > 0) {
     var data = res.delivery_schedule;
     var customer = data_line.customer;
     var address = data_line.address;
+    var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer ? customer.name : '-');
     $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#outlet').text(outlet ? outlet : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52464,7 +52476,7 @@ var uploadImage = function uploadImage() {
       url: "/api/courier/pickup_schedules/".concat(line_id),
       data: formData,
       success: function success(res) {
-        window.location = '/courier/pickup_schedules';
+        window.location.reload();
       },
       error: function error(res) {
         console.log(res);
@@ -58939,8 +58951,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

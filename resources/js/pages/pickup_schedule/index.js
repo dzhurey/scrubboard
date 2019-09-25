@@ -23,7 +23,7 @@ const createSOFormTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="checkbox" name="transaction_id" class="check-item" value="${data}" />`;
+          return `<input type="radio" name="transaction_id" class="check-item" value="${data}" />`;
         },
       },
       { data: 'transaction_number' },
@@ -57,12 +57,10 @@ const createSOFormTable = (target, data) => {
         if (e.target.checked) {
           ajx.get(`/api/sales_orders/${id}`)
             .then((res) => {
+              datas = [];
               datas.push(res.sales_order);
               sessionStorage.setItem('choosed_so', JSON.stringify(datas));
             })
-        } else {
-          datas = datas.filter(res => res.id !== parseInt(id));
-          sessionStorage.setItem('choosed_so', JSON.stringify(datas));
         }
       });
     }
@@ -194,7 +192,13 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { data: 'schedule_type' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          const address = row.courier_schedule_lines[0].transaction_line.address;
+          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
+        }
+      },
       {
         data: 'id',
         render(data, type, row) {

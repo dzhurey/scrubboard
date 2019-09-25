@@ -52463,7 +52463,7 @@ var uploadImage = function uploadImage() {
 };
 
 if (tableCourierPS.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
     createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -54189,7 +54189,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"checkbox\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+        return "<input type=\"radio\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
       }
     }, {
       data: 'transaction_number'
@@ -54220,14 +54220,10 @@ var createSOFormTable = function createSOFormTable(target, data) {
 
         if (e.target.checked) {
           _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
+            datas = [];
             datas.push(res.sales_order);
             sessionStorage.setItem('choosed_so', JSON.stringify(datas));
           });
-        } else {
-          datas = datas.filter(function (res) {
-            return res.id !== parseInt(id);
-          });
-          sessionStorage.setItem('choosed_so', JSON.stringify(datas));
         }
       });
     }
@@ -54323,7 +54319,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.courier_schedule_lines[0].transaction_line.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {

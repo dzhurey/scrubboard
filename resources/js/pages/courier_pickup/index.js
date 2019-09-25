@@ -182,7 +182,7 @@ const uploadImage = () => {
 };
 
 if (tableCourierPS.length > 0) {
-  ajx.get('/api/courier/pickup_schedules').then((res) => {
+  ajx.get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done').then((res) => {
     createTable(tableCourierPS, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }

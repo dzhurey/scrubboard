@@ -25,7 +25,7 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="document_status">Document Status</label>
-            <input class="form-control" id="document_status" name="document_status" disabled>
+            <input class="form-control" id="document_status" name="document_status" value="open" disabled>
         </div>
     </div>
 </div>

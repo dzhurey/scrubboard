@@ -28,6 +28,7 @@ class TransactionPresenter extends BasePresenter
         $input->customer = $this->customer_presenter->transform($input->customer);
         $input->agent = $input->agent;
         $input->order = $input->order;
+        $input->address = $input->address();
         $input->transaction_lines = $input->transactionLines->transform(function ($item) {
             $item->item = $item->item;
             $item->brand = $item->brand;

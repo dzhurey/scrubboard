@@ -8,6 +8,7 @@ use App\Presenters\DeliverySchedulePresenter;
 use App\Http\Requests\StoreCourierSchedule;
 use App\Services\CourierSchedule\DeliveryScheduleStoreService;
 use App\Services\CourierSchedule\DeliveryScheduleUpdateService;
+use App\Services\CourierSchedule\CourierScheduleCancelService;
 
 class DeliveryScheduleController extends Controller
 {
@@ -98,13 +99,22 @@ class DeliveryScheduleController extends Controller
         return $this->renderView($request, '', [], ['route' => 'delivery_schedules.edit', 'data' => ['delivery_schedule' => $delivery_schedule->id]], 204);
     }
 
-    public function destroy(Request $request, DeliverySchedule $delivery_schedule)
-    {
+    public function destroy(
+        Request $request,
+        CourierScheduleCancelService $service,
+        DeliverySchedule $delivery_schedule
+    ) {
         if (!$this->allowAny(['superadmin', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $delivery_schedule->delete();
+        $has_delivered = in_array($delivery_schedule->deliveryStatus(), ['partial', 'done']);
+
+        if ($has_delivered) {
+            return $this->renderError($request, __("rules.cannot_cancel_delivery_has_picked"), 422);
+        }
+
+        $service->perform($delivery_schedule);
         return $this->renderView($request, '', [], ['route' => 'delivery_schedules.index', 'data' => []], 204);
     }
 }

@@ -37,6 +37,7 @@ class CourierSchedule extends BaseModel
         'person_id',
         'vehicle_id',
         'schedule_date',
+        'document_status',
     ];
 
     protected $searchable = [

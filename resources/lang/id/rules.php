@@ -10,4 +10,6 @@ return [
     'cannot_cancel_item_on_invoice' => 'Item tidak dapat di-cancel saat di invoice',
     "cannot_cancel_order_has_invoice" => "Order memiliki invoice, hapus invoice terlebih dahulu untuk cancel order ini",
     "cannot_cancel_order_has_picked" => "Item di order ini telah di-pickup, tidak bisa cancel order ini",
+    "cannot_cancel_pickup_has_picked" => "Item di pickup ini telah di-pickup, tidak bisa cancel pickup ini",
+    "cannot_cancel_delivery_has_picked" => "Item di delivery ini telah di-deliver, tidak bisa cancel delivery ini",
 ];

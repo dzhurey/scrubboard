@@ -53134,7 +53134,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesInvoices.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done_partial').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done_partial_scheduled').then(function (res) {
     var sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {
@@ -54386,7 +54386,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial_scheduled').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -58910,8 +58910,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

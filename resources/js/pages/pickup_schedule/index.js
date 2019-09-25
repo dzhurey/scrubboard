@@ -192,7 +192,7 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const address = row.courier_schedule_lines[0].transaction_line.address;
@@ -258,7 +258,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesOrder.length > 0) {
-  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial').then((res) => {
+  ajx.get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial_scheduled').then((res) => {
     const sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   }).catch(res => console.log(res));

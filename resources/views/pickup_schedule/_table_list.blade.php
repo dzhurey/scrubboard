@@ -7,7 +7,8 @@
                 <th>Courier Name</th>
                 <th>Vehicle</th>
                 <th>Schedule Date</th>
-                <th>Schedule Status</th>
+                <th>Outlet</th>
+                <th class="th-item">Pickup Address</th>
                 <th></th>
             </tr>
         </thead>

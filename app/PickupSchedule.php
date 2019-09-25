@@ -11,4 +11,10 @@ class PickupSchedule extends CourierSchedule
     protected $courier_number_prefix = 'PIC';
 
     protected static $singleTableType = self::SCHEDULE_TYPE;
+
+    protected $deliveryStatusName = 'pickup_status';
+
+    protected $custom_filterable = [
+        'pickup_status'
+    ];
 }

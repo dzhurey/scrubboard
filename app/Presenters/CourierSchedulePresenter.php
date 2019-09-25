@@ -5,17 +5,21 @@ namespace App\Presenters;
 use Lib\Presenters\BasePresenter;
 use App\CourierSchedule;
 use App\Presenters\CourierScheduleLinePresenter;
+use App\Presenters\TransactionPresenter;
 
 class CourierSchedulePresenter extends BasePresenter
 {
     protected $model;
+    protected $transaction_presenter;
     protected $courier_schedule_line_presenter;
 
     public function __construct(
         CourierSchedule $model,
+        TransactionPresenter $transaction_presenter,
         CourierScheduleLinePresenter $courier_schedule_line_presenter
     ) {
         $this->model = $model;
+        $this->transaction_presenter = $transaction_presenter;
         $this->courier_schedule_line_presenter = $courier_schedule_line_presenter;
     }
 
@@ -26,6 +30,7 @@ class CourierSchedulePresenter extends BasePresenter
         $input->courier_schedule_lines = $input->courierScheduleLines->transform(function ($item) {
             return $this->courier_schedule_line_presenter->transform($item);
         });
+        $input->transaction = $this->transaction_presenter->transform($input->courierScheduleLines->first()->transaction);
         return $input;
     }
 }

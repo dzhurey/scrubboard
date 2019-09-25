@@ -29,6 +29,10 @@
             <label class="c-form--label" for="address">Address</label>
             <h3 id="address" class="font-weight-bold"></h3>
         </div>
+        <div class="form-group">
+            <label class="c-form--label" for="outlet">Outlet</label>
+            <h3 id="outlet" class="font-weight-bold"></h3>
+        </div>
     </div>
 </div>
 

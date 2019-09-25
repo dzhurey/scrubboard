@@ -23,7 +23,7 @@ const createSiFormTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="checkbox" name="transaction_id" class="check-item" value="${data}" />`;
+          return `<input type="radio" name="transaction_id" class="check-item" value="${data}" />`;
         },
       },
       { data: 'transaction_number' },
@@ -52,12 +52,10 @@ const createSiFormTable = (target, data) => {
         if (e.target.checked) {
           ajx.get(`/api/sales_invoices/${id}`)
             .then((res) => {
+              datas = [];
               datas.push(res.sales_invoice);
               sessionStorage.setItem('choosed_si', JSON.stringify(datas));
             })
-        } else {
-          datas = datas.filter(res => res.id !== parseInt(id));
-          sessionStorage.setItem('choosed_si', JSON.stringify(datas));
         }
       });
     }
@@ -69,33 +67,35 @@ const createSITableDelivery = (target, data) => {
     let row = '';
     const items = d.transaction_lines;
     items.map((res) => {
+      const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
+      const documentStatus = $('#document_status').val()
       if (formCreateDelivery.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${transactionLine.item.description}</td>
+          <td>${transactionLine.bor}</td>
+          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '' }>
           </td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' ? '' : 'checked' }>
           </td>
           <td>${res.status}</td>
-          <td>${res.item.description}</td>
-          <td>${res.bor}</td>
-          <td>${res.brand.name}</td>
-          <td>${res.color}</td>
+          <td>${transactionLine.item.description}</td>
+          <td>${transactionLine.bor}</td>
+          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
           </td>
           <td></td>
         </tr>`;
@@ -187,12 +187,26 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { data: 'schedule_type' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          const agent = row.transaction.agent;
+          return `${agent.name}`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          const address = row.transaction.address;
+          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
+        }
+      },
       {
         data: 'id',
         render(data, type, row) {
@@ -252,7 +266,7 @@ const generateDataPickupEdit = (list_id) => {
 };
 
 if (modalSalesInvoices.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=delivery_status,=,open_partial-scheduled').then((res) => {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done_partial_scheduled').then((res) => {
     const sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   }).catch(res => console.log(res));
@@ -291,7 +305,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  ajx.get('/api/delivery_schedules').then((res) => {
+  ajx.get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then((res) => {
     createTable(tableDelivery, res.delivery_schedules.data);
   }).catch(res => console.log(res));
 }
@@ -307,6 +321,7 @@ if (EditDeliveryForm.length > 0) {
       $('#person_id').val(res.delivery_schedule.person_id);
       $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
       $('#date').val(res.delivery_schedule.schedule_date);
+      $('#document_status').val(res.delivery_schedule.document_status);
       $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
@@ -333,6 +348,9 @@ if (EditDeliveryForm.length > 0) {
           $(item).addClass('d-none');
         })
       }
+      if (res.delivery_schedule.document_status == 'canceled') {
+        disableAllForm()
+      }
     })
     .catch(res => console.log(res));
 
@@ -352,4 +370,9 @@ if (EditDeliveryForm.length > 0) {
       alert(res.responseJSON.message)
     });
   })
+}
+
+const disableAllForm = () => {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled')
+  EditPickupForm.find('button').addClass('d-none')
 }

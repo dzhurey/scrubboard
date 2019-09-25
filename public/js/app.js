@@ -52121,6 +52121,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -52130,7 +52131,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52247,7 +52258,7 @@ var uploadImage = function uploadImage() {
       url: "/api/courier/delivery_schedules/".concat(line_id),
       data: formData,
       success: function success(res) {
-        window.location = '/courier/delivery_schedules';
+        window.location.reload();
       },
       error: function error(res) {
         console.log(res);
@@ -52288,11 +52299,13 @@ if (formEditCourierDS.length > 0) {
     var data = res.delivery_schedule;
     var customer = data_line.customer;
     var address = data_line.address;
+    var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer ? customer.name : '-');
     $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#outlet').text(outlet ? outlet : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52326,6 +52339,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -52335,7 +52349,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52452,7 +52476,7 @@ var uploadImage = function uploadImage() {
       url: "/api/courier/pickup_schedules/".concat(line_id),
       data: formData,
       success: function success(res) {
-        window.location = '/courier/pickup_schedules';
+        window.location.reload();
       },
       error: function error(res) {
         console.log(res);
@@ -52463,7 +52487,7 @@ var uploadImage = function uploadImage() {
 };
 
 if (tableCourierPS.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
     createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -52493,11 +52517,13 @@ if (formEditCourierPS.length > 0) {
     var data = res.pickup_schedule;
     var customer = data_line.customer;
     var address = data_line.address;
+    var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
     $('#courier_schedule').text(data.schedule_date);
     $('#customer_name').text(customer ? customer.name : '-');
     $('#phone_number').text(customer ? customer.phone_number : '-');
+    $('#outlet').text(outlet ? outlet : '-');
     $('#address').text("".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, ", ").concat(address.zip_code));
   })["catch"](function (res) {
     console.log(res);
@@ -52937,7 +52963,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"checkbox\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+        return "<input type=\"radio\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
       }
     }, {
       data: 'transaction_number'
@@ -52965,14 +52991,10 @@ var createSiFormTable = function createSiFormTable(target, data) {
 
         if (e.target.checked) {
           _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+            datas = [];
             datas.push(res.sales_invoice);
             sessionStorage.setItem('choosed_si', JSON.stringify(datas));
           });
-        } else {
-          datas = datas.filter(function (res) {
-            return res.id !== parseInt(id);
-          });
-          sessionStorage.setItem('choosed_si', JSON.stringify(datas));
         }
       });
     }
@@ -52984,10 +53006,13 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
+      var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+      var documentStatus = $('#document_status').val();
+
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53059,6 +53084,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -53068,7 +53094,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -53129,7 +53165,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesInvoices.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=delivery_status,=,open_partial-scheduled').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,=,open&filter[]=delivery_status,!=,done_partial_scheduled').then(function (res) {
     var sales_invoices = res.sales_invoices.data;
     createSiFormTable(modalSIFormTable, sales_invoices);
   })["catch"](function (res) {
@@ -53172,7 +53208,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then(function (res) {
     createTable(tableDelivery, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -53189,6 +53225,7 @@ if (EditDeliveryForm.length > 0) {
     $('#person_id').val(res.delivery_schedule.person_id);
     $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
     $('#date').val(res.delivery_schedule.schedule_date);
+    $('#document_status').val(res.delivery_schedule.document_status);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -53220,6 +53257,10 @@ if (EditDeliveryForm.length > 0) {
         $(item).addClass('d-none');
       });
     }
+
+    if (res.delivery_schedule.document_status == 'canceled') {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53243,6 +53284,11 @@ if (EditDeliveryForm.length > 0) {
     });
   });
 }
+
+var disableAllForm = function disableAllForm() {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled');
+  EditPickupForm.find('button').addClass('d-none');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -53796,6 +53842,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'payment_code'
     }, {
@@ -54184,7 +54231,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"checkbox\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+        return "<input type=\"radio\" name=\"transaction_id\" class=\"check-item\" value=\"".concat(data, "\" />");
       }
     }, {
       data: 'transaction_number'
@@ -54215,14 +54262,10 @@ var createSOFormTable = function createSOFormTable(target, data) {
 
         if (e.target.checked) {
           _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_orders/".concat(id)).then(function (res) {
+            datas = [];
             datas.push(res.sales_order);
             sessionStorage.setItem('choosed_so', JSON.stringify(datas));
           });
-        } else {
-          datas = datas.filter(function (res) {
-            return res.id !== parseInt(id);
-          });
-          sessionStorage.setItem('choosed_so', JSON.stringify(datas));
         }
       });
     }
@@ -54234,10 +54277,13 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
+      var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+      var documentStatus = $('#document_status').val();
+
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(res.item.description, "</td>\n          <td>").concat(res.bor, "</td>\n          <td>").concat(res.brand.name, "</td>\n          <td>").concat(res.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54272,6 +54318,11 @@ var createSOTable = function createSOTable(target, data) {
     }],
     drawCallback: function drawCallback() {
       removeItem();
+
+      if (EditPickupForm.length > 0) {
+        $('.remove-item').remove();
+      }
+
       $('#table-so-item-pickup tbody td.details-control').each(function (i, item) {
         $(item).click(function (e) {
           var tr = $(e.target).closest('tr');
@@ -54306,6 +54357,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -54315,7 +54367,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'schedule_date'
     }, {
-      data: 'schedule_type'
+      data: 'id',
+      render: function render(data, type, row) {
+        var agent = row.transaction.agent;
+        return "".concat(agent.name);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        var address = row.transaction.address;
+        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -54376,7 +54438,7 @@ var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
 };
 
 if (modalSalesOrder.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,=,open_partial-scheduled').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_orders?filter[]=transaction_status,=,open&filter[]=pickup_status,!=,done_partial_scheduled').then(function (res) {
     var sales_orders = res.sales_orders.data;
     createSOFormTable(modalSOFormTable, sales_orders);
   })["catch"](function (res) {
@@ -54487,7 +54549,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
     createTable(tablePickup, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -54504,6 +54566,7 @@ if (EditPickupForm.length > 0) {
     $('#person_id').val(res.pickup_schedule.person_id);
     $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
     $('#date').val(res.pickup_schedule.schedule_date);
+    $('#document_status').val(res.pickup_schedule.document_status);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -54535,6 +54598,10 @@ if (EditPickupForm.length > 0) {
         $(item).addClass('d-none');
       });
     }
+
+    if (res.pickup_schedule.document_status == 'canceled') {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -54558,6 +54625,11 @@ if (EditPickupForm.length > 0) {
     });
   });
 }
+
+var disableAllForm = function disableAllForm() {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled');
+  EditPickupForm.find('button').addClass('d-none');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -54786,6 +54858,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -54913,12 +54986,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly>");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly></div");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly>");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly></div>");
       }
     }, {
       data: 'id',
@@ -55165,6 +55238,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -55375,8 +55449,10 @@ var generateItemTable = function generateItemTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var del = "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(row.item_id, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
-        var status = "<select id=\"status_".concat(row.id, "\" class=\"form-control choose-status\" name=\"status\" ").concat(row.status !== 'open' ? 'readonly' : '', "><option value=\"open\" ").concat(row.status === 'open' ? 'selected' : '', ">Open</option><option value=\"canceled\" ").concat(row.status === 'canceled' ? 'selected' : '', ">Cancel</option><option value=\"scheduled\" ").concat(row.status === 'scheduled' ? 'selected' : '', ">Scheduled</option><option value=\"done\" ").concat(row.status === 'done' ? 'selected' : '', ">Picked</option></select>");
-        return row.status ? status : del;
+        var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
+        var buttonCancel = "<button id=\"cancel_".concat(row.id, "\" type=\"button\" class=\"btn btn-light mx-2 auto-button\" style=\"display: inline-block; vertical-align: middle; top: 0;\">Cancel</button>");
+        var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
+        return row.status ? status + buttonCancel + buttonPicked : del;
       }
     }],
     drawCallback: function drawCallback() {
@@ -55385,10 +55461,19 @@ var generateItemTable = function generateItemTable(target, data) {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
-      $('.choose-status').change(function (e) {
-        if (e.target.value === 'canceled') {
-          var id = e.target.id.split('_')[1];
+      $('.auto-button').click(function (e) {
+        var value = e.target.id.split('_')[0];
+        var id = e.target.id.split('_')[1];
+
+        if (value === 'cancel') {
+          $("#status_".concat(id)).val('canceled');
           $("#amount_".concat(id)).val(0);
+          totalBeforeDisc();
+        } else {
+          var qty = parseFloat($("#quantity_".concat(id)).val());
+          var itm = parseFloat($("#unit_price_".concat(id)).val());
+          $("#amount_".concat(id)).val(qty * itm);
+          $("#status_".concat(id)).val('done');
           totalBeforeDisc();
         }
       });
@@ -55536,7 +55621,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
           discount_amount: _discount_amount,
-          status: target.querySelector('select[name="status"]') ? target.querySelector('select[name="status"]').value : 'open'
+          status: target.querySelector('input[name="status"]') ? target.querySelector('input[name="status"]').value : 'open'
         });
       } else {
         transaction_lines.push({
@@ -55709,6 +55794,7 @@ if (formEditSalesOrder.length > 0) {
     $('#agent_id').attr('readonly', true);
     $('#is_own_address').attr('readonly', true);
     $('#is_own_address').attr('disabled', true);
+    $('#is_own_address').attr('checked', res.sales_order.is_own_address);
     $('#order_type').val(res.sales_order.order_type);
     $('#note').val(res.sales_order.note);
     $('#discount').val(res.sales_order.discount);

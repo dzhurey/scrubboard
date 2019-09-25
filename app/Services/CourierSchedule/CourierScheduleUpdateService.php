@@ -42,6 +42,7 @@ class CourierScheduleUpdateService extends BaseService
 
     private function updateCourierSchedule($attributes)
     {
+        $attributes['document_status'] = $this->model->document_status;
         $this->model = $this->assignAttributes($this->model, $attributes, ['courier_schedule_type']);
         $this->model->save();
     }

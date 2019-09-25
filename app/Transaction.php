@@ -3,14 +3,17 @@
 namespace App;
 
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use App\Scopes\Transaction\OrderByTransactionDateScope;
 use App\BaseModel;
 use App\SalesOrder;
 use App\SalesInvoice;
 use Carbon\Carbon;
 use App\Agent;
+use App\Traits\DeliveryStatusTrait;
 
 class Transaction extends BaseModel
 {
+    use DeliveryStatusTrait;
     use SingleTableInheritanceTrait;
 
     protected $deliveryStatusName = '';
@@ -71,6 +74,13 @@ class Transaction extends BaseModel
         'customer_id',
         'agent_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new OrderByTransactionDateScope);
+    }
 
     public function transactionLines()
     {
@@ -151,18 +161,10 @@ class Transaction extends BaseModel
         $delivered = $this->transactionLines->where('status', '=', 'done')->count();
         $scheduled = $this->transactionLines->where('status', '=', 'scheduled')->count();
         $open = $this->transactionLines->where('status', '=', 'open')->count();
-        if ($scheduled == 0 && $delivered == 0) {
-            return 'open';
-        }
-        if ($open > 0 && $scheduled > 0) {
-            return 'partial-scheduled';
-        }
-        if ($delivered > 0 && $delivered < $this->transactionLines->count() && $open == 0) {
-            return 'partial';
-        } elseif ($delivered != $this->transactionLines->count() && $open == 0) {
-            return 'scheduled';
-        }
-        return 'done';
+        $canceled = $this->transactionLines->where('status', '=', 'canceled')->count();
+        $total = $this->transactionLines->count();
+
+        return $this->generateDeliveryStatus($delivered, $scheduled, $open, $total, $canceled);
     }
 
     public function customFilter($builder, $filters)

@@ -108,8 +108,8 @@ class SalesInvoiceController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        $sales_invoice->transactionLines->each->delete();
-        $sales_invoice->delete();
+        // $sales_invoice->transactionLines->each->delete();
+        // $sales_invoice->delete();
         return $this->renderView($request, '', [], ['route' => 'sales_invoices.index', 'data' => []], 204);
     }
 }

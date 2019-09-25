@@ -23,6 +23,10 @@
             <input class="form-control datetimepicker" id="date" name="date" required>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
+        <div class="form-group">
+            <label class="c-form--label" for="document_status">Document Status</label>
+            <input class="form-control" id="document_status" name="document_status" disabled value="open">
+        </div>
     </div>
 </div>
 
@@ -49,10 +53,9 @@
 <hr class="my-4">
 <div class="row">
     <div class="col-sm-6 text-left">
-        <button id="button-delete" class="btn btn-danger" type="button">Delete</button>
+        <button id="button-delete" class="btn btn-danger" type="button">Cancel</button>
     </div>
     <div class="col-sm-6 text-right">
-        <button class="btn btn-light mr-2" type="button">Cancel</button>
         <button class="btn btn-primary" type="submit">Submit</button>
     </div>
 </div>

@@ -70,7 +70,7 @@
                 <tr>
                     <th class="th-item">Item</th>
                     <th class="th-price">BOR</th>
-                    <th class="th-price">Brand</th>
+                    <th class="th-note">Brand</th>
                     <th class="th-price">Color</th>
                     <th class="th-note">Notes</th>
                     <th class="th-qty text-right">Qty</th>

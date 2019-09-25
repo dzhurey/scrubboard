@@ -82,7 +82,12 @@
         </div>
         <div class="form-group">
             <label class="c-form--label" for="amount">Amount</label>
-            <input class="form-control" id="amount" name="amount" required>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="amount" name="amount" required>
+            </div>
         </div>
         <!-- <div class="form-group">
             <label class="c-form--label" for="paid">Paid</label>
@@ -94,7 +99,12 @@
         </div> -->
         <div class="form-group">
             <label class="c-form--label" for="total-amount">Total Amount</label>
-            <input class="form-control" id="total-amount" name="total-amount" required disabled readonly>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="total-amount" name="total-amount" required disabled readonly>
+            </div>
         </div>
     </div>
 </div>

@@ -53059,6 +53059,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -53796,6 +53797,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'payment_code'
     }, {
@@ -54306,6 +54308,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
     }, {
@@ -54786,6 +54789,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -55165,6 +55169,7 @@ var createTable = function createTable(target, data) {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {

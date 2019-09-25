@@ -3,6 +3,7 @@
 namespace App;
 
 use Nanigans\SingleTableInheritance\SingleTableInheritanceTrait;
+use App\Scopes\Transaction\OrderByTransactionDateScope;
 use App\BaseModel;
 use App\SalesOrder;
 use App\SalesInvoice;
@@ -71,6 +72,13 @@ class Transaction extends BaseModel
         'customer_id',
         'agent_id'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new OrderByTransactionDateScope);
+    }
 
     public function transactionLines()
     {

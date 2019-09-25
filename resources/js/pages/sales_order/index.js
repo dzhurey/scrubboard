@@ -25,6 +25,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[5, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -34,7 +35,7 @@ const createTable = (target, data) => {
       { data: 'transaction_date' },
       { data: 'pickup_date' },
       { data: 'delivery_date' },
-      { 
+      {
         data: 'total_amount',
         render(data) {
           return parseFloat(data).toFixed(0)
@@ -71,14 +72,14 @@ const createTableCustomerFormTable = (target, data) => {
       },
       { data: 'id' },
       { data: 'name' },
-      { 
+      {
         data: 'shipping_address',
         render(data, type, row) {
           return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`
         }
       },
       { data: 'phone_number' },
-      { 
+      {
         data: 'id',
         render(data) {
           return '';
@@ -119,14 +120,14 @@ const createTablePriceFormTable = (target, data) => {
       { data: 'item_id' },
       { data: 'item.description' },
       { data: 'amount' },
-      { 
+      {
         data: 'id',
         render(data) {
           return '';
         }
       },
     ],
-    drawCallback: () => {     
+    drawCallback: () => {
       $('.check-item').change((e) => {
         let datas = JSON.parse(sessionStorage.choosed_item);
         let choosed_id = datas.length > 0 ? datas[datas.length - 1].id : 0;
@@ -174,7 +175,7 @@ const generateItemTable = (target, data) => {
     paginate: false,
     pageLength: 5,
     columns: [
-      { 
+      {
         data: 'name',
         render(data, type, row) {
           return `<input type="text" class="form-control item_id" id="item_id_${row.id}" data-id="${row.item_id}" name="item_id" readonly value="${data}" ${row.status ? 'line-id="updated"' : ''}}>`
@@ -186,37 +187,37 @@ const generateItemTable = (target, data) => {
           return `<input type="text" class="form-control" id="bor_${row.id}" data-id="${row.item_id}" value="${row.bor ? row.bor : ''}" name="bor" required>`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" required value="${row.brand_id}"></select>`;
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control" id="color_${row.id}" data-id="${row.item_id}" name="color" value="${row.color ? row.color : ''}">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" data-id="${row.item_id}" value="1" name="quantity">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="0" name="discount">`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const val = Number.parseFloat(row.amount);
@@ -228,7 +229,7 @@ const generateItemTable = (target, data) => {
           </div>`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const val = Number.parseFloat(row.amount);
@@ -306,7 +307,7 @@ const getBrandList = () => {
         const option = document.createElement('option');
         option.value = brand.id;
         option.textContent = `${brand.name}`;
-        $('.brand_id').append(option);   
+        $('.brand_id').append(option);
       }
       $('.brand_id').addClass('has-updated');
     }
@@ -448,7 +449,7 @@ if (outletList.length > 0) {
     const brands = res.brands.data;
     sessionStorage.setItem('brands', JSON.stringify(brands));
   }).catch(res => console.log(res));
-  
+
   ajx.get('/api/agents').then((res) => {
     const items = res.agents.data;
     for (let item of items) {
@@ -469,7 +470,7 @@ if (formCreateSalesOrder.length > 0) {
     $('#form-submit').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.post('/api/sales_orders', data).then(res => window.location = '/sales_orders').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('#form-submit').attr('disabled', false);
@@ -513,7 +514,7 @@ if (formEditSalesOrder.length > 0) {
           status: res.status,
         });
       });
-      
+
       sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
       generateItemTable(tableSOItems, choosed_item);
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
@@ -544,7 +545,7 @@ if (formEditSalesOrder.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormSalesOrder();
     ajx.put(`/api/sales_orders/${id}`, data).then(res => window.location = '/sales_orders').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

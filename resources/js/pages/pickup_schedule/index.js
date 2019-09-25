@@ -187,6 +187,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },
       { data: 'person.name' },

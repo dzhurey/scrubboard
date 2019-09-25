@@ -13,6 +13,7 @@ const createTable = (target, data) => {
     info: false,
     paging: true,
     pageLength: 5,
+    order: [[3, 'desc']],
     columns: [
       { data: 'payment_code' },
       { data: 'payment_lines[0].transaction.transaction_number' },

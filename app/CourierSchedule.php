@@ -8,10 +8,12 @@ use App\PickupSchedule;
 use App\DeliverySchedule;
 use App\Agent;
 use Carbon\Carbon;
+use App\Traits\DeliveryStatusTrait;
 
 class CourierSchedule extends BaseModel
 {
     use SingleTableInheritanceTrait;
+    use DeliveryStatusTrait;
 
     protected $table = 'courier_schedules';
 
@@ -71,18 +73,12 @@ class CourierSchedule extends BaseModel
         $open = $this->courierScheduleLines->filter(function ($item, $key) {
             return $item->transactionLine->status == 'open';
         })->count();
-        if ($scheduled == 0 && $delivered == 0) {
-            return 'open';
-        }
-        if ($open > 0 && $scheduled > 0) {
-            return 'partial-scheduled';
-        }
-        if ($delivered > 0 && $delivered < $this->courierScheduleLines->count() && $open == 0) {
-            return 'partial';
-        } elseif ($delivered != $this->courierScheduleLines->count() && $open == 0) {
-            return 'scheduled';
-        }
-        return 'done';
+        $canceled = $this->courierScheduleLines->filter(function ($item, $key) {
+            return $item->transactionLine->status == 'canceled';
+        })->count();
+        $total = $this->courierScheduleLines->count();
+
+        return $this->generateDeliveryStatus($delivered, $scheduled, $open, $total, $canceled);
     }
 
     public function customFilter($builder, $filters)

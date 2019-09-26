@@ -92,7 +92,7 @@ if (formEditSubCategory.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/item_sub_categories/${id}`).then(res => window.location = '/item_sub_categories').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete sub category')
     });
   })
 }

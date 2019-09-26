@@ -78,7 +78,7 @@ if (formEditCategory.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/item_groups/${id}`).then(res => window.location = '/item_groups').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete category')
     });
   })
 }

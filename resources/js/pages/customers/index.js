@@ -96,7 +96,7 @@ if (formEditCustomer.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/customers/${idCustomer}`).then(res => window.location = '/customers').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete customer');
     });
   })
 }

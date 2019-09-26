@@ -52901,7 +52901,7 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/customers/".concat(idCustomer)).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete customer');
     });
   });
 }
@@ -53615,7 +53615,7 @@ if (formEditCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete category');
     });
   });
 }
@@ -53767,7 +53767,7 @@ if (formEditSubCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_sub_categories/".concat(id)).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete sub category');
     });
   });
 }

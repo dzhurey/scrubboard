@@ -54599,7 +54599,7 @@ if (EditPickupForm.length > 0) {
       });
     }
 
-    if (res.pickup_schedule.document_status == 'canceled') {
+    if (isCanceled(res)) {
       disableAllForm();
     }
   })["catch"](function (res) {
@@ -54625,6 +54625,10 @@ if (EditPickupForm.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.pickup_schedule.document_status == 'canceled';
+};
 
 var disableAllForm = function disableAllForm() {
   EditPickupForm.find('input, select').attr('disabled', 'disabled');
@@ -55800,7 +55804,7 @@ if (formEditSalesOrder.length > 0) {
     $('#discount').val(res.sales_order.discount);
     $('#discount_amount').val(res.sales_order.discount_amount);
     $('#freight').val(res.sales_order.freight);
-    $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+    $('#status_order').val(res.sales_order.transaction_status);
     $('#original_amount').val(res.sales_order.original_amount);
     $('#total_amount').val(res.sales_order.total_amount);
     $('#transaction_date').val(res.sales_order.transaction_date);
@@ -55809,6 +55813,10 @@ if (formEditSalesOrder.length > 0) {
     getPriceList(res.sales_order.customer.price_id);
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
+
+    if (isCanceled(res)) {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -55834,6 +55842,15 @@ if (formEditSalesOrder.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.sales_order.transaction_status == 'canceled';
+};
+
+var disableAllForm = function disableAllForm() {
+  formEditSalesOrder.find('input, select').attr('disabled', 'disabled');
+  formEditSalesOrder.find('button').attr('disabled', 'disabled');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

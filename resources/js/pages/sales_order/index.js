@@ -246,7 +246,7 @@ const generateItemTable = (target, data) => {
         render(data, type, row) {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
-          
+
           const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
@@ -539,7 +539,7 @@ if (formEditSalesOrder.length > 0) {
       $('#discount').val(res.sales_order.discount);
       $('#discount_amount').val(res.sales_order.discount_amount);
       $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#status_order').val(res.sales_order.transaction_status);
       $('#original_amount').val(res.sales_order.original_amount);
       $('#total_amount').val(res.sales_order.total_amount);
       $('#transaction_date').val(res.sales_order.transaction_date);
@@ -548,6 +548,10 @@ if (formEditSalesOrder.length > 0) {
       getPriceList(res.sales_order.customer.price_id);
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
+
+      if (isCanceled(res)) {
+        disableAllForm()
+      }
     })
     .catch(res => console.log(res));
 
@@ -569,4 +573,13 @@ if (formEditSalesOrder.length > 0) {
       alert(res.responseJSON.error_messages);
     });
   })
+}
+
+const isCanceled = (res) => {
+  return res.sales_order.transaction_status == 'canceled'
+}
+
+const disableAllForm = () => {
+  formEditSalesOrder.find('input, select').attr('disabled', 'disabled')
+  formEditSalesOrder.find('button').attr('disabled', 'disabled')
 }

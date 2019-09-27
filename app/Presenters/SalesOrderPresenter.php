@@ -29,6 +29,10 @@ class SalesOrderPresenter extends BasePresenter
             $item->brand = $item->brand;
             return $item;
         });
+        $input->courier_schedule = null;
+        if (!empty($input->transactionLines->first()->courierScheduleLine)) {
+            $input->courier_schedule = $input->transactionLines->first()->courierScheduleLine->courierSchedule;
+        }
         return $input;
     }
 }

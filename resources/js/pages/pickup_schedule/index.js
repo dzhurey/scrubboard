@@ -375,7 +375,7 @@ if (EditPickupForm.length > 0) {
           $(item).addClass('d-none');
         })
       }
-      if (res.pickup_schedule.document_status == 'canceled') {
+      if (isCanceled(res)) {
         disableAllForm()
       }
     })
@@ -397,6 +397,10 @@ if (EditPickupForm.length > 0) {
       alert(res.responseJSON.message)
     });
   })
+}
+
+const isCanceled = (res) => {
+  return res.pickup_schedule.document_status == 'canceled'
 }
 
 const disableAllForm = () => {

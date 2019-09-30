@@ -5,9 +5,8 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="sales_invoice_id">Sales Invoice ID</label>
-                    <select class="form-control select2" id="payment-sales-invoice-id" name="sales_invoice_id" required>
-                        <option></option>
-                    </select>
+                    <input class="form-control cursor-pointer" id="payment-sales-invoice-id" name="sales_invoice_id" required readonly placeholder="Sales Invoices ID" />
+                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modal-sales-invoices-payment">Add Sales Invoice</button>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>

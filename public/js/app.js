@@ -53823,6 +53823,8 @@ var formCreatePayment = $('#form-create-payment');
 var salesInvoicePayment = $('#payment-sales-invoice-id');
 var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
+var modalSIpayment = $('#modal-si-form-payment');
+var modalSITable = $('#modal-si-form-table-payment');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -53857,24 +53859,93 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"radio\" name=\"invoice_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+      }
+    }, {
+      data: 'transaction_number'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'total_amount'
+    }, {
+      data: 'id',
+      render: function render() {
+        return '';
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.check-item').change(function (e) {
+        var id = e.target.value;
+
+        if (e.target.checked) {
+          _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+            sessionStorage.setItem('choosed_si', JSON.stringify(res.sales_invoice));
+          });
+        }
+      });
+    }
+  });
+};
+
+if (modalSIpayment.length > 0) {
+  modalSIpayment.submit(function (e) {
+    e.preventDefault();
+    var choosed_si = JSON.parse(sessionStorage.choosed_si);
+    modalSITable.DataTable().destroy();
+    createSiFormTablePayment(modalSITable, choosed_si);
+    $('#modal-sales-invoices-payment').modal('hide');
+    $('.check-item').each(function (i, item) {
+      item.checked = false;
+    });
+    $('#customer-name').val(choosed_si.customer.name);
+    $('#customer-name').attr('customer-id', choosed_si.customer.id);
+    $('#transaction_type').val(choosed_si.transaction_type);
+    $('#total-amount').val(choosed_si.total_amount);
+    $('#amount').val(choosed_si.total_amount);
+    $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
+    $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    return false;
+  });
+}
+
 if (salesInvoicePayment.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then(function (res) {
-    sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
+    createSiFormTablePayment(modalSITable, res.sales_invoices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (bankAccount.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
+    sessionStorage.setItem('bank_accounts', JSON.stringify(res.bank_accounts.data));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = res.sales_invoices.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = res.bank_accounts.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var item = _step.value;
         var option = document.createElement('option');
         option.value = item.id;
-        option.textContent = "".concat(item.transaction_number);
-        salesInvoicePayment.append(option);
-        salesInvoicePayment.select2({
-          theme: 'bootstrap',
-          placeholder: 'Choose option'
-        });
+        option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
+        bankAccount.append(option);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -53887,74 +53958,6 @@ if (salesInvoicePayment.length > 0) {
       } finally {
         if (_didIteratorError) {
           throw _iteratorError;
-        }
-      }
-    }
-  })["catch"](function (res) {
-    return console.log(res);
-  });
-  salesInvoicePayment.change(function (e) {
-    var items = JSON.parse(sessionStorage.sales_invoices);
-    var id = parseFloat(e.target.value);
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var item = _step2.value;
-
-        if (item.id === id) {
-          $('#customer-name').val(item.customer.name);
-          $('#customer-name').attr('customer-id', item.customer.id);
-          $('#transaction_type').val(item.transaction_type);
-          $('#total-amount').val(item.total_amount);
-          $('#amount').val(item.total_amount);
-        }
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-          _iterator2["return"]();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-  });
-}
-
-if (bankAccount.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
-    sessionStorage.setItem('bank_accounts', JSON.stringify(res.bank_accounts.data));
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = res.bank_accounts.data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var item = _step3.value;
-        var option = document.createElement('option');
-        option.value = item.id;
-        option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
-        bankAccount.append(option);
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-          _iterator3["return"]();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
         }
       }
     }
@@ -53989,7 +53992,7 @@ if (formCreatePayment.length > 0) {
       "customer_id": $('#customer-name').attr('customer-id'),
       "payment_date": $('#date').val(),
       "payment_type": $('#payment_method').val(),
-      "transaction_id": $('#payment-sales-invoice-id').val(),
+      "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
       "bank_account_id": $('#bank_account').val(),
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
@@ -55429,7 +55432,7 @@ var generateItemTable = function generateItemTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var del = "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(row.item_id, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
-        var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
+        var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status === 'done' ? 'picked' : row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
         var buttonCancel = "<button id=\"cancel_".concat(row.id, "\" type=\"button\" class=\"btn btn-light mx-2 auto-button\" style=\"display: inline-block; vertical-align: middle; top: 0;\">Cancel</button>");
         var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
         return row.status ? status + buttonCancel + buttonPicked : del;
@@ -55453,7 +55456,7 @@ var generateItemTable = function generateItemTable(target, data) {
           var qty = parseFloat($("#quantity_".concat(id)).val());
           var itm = parseFloat($("#unit_price_".concat(id)).val());
           $("#amount_".concat(id)).val(qty * itm);
-          $("#status_".concat(id)).val('done');
+          $("#status_".concat(id)).val('picked');
           totalBeforeDisc();
         }
       });
@@ -55601,7 +55604,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
           discount_amount: _discount_amount,
-          status: target.querySelector('input[name="status"]') ? target.querySelector('input[name="status"]').value : 'open'
+          status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value
         });
       } else {
         transaction_lines.push({

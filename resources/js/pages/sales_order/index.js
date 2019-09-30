@@ -247,7 +247,7 @@ const generateItemTable = (target, data) => {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
           
-          const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
+          const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status === 'done' ? 'picked' : row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
           return row.status ? status + buttonCancel + buttonPicked : del;
@@ -271,7 +271,7 @@ const generateItemTable = (target, data) => {
           const qty = parseFloat($(`#quantity_${id}`).val());
           const itm = parseFloat($(`#unit_price_${id}`).val());
           $(`#amount_${id}`).val(qty * itm);
-          $(`#status_${id}`).val('done');
+          $(`#status_${id}`).val('picked');
           totalBeforeDisc();
         }
       })
@@ -385,7 +385,7 @@ const dataFormSalesOrder = () => {
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
           discount_amount: discount_amount,
-          status: target.querySelector('input[name="status"]') ? target.querySelector('input[name="status"]').value : 'open',
+          status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value,
         })
       } else {
         transaction_lines.push({

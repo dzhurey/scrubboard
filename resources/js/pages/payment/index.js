@@ -5,6 +5,8 @@ const formCreatePayment = $('#form-create-payment');
 const salesInvoicePayment = $('#payment-sales-invoice-id');
 const paymentMethod = $('#payment_method');
 const bankAccount = $('#bank_account');
+const modalSIpayment = $('#modal-si-form-payment');
+const modalSITable = $('#modal-si-form-table-payment');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
@@ -34,35 +36,78 @@ const createTable = (target, data) => {
   })
 };
 
-if (salesInvoicePayment.length > 0) {
-  ajx.get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then((res) => {
-    sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
-    for (let item of res.sales_invoices.data) {
-      const option = document.createElement('option');
-      option.value = item.id;
-      option.textContent = `${item.transaction_number}`;
-      salesInvoicePayment.append(option);
-
-      salesInvoicePayment.select2({
-        theme: 'bootstrap',
-        placeholder: 'Choose option',
+const createSiFormTablePayment = (target, data) => {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="radio" name="invoice_id" class="check-item" value="${data}" />`;
+        },
+      },
+      { data: 'transaction_number' },
+      { data: 'customer.name' },
+      {
+        data: 'address',
+        render(data) {
+          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
+        }
+      },
+      {
+        data: 'total_amount',
+      },
+      {
+        data: 'id',
+        render() {
+          return ''
+        }
+      }
+    ],
+    drawCallback: () => {
+      $('.check-item').change((e) => {
+        const id = e.target.value;
+        if (e.target.checked) {
+          ajx.get(`/api/sales_invoices/${id}`)
+            .then((res) => {
+              sessionStorage.setItem('choosed_si', JSON.stringify(res.sales_invoice));
+            })
+        }
       });
     }
-  }).catch(res => console.log(res));
+  });
+};
 
-  salesInvoicePayment.change((e) => {
-    const items = JSON.parse(sessionStorage.sales_invoices);
-    const id = parseFloat(e.target.value);
-    for (let item of items) {
-      if (item.id === id) {
-        $('#customer-name').val(item.customer.name);
-        $('#customer-name').attr('customer-id', item.customer.id);
-        $('#transaction_type').val(item.transaction_type);
-        $('#total-amount').val(item.total_amount);
-        $('#amount').val(item.total_amount);
-      }
-    }
-  })
+if (modalSIpayment.length > 0) {
+  modalSIpayment.submit((e) => {
+    e.preventDefault();
+    const choosed_si = JSON.parse(sessionStorage.choosed_si);
+    modalSITable.DataTable().destroy();
+    createSiFormTablePayment(modalSITable, choosed_si);
+    $('#modal-sales-invoices-payment').modal('hide');
+    $('.check-item').each((i, item) => {
+      item.checked = false;
+    })
+    $('#customer-name').val(choosed_si.customer.name);
+    $('#customer-name').attr('customer-id', choosed_si.customer.id);
+    $('#transaction_type').val(choosed_si.transaction_type);
+    $('#total-amount').val(choosed_si.total_amount);
+    $('#amount').val(choosed_si.total_amount);
+    $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
+    $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    return false;
+  });
+}
+
+if (salesInvoicePayment.length > 0) {
+  ajx.get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then((res) => {
+    createSiFormTablePayment(modalSITable, res.sales_invoices.data);
+  }).catch(res => console.log(res));
 }
 
 if (bankAccount.length > 0) {
@@ -103,7 +148,7 @@ if (formCreatePayment.length > 0) {
       "customer_id" : $('#customer-name').attr('customer-id'),
       "payment_date" : $('#date').val(),
       "payment_type" : $('#payment_method').val(),
-      "transaction_id" : $('#payment-sales-invoice-id').val(),
+      "transaction_id" : $('#payment-sales-invoice-id').attr('data-id'),
       "bank_account_id" : $('#bank_account').val(),
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),

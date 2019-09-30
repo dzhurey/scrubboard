@@ -192,22 +192,24 @@ const getDetailSalesOrder = (url, key, id) => {
     let id = 0;
     res[key].transaction_lines.forEach(res => {
       id = res.id ? res.id : id + 1;
-      choosed_item.push({
-        id: id,
-        "item_id": res.item_id,
-        "brand_id": res.brand_id,
-        "brand_name": res.brand.name,
-        "bor": res.bor,
-        "price_id": res.item.price_id,
-        "unit_price": res.unit_price,
-        discount: res.discount,
-        quantity: res.quantity,
-        color: res.color,
-        note: res.note,
-        name: res.item.description,
-        amount: res.amount,
-        status: res.status,
-      });
+      if (res.status !== 'canceled') {
+        choosed_item.push({
+          id: id,
+          "item_id": res.item_id,
+          "brand_id": res.brand_id,
+          "brand_name": res.brand.name,
+          "bor": res.bor,
+          "price_id": res.item.price_id,
+          "unit_price": res.unit_price,
+          discount: res.discount,
+          quantity: res.quantity,
+          color: res.color,
+          note: res.note,
+          name: res.item.description,
+          amount: res.amount,
+          status: res.status,
+        });
+      }
     });
     sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
     generateItemTable(tableSOItems, choosed_item);

@@ -17,14 +17,14 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const agent = row.transaction.agent;
           return `${agent.name}`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const address = row.transaction.address;
@@ -61,9 +61,9 @@ const createSOTable = (target, data) => {
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
             <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image">
+            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" disabled="${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false'}">
             <input id="method" type="hidden" name="_method" value="put">
-            <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}">Upload</button>
+            <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}" disabled="${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false'}">Upload</button>
           </form>
         </td>
         <td></td>

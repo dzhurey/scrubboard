@@ -73,10 +73,11 @@ const createSOTable = (target, data) => {
     const items = d.transaction_lines;
     items.map((res) => {
       const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
+      const documentStatus = $('#document_status').val()
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -84,14 +85,14 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '' }>
           </td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' ? '' : 'checked' }>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' ? '' : 'checked' }>
           </td>
           <td>${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -99,7 +100,7 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
           </td>
           <td></td>
         </tr>`;
@@ -202,7 +203,7 @@ const createTable = (target, data) => {
           return `${agent.name}`
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const address = row.transaction.address;
@@ -374,6 +375,9 @@ if (EditPickupForm.length > 0) {
           $(item).addClass('d-none');
         })
       }
+      if (isCanceled(res)) {
+        disableAllForm()
+      }
     })
     .catch(res => console.log(res));
 
@@ -393,4 +397,13 @@ if (EditPickupForm.length > 0) {
       alert(res.responseJSON.message)
     });
   })
+}
+
+const isCanceled = (res) => {
+  return res.pickup_schedule.document_status == 'canceled'
+}
+
+const disableAllForm = () => {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled')
+  EditPickupForm.find('button').addClass('d-none')
 }

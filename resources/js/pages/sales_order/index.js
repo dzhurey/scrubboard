@@ -373,20 +373,37 @@ const dataFormSalesOrder = () => {
       const amount = target.querySelector('input[name="amount"]').value;
       const discount_amount = parseFloat(unit_price) - parseFloat(amount);
       if (formEditSalesOrder.length > 0) {
-        transaction_lines.push({
-          id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
-          item_id: $(item).attr('data-id'),
-          note: target.querySelector('input[name="note"]').value,
-          bor: target.querySelector('input[name="bor"]').value,
-          brand_id: target.querySelector('select[name="brand_id"]').value,
-          color: target.querySelector('input[name="color"]').value,
-          quantity: target.querySelector('input[name="quantity"]').value,
-          unit_price: unit_price,
-          discount: target.querySelector('input[name="discount"]').value,
-          amount: amount,
-          discount_amount: discount_amount,
-          status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value,
-        })
+        if (target.querySelectorAll('input[name="status"]').length > 0) {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: discount_amount,
+            status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value,
+          })
+        } else {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: discount_amount,
+            status: 'open',
+          })
+        }
       } else {
         transaction_lines.push({
           item_id: $(item).attr('data-id'),
@@ -539,7 +556,7 @@ if (formEditSalesOrder.length > 0) {
       $('#discount').val(res.sales_order.discount);
       $('#discount_amount').val(res.sales_order.discount_amount);
       $('#freight').val(res.sales_order.freight);
-      $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+      $('#status_order').val(res.sales_order.transaction_status);
       $('#original_amount').val(res.sales_order.original_amount);
       $('#total_amount').val(res.sales_order.total_amount);
       $('#transaction_date').val(res.sales_order.transaction_date);
@@ -548,6 +565,10 @@ if (formEditSalesOrder.length > 0) {
       getPriceList(res.sales_order.customer.price_id);
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
+
+      if (isCanceled(res)) {
+        disableAllForm()
+      }
     })
     .catch(res => console.log(res));
 
@@ -569,4 +590,13 @@ if (formEditSalesOrder.length > 0) {
       alert(res.responseJSON.error_messages);
     });
   })
+}
+
+const isCanceled = (res) => {
+  return res.sales_order.transaction_status == 'canceled'
+}
+
+const disableAllForm = () => {
+  formEditSalesOrder.find('input, select').attr('disabled', 'disabled')
+  formEditSalesOrder.find('button').attr('disabled', 'disabled')
 }

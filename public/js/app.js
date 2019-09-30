@@ -52159,7 +52159,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52377,7 +52377,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -53007,11 +53007,12 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     var items = d.transaction_lines;
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+      var documentStatus = $('#document_status').val();
 
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53256,6 +53257,10 @@ if (EditDeliveryForm.length > 0) {
         $(item).addClass('d-none');
       });
     }
+
+    if (res.delivery_schedule.document_status == 'canceled') {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53279,6 +53284,11 @@ if (EditDeliveryForm.length > 0) {
     });
   });
 }
+
+var disableAllForm = function disableAllForm() {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled');
+  EditPickupForm.find('button').addClass('d-none');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -54271,11 +54281,12 @@ var createSOTable = function createSOTable(target, data) {
     var items = d.transaction_lines;
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
+      var documentStatus = $('#document_status').val();
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54590,6 +54601,10 @@ if (EditPickupForm.length > 0) {
         $(item).addClass('d-none');
       });
     }
+
+    if (isCanceled(res)) {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -54613,6 +54628,15 @@ if (EditPickupForm.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.pickup_schedule.document_status == 'canceled';
+};
+
+var disableAllForm = function disableAllForm() {
+  EditPickupForm.find('input, select').attr('disabled', 'disabled');
+  EditPickupForm.find('button').addClass('d-none');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -55006,22 +55030,25 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
     var id = 0;
     res[key].transaction_lines.forEach(function (res) {
       id = res.id ? res.id : id + 1;
-      choosed_item.push({
-        id: id,
-        "item_id": res.item_id,
-        "brand_id": res.brand_id,
-        "brand_name": res.brand.name,
-        "bor": res.bor,
-        "price_id": res.item.price_id,
-        "unit_price": res.unit_price,
-        discount: res.discount,
-        quantity: res.quantity,
-        color: res.color,
-        note: res.note,
-        name: res.item.description,
-        amount: res.amount,
-        status: res.status
-      });
+
+      if (res.status !== 'canceled') {
+        choosed_item.push({
+          id: id,
+          "item_id": res.item_id,
+          "brand_id": res.brand_id,
+          "brand_name": res.brand.name,
+          "bor": res.bor,
+          "price_id": res.item.price_id,
+          "unit_price": res.unit_price,
+          discount: res.discount,
+          quantity: res.quantity,
+          color: res.color,
+          note: res.note,
+          name: res.item.description,
+          amount: res.amount,
+          status: res.status
+        });
+      }
     });
     sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
     generateItemTable(tableSOItems, choosed_item);
@@ -55592,20 +55619,37 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
       var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
 
       if (formEditSalesOrder.length > 0) {
-        transaction_lines.push({
-          id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
-          item_id: $(item).attr('data-id'),
-          note: target.querySelector('input[name="note"]').value,
-          bor: target.querySelector('input[name="bor"]').value,
-          brand_id: target.querySelector('select[name="brand_id"]').value,
-          color: target.querySelector('input[name="color"]').value,
-          quantity: target.querySelector('input[name="quantity"]').value,
-          unit_price: unit_price,
-          discount: target.querySelector('input[name="discount"]').value,
-          amount: amount,
-          discount_amount: _discount_amount,
-          status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value
-        });
+        if (target.querySelectorAll('input[name="status"]').length > 0) {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: _discount_amount,
+            status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value
+          });
+        } else {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: _discount_amount,
+            status: 'open'
+          });
+        }
       } else {
         transaction_lines.push({
           item_id: $(item).attr('data-id'),
@@ -55783,7 +55827,7 @@ if (formEditSalesOrder.length > 0) {
     $('#discount').val(res.sales_order.discount);
     $('#discount_amount').val(res.sales_order.discount_amount);
     $('#freight').val(res.sales_order.freight);
-    $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+    $('#status_order').val(res.sales_order.transaction_status);
     $('#original_amount').val(res.sales_order.original_amount);
     $('#total_amount').val(res.sales_order.total_amount);
     $('#transaction_date').val(res.sales_order.transaction_date);
@@ -55792,6 +55836,10 @@ if (formEditSalesOrder.length > 0) {
     getPriceList(res.sales_order.customer.price_id);
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
+
+    if (isCanceled(res)) {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -55817,6 +55865,15 @@ if (formEditSalesOrder.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.sales_order.transaction_status == 'canceled';
+};
+
+var disableAllForm = function disableAllForm() {
+  formEditSalesOrder.find('input, select').attr('disabled', 'disabled');
+  formEditSalesOrder.find('button').attr('disabled', 'disabled');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

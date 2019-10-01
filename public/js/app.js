@@ -53267,7 +53267,7 @@ if (EditDeliveryForm.length > 0) {
     var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
     sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
     generateDataPickupEdit([data_line]);
-    var done = res.pickup_schedule.courier_schedule_lines.filter(function (res) {
+    var done = res.delivery_schedule.courier_schedule_lines.filter(function (res) {
       return res.status === 'done';
     }).length;
 

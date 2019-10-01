@@ -363,7 +363,7 @@ if (EditDeliveryForm.length > 0) {
       const data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
       sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
       generateDataPickupEdit([data_line]);
-      const done = res.pickup_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
+      const done = res.delivery_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
       if (done > 0) {
         $('.remove-item').each((i, item) => {
           $(item).addClass('d-none');

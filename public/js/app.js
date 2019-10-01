@@ -52159,7 +52159,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52377,7 +52377,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52901,7 +52901,7 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/customers/".concat(idCustomer)).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete customer');
     });
   });
 }
@@ -53049,6 +53049,10 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       }
     }],
     drawCallback: function drawCallback() {
+      if (EditDeliveryForm.length > 0) {
+        $('.remove-item').remove();
+      }
+
       removeItem();
       $('#table-si-item-delivery tbody td.details-control').each(function (i, item) {
         $(item).click(function (e) {
@@ -53093,6 +53097,21 @@ var createTable = function createTable(target, data) {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.delivery_status;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.transaction_number;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -53248,7 +53267,7 @@ if (EditDeliveryForm.length > 0) {
     var data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
     sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
     generateDataPickupEdit([data_line]);
-    var done = res.pickup_schedule.courier_schedule_lines.filter(function (res) {
+    var done = res.delivery_schedule.courier_schedule_lines.filter(function (res) {
       return res.status === 'done';
     }).length;
 
@@ -53625,7 +53644,7 @@ if (formEditCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_groups/".concat(id)).then(function (res) {
       return window.location = '/item_groups';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete category');
     });
   });
 }
@@ -53777,7 +53796,7 @@ if (formEditSubCategory.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/item_sub_categories/".concat(id)).then(function (res) {
       return window.location = '/item_sub_categories';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete sub category');
     });
   });
 }
@@ -53833,6 +53852,8 @@ var formCreatePayment = $('#form-create-payment');
 var salesInvoicePayment = $('#payment-sales-invoice-id');
 var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
+var modalSIpayment = $('#modal-si-form-payment');
+var modalSITable = $('#modal-si-form-table-payment');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -53867,24 +53888,93 @@ var createTable = function createTable(target, data) {
   });
 };
 
+var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
+  target.DataTable({
+    data: data,
+    lengthChange: false,
+    searching: false,
+    info: false,
+    paging: false,
+    pageLength: 10,
+    columns: [{
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"radio\" name=\"invoice_id\" class=\"check-item\" value=\"".concat(data, "\" />");
+      }
+    }, {
+      data: 'transaction_number'
+    }, {
+      data: 'customer.name'
+    }, {
+      data: 'address',
+      render: function render(data) {
+        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      }
+    }, {
+      data: 'total_amount'
+    }, {
+      data: 'id',
+      render: function render() {
+        return '';
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.check-item').change(function (e) {
+        var id = e.target.value;
+
+        if (e.target.checked) {
+          _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(id)).then(function (res) {
+            sessionStorage.setItem('choosed_si', JSON.stringify(res.sales_invoice));
+          });
+        }
+      });
+    }
+  });
+};
+
+if (modalSIpayment.length > 0) {
+  modalSIpayment.submit(function (e) {
+    e.preventDefault();
+    var choosed_si = JSON.parse(sessionStorage.choosed_si);
+    modalSITable.DataTable().destroy();
+    createSiFormTablePayment(modalSITable, choosed_si);
+    $('#modal-sales-invoices-payment').modal('hide');
+    $('.check-item').each(function (i, item) {
+      item.checked = false;
+    });
+    $('#customer-name').val(choosed_si.customer.name);
+    $('#customer-name').attr('customer-id', choosed_si.customer.id);
+    $('#transaction_type').val(choosed_si.transaction_type);
+    $('#total-amount').val(choosed_si.total_amount);
+    $('#amount').val(choosed_si.total_amount);
+    $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
+    $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    return false;
+  });
+}
+
 if (salesInvoicePayment.length > 0) {
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sales_invoices?filter[]=transaction_status,!=,closed').then(function (res) {
-    sessionStorage.setItem('sales_invoices', JSON.stringify(res.sales_invoices.data));
+    createSiFormTablePayment(modalSITable, res.sales_invoices.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (bankAccount.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
+    sessionStorage.setItem('bank_accounts', JSON.stringify(res.bank_accounts.data));
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
 
     try {
-      for (var _iterator = res.sales_invoices.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      for (var _iterator = res.bank_accounts.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
         var item = _step.value;
         var option = document.createElement('option');
         option.value = item.id;
-        option.textContent = "".concat(item.transaction_number);
-        salesInvoicePayment.append(option);
-        salesInvoicePayment.select2({
-          theme: 'bootstrap',
-          placeholder: 'Choose option'
-        });
+        option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
+        bankAccount.append(option);
       }
     } catch (err) {
       _didIteratorError = true;
@@ -53897,74 +53987,6 @@ if (salesInvoicePayment.length > 0) {
       } finally {
         if (_didIteratorError) {
           throw _iteratorError;
-        }
-      }
-    }
-  })["catch"](function (res) {
-    return console.log(res);
-  });
-  salesInvoicePayment.change(function (e) {
-    var items = JSON.parse(sessionStorage.sales_invoices);
-    var id = parseFloat(e.target.value);
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var item = _step2.value;
-
-        if (item.id === id) {
-          $('#customer-name').val(item.customer.name);
-          $('#customer-name').attr('customer-id', item.customer.id);
-          $('#transaction_type').val(item.transaction_type);
-          $('#total-amount').val(item.total_amount);
-          $('#amount').val(item.total_amount);
-        }
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-          _iterator2["return"]();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
-    }
-  });
-}
-
-if (bankAccount.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/bank_accounts').then(function (res) {
-    sessionStorage.setItem('bank_accounts', JSON.stringify(res.bank_accounts.data));
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
-
-    try {
-      for (var _iterator3 = res.bank_accounts.data[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-        var item = _step3.value;
-        var option = document.createElement('option');
-        option.value = item.id;
-        option.textContent = "".concat(item.bank.name, " - ").concat(item.account_number);
-        bankAccount.append(option);
-      }
-    } catch (err) {
-      _didIteratorError3 = true;
-      _iteratorError3 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
-          _iterator3["return"]();
-        }
-      } finally {
-        if (_didIteratorError3) {
-          throw _iteratorError3;
         }
       }
     }
@@ -53999,7 +54021,7 @@ if (formCreatePayment.length > 0) {
       "customer_id": $('#customer-name').attr('customer-id'),
       "payment_date": $('#date').val(),
       "payment_type": $('#payment_method').val(),
-      "transaction_id": $('#payment-sales-invoice-id').val(),
+      "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
       "bank_account_id": $('#bank_account').val(),
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
@@ -54369,6 +54391,21 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return row.pickup_status;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.transaction_number;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         var agent = row.transaction.agent;
         return "".concat(agent.name);
       }
@@ -54599,7 +54636,7 @@ if (EditPickupForm.length > 0) {
       });
     }
 
-    if (res.pickup_schedule.document_status == 'canceled') {
+    if (isCanceled(res)) {
       disableAllForm();
     }
   })["catch"](function (res) {
@@ -54625,6 +54662,10 @@ if (EditPickupForm.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.pickup_schedule.document_status == 'canceled';
+};
 
 var disableAllForm = function disableAllForm() {
   EditPickupForm.find('input, select').attr('disabled', 'disabled');
@@ -55023,22 +55064,25 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
     var id = 0;
     res[key].transaction_lines.forEach(function (res) {
       id = res.id ? res.id : id + 1;
-      choosed_item.push({
-        id: id,
-        "item_id": res.item_id,
-        "brand_id": res.brand_id,
-        "brand_name": res.brand.name,
-        "bor": res.bor,
-        "price_id": res.item.price_id,
-        "unit_price": res.unit_price,
-        discount: res.discount,
-        quantity: res.quantity,
-        color: res.color,
-        note: res.note,
-        name: res.item.description,
-        amount: res.amount,
-        status: res.status
-      });
+
+      if (res.status !== 'canceled') {
+        choosed_item.push({
+          id: id,
+          "item_id": res.item_id,
+          "brand_id": res.brand_id,
+          "brand_name": res.brand.name,
+          "bor": res.bor,
+          "price_id": res.item.price_id,
+          "unit_price": res.unit_price,
+          discount: res.discount,
+          quantity: res.quantity,
+          color: res.color,
+          note: res.note,
+          name: res.item.description,
+          amount: res.amount,
+          status: res.status
+        });
+      }
     });
     sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
     generateItemTable(tableSOItems, choosed_item);
@@ -55449,10 +55493,19 @@ var generateItemTable = function generateItemTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var del = "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(row.item_id, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Reset\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
-        var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
+        var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status === 'done' ? 'picked' : row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
         var buttonCancel = "<button id=\"cancel_".concat(row.id, "\" type=\"button\" class=\"btn btn-light mx-2 auto-button\" style=\"display: inline-block; vertical-align: middle; top: 0;\">Cancel</button>");
         var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
-        return row.status ? status + buttonCancel + buttonPicked : del;
+
+        if (row.status) {
+          if (row.status === 'canceled' || row.status === 'done') {
+            return status;
+          }
+
+          return status + buttonCancel + buttonPicked;
+        } else {
+          return del;
+        }
       }
     }],
     drawCallback: function drawCallback() {
@@ -55473,7 +55526,7 @@ var generateItemTable = function generateItemTable(target, data) {
           var qty = parseFloat($("#quantity_".concat(id)).val());
           var itm = parseFloat($("#unit_price_".concat(id)).val());
           $("#amount_".concat(id)).val(qty * itm);
-          $("#status_".concat(id)).val('done');
+          $("#status_".concat(id)).val('picked');
           totalBeforeDisc();
         }
       });
@@ -55609,20 +55662,37 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
       var _discount_amount = parseFloat(unit_price) - parseFloat(amount);
 
       if (formEditSalesOrder.length > 0) {
-        transaction_lines.push({
-          id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
-          item_id: $(item).attr('data-id'),
-          note: target.querySelector('input[name="note"]').value,
-          bor: target.querySelector('input[name="bor"]').value,
-          brand_id: target.querySelector('select[name="brand_id"]').value,
-          color: target.querySelector('input[name="color"]').value,
-          quantity: target.querySelector('input[name="quantity"]').value,
-          unit_price: unit_price,
-          discount: target.querySelector('input[name="discount"]').value,
-          amount: amount,
-          discount_amount: _discount_amount,
-          status: target.querySelector('input[name="status"]') ? target.querySelector('input[name="status"]').value : 'open'
-        });
+        if (target.querySelectorAll('input[name="status"]').length > 0) {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: _discount_amount,
+            status: target.querySelector('input[name="status"]').value === 'picked' ? 'done' : target.querySelector('input[name="status"]').value
+          });
+        } else {
+          transaction_lines.push({
+            id: item.hasAttribute('line-id') ? item.id.split('_')[2] : null,
+            item_id: $(item).attr('data-id'),
+            note: target.querySelector('input[name="note"]').value,
+            bor: target.querySelector('input[name="bor"]').value,
+            brand_id: target.querySelector('select[name="brand_id"]').value,
+            color: target.querySelector('input[name="color"]').value,
+            quantity: target.querySelector('input[name="quantity"]').value,
+            unit_price: unit_price,
+            discount: target.querySelector('input[name="discount"]').value,
+            amount: amount,
+            discount_amount: _discount_amount,
+            status: 'open'
+          });
+        }
       } else {
         transaction_lines.push({
           item_id: $(item).attr('data-id'),
@@ -55800,7 +55870,7 @@ if (formEditSalesOrder.length > 0) {
     $('#discount').val(res.sales_order.discount);
     $('#discount_amount').val(res.sales_order.discount_amount);
     $('#freight').val(res.sales_order.freight);
-    $('#status_order').val(res.sales_order.order_type === 'general' ? 'open' : 'closed');
+    $('#status_order').val(res.sales_order.transaction_status);
     $('#original_amount').val(res.sales_order.original_amount);
     $('#total_amount').val(res.sales_order.total_amount);
     $('#transaction_date').val(res.sales_order.transaction_date);
@@ -55809,6 +55879,10 @@ if (formEditSalesOrder.length > 0) {
     getPriceList(res.sales_order.customer.price_id);
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
+
+    if (isCanceled(res)) {
+      disableAllForm();
+    }
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -55834,6 +55908,15 @@ if (formEditSalesOrder.length > 0) {
     });
   });
 }
+
+var isCanceled = function isCanceled(res) {
+  return res.sales_order.transaction_status == 'canceled';
+};
+
+var disableAllForm = function disableAllForm() {
+  formEditSalesOrder.find('input, select').attr('disabled', 'disabled');
+  formEditSalesOrder.find('button').attr('disabled', 'disabled');
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -58971,8 +59054,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

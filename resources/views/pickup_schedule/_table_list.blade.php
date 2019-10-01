@@ -1,18 +1,23 @@
 @if ($pickup_schedules->count() > 0 || !empty($query))
 <div class="c-table--outer">
-    <table id="table-pickup-schedule" class="c-table table table-striped">
-        <thead>
-            <tr>
-                <th>Pick Up Code</th>
-                <th>Courier Name</th>
-                <th>Vehicle</th>
-                <th>Schedule Date</th>
-                <th>Outlet</th>
-                <th class="th-item">Pickup Address</th>
-                <th></th>
-            </tr>
-        </thead>
-    </table>
+    <div class="table-responsive">
+        <table id="table-pickup-schedule" class="c-table table table-striped">
+            <thead>
+                <tr>
+                    <th>Pick Up Code</th>
+                    <th>Courier Name</th>
+                    <th>Vehicle</th>
+                    <th>Schedule Date</th>
+                    <th>Status</th>
+                    <th>Sales Order Number</th>
+                    <th>Customer Name</th>
+                    <th>Outlet</th>
+                    <th class="th-item">Pickup Address</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 @else
 <div class="text-center py-5 mt-5">

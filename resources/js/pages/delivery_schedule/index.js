@@ -151,6 +151,9 @@ const createSITableDelivery = (target, data) => {
       },
     ],
     drawCallback: () => {
+      if (EditDeliveryForm.length > 0) {
+        $('.remove-item').remove();
+      }
       removeItem();
       $('#table-si-item-delivery tbody td.details-control').each((i, item) => {
         $(item).click((e) => {
@@ -193,6 +196,24 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return row.delivery_status;
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return row.transaction.transaction_number;
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return row.transaction.customer.name;
+        }
+      },
       {
         data: 'id',
         render(data, type, row) {
@@ -342,7 +363,7 @@ if (EditDeliveryForm.length > 0) {
       const data_line = groupBy(res.delivery_schedule.courier_schedule_lines, 'transaction_id');
       sessionStorage.setItem('choosed_si', JSON.stringify([data_line]));
       generateDataPickupEdit([data_line]);
-      const done = res.pickup_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
+      const done = res.delivery_schedule.courier_schedule_lines.filter(res => res.status === 'done').length;
       if (done > 0) {
         $('.remove-item').each((i, item) => {
           $(item).addClass('d-none');

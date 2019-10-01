@@ -23,4 +23,11 @@ class DeliverySchedulePresenter extends CourierSchedulePresenter
         $this->transaction_presenter = $transaction_presenter;
         $this->courier_schedule_line_presenter = $courier_schedule_line_presenter;
     }
+
+    public function transform($input)
+    {
+        $input = parent::transform($input);
+        $input->delivery_status = $input->deliveryStatus();
+        return $input;
+    }
 }

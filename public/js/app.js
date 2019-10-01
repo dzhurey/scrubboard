@@ -53049,6 +53049,10 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       }
     }],
     drawCallback: function drawCallback() {
+      if (EditDeliveryForm.length > 0) {
+        $('.remove-item').remove();
+      }
+
       removeItem();
       $('#table-si-item-delivery tbody td.details-control').each(function (i, item) {
         $(item).click(function (e) {
@@ -53093,6 +53097,21 @@ var createTable = function createTable(target, data) {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.delivery_status;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.transaction_number;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -54372,6 +54391,21 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return row.pickup_status;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.transaction_number;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         var agent = row.transaction.agent;
         return "".concat(agent.name);
       }
@@ -55462,7 +55496,16 @@ var generateItemTable = function generateItemTable(target, data) {
         var status = "<input id=\"status_".concat(row.id, "\" class=\"form-control\" name=\"status\" readonly value=\"").concat(row.status === 'done' ? 'picked' : row.status, "\" style=\"display: inline-block; width: 100px; vertical-align: middle;\" />");
         var buttonCancel = "<button id=\"cancel_".concat(row.id, "\" type=\"button\" class=\"btn btn-light mx-2 auto-button\" style=\"display: inline-block; vertical-align: middle; top: 0;\">Cancel</button>");
         var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
-        return row.status ? status + buttonCancel + buttonPicked : del;
+
+        if (row.status) {
+          if (row.status === 'canceled' || row.status === 'done') {
+            return status;
+          }
+
+          return status + buttonCancel + buttonPicked;
+        } else {
+          return del;
+        }
       }
     }],
     drawCallback: function drawCallback() {

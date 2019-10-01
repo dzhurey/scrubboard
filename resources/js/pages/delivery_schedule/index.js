@@ -151,6 +151,9 @@ const createSITableDelivery = (target, data) => {
       },
     ],
     drawCallback: () => {
+      if (EditDeliveryForm.length > 0) {
+        $('.remove-item').remove();
+      }
       removeItem();
       $('#table-si-item-delivery tbody td.details-control').each((i, item) => {
         $(item).click((e) => {
@@ -193,6 +196,24 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return row.delivery_status;
+        }
+      },
+      { 
+        data: 'id',
+        render(data, type, row) {
+          return row.transaction.transaction_number;
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return row.transaction.customer.name;
+        }
+      },
       {
         data: 'id',
         render(data, type, row) {

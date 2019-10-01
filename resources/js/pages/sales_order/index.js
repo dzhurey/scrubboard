@@ -250,7 +250,14 @@ const generateItemTable = (target, data) => {
           const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status === 'done' ? 'picked' : row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
-          return row.status ? status + buttonCancel + buttonPicked : del;
+          if (row.status) {
+            if (row.status === 'canceled' || row.status === 'done') {
+              return status;
+            }
+            return status + buttonCancel + buttonPicked;
+          } else {
+            return del
+          }
         },
       },
     ],

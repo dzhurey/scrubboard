@@ -184,7 +184,7 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="bor_${row.id}" data-id="${row.item_id}" value="${row.bor ? row.bor : ''}" name="bor" required>`
+          return `<input type="text" class="form-control form_bor" id="bor_${row.id}" data-id="${row.item_id}" value="${row.bor ? row.bor : ''}" name="bor" required>`
         }
       },
       {
@@ -196,25 +196,25 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="color_${row.id}" data-id="${row.item_id}" name="color" value="${row.color ? row.color : ''}">`
+          return `<input type="text" class="form-control form_color" id="color_${row.id}" data-id="${row.item_id}" name="color" value="${row.color ? row.color : ''}">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
+          return `<input type="text" class="form-control form_note" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" data-id="${row.item_id}" value="1" name="quantity">`
+          return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" data-id="${row.item_id}" value="${row.quantity ? row.quantity  : 1}" name="quantity">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="0" name="discount">`
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount">`
         }
       },
       {
@@ -246,7 +246,7 @@ const generateItemTable = (target, data) => {
         render(data, type, row) {
           const del = `<a href="javascript:void(0)" id="delete_${data}" data-id="${row.item_id}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip"
           data-placement="top" title="Reset"><img src="${window.location.origin}/assets/images/icons/trash.svg" alt="edit" width="16"></a>`;
-          
+
           const status = `<input id="status_${row.id}" class="form-control" name="status" readonly value="${row.status === 'done' ? 'picked' : row.status}" style="display: inline-block; width: 100px; vertical-align: middle;" />`;
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
@@ -285,9 +285,25 @@ const generateItemTable = (target, data) => {
       $('.brand_id').each((i, item) => {
         item.value = item.getAttribute('value');
       })
+      $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each((i, item) => {
+        $(item).on('change', handleChangeForm)
+      })
     },
   })
 };
+
+const handleChangeForm = event => {
+  const { name, value, dataset } = event.target
+  const id = dataset.id
+  const choosed_items = JSON.parse(sessionStorage.choosed_item)
+  const latest_choosed_item = choosed_items.map(item => {
+    if (item.item_id === id) {
+      item[name] = value
+    }
+    return item
+  })
+  sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
+}
 
 const removeItem = () => {
   $('.remove-item').click((e) => {
@@ -474,6 +490,9 @@ if (modalPriceForm.length > 0) {
     $('#modal-price').modal('hide');
     modalPriceFormTable.DataTable().destroy();
     createTablePriceFormTable(modalPriceFormTable, prices);
+    $('.quantity, .discount').each((i, item) => {
+      $(item).change()
+    })
     return false;
   });
 }
@@ -573,8 +592,8 @@ if (formEditSalesOrder.length > 0) {
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-      if (isCanceled(res)) {
-        disableAllForm()
+      if (isNotOpen(res)) {
+        disableAllForm(true)
       }
     })
     .catch(res => console.log(res));
@@ -599,11 +618,11 @@ if (formEditSalesOrder.length > 0) {
   })
 }
 
-const isCanceled = (res) => {
-  return res.sales_order.transaction_status == 'canceled'
+const isNotOpen = (res) => {
+  return res.sales_order.transaction_status !== 'open'
 }
 
 const disableAllForm = () => {
-  formEditSalesOrder.find('input, select').attr('disabled', 'disabled')
-  formEditSalesOrder.find('button').attr('disabled', 'disabled')
+  formEditSalesOrder.find('input, select, textarea').attr('disabled', 'disabled')
+  formEditSalesOrder.find('button').not('#button-cancel').attr('disabled', 'disabled')
 }

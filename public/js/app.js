@@ -55450,7 +55450,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"bor_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.bor ? row.bor : '', "\" name=\"bor\" required>");
+        return "<input type=\"text\" class=\"form-control form_bor\" id=\"bor_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.bor ? row.bor : '', "\" name=\"bor\" required>");
       }
     }, {
       data: 'id',
@@ -55460,22 +55460,22 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color ? row.color : '', "\">");
+        return "<input type=\"text\" class=\"form-control form_color\" id=\"color_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"color\" value=\"").concat(row.color ? row.color : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
+        return "<input type=\"text\" class=\"form-control form_note\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"1\" name=\"quantity\">");
+        return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.quantity ? row.quantity : 1, "\" name=\"quantity\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"0\" name=\"discount\">");
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\">");
       }
     }, {
       data: 'id',
@@ -55533,8 +55533,28 @@ var generateItemTable = function generateItemTable(target, data) {
       $('.brand_id').each(function (i, item) {
         item.value = item.getAttribute('value');
       });
+      $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each(function (i, item) {
+        $(item).on('change', handleChangeForm);
+      });
     }
   });
+};
+
+var handleChangeForm = function handleChangeForm(event) {
+  var _event$target = event.target,
+      name = _event$target.name,
+      value = _event$target.value,
+      dataset = _event$target.dataset;
+  var id = dataset.id;
+  var choosed_items = JSON.parse(sessionStorage.choosed_item);
+  var latest_choosed_item = choosed_items.map(function (item) {
+    if (item.item_id === id) {
+      item[name] = value;
+    }
+
+    return item;
+  });
+  sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
 };
 
 var removeItem = function removeItem() {
@@ -55756,6 +55776,9 @@ if (modalPriceForm.length > 0) {
     $('#modal-price').modal('hide');
     modalPriceFormTable.DataTable().destroy();
     createTablePriceFormTable(modalPriceFormTable, prices);
+    $('.quantity, .discount').each(function (i, item) {
+      $(item).change();
+    });
     return false;
   });
 }
@@ -55880,8 +55903,8 @@ if (formEditSalesOrder.length > 0) {
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-    if (isCanceled(res)) {
-      disableAllForm();
+    if (isNotOpen(res)) {
+      disableAllForm(true);
     }
   })["catch"](function (res) {
     return console.log(res);
@@ -55909,13 +55932,13 @@ if (formEditSalesOrder.length > 0) {
   });
 }
 
-var isCanceled = function isCanceled(res) {
-  return res.sales_order.transaction_status == 'canceled';
+var isNotOpen = function isNotOpen(res) {
+  return res.sales_order.transaction_status !== 'open';
 };
 
 var disableAllForm = function disableAllForm() {
-  formEditSalesOrder.find('input, select').attr('disabled', 'disabled');
-  formEditSalesOrder.find('button').attr('disabled', 'disabled');
+  formEditSalesOrder.find('input, select, textarea').attr('disabled', 'disabled');
+  formEditSalesOrder.find('button').not('#button-cancel').attr('disabled', 'disabled');
 };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
@@ -59054,8 +59077,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

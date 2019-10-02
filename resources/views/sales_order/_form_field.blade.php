@@ -151,7 +151,7 @@
         <button id="button-delete" class="btn btn-danger" type="button">Cancel Document</button>
     </div>
     <div class="col-sm-6 text-right">
-        <button class="btn btn-light mr-2" type="button">Cancel</button>
+        <button id='button-cancel' class="btn btn-light mr-2" type="button">Cancel</button>
         <!-- @if(!empty($sales_order))
         <div class="dropdown d-inline-block mr-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

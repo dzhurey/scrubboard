@@ -72,4 +72,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role === 'superadmin';
     }
+
+    public function isCourier()
+    {
+        return $this->role === 'courier';
+    }
 }

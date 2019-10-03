@@ -21,4 +21,9 @@ class BankAccount extends BaseModel
     {
         return $this->belongsTo('App\Bank');
     }
+
+    public function paymentMeans()
+    {
+        return $this->hasMany('App\PaymentMean');
+    }
 }

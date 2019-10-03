@@ -47,6 +47,6 @@ class Person extends BaseModel
 
     public function courierSchedules()
     {
-        return $this->belongsTo('App\CourierSchedules');
+        return $this->hasMany('App\CourierSchedule', 'person_id', 'id');
     }
 }

@@ -97,6 +97,10 @@ class ItemGroupController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($item_group->items)) {
+            return $this->renderError($request, __("rules.cannot_delete_category_has_item"), 422);
+        }
+
         $item_group->delete();
         return $this->renderView($request, '', [], ['route' => 'item_groups.index', 'data' => []], 204);
     }

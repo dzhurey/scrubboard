@@ -33,7 +33,7 @@ class CourierController extends Controller
         if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
-        
+
         $couriers = Person::whereHas('user', function ($query) {
             $query->where('role', '=', 'courier');
         });
@@ -148,6 +148,10 @@ class CourierController extends Controller
     {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
+        }
+
+        if (!empty($person->courierSchedules)) {
+            return $this->renderError($request, __("rules.cannot_delete_courier_has_schedule"), 422);
         }
 
         $person->user->delete();

@@ -98,6 +98,10 @@ class CustomerController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($customer->transactions)) {
+            return $this->renderError($request, __("rules.cannot_delete_customer_has_transaction"), 422);
+        }
+
         $customer->delete();
         return $this->renderView($request, '', [], ['route' => 'customers.index', 'data' => []], 204);
     }

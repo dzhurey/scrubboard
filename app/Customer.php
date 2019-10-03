@@ -52,6 +52,11 @@ class Customer extends BaseModel
         return $this->hasMany('App\Address');
     }
 
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
+
     public function price()
     {
         return $this->belongsTo('App\Price');

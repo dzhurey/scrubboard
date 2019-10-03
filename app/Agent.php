@@ -34,4 +34,9 @@ class Agent extends BaseModel
     {
         return $this->belongsTo('App\AgentGroup');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
 }

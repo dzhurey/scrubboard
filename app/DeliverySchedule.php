@@ -17,4 +17,8 @@ class DeliverySchedule extends CourierSchedule
     protected $custom_filterable = [
         'delivery_status'
     ];
+
+    protected $filterable = [
+        'document_status'
+    ];
 }

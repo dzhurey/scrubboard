@@ -52269,7 +52269,7 @@ var uploadImage = function uploadImage() {
 };
 
 if (tableCourierDS.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/delivery_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/delivery_schedules?filter[]=delivery_status,!=,done&filter[]=document_status,!=,canceled').then(function (res) {
     createTable(tableCourierDS, res.delivery_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -52487,7 +52487,7 @@ var uploadImage = function uploadImage() {
 };
 
 if (tableCourierPS.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done&filter[]=document_status,!=,canceled').then(function (res) {
     createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);

@@ -17,4 +17,8 @@ class PickupSchedule extends CourierSchedule
     protected $custom_filterable = [
         'pickup_status'
     ];
+
+    protected $filterable = [
+        'document_status'
+    ];
 }

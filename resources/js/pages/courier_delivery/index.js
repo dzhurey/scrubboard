@@ -196,7 +196,7 @@ const uploadImage = () => {
 };
 
 if (tableCourierDS.length > 0) {
-  ajx.get('/api/courier/delivery_schedules').then((res) => {
+  ajx.get('/api/courier/delivery_schedules?filter[]=delivery_status,!=,done&filter[]=document_status,!=,canceled').then((res) => {
     createTable(tableCourierDS, res.delivery_schedules.data);
   }).catch(res => console.log(res));
 }

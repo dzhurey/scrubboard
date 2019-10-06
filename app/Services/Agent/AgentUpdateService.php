@@ -9,7 +9,7 @@ use App\Agent;
 use App\AgentGroup;
 use Carbon\Carbon;
 
-class AgentStoreService extends BaseService
+class AgentUpdateService extends BaseService
 {
     protected $model;
 

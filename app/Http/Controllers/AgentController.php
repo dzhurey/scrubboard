@@ -9,6 +9,7 @@ use App\Presenters\AgentPresenter;
 use App\Http\Requests\StoreAgent;
 use App\Http\Requests\StoreUpdateAgent;
 use App\Services\Agent\AgentStoreService;
+use App\Services\Agent\AgentUpdateService;
 
 class AgentController extends Controller
 {
@@ -61,7 +62,7 @@ class AgentController extends Controller
     }
 
     public function store(
-        StoreUpdateAgent $request,
+        StoreAgent $request,
         AgentStoreService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
@@ -88,9 +89,9 @@ class AgentController extends Controller
     }
 
     public function update(
-        StoreAgent $request,
+        StoreUpdateAgent $request,
         Agent $agent,
-        AgentStoreService $service
+        AgentUpdateService $service
     ) {
         if (!$this->allowUser('superadmin-only')) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

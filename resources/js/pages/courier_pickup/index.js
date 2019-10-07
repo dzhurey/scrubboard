@@ -14,14 +14,13 @@ const createTable = (target, data) => {
     order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },
-      { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
       {
         data: 'id',
         render(data, type, row) {
-          const agent = row.transaction.agent;
-          return `${agent.name}`
+          const is_own_address = row.transaction.is_own_address;
+          return `${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}`
         }
       },
       {

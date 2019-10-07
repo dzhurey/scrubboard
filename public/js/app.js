@@ -52125,16 +52125,14 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'courier_code'
     }, {
-      data: 'person.name'
-    }, {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        var agent = row.transaction.agent;
-        return "".concat(agent.name);
+        var is_own_address = row.transaction.is_own_address;
+        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
       }
     }, {
       data: 'id',
@@ -52159,7 +52157,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand.name, "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" disabled=\"").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52343,16 +52341,14 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'courier_code'
     }, {
-      data: 'person.name'
-    }, {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        var agent = row.transaction.agent;
-        return "".concat(agent.name);
+        var is_own_address = row.transaction.is_own_address;
+        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
       }
     }, {
       data: 'id',
@@ -52901,7 +52897,7 @@ if (formEditCustomer.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/customers/".concat(idCustomer)).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
-      alert('Cannot delete customer');
+      alert('Cannot delete customer that has been used in transaction');
     });
   });
 }
@@ -52974,7 +52970,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
     }, {
       data: 'address',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'transaction_lines.length'
@@ -53010,9 +53006,9 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       var documentStatus = $('#document_status').val();
 
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -53040,7 +53036,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     }, {
       data: 'address',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'id',
@@ -53100,7 +53096,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.delivery_status;
+        return row.document_status;
       }
     }, {
       data: 'id',
@@ -53116,13 +53112,14 @@ var createTable = function createTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var agent = row.transaction.agent;
-        return "".concat(agent.name);
+        var customer = row.transaction.customer;
+        return "".concat(row.transaction.is_own_address ? customer.name : agent.name);
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
         var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+        return "".concat(address.description, ", ").concat(address.district, ", <br/>").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
       }
     }, {
       data: 'id',
@@ -54267,7 +54264,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
     }, {
       data: 'address',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'transaction_lines.length'
@@ -54303,9 +54300,9 @@ var createSOTable = function createSOTable(target, data) {
       var documentStatus = $('#document_status').val();
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " checked=\"").concat(res.status, "\">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -54330,7 +54327,7 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'address',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'id',
@@ -54391,7 +54388,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.pickup_status;
+        return row.document_status;
       }
     }, {
       data: 'id',
@@ -54407,13 +54404,14 @@ var createTable = function createTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var agent = row.transaction.agent;
-        return "".concat(agent.name);
+        var customer = row.transaction.customer;
+        return "".concat(row.transaction.is_own_address ? customer.name : agent.name);
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
         var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+        return "".concat(address.description, ", ").concat(address.district, ", <br/>").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
       }
     }, {
       data: 'id',
@@ -59077,8 +59075,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

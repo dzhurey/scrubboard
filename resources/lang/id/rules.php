@@ -16,6 +16,7 @@ return [
     "cannot_delete_category_has_item" => "Kategori ini telah dipasang di item, tidak bisa dihapus",
     "cannot_delete_sub_category_has_item" => "Sub Kategori ini telah dipasang di item, tidak bisa dihapus",
     "cannot_delete_courier_has_schedule" => "Kurir ini memiliki jadwal, tidak bisa dihapus",
+    "cannot_delete_vehicle_has_schedule" => "Kendaraan ini memiliki jadwal, tidak bisa dihapus",
     "cannot_delete_bank_has_payment" => "Bank memiliki pembayaran, tidak bisa dihapus",
     "cannot_delete_agent_has_transaction" => "Agen ini memiliki transaksi, tidak bisa dihapus",
     "bor_must_be_unique" => "BOR sudah digunakan sebelumnya",

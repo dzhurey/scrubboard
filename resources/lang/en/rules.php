@@ -16,6 +16,7 @@ return [
     "cannot_delete_category_has_item" => "Category has item, cannot be deleted",
     "cannot_delete_sub_category_has_item" => "Sub category has item, cannot be deleted",
     "cannot_delete_courier_has_schedule" => "Courier has schedule, cannot be deleted",
+    "cannot_delete_vehicle_has_schedule" => "Vehicle has schedule, cannot be deleted",
     "cannot_delete_bank_has_payment" => "Bank has payment, cannot be deleted",
     "cannot_delete_agent_has_transaction" => "Agent has transaction, cannot be deleted",
     "bor_must_be_unique" => "BOR must be unique",

@@ -18,4 +18,9 @@ class Vehicle extends BaseModel
     protected $searchable = [
         'number',
     ];
+
+    public function courierSchedules()
+    {
+        return $this->hasMany('App\CourierSchedule', 'vehicle_id', 'id');
+    }
 }

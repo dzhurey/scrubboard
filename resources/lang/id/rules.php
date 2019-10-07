@@ -18,4 +18,5 @@ return [
     "cannot_delete_courier_has_schedule" => "Kurir ini memiliki jadwal, tidak bisa dihapus",
     "cannot_delete_bank_has_payment" => "Bank memiliki pembayaran, tidak bisa dihapus",
     "cannot_delete_agent_has_transaction" => "Agen ini memiliki transaksi, tidak bisa dihapus",
+    "bor_must_be_unique" => "BOR sudah digunakan sebelumnya",
 ];

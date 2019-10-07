@@ -18,4 +18,5 @@ return [
     "cannot_delete_courier_has_schedule" => "Courier has schedule, cannot be deleted",
     "cannot_delete_bank_has_payment" => "Bank has payment, cannot be deleted",
     "cannot_delete_agent_has_transaction" => "Agent has transaction, cannot be deleted",
+    "bor_must_be_unique" => "BOR must be unique",
 ];

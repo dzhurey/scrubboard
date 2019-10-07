@@ -55428,6 +55428,14 @@ var createTablePriceFormTable = function createTablePriceFormTable(target, data)
 var errorMessage = function errorMessage(data) {
   Object.keys(data).map(function (key) {
     var $parent = $("#".concat(key)).closest('.form-group');
+    var keySplitted = key.split('.');
+
+    if (keySplitted.length > 0) {
+      var formInput = tableSOItems.find('.form_bor').eq(keySplitted[1]);
+      formInput.get(0).setCustomValidity("Invalid field.");
+      $parent = tableSOItems.find('.form_bor').eq(keySplitted[1]).closest('.form-group-item');
+    }
+
     $parent.addClass('is-error');
     $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
@@ -55450,7 +55458,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control form_bor\" id=\"bor_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.bor ? row.bor : '', "\" name=\"bor\" required>");
+        return "<div class=\"form-group-item\"><input type=\"text\" class=\"form-control form_bor\" id=\"bor_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.bor ? row.bor : '', "\" name=\"bor\" required><div class=\"invalid-feedback\">Data invalid.</div></div>");
       }
     }, {
       data: 'id',

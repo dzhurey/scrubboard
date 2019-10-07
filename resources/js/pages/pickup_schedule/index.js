@@ -79,7 +79,7 @@ const createSOTable = (target, data) => {
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } checked="${res.status}">
           </td>
-          <td>${res.status === 'done' ? 'Picked' : res.status}</td>
+          <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
           <td>${transactionLine.bor}</td>
           <td>${transactionLine.brand.name}</td>
@@ -94,7 +94,7 @@ const createSOTable = (target, data) => {
           <td>
             <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' ? '' : 'checked' }>
           </td>
-          <td>${res.status === 'done' ? 'Picked' : res.status}</td>
+          <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
           <td>${transactionLine.bor}</td>
           <td>${transactionLine.brand.name}</td>
@@ -267,7 +267,8 @@ const dataFormPickup = (tableList) => {
   const courier_schedule_lines = [];
   $('.transaction_id').each((i, item) => {
     const $parent = item.closest('tr');
-    if ($(item).prop('checked')) {
+    const status = $parent.querySelector('.transaction_line_status').innerHTML
+    if ($(item).prop('checked') && status === 'open') {
       courier_schedule_lines.push({
         transaction_line_id: $(item).val(),
         estimation_time: $parent.querySelector('input[name="eta"]').value,

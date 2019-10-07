@@ -161,7 +161,7 @@ const errorMessage = (data) => {
   Object.keys(data).map(key => {
     let $parent = $(`#${key}`).closest('.form-group');
     const keySplitted = key.split('.')
-    if (keySplitted.length > 0) {
+    if (keySplitted.length > 1) {
       const formInput = tableSOItems.find('.form_bor').eq(keySplitted[1])
       formInput.get(0).setCustomValidity("Invalid field.")
       $parent = tableSOItems.find('.form_bor').eq(keySplitted[1]).closest('.form-group-item')

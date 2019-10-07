@@ -196,13 +196,13 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return row.delivery_status;
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return row.transaction.transaction_number;
@@ -326,7 +326,7 @@ if (formCreateDelivery.length > 0) {
 }
 
 if (tableDelivery.length > 0) {
-  ajx.get('/api/delivery_schedules?filter[]=delivery_status,!=,done').then((res) => {
+  ajx.get('/api/delivery_schedules').then((res) => {
     createTable(tableDelivery, res.delivery_schedules.data);
   }).catch(res => console.log(res));
 }

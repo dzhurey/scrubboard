@@ -196,13 +196,13 @@ const createTable = (target, data) => {
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return row.pickup_status;
         }
       },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           return row.transaction.transaction_number;
@@ -350,7 +350,7 @@ if (formCreatePickup.length > 0) {
 }
 
 if (tablePickup.length > 0) {
-  ajx.get('/api/pickup_schedules?filter[]=pickup_status,!=,done').then((res) => {
+  ajx.get('/api/pickup_schedules').then((res) => {
     createTable(tablePickup, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }

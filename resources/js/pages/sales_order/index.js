@@ -619,7 +619,7 @@ if (formEditSalesOrder.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/sales_orders/${id}`).then(res => window.location = '/sales_orders').catch(res => {
-      alert(res.responseJSON.error_messages);
+      alert(res.responseJSON.message);
     });
   })
 }

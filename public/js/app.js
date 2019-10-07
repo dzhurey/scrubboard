@@ -55935,7 +55935,7 @@ if (formEditSalesOrder.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sales_orders/".concat(id)).then(function (res) {
       return window.location = '/sales_orders';
     })["catch"](function (res) {
-      alert(res.responseJSON.error_messages);
+      alert(res.responseJSON.message);
     });
   });
 }

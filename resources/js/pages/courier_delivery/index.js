@@ -61,9 +61,9 @@ const createSOTable = (target, data) => {
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
             <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" disabled="${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false'}">
+            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}>
             <input id="method" type="hidden" name="_method" value="put">
-            <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}" disabled="${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : 'false'}">Upload</button>
+            <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}>Upload</button>
           </form>
         </td>
         <td></td>

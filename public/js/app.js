@@ -52131,6 +52131,11 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
         return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
       }
@@ -52344,6 +52349,11 @@ var createTable = function createTable(target, data) {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -59084,8 +59094,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

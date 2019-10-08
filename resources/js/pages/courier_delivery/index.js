@@ -19,6 +19,12 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
+          return row.transaction.customer.name;
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
           const is_own_address = row.transaction.is_own_address;
           return `${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}`
         }

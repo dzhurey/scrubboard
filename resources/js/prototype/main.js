@@ -20,9 +20,11 @@
 
   const removeError = () => {
     const fields = $('.is-error');
-    fields.forEach((i, a) => {
-      debugger;
-    })
+    if (fields.length > 0) {
+      fields.each((i, a) => {
+        a.classList.remove('is-error');
+      })
+    }
   }
 
   $(window).ready(() => {

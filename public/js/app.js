@@ -56097,9 +56097,12 @@ if (formEditVehicle.length > 0) {
 
   var removeError = function removeError() {
     var fields = $('.is-error');
-    fields.forEach(function (i, a) {
-      debugger;
-    });
+
+    if (fields.length > 0) {
+      fields.each(function (i, a) {
+        a.classList.remove('is-error');
+      });
+    }
   };
 
   $(window).ready(function () {

@@ -6,6 +6,8 @@
     var forms = document.getElementsByClassName('needs-validation');
     Array.prototype.filter.call(forms, (form) => {
       form.addEventListener('submit', (event) => {
+        form.classList.remove('was-validated');
+        removeError();
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -15,6 +17,15 @@
       }, false);
     });
   }, false);
+
+  const removeError = () => {
+    const fields = $('.is-error');
+    if (fields.length > 0) {
+      fields.each((i, a) => {
+        a.classList.remove('is-error');
+      })
+    }
+  }
 
   $(window).ready(() => {
     if (localStorage.sidebar === 'a') {

@@ -199,7 +199,7 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return row.document_status;
+          return row.transaction.transaction_status;
         }
       },
       {

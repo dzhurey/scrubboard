@@ -51861,7 +51861,7 @@ if (formEditAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/agents/".concat(id)).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete Outlet that has been used in transaction');
     });
   });
 }
@@ -51975,7 +51975,7 @@ if (formEditBank.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
       return window.location = '/bank_accounts';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete bank that has been used in transaction');
     });
   });
 }
@@ -52128,6 +52128,11 @@ var createTable = function createTable(target, data) {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52344,6 +52349,11 @@ var createTable = function createTable(target, data) {
       data: 'vehicle.number'
     }, {
       data: 'schedule_date'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return row.transaction.customer.name;
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -52763,7 +52773,7 @@ if (formEditCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/couriers/".concat(id)).then(function (res) {
       return window.location = '/couriers';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete courier that has been used in transaction');
     });
   });
 }
@@ -53096,7 +53106,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.document_status;
+        return row.transaction.transaction_status;
       }
     }, {
       data: 'id',
@@ -54388,7 +54398,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.document_status;
+        return row.transaction.transaction_status;
       }
     }, {
       data: 'id',
@@ -56048,7 +56058,7 @@ if (formEditVehicle.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/vehicles/".concat(id)).then(function (res) {
       return window.location = '/vehicles';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete vehicle that has been used in transaction');
     });
   });
 }
@@ -56071,6 +56081,9 @@ if (formEditVehicle.length > 0) {
     var forms = document.getElementsByClassName('needs-validation');
     Array.prototype.filter.call(forms, function (form) {
       form.addEventListener('submit', function (event) {
+        form.classList.remove('was-validated');
+        removeError();
+
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -56081,6 +56094,17 @@ if (formEditVehicle.length > 0) {
       }, false);
     });
   }, false);
+
+  var removeError = function removeError() {
+    var fields = $('.is-error');
+
+    if (fields.length > 0) {
+      fields.each(function (i, a) {
+        a.classList.remove('is-error');
+      });
+    }
+  };
+
   $(window).ready(function () {
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
@@ -59084,8 +59108,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

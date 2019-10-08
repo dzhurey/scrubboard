@@ -80,7 +80,7 @@ if (formEditBank.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/bank_accounts/${idCategory}`).then(res => window.location = '/bank_accounts').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete bank that has been used in transaction')
     });
   })
 }

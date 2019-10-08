@@ -106,7 +106,7 @@ if (formEditAgent.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/agents/${id}`).then(res => window.location = '/agents').catch(res => {
-      alert(res.responseJSON.message);
+      alert('Cannot delete Outlet that has been used in transaction');
     });
   })
 }

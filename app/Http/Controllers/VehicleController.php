@@ -97,6 +97,10 @@ class VehicleController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        if (!empty($vehicle->courierSchedules)) {
+            return $this->renderError($request, __("rules.cannot_delete_vehicle_has_schedule"), 422);
+        }
+
         $vehicle->delete();
         return $this->renderView($request, '', [], ['route' => 'vehicles.index', 'data' => []], 204);
     }

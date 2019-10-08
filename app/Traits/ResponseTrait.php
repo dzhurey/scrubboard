@@ -39,7 +39,7 @@ trait ResponseTrait
             return back()->with('error', $message);
         } elseif ($request->format() == 'json') {
             $data = [
-                'error_messages' => $message
+                'message' => $message
             ];
             return response()->json($data, $response_code);
         }

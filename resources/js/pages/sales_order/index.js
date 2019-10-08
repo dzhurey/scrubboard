@@ -159,7 +159,13 @@ const createTablePriceFormTable = (target, data) => {
 
 const errorMessage = (data) => {
   Object.keys(data).map(key => {
-    const $parent = $(`#${key}`).closest('.form-group');
+    let $parent = $(`#${key}`).closest('.form-group');
+    const keySplitted = key.split('.')
+    if (keySplitted.length > 1) {
+      const formInput = tableSOItems.find('.form_bor').eq(keySplitted[1])
+      formInput.get(0).setCustomValidity("Invalid field.")
+      $parent = tableSOItems.find('.form_bor').eq(keySplitted[1]).closest('.form-group-item')
+    }
     $parent.addClass('is-error');
     $parent[0].querySelector('.invalid-feedback').innerText = data[key][0];
   });
@@ -184,7 +190,7 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control form_bor" id="bor_${row.id}" data-id="${row.item_id}" value="${row.bor ? row.bor : ''}" name="bor" required>`
+          return `<div class="form-group-item"><input type="text" class="form-control form_bor" id="bor_${row.id}" data-id="${row.item_id}" value="${row.bor ? row.bor : ''}" name="bor" required><div class="invalid-feedback">Data invalid.</div></div>`
         }
       },
       {
@@ -613,7 +619,7 @@ if (formEditSalesOrder.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/sales_orders/${id}`).then(res => window.location = '/sales_orders').catch(res => {
-      alert(res.responseJSON.error_messages);
+      alert(res.responseJSON.message);
     });
   })
 }

@@ -7,7 +7,7 @@ use Illuminate\Validation\Validator;
 use App\Rules\PhoneNumber;
 use App\Agent;
 
-class StoreAgent extends FormRequest
+class StoreUpdateAgent extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class StoreAgent extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * 
+     *
      * {
      *  "name" : "Agent C",
 	 *  "email" : "agentc@agent.com",
@@ -40,7 +40,7 @@ class StoreAgent extends FormRequest
 	 *  "contact_mobile_number" : "08999922211",
 	 *  "agent_group_id" : 2
      * }
-     * 
+     *
      */
     public function rules()
     {

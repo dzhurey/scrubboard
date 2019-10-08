@@ -28,7 +28,7 @@
     }
   }
   &.was-validated {
-    .form-group {
+    .form-group, .form-group-list {
       &.is-error {
         .form-control {
           border-color: #dc3545;

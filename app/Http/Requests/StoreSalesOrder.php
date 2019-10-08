@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
+use App\Rules\UniqueBor;
 use App\Transaction;
 use App\TransactionLine;
 
@@ -83,13 +84,17 @@ class StoreSalesOrder extends FormRequest
             $rules['transaction_lines.'.$key.'.brand_id'] = 'required';
             $rules['transaction_lines.'.$key.'.color'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
-            $rules['transaction_lines.'.$key.'.bor'] = 'required|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.unit_price'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.discount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.discount_amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
+            if (array_key_exists('id', $val)) {
+                $rules['transaction_lines.'.$key.'.bor'] = ['required', 'string'];
+            } else {
+                $rules['transaction_lines.'.$key.'.bor'] = ['required', 'string', new UniqueBor];
+            }
         }
 
         return $rules;

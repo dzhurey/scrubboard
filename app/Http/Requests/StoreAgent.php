@@ -23,7 +23,7 @@ class StoreAgent extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * 
+     *
      * {
      *  "name" : "Agent C",
 	 *  "email" : "agentc@agent.com",
@@ -40,7 +40,7 @@ class StoreAgent extends FormRequest
 	 *  "contact_mobile_number" : "08999922211",
 	 *  "agent_group_id" : 2
      * }
-     * 
+     *
      */
     public function rules()
     {

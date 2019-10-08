@@ -53106,7 +53106,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.document_status;
+        return row.transaction.transaction_status;
       }
     }, {
       data: 'id',
@@ -54398,7 +54398,7 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return row.document_status;
+        return row.transaction.transaction_status;
       }
     }, {
       data: 'id',
@@ -56081,6 +56081,9 @@ if (formEditVehicle.length > 0) {
     var forms = document.getElementsByClassName('needs-validation');
     Array.prototype.filter.call(forms, function (form) {
       form.addEventListener('submit', function (event) {
+        form.classList.remove('was-validated');
+        removeError();
+
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
@@ -56091,6 +56094,14 @@ if (formEditVehicle.length > 0) {
       }, false);
     });
   }, false);
+
+  var removeError = function removeError() {
+    var fields = $('.is-error');
+    fields.forEach(function (i, a) {
+      debugger;
+    });
+  };
+
   $(window).ready(function () {
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');

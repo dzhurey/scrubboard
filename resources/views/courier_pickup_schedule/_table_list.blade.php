@@ -4,10 +4,9 @@
         <thead>
             <tr>
                 <th>Courier Code</th>
-                <th>Courier Name</th>
                 <th>Vehicle</th>
                 <th>Schedule Date</th>
-                <th>Outlet</th>
+                <th>Destination</th>
                 <th class="th-item">Pickup Address</th>
                 <th></th>
             </tr>

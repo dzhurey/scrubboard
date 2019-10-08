@@ -11,7 +11,7 @@
                     <th>Status</th>
                     <th>Sales Invoice Number</th>
                     <th>Customer Name</th>
-                    <th>Outlet</th>
+                    <th>Destination</th>
                     <th class="th-item">Delivery Address</th>
                     <th></th>
                 </tr>

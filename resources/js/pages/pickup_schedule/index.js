@@ -37,7 +37,7 @@ const createSOFormTable = (target, data) => {
       {
         data: 'address',
         render(data) {
-          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
+          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`;
         }
       },
       {
@@ -77,7 +77,7 @@ const createSOTable = (target, data) => {
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } checked="${res.status}">
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -85,14 +85,14 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || documentStatus == 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }>
           </td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' ? '' : 'checked' }>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -100,7 +100,7 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'canceled' || res.status === 'done' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
+            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
           </td>
           <td></td>
         </tr>`;
@@ -140,7 +140,7 @@ const createSOTable = (target, data) => {
       {
         data: 'address',
         render(data) {
-          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`;
+          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`;
         }
       },
       {
@@ -199,7 +199,7 @@ const createTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return row.pickup_status;
+          return row.document_status;
         }
       },
       {
@@ -218,14 +218,15 @@ const createTable = (target, data) => {
         data: 'id',
         render(data, type, row) {
           const agent = row.transaction.agent;
-          return `${agent.name}`
+          const customer = row.transaction.customer;
+          return `${row.transaction.is_own_address ? customer.name : agent.name}`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
           const address = row.transaction.address;
-          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
+          return `${address.description}, ${address.district}, <br/>${address.city}, ${address.country} ${address.zip_code}`
         }
       },
       {

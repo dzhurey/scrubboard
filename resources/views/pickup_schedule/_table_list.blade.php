@@ -11,7 +11,7 @@
                     <th>Status</th>
                     <th>Sales Order Number</th>
                     <th>Customer Name</th>
-                    <th>Outlet</th>
+                    <th>Destination</th>
                     <th class="th-item">Pickup Address</th>
                     <th></th>
                 </tr>

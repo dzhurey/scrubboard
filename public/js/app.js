@@ -51861,7 +51861,7 @@ if (formEditAgent.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/agents/".concat(id)).then(function (res) {
       return window.location = '/agents';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete Outlet that has been used in transaction');
     });
   });
 }
@@ -51975,7 +51975,7 @@ if (formEditBank.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/bank_accounts/".concat(idCategory)).then(function (res) {
       return window.location = '/bank_accounts';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete bank that has been used in transaction');
     });
   });
 }
@@ -52773,7 +52773,7 @@ if (formEditCourier.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/couriers/".concat(id)).then(function (res) {
       return window.location = '/couriers';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete courier that has been used in transaction');
     });
   });
 }
@@ -56058,7 +56058,7 @@ if (formEditVehicle.length > 0) {
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/vehicles/".concat(id)).then(function (res) {
       return window.location = '/vehicles';
     })["catch"](function (res) {
-      alert(res.responseJSON.message);
+      alert('Cannot delete vehicle that has been used in transaction');
     });
   });
 }

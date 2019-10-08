@@ -71,7 +71,7 @@ if (formEditVehicle.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/vehicles/${id}`).then(res => window.location = '/vehicles').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete vehicle that has been used in transaction')
     });
   })
 }

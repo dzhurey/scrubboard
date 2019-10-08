@@ -137,7 +137,7 @@ if (formEditCourier.length > 0) {
 
   $('#button-delete').click(() => {
     ajx.delete(`/api/couriers/${id}`).then(res => window.location = '/couriers').catch(res => {
-      alert(res.responseJSON.message)
+      alert('Cannot delete courier that has been used in transaction')
     });
   })
 }

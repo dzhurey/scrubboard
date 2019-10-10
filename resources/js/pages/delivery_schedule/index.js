@@ -343,7 +343,7 @@ if (EditDeliveryForm.length > 0) {
       $('#person_id').val(res.delivery_schedule.person_id);
       $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
       $('#date').val(res.delivery_schedule.schedule_date);
-      $('#document_status').val(res.delivery_schedule.document_status);
+      $('#document_status').val(res.delivery_schedule.transaction.transaction_status);
       $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',

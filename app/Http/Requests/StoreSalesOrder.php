@@ -80,7 +80,7 @@ class StoreSalesOrder extends FormRequest
         {
             $rules['transaction_lines.'.$key.'.id'] = 'sometimes|nullable';
             $rules['transaction_lines.'.$key.'.item_id'] = 'required';
-            $rules['transaction_lines.'.$key.'.brand_id'] = 'required';
+            $rules['transaction_lines.'.$key.'.brand_id'] = 'nullable|integer';
             $rules['transaction_lines.'.$key.'.color'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';

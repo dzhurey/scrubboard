@@ -67,7 +67,7 @@ const createTableCustomerFormTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="radio" name="customer_id_radio" class="check-customer" value="${data}" price-id="${row.price_id}" customer-name="${row.name}" required/>`
+          return `<input type="radio" name="customer_id_radio" class="check-customer" value="${data}" price-id="${row.price_id}" customer-name="${row.name}" customer-type="${row.partner_type}" required/>`
         }
       },
       { data: 'id' },
@@ -90,9 +90,11 @@ const createTableCustomerFormTable = (target, data) => {
       $('.check-customer').change((e) => {
         const price_id = e.target.getAttribute('price-id');
         const name = e.target.getAttribute('customer-name');
+        const type = e.target.getAttribute('customer-type');
         const customer_id = e.target.value;
         sessionStorage.setItem('choosed_customer', JSON.stringify({ customer_id: customer_id, name: name, price_id: price_id }));
         modalPriceFormTable.DataTable().destroy();
+        $('#order_type').val(`${type === 'customer' ? 'general' : 'endorser'}`);
         tableSOItems.DataTable().destroy();
         generateItemTable(tableSOItems, []);
         getPriceList(price_id);

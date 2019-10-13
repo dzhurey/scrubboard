@@ -52818,7 +52818,10 @@ var createTable = function createTable(target, data) {
     columns: [{
       data: 'id'
     }, {
-      data: 'partner_type'
+      data: 'partner_type',
+      render: function render(data) {
+        return "".concat(data === 'customer' ? 'General' : 'Endorser');
+      }
     }, {
       data: 'name'
     }, {
@@ -55349,7 +55352,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"radio\" name=\"customer_id_radio\" class=\"check-customer\" value=\"".concat(data, "\" price-id=\"").concat(row.price_id, "\" customer-name=\"").concat(row.name, "\" required/>");
+        return "<input type=\"radio\" name=\"customer_id_radio\" class=\"check-customer\" value=\"".concat(data, "\" price-id=\"").concat(row.price_id, "\" customer-name=\"").concat(row.name, "\" customer-type=\"").concat(row.partner_type, "\" required/>");
       }
     }, {
       data: 'id'
@@ -55372,6 +55375,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
       $('.check-customer').change(function (e) {
         var price_id = e.target.getAttribute('price-id');
         var name = e.target.getAttribute('customer-name');
+        var type = e.target.getAttribute('customer-type');
         var customer_id = e.target.value;
         sessionStorage.setItem('choosed_customer', JSON.stringify({
           customer_id: customer_id,
@@ -55379,6 +55383,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
           price_id: price_id
         }));
         modalPriceFormTable.DataTable().destroy();
+        $('#order_type').val("".concat(type === 'customer' ? 'general' : 'endorser'));
         tableSOItems.DataTable().destroy();
         generateItemTable(tableSOItems, []);
         getPriceList(price_id);

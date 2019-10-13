@@ -13,7 +13,12 @@ const createTable = (target, data) => {
     pageLength: 5,
     columns: [
       { data: 'id' },
-      { data: 'partner_type' },
+      { 
+        data: 'partner_type',
+        render(data) {
+          return `${data === 'customer' ? 'General' : 'Endorser'}`;
+        },
+      },
       { data: 'name' },
       { data: 'phone_number' },
       { data: 'created_at' },

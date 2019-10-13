@@ -293,6 +293,10 @@ const generateItemTable = (target, data) => {
       })
       $('.brand_id').each((i, item) => {
         item.value = item.getAttribute('value');
+        $(item).change((e) => {
+          const brand_id = e.target.id;
+          sessionStorage.setItem(brand_id, e.target.value);
+        })
       })
       $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each((i, item) => {
         $(item).on('change', handleChangeForm)
@@ -322,6 +326,10 @@ const removeItem = () => {
     const latest_choosed_item = choosed_item.filter(res => res.id !== parseFloat(id));
     sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
     tableSOItems.DataTable().row([parent]).remove().draw();
+    $('.brand_id').each((i, item) => {
+      const brand_id = item.id;
+      item.value = sessionStorage.getItem(brand_id);
+    })
     totalBeforeDisc();
     if ($('.remove-item').length === 0) {
       $('#original_amount').val(0);

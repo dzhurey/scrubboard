@@ -55566,6 +55566,10 @@ var generateItemTable = function generateItemTable(target, data) {
       });
       $('.brand_id').each(function (i, item) {
         item.value = item.getAttribute('value');
+        $(item).change(function (e) {
+          var brand_id = e.target.id;
+          sessionStorage.setItem(brand_id, e.target.value);
+        });
       });
       $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each(function (i, item) {
         $(item).on('change', handleChangeForm);
@@ -55601,6 +55605,10 @@ var removeItem = function removeItem() {
     });
     sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
     tableSOItems.DataTable().row([parent]).remove().draw();
+    $('.brand_id').each(function (i, item) {
+      var brand_id = item.id;
+      item.value = sessionStorage.getItem(brand_id);
+    });
     totalBeforeDisc();
 
     if ($('.remove-item').length === 0) {

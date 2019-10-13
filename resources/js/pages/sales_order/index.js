@@ -196,7 +196,7 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" required value="${row.brand_id}"></select>`;
+          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" value="${row.brand_id}"></select>`;
         }
       },
       {
@@ -257,8 +257,11 @@ const generateItemTable = (target, data) => {
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
           if (row.status) {
-            if (row.status === 'canceled' || row.status === 'done') {
+            if (row.status === 'canceled') {
               return status;
+            }
+            if (row.status === 'done') {
+              return status + buttonCancel;
             }
             return status + buttonCancel + buttonPicked;
           } else {

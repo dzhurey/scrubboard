@@ -73,11 +73,16 @@ const createSOTable = (target, data) => {
     const items = d.transaction_lines;
     items.map((res) => {
       const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
-      const documentStatus = $('#document_status').val()
+      const documentStatus = $('#document_status').val();
+      // ${res.status !== 'open' ? '' : 'required' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -85,14 +90,14 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -100,7 +105,7 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
+            <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td></td>
         </tr>`;

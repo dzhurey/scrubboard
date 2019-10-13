@@ -54312,12 +54312,16 @@ var createSOTable = function createSOTable(target, data) {
     var items = d.transaction_lines;
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
-      var documentStatus = $('#document_status').val();
+      var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
@@ -55477,7 +55481,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" required value=\"").concat(row.brand_id, "\"></select>");
+        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" value=\"").concat(row.brand_id, "\"></select>");
       }
     }, {
       data: 'id',
@@ -55520,8 +55524,12 @@ var generateItemTable = function generateItemTable(target, data) {
         var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
 
         if (row.status) {
-          if (row.status === 'canceled' || row.status === 'done') {
+          if (row.status === 'canceled') {
             return status;
+          }
+
+          if (row.status === 'done') {
+            return status + buttonCancel;
           }
 
           return status + buttonCancel + buttonPicked;

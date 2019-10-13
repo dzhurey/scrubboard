@@ -16,9 +16,9 @@
     </div>
     <div class="col-sm-4"></div>
     <div class="col-sm-4">
-        <h2 class="c-form--title">Customer Data</h2>
+        <h2 class="c-form--title">Client Data</h2>
         <div class="form-group">
-            <label class="c-form--label" for="customer_name">Customer Name</label>
+            <label class="c-form--label" for="customer_name">Client Name</label>
             <h3 id="customer_name" class="font-weight-bold"></h3>
         </div>
         <div class="form-group">
@@ -43,7 +43,7 @@
                 <tr>
                     <th class="checkbox"></th>
                     <th class="th-item">Sales Invoices Id</th>
-                    <th class="th-note">Customer</th>
+                    <th class="th-note">Client Name</th>
                     <th class="th-item">Address</th>
                     <th></th>
                 </tr>

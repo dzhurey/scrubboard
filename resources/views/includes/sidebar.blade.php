@@ -76,12 +76,12 @@
         </div>
         @endcanany
         @canany(['superadmin', 'sales'])
-        <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Customer">
+        <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Client">
             <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}"  href="{{ route('customers.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/users.svg') }}">
                 </span>
-                <span>Customer</span>
+                <span>Client</span>
             </a>
         </div>
         @endcanany

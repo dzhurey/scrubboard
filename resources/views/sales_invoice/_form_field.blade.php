@@ -19,8 +19,8 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Customer Name" />
+            <label class="c-form--label" for="customer_id">Client</label>
+            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Client Name" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">

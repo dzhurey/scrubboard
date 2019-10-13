@@ -7,7 +7,7 @@
                     <th>Type</th>
                     <th>Sales Order ID</th>
                     <th>BOR</th>
-                    <th>Customer</th>
+                    <th>Client Name</th>
                     <th>Destination</th>
                     <th>Address</th>
                     <th>Item</th>

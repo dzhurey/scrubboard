@@ -10,8 +10,8 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Pilih Customer" data-toggle="modal" data-target="#modal-customer" />
+            <label class="c-form--label" for="customer_id">Client Name</label>
+            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Pilih Client" data-toggle="modal" data-target="#modal-customer" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">

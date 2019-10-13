@@ -10,7 +10,7 @@
                     <th>Schedule Date</th>
                     <th>Status</th>
                     <th>Sales Invoice Number</th>
-                    <th>Customer Name</th>
+                    <th>Client Name</th>
                     <th>Destination</th>
                     <th class="th-item">Delivery Address</th>
                     <th></th>

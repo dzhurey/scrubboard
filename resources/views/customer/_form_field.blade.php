@@ -116,7 +116,7 @@
         <h2 class="c-form--title">Address</h2>
         <div class="form-group">
             <label class="c-form--label" for="billing_address">Address</label>
-            <textarea class="form-control" id="billing_address" name="billing_address"></textarea>
+            <textarea class="form-control" id="billing_address" name="billing_address" required></textarea>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">

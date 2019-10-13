@@ -47,7 +47,7 @@ class StoreCustomer extends FormRequest
             'is_same_address' => '',
             'price_id' => 'required',
             'bebe_birth_date' => 'nullable|date_format:"Y-m-d"',
-            'bebe_gender' => 'in:'.join(array_keys(Customer::GENDERS), ','),
+            'bebe_gender' => 'nullable|in:'.join(array_keys(Customer::GENDERS), ','),
             'partner_type' => 'in:'.join(array_keys(Customer::PARTNER_TYPE), ','),
         ];
     }

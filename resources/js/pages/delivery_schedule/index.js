@@ -99,6 +99,8 @@ const createSITableDelivery = (target, data) => {
           </td>
           <td></td>
         </tr>`;
+      } else if (res.status === 'canceled') {
+        row += `<tr><td colspan="8" align="center">Item has been cancel</td></tr>`
       }
     });
 

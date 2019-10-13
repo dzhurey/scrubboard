@@ -64,7 +64,6 @@ class StoreSalesInvoice extends FormRequest
             'transaction_date' => 'required|date_format:"Y-m-d"',
             'pickup_date' => 'required|date_format:"Y-m-d"',
             'due_date' => 'sometimes|required|date_format:"Y-m-d"',
-            'delivery_date' => 'required|date_format:"Y-m-d"',
             'original_amount' => 'required|numeric',
             'discount' => 'required|numeric',
             'discount_amount' => 'required|numeric',

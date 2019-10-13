@@ -39,7 +39,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/home.svg') }}">
                 </span>
-                <span>Outlet</span>
+                <span>POS</span>
             </a>
         </div>
         <div class="c-nav--item" id="vehicle" data-toggle="tooltip" data-placement="right" title="Vehicle">

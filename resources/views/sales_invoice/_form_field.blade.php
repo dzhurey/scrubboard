@@ -24,8 +24,8 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="agent_outlet">Outlet</label>
-            <input class="form-control cursor-pointer" id="agent_outlet" name="agent_outlet" required readonly placeholder="Agent Name" />
+            <label class="c-form--label" for="agent_outlet">POS</label>
+            <input class="form-control cursor-pointer" id="agent_outlet" name="agent_outlet" required readonly placeholder="POS Name" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">

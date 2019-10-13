@@ -15,7 +15,7 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="agent_id">Outlet</label>
+            <label class="c-form--label" for="agent_id">POS</label>
             <select class="form-control select2" id="agent_id" name="agent_id" required>
                 <option></option>
             </select>

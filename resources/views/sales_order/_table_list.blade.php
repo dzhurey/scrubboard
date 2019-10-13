@@ -5,7 +5,7 @@
             <tr>
                 <th>ID</th>
                 <th>Client Name</th>
-                <th>Outlet</th>
+                <th>POS</th>
                 <th>Order Status</th>
                 <th>Pickup status</th>
                 <th>Document Date</th>

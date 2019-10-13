@@ -30,7 +30,7 @@
             <h3 id="address" class="font-weight-bold"></h3>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="outlet">Outlet</label>
+            <label class="c-form--label" for="outlet">POS</label>
             <h3 id="outlet" class="font-weight-bold"></h3>
         </div>
     </div>

@@ -1,5 +1,5 @@
 @extends('layouts.app') 
-@section('title', 'Create Outlet')
+@section('title', 'Create POS')
 
 @section('content')
 <div id="customers-form">
@@ -8,12 +8,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb c-breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('agents.index') }}">Outlet Data</a>
+                        <a href="{{ route('agents.index') }}">POS Data</a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Add Outlet</li>
+                    <li class="breadcrumb-item active" aria-current="page">Add POS</li>
                 </ol>
             </nav>
-            <h1 class="mb-0">Add Outlet</h1>
+            <h1 class="mb-0">Add POS</h1>
         </div>
         <div class="col-sm-6 text-right"></div>
     </div>

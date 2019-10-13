@@ -378,6 +378,10 @@ const totalBeforeDisc = () => {
     finalTotal($('#discount').val());
   });
   $('#discount').change((e) => finalTotal(e.target.value));
+  $('#discount_amount').change((e) => {
+    $('#discount').val(parseFloat(e.target.value)/parseFloat($('#original_amount').val())*100);
+    finalTotal($('#discount').val());
+  });
   $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
   updateDiscountAndQuantity();
 };

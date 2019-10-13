@@ -15,9 +15,15 @@ const createTable = (target, data) => {
       { data: 'transaction_line.transaction_number' },
       { data: 'transaction_line.bor' },
       { 
+        data: 'transaction_line.transaction.customer',
+        render(data, type, row) {
+          return data.name;
+        }
+      },
+      { 
         data: 'transaction_line.transaction',
         render(data, type, row) {
-          return `${row.transaction_line.transaction.agent ? row.transaction_line.transaction.agent.name : row.transaction_line.transaction.customer.name}`
+          return `${row.transaction_line.transaction.is_own_address ? row.transaction_line.transaction.customer.name : row.transaction_line.transaction.agent.name}`
         }
       },
       {

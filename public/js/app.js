@@ -52568,9 +52568,14 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'transaction_line.bor'
     }, {
+      data: 'transaction_line.transaction.customer',
+      render: function render(data, type, row) {
+        return data.name;
+      }
+    }, {
       data: 'transaction_line.transaction',
       render: function render(data, type, row) {
-        return "".concat(row.transaction_line.transaction.agent ? row.transaction_line.transaction.agent.name : row.transaction_line.transaction.customer.name);
+        return "".concat(row.transaction_line.transaction.is_own_address ? row.transaction_line.transaction.customer.name : row.transaction_line.transaction.agent.name);
       }
     }, {
       data: 'transaction_line.address',
@@ -55670,6 +55675,10 @@ var totalBeforeDisc = function totalBeforeDisc() {
   $('#discount').change(function (e) {
     return finalTotal(e.target.value);
   });
+  $('#discount_amount').change(function (e) {
+    $('#discount').val(parseFloat(e.target.value) / parseFloat($('#original_amount').val()) * 100);
+    finalTotal($('#discount').val());
+  });
   $('#freight').change(function (e) {
     return finalTotal($('#discount').val(), e.target.value);
   });
@@ -56147,6 +56156,15 @@ if (formEditVehicle.length > 0) {
     } else {
       localStorage.sidebar = 'b';
       tooltipSidebar();
+    }
+  });
+  $('.form-control').each(function (idx, itm) {
+    if (itm.hasAttribute('required')) {
+      var label = itm.parentElement.querySelector('label');
+
+      if (label) {
+        label.innerHTML += '<span style="color: red">&nbsp;*</span>';
+      }
     }
   });
 

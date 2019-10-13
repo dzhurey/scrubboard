@@ -73,6 +73,15 @@
     }
   });
 
+  $('.form-control').each((idx, itm) => {
+    if (itm.hasAttribute('required')) {
+      const label = itm.parentElement.querySelector('label');
+      if (label) {
+        label.innerHTML += '<span style="color: red">&nbsp;*</span>';
+      }
+    }
+  })
+
   const tooltipSidebar = () => {
     $('.c-nav--item[data-toggle="tooltip"]').tooltip(
       localStorage.sidebar === 'a' ? 'enable' : 'disable'

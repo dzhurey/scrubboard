@@ -56164,6 +56164,7 @@ if (formEditVehicle.length > 0) {
       close: 'fa fa-remove'
     }
   });
+  $('#birth_date').val('');
   $('.c-bars').click(function (e) {
     $(e.currentTarget).toggleClass('is-active');
     $('.c-sidebar').toggleClass('is-close');

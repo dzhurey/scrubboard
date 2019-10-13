@@ -58,6 +58,7 @@
       close: 'fa fa-remove'
     }
   });
+  $('#birth_date').val('');
 
   $('.c-bars').click((e) => {
     $(e.currentTarget).toggleClass('is-active');

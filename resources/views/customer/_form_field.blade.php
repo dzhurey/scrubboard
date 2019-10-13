@@ -22,8 +22,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="birthday">Birthday</label>
-                    <input class="form-control datetimepicker" id="birth_date" name="birth_date" required>
-                    <div class="invalid-feedback">Data invalid.</div>
+                    <input class="form-control datetimepicker" id="birth_date" name="birth_date">
                 </div>
             </div>
             <div class="col-sm-6">

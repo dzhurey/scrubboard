@@ -21,7 +21,7 @@ const createTable = (target, data) => {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -59,7 +59,7 @@ const createTableCustomerFormTable = (target, data) => {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -107,7 +107,7 @@ const createTablePriceFormTable = (target, data) => {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -178,7 +178,7 @@ const generateItemTable = (target, data) => {
     destroy: true,
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paginate: false,
     pageLength: 5,

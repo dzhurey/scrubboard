@@ -51752,7 +51752,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -51894,7 +51894,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52008,7 +52008,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52117,7 +52117,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52170,7 +52170,7 @@ var createSOTable = function createSOTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -52338,7 +52338,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52391,7 +52391,7 @@ var createSOTable = function createSOTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -52557,7 +52557,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -52640,7 +52640,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52811,7 +52811,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -52970,7 +52970,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -53037,7 +53037,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -53100,7 +53100,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -53356,7 +53356,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -53579,7 +53579,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -53695,7 +53695,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -53876,7 +53876,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -53909,7 +53909,7 @@ var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -54091,7 +54091,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -54263,7 +54263,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -54337,7 +54337,7 @@ var createSOTable = function createSOTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     pageLength: 10,
@@ -54398,7 +54398,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -54743,7 +54743,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -54765,7 +54765,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: false,
     columns: [{
@@ -54920,7 +54920,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -54962,7 +54962,7 @@ var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -55010,7 +55010,7 @@ var generateItemTable = function generateItemTable(target, data) {
     destroy: true,
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paginate: false,
     pageLength: 5,
@@ -55303,7 +55303,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,
@@ -55345,7 +55345,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -55396,7 +55396,7 @@ var createTablePriceFormTable = function createTablePriceFormTable(target, data)
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 10,
@@ -55473,7 +55473,7 @@ var generateItemTable = function generateItemTable(target, data) {
     destroy: true,
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paginate: false,
     pageLength: 5,
@@ -56020,7 +56020,7 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,

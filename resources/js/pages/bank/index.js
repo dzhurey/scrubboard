@@ -7,7 +7,7 @@ const createTable = (target, data) => {
   target.DataTable({
     data: data,
     lengthChange: false,
-    searching: false,
+    searching: true,
     info: false,
     paging: true,
     pageLength: 5,

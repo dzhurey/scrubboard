@@ -9,7 +9,7 @@ const createTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       { data: 'courier_schedule.schedule_type' },
       { data: 'transaction_line.transaction_number' },

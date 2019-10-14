@@ -33,7 +33,7 @@ const createTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       { data: 'name' },
       {

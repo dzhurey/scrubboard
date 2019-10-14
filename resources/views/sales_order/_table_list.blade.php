@@ -10,7 +10,6 @@
                 <th>Pickup status</th>
                 <th>Document Date</th>
                 <th>Pick Up Date</th>
-                <th>Delivery Date</th>
                 <th>Total</th>
                 <th></th>
             </tr>

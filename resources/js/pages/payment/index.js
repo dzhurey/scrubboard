@@ -14,7 +14,7 @@ const createTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [
       { data: 'payment_code' },
@@ -43,7 +43,7 @@ const createSiFormTablePayment = (target, data) => {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',

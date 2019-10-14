@@ -53,7 +53,7 @@
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 d-none">
                 <div class="form-group">
                     <label class="c-form--label" for="pickup_date">Pick Up date</label>
                     <input class="form-control datetimepicker" id="pickup_date" name="pickup_date" required readonly>

@@ -20,12 +20,13 @@ const tableSalesOrder = $('#table-sales-order');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -34,7 +35,6 @@ const createTable = (target, data) => {
       { data: 'pickup_status' },
       { data: 'transaction_date' },
       { data: 'pickup_date' },
-      { data: 'delivery_date' },
       {
         data: 'total_amount',
         render(data) {
@@ -62,7 +62,7 @@ const createTableCustomerFormTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
@@ -110,7 +110,7 @@ const createTablePriceFormTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'item_id',
@@ -181,7 +181,7 @@ const generateItemTable = (target, data) => {
     searching: true,
     info: false,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       {
         data: 'name',

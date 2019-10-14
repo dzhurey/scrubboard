@@ -17,8 +17,8 @@ const createTable = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -26,7 +26,6 @@ const createTable = (target, data) => {
       { data: 'transaction_status' },
       { data: 'delivery_status' },
       { data: 'transaction_date' },
-      { data: 'pickup_date' },
       { data: 'delivery_date' },
       {
         data: 'total_amount',
@@ -54,7 +53,7 @@ const createInvoiceTableSO = (target, data) => {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
@@ -98,7 +97,7 @@ const generateItemTable = (target, data) => {
     searching: true,
     info: false,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       {
         data: 'name',

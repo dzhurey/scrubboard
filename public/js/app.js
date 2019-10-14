@@ -51755,7 +51755,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'agent_group',
       render: function render(data) {
@@ -51897,7 +51897,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52011,7 +52011,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52120,7 +52120,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -52173,7 +52173,7 @@ var createSOTable = function createSOTable(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -52341,7 +52341,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -52394,7 +52394,7 @@ var createSOTable = function createSOTable(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -52560,7 +52560,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'courier_schedule.schedule_type'
     }, {
@@ -52643,7 +52643,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52814,7 +52814,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'id'
     }, {
@@ -52901,6 +52901,11 @@ if (formEditCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if (data.birth_date === '') {
+      data.birth_date = null;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
@@ -52929,6 +52934,11 @@ if (formCreateCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if (data.birth_date === '') {
+      delete data.birth_date;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
@@ -52973,7 +52983,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -53040,7 +53050,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -53359,7 +53369,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'description'
     }, {
@@ -53582,7 +53592,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -53698,7 +53708,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -53879,7 +53889,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'payment_code'
@@ -53912,7 +53922,7 @@ var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -54094,7 +54104,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -54266,7 +54276,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -54340,7 +54350,7 @@ var createSOTable = function createSOTable(target, data) {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -54401,7 +54411,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -54746,7 +54756,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -54923,8 +54933,8 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -54937,8 +54947,6 @@ var createTable = function createTable(target, data) {
       data: 'delivery_status'
     }, {
       data: 'transaction_date'
-    }, {
-      data: 'pickup_date'
     }, {
       data: 'delivery_date'
     }, {
@@ -54965,7 +54973,7 @@ var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -55013,7 +55021,7 @@ var generateItemTable = function generateItemTable(target, data) {
     searching: true,
     info: false,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name',
       render: function render(data, type, row) {
@@ -55302,12 +55310,13 @@ var tableSalesOrder = $('#table-sales-order');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -55322,8 +55331,6 @@ var createTable = function createTable(target, data) {
       data: 'transaction_date'
     }, {
       data: 'pickup_date'
-    }, {
-      data: 'delivery_date'
     }, {
       data: 'total_amount',
       render: function render(data) {
@@ -55348,7 +55355,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -55399,7 +55406,7 @@ var createTablePriceFormTable = function createTablePriceFormTable(target, data)
     searching: true,
     info: false,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'item_id',
       render: function render(data, type, row) {
@@ -55476,7 +55483,7 @@ var generateItemTable = function generateItemTable(target, data) {
     searching: true,
     info: false,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name',
       render: function render(data, type, row) {
@@ -56023,7 +56030,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: false,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'number'
     }, {
@@ -59152,8 +59159,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

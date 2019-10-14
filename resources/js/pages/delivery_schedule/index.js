@@ -18,7 +18,7 @@ const createSiFormTable = (target, data) => {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
@@ -124,7 +124,7 @@ const createSITableDelivery = (target, data) => {
     searching: true,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         className: 'details-control',

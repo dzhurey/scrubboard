@@ -6,9 +6,10 @@ const formItemCourierPS = $('#table-item-courier-pickup-schedule');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -90,9 +91,10 @@ const createSOTable = (target, data) => {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [

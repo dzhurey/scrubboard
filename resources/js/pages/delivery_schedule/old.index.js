@@ -40,7 +40,7 @@ const createTableSOdeliverySchedule = (target, data) => {
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 10,
     columns: [
@@ -85,7 +85,7 @@ const createTable = (target, data) => {
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     columns: [

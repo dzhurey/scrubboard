@@ -11,7 +11,7 @@ const createTable = (target, data) => {
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     columns: [
@@ -105,7 +105,7 @@ const createTableSO = (target, data, isEditable) => {
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paginate: false,
     pageLength: 5,
     columns: [

@@ -58,9 +58,10 @@ const createTable = (target, data) => {
 const createTableCustomerFormTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [
@@ -106,9 +107,10 @@ const createTableCustomerFormTable = (target, data) => {
 const createTablePriceFormTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [
@@ -177,9 +179,10 @@ const generateItemTable = (target, data) => {
   target.DataTable({
     destroy: true,
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paginate: false,
     pageLength: 15,
     columns: [

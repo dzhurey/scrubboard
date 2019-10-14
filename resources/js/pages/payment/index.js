@@ -10,9 +10,10 @@ const modalSITable = $('#modal-si-form-table-payment');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -39,9 +40,10 @@ const createTable = (target, data) => {
 const createSiFormTablePayment = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [

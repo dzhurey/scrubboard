@@ -51751,9 +51751,10 @@ var formEditAgent = $('#form-edit-agent');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -51893,9 +51894,10 @@ var formEditBank = $('#form-edit-bank');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -52007,9 +52009,10 @@ var formEditCategory = $('#form-edit-brand');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -52116,9 +52119,10 @@ var formItemCourierDS = $('#table-item-courier-delivery-schedule');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -52169,9 +52173,10 @@ var createSOTable = function createSOTable(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -52337,9 +52342,10 @@ var formItemCourierPS = $('#table-item-courier-pickup-schedule');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -52390,9 +52396,10 @@ var createSOTable = function createSOTable(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -52556,9 +52563,10 @@ var tableCourierList = $('#table-courier-schedule');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -52639,9 +52647,10 @@ var formEditCourier = $('#form-edit-courier');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -52810,9 +52819,10 @@ var formEditCustomer = $('#form-edit-customer');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -52979,9 +52989,10 @@ var EditDeliveryForm = $('#form-edit-delivery');
 var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -53046,9 +53057,10 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -53109,9 +53121,10 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     order: [[3, 'desc']],
@@ -53365,9 +53378,10 @@ var selectPriceLists = $('#price_list');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -53588,9 +53602,10 @@ var formEditCategory = $('#form-edit-category');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -53704,9 +53719,10 @@ var selectCategory = $('#item_group_id');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -53885,9 +53901,10 @@ var modalSITable = $('#modal-si-form-table-payment');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -53918,9 +53935,10 @@ var createTable = function createTable(target, data) {
 var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -54100,9 +54118,10 @@ var formEditUser = $('#form-edit-user');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -54272,9 +54291,10 @@ var EditPickupForm = $('#form-edit-pickup');
 var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -54346,9 +54366,10 @@ var createSOTable = function createSOTable(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [{
@@ -54407,9 +54428,10 @@ var createSOTable = function createSOTable(target, data) {
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -54752,9 +54774,10 @@ var collectPriceLines = function collectPriceLines(isEdit) {
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -54774,9 +54797,10 @@ var createTable = function createTable(target, data) {
 var createTableItemLists = function createTableItemLists(target, data, isEdit) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     columns: [{
       data: 'description',
@@ -54929,9 +54953,10 @@ var formEditSalesInvoice = $('#form-edit-sales-invoice');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     order: [[3, 'desc']],
@@ -54969,9 +54994,10 @@ var createTable = function createTable(target, data) {
 var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -55017,9 +55043,10 @@ var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
     destroy: true,
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paginate: false,
     pageLength: 15,
     columns: [{
@@ -55351,9 +55378,10 @@ var createTable = function createTable(target, data) {
 var createTableCustomerFormTable = function createTableCustomerFormTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -55402,9 +55430,10 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
 var createTablePriceFormTable = function createTablePriceFormTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{
@@ -55479,9 +55508,10 @@ var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
     destroy: true,
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paginate: false,
     pageLength: 15,
     columns: [{
@@ -56026,9 +56056,10 @@ var formEditVehicle = $('#form-edit-vehicle');
 var createTable = function createTable(target, data) {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [{

@@ -14,9 +14,10 @@ const EditDeliveryForm = $('#form-edit-delivery');
 const createSiFormTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [
@@ -120,9 +121,10 @@ const createSITableDelivery = (target, data) => {
 
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: false,
     pageLength: 15,
     columns: [
@@ -187,9 +189,10 @@ const createSITableDelivery = (target, data) => {
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     order: [[3, 'desc']],

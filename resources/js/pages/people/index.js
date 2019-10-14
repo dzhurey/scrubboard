@@ -7,9 +7,10 @@ const formEditUser = $('#form-edit-user');
 const createTable = (target, data) => {
   target.DataTable({
     data: data,
-    lengthChange: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 15,
     columns: [

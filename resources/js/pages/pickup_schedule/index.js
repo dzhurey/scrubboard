@@ -18,7 +18,7 @@ const createSOFormTable = (target, data) => {
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [
       {
@@ -135,7 +135,7 @@ const createSOTable = (target, data) => {
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [
       {

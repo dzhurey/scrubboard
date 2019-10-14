@@ -52173,11 +52173,11 @@ var createSOTable = function createSOTable(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
-    searching: true,
+    searching: false,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       className: 'details-control',
@@ -52396,11 +52396,11 @@ var createSOTable = function createSOTable(target, data) {
 
   target.DataTable({
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
-    searching: true,
-    info: true,
-    paging: false,
+    searching: false,
+    info: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       className: 'details-control',
@@ -52993,7 +52993,7 @@ var createSiFormTable = function createSiFormTable(target, data) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       data: 'id',
@@ -53061,7 +53061,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       className: 'details-control',
@@ -53939,7 +53939,7 @@ var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       data: 'id',
@@ -54295,7 +54295,7 @@ var createSOFormTable = function createSOFormTable(target, data) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       data: 'id',
@@ -54370,7 +54370,7 @@ var createSOTable = function createSOTable(target, data) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [{
       className: 'details-control',
@@ -54801,7 +54801,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     columns: [{
       data: 'description',
       render: function render(data) {

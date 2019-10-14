@@ -44,7 +44,7 @@ const createTableSOPickupSchedule = (target, data) => {
     lengthChange: false,
     searching: false,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 10,
     columns: [
       { 

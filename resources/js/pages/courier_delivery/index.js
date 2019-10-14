@@ -91,11 +91,11 @@ const createSOTable = (target, data) => {
 
   target.DataTable({
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
-    searching: true,
+    searching: false,
     info: true,
-    paging: false,
+    paging: true,
     pageLength: 15,
     columns: [
       {

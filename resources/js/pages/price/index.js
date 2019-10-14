@@ -58,7 +58,7 @@ const createTableItemLists = (target, data, isEdit) => {
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
     info: true,
-    paging: false,
+    paging: true,
     columns: [
       { 
         data: 'description',

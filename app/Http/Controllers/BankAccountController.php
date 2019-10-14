@@ -23,7 +23,7 @@ class BankAccountController extends Controller
         Request $request,
         BankAccountPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'finance', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -37,7 +37,7 @@ class BankAccountController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -49,7 +49,7 @@ class BankAccountController extends Controller
         StoreBankAccount $request,
         BankAccountStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -60,7 +60,7 @@ class BankAccountController extends Controller
 
     public function edit(Request $request, BankAccount $bank_account)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -77,7 +77,7 @@ class BankAccountController extends Controller
         BankAccount $bank_account,
         BankAccountPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'finance', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -92,7 +92,7 @@ class BankAccountController extends Controller
         BankAccount $bank_account,
         BankAccountStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -103,7 +103,7 @@ class BankAccountController extends Controller
 
     public function destroy(Request $request, BankAccount $bank_account)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

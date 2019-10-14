@@ -30,7 +30,7 @@ class PersonController extends Controller
         Request $request,
         PersonPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -49,7 +49,7 @@ class PersonController extends Controller
      */
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -66,7 +66,7 @@ class PersonController extends Controller
         StorePerson $request,
         PersonCreateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -86,7 +86,7 @@ class PersonController extends Controller
         Person $person,
         PersonPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class PersonController extends Controller
      */
     public function edit(Request $request, Person $person)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -123,7 +123,7 @@ class PersonController extends Controller
         Person $person,
         PersonUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -140,7 +140,7 @@ class PersonController extends Controller
      */
     public function destroy(Request $request, Person $person)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

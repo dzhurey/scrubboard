@@ -108,7 +108,7 @@ class SalesOrderController extends Controller
 
     public function destroy(Request $request, SalesOrder $sales_order)
     {
-        if (!$this->allowAny(['superadmin'])) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

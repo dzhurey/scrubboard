@@ -13,7 +13,7 @@ class UpdateValueToAgentGroupsTable extends Migration
      */
     public function up()
     {
-        DB::update('update agent_groups set agent_group_code = ? where name = ?', ['POS', 'Agent']);
+        DB::update('update agent_groups set agent_group_code = ? where name = ?', ['POS', 'Direct']);
     }
 
     /**
@@ -23,6 +23,6 @@ class UpdateValueToAgentGroupsTable extends Migration
      */
     public function down()
     {
-        DB::update('update agent_groups set agent_group_code = ? where name = ?', ['A', 'Agent']);
+        DB::update('update agent_groups set agent_group_code = ? where name = ?', ['A', 'Direct']);
     }
 }

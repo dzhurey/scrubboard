@@ -48,7 +48,7 @@ class BrandController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -59,7 +59,7 @@ class BrandController extends Controller
         StoreBrand $request,
         BrandStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -70,7 +70,7 @@ class BrandController extends Controller
 
     public function edit(Request $request, Brand $brand)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -82,7 +82,7 @@ class BrandController extends Controller
         Brand $brand,
         BrandStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class BrandController extends Controller
 
     public function destroy(Request $request, Brand $brand)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

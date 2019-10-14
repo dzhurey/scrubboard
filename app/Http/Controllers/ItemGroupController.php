@@ -48,7 +48,7 @@ class ItemGroupController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -59,7 +59,7 @@ class ItemGroupController extends Controller
         StoreItemGroup $request,
         ItemGroupStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -70,7 +70,7 @@ class ItemGroupController extends Controller
 
     public function edit(Request $request, ItemGroup $item_group)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -82,7 +82,7 @@ class ItemGroupController extends Controller
         ItemGroup $item_group,
         ItemGroupStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class ItemGroupController extends Controller
 
     public function destroy(Request $request, ItemGroup $item_group)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

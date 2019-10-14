@@ -51,7 +51,7 @@ class PriceController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -65,7 +65,7 @@ class PriceController extends Controller
         StorePrice $request,
         PriceStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -77,7 +77,7 @@ class PriceController extends Controller
 
     public function edit(Request $request, Price $price)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class PriceController extends Controller
         Price $price,
         PriceUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class PriceController extends Controller
 
     public function destroy(Request $request, Price $price)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

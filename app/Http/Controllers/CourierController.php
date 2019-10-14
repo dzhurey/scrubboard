@@ -54,7 +54,7 @@ class CourierController extends Controller
      */
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -71,7 +71,7 @@ class CourierController extends Controller
         StoreCourier $request,
         PersonCreateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
         $validated = $request->validated();
@@ -91,7 +91,7 @@ class CourierController extends Controller
         Person $person,
         PersonPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
+        if (!$this->allowAny(['superadmin', 'operation', 'courier', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -109,7 +109,7 @@ class CourierController extends Controller
      */
     public function edit(Request $request, Person $person)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -128,7 +128,7 @@ class CourierController extends Controller
         Person $person,
         PersonUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -146,7 +146,7 @@ class CourierController extends Controller
      */
     public function destroy(Request $request, Person $person)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

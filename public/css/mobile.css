@@ -94,11 +94,19 @@
     display: none;
   }
 
+  .c-sidebar .c-nav--item > a {
+    padding: 10px 0;
+  }
+
   /* Main */
 
   .main {
     padding-left: 0;
     margin-top: 60px;
+  }
+
+  .main .c-table--outer {
+    margin: 15px;
   }
 
   .main.is-close {

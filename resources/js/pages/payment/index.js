@@ -9,6 +9,7 @@ const modalSIpayment = $('#modal-si-form-payment');
 const modalSITable = $('#modal-si-form-table-payment');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -38,6 +39,7 @@ const createTable = (target, data) => {
 
 const createSiFormTablePayment = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

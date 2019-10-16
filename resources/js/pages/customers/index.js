@@ -5,6 +5,7 @@ const formCreateCustomer = $('#form-create-customer');
 const formEditCustomer = $('#form-edit-customer');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

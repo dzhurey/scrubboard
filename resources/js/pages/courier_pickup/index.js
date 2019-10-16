@@ -5,6 +5,7 @@ const formEditCourierPS = $('#form-edit-courier-pickup-schedule');
 const formItemCourierPS = $('#table-item-courier-pickup-schedule');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -89,6 +90,7 @@ const createSOTable = (target, data) => {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

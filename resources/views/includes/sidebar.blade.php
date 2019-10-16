@@ -1,9 +1,9 @@
 <div class="c-sidebar">
     <div class="c-sidebar--logo mb-4">
         <div class="mb-4 text-center">
-        <div class="c-bars">
-            <img class="svg" src="{{ asset('assets/images/icons/x.svg') }}" alt="menu">
-        </div>
+            <div class="c-bars">
+                <img class="svg" src="{{ asset('assets/images/icons/x.svg') }}" alt="menu">
+            </div>
           <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}" href="{{ route('home') }}">
             <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="50">
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">

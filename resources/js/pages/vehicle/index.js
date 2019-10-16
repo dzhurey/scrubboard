@@ -5,6 +5,7 @@ const formCreateVehicle = $('#form-create-vehicle');
 const formEditVehicle = $('#form-edit-vehicle');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

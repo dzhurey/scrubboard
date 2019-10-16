@@ -6,6 +6,7 @@ const formCreateCourier = $('#form-create-courier');
 const formEditCourier = $('#form-edit-courier');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

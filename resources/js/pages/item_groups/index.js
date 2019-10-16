@@ -5,6 +5,7 @@ const formCreateCategory = $('#form-create-category');
 const formEditCategory = $('#form-edit-category');
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

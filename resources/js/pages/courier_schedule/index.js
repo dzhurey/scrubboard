@@ -4,6 +4,7 @@ const tableCourierList = $('#table-courier-schedule');
 
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

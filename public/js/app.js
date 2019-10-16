@@ -51750,6 +51750,7 @@ var formEditAgent = $('#form-edit-agent');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -51892,6 +51893,7 @@ var formEditBank = $('#form-edit-bank');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52006,6 +52008,7 @@ var formEditCategory = $('#form-edit-brand');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52115,6 +52118,7 @@ var formItemCourierDS = $('#table-item-courier-delivery-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52168,6 +52172,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52336,6 +52341,7 @@ var formItemCourierPS = $('#table-item-courier-pickup-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52389,6 +52395,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52555,6 +52562,7 @@ var tableCourierList = $('#table-courier-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52633,6 +52641,7 @@ var formEditCourier = $('#form-edit-courier');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52804,6 +52813,7 @@ var formEditCustomer = $('#form-edit-customer');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -52960,6 +52970,7 @@ var EditDeliveryForm = $('#form-edit-delivery');
 
 var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53025,6 +53036,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53088,6 +53100,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53344,6 +53357,7 @@ var selectPriceLists = $('#price_list');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53567,6 +53581,7 @@ var formEditCategory = $('#form-edit-category');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53683,6 +53698,7 @@ var selectCategory = $('#item_group_id');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53864,6 +53880,7 @@ var modalSITable = $('#modal-si-form-table-payment');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -53897,6 +53914,7 @@ var createTable = function createTable(target, data) {
 
 var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54079,6 +54097,7 @@ var formEditUser = $('#form-edit-user');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54251,6 +54270,7 @@ var EditPickupForm = $('#form-edit-pickup');
 
 var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54319,6 +54339,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54380,6 +54401,7 @@ var createSOTable = function createSOTable(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54725,6 +54747,7 @@ var collectPriceLines = function collectPriceLines(isEdit) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54747,6 +54770,7 @@ var createTable = function createTable(target, data) {
 
 var createTableItemLists = function createTableItemLists(target, data, isEdit) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54902,6 +54926,7 @@ var formEditSalesInvoice = $('#form-edit-sales-invoice');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54944,6 +54969,7 @@ var createTable = function createTable(target, data) {
 
 var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -54991,6 +55017,7 @@ var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    scrollX: true,
     destroy: true,
     data: data,
     lengthChange: false,
@@ -55285,6 +55312,7 @@ var tableSalesOrder = $('#table-sales-order');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -55327,6 +55355,7 @@ var createTable = function createTable(target, data) {
 
 var createTableCustomerFormTable = function createTableCustomerFormTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -55376,6 +55405,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
 
 var createTablePriceFormTable = function createTablePriceFormTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -55452,6 +55482,7 @@ var errorMessage = function errorMessage(data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    scrollX: true,
     destroy: true,
     data: data,
     lengthChange: false,
@@ -55984,6 +56015,7 @@ var formEditVehicle = $('#form-edit-vehicle');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -56106,6 +56138,14 @@ if (formEditVehicle.length > 0) {
   };
 
   $(window).ready(function () {
+    if ($('.c-sidebar--logo .c-bars').is(':visible')) {
+      $('.c-bars').addClass('is-active');
+      $('.c-sidebar').addClass('is-close');
+      $('.main').addClass('is-close');
+      $('.c-header').addClass('is-close');
+      localStorage.sidebar = 'a';
+    }
+
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
       $('.c-sidebar').addClass('is-close');
@@ -59108,8 +59148,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/appai/Documents/Personal/99 Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

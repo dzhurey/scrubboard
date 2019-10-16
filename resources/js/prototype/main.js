@@ -28,6 +28,15 @@
   }
 
   $(window).ready(() => {
+    if ($('.c-sidebar--logo .c-bars').is(':visible')) {
+      $('.c-bars').addClass('is-active');
+      $('.c-sidebar').addClass('is-close');
+      $('.main').addClass('is-close');
+			$('.c-header').addClass('is-close');
+
+			localStorage.sidebar = 'a';
+    }
+    
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
       $('.c-sidebar').addClass('is-close');

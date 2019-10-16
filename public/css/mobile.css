@@ -142,4 +142,15 @@
     margin: 10px auto 120px;
     padding: 15px;
   }
+
+  .c-form #button-delete {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* Title */
+
+  .c-title {
+    padding: 15px 20px;
+  }
 }

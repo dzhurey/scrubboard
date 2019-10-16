@@ -40,6 +40,7 @@ const createSOListDropdown = () => {
 };
 const createTableSOPickupSchedule = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -85,6 +86,7 @@ const createTableSOPickupSchedule = (target, data) => {
 };
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

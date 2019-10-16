@@ -13,6 +13,7 @@ const EditPickupForm = $('#form-edit-pickup');
 
 const createSOFormTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -122,6 +123,7 @@ const createSOTable = (target, data) => {
   };
 
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
@@ -184,6 +186,7 @@ const createSOTable = (target, data) => {
 
 const createTable = (target, data) => {
   target.DataTable({
+    scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,

@@ -19,6 +19,12 @@
             <div class="c-user--arrow">
                 <img class="svg" src="{{ asset('assets/images/icons/chevron-down.svg') }}" alt="user">
             </div>
+            <div class="c-user--logout">
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <img class="svg" src="{{ asset('assets/images/icons/log-out.svg') }}" alt="user">
+                </a>
+            </div>
         </div>
         <div class="dropdown-menu" aria-labelledby="dropdown-user">
             <a class="dropdown-item" href="{{ route('logout') }}"

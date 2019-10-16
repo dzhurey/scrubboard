@@ -94,9 +94,9 @@ const createSOTable = (target, data) => {
     lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: false,
-    info: true,
-    paging: true,
-    pageLength: 15,
+    info: false,
+    paging: false,
+    pageLength: 99,
     columns: [
       {
         className: 'details-control',

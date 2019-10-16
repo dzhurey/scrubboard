@@ -52176,9 +52176,9 @@ var createSOTable = function createSOTable(target, data) {
     lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
     searching: false,
-    info: true,
-    paging: true,
-    pageLength: 15,
+    info: false,
+    paging: false,
+    pageLength: 99,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -59190,8 +59190,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

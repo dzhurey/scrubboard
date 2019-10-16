@@ -112,7 +112,7 @@ class ItemController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($item->transactionLines)) {
+        if (count($item->transactionLines) > 0) {
             return $this->renderError($request, __("rules.item_has_transaction"), 422);
         }
 

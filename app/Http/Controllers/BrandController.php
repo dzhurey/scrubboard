@@ -97,7 +97,7 @@ class BrandController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($brand->transactionLines)) {
+        if (count($brand->transactionLines) > 0) {
             return $this->renderError($request, __("rules.item_has_transaction"), 422);
         }
 

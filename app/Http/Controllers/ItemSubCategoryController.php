@@ -107,7 +107,7 @@ class ItemSubCategoryController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($item_sub_category->items)) {
+        if (count($item_sub_category->items) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_sub_category_has_item"), 422);
         }
 

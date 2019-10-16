@@ -107,7 +107,7 @@ class BankAccountController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($bank_account->paymentMeans)) {
+        if (count($bank_account->paymentMeans) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_bank_has_payment"), 422);
         }
 

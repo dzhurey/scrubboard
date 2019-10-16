@@ -108,7 +108,7 @@ class AgentController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($agent->transactions)) {
+        if (count($agent->transactions) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_agent_has_transaction"), 422);
         }
 

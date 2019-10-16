@@ -144,7 +144,7 @@ class PersonController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if ($person->user->isCourier() && !empty($person->courierSchedules)) {
+        if ($person->user->isCourier() && count($person->courierSchedules) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_courier_has_schedule"), 422);
         }
 

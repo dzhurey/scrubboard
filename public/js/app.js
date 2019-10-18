@@ -52338,6 +52338,7 @@ __webpack_require__.r(__webpack_exports__);
 var tableCourierPS = $('#table-courier-pickup-schedule');
 var formEditCourierPS = $('#form-edit-courier-pickup-schedule');
 var formItemCourierPS = $('#table-item-courier-pickup-schedule');
+var formItemCourierPSMobile = $('#table-item-courier-pickup-schedule-mobile');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -52453,8 +52454,25 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var createSOTableMobile = function createSOTableMobile(target, data) {
+  var format = function format(d) {
+    var items = function items(n, i) {
+      return n.transaction_lines.map(function (res) {
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(i, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(i, "\">\n                    Twin Stroller\n                </a>\n            </div>\n            <div id=\"item-").concat(i, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand.name, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+      });
+    };
+
+    return d.map(function (res) {
+      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+    });
+  };
+
+  target.append(format(data));
+};
+
 var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
   createSOTable(formItemCourierPS, list_id);
+  createSOTableMobile(formItemCourierPSMobile, list_id);
 };
 
 var uploadImage = function uploadImage() {

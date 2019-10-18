@@ -10,7 +10,7 @@
           </a>
         </div>
         @canany(['superadmin', 'sales'])
-        <a class="btn btn-primary btn-block btn-lg" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
+        <a class="btn btn-primary btn-block" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
             title="Sales Order">
             <span>
                 <img class="svg" src="{{ asset('assets/images/icons/plus.svg') }}">

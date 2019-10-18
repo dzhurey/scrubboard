@@ -125,18 +125,13 @@ h5 {
   height: 100vh;
   background-color: #FFFFFF;
   padding: 20px 0;
-  border-bottom: 1px solid #cccccc;
-  box-shadow: 2px 2px 10px 0 rgba(13, 38, 57, 0.05);
+  border-right: 1px solid #e9ecef;
   z-index: 5;
   transition: all 0s;
 }
 
 .c-sidebar--logo {
   padding: 0 30px;
-}
-
-.c-sidebar--logo .btn {
-  padding: 16px 20px;
 }
 
 .c-sidebar--logo .btn span:first-child {
@@ -160,7 +155,7 @@ h5 {
 .c-sidebar .c-nav {
   padding: 0 30px;
   overflow: auto;
-  height: calc(100vh - 145px - 20px);
+  height: calc(100vh - 132px - 20px);
 }
 
 .c-sidebar .c-nav::-webkit-scrollbar-thumb {
@@ -177,7 +172,7 @@ h5 {
 
 .c-sidebar .c-nav--item > a {
   display: block;
-  padding: 12px 8px 12px 0;
+  padding: 10px 8px 10px 0;
   position: relative;
   color: #555555;
   cursor: pointer;
@@ -192,7 +187,7 @@ h5 {
 
 .c-sidebar .c-nav--item > a:before {
   display: none;
-  background-color: #E8EEF3;
+  background-color: #e8f0fe;
   width: 30px;
   height: 100%;
   position: absolute;
@@ -203,11 +198,11 @@ h5 {
 
 .c-sidebar .c-nav--item > a.is-active {
   color: #225F90;
-  background-color: #E8EEF3;
+  background-color: #e8f0fe;
   border-radius: 0 30px 30px 0;
 }
 
-.c-sidebar .c-nav--item > a.is-active .svg.replaced-svg {
+.c-sidebar .c-nav--item > a.is-active .svg.replaced-svg path {
   color: #225F90;
 }
 
@@ -437,7 +432,7 @@ h5 {
   background-color: transparent;
   padding: 0;
   margin-bottom: 5px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: normal;
   color: #b4b4b4;
 }

@@ -148,6 +148,10 @@
     margin-bottom: 15px;
   }
 
+  .c-form.is-fluid {
+    max-width: 100%;
+  }
+
   /* Title */
 
   .c-title {

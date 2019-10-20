@@ -6,6 +6,7 @@ const formCreateUser = $('#form-create-user');
 const formEditUser = $('#form-edit-user');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],

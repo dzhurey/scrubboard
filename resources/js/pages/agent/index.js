@@ -5,6 +5,7 @@ const formCreateAgent = $('#form-create-agent');
 const formEditAgent = $('#form-edit-agent');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],

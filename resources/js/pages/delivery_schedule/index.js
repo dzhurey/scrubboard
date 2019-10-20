@@ -13,6 +13,7 @@ const EditDeliveryForm = $('#form-edit-delivery');
 
 const createSiFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -120,6 +121,7 @@ const createSITableDelivery = (target, data) => {
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -188,6 +190,7 @@ const createSITableDelivery = (target, data) => {
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],

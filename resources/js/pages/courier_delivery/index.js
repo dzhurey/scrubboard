@@ -5,6 +5,7 @@ const formEditCourierDS = $('#form-edit-courier-delivery-schedule');
 const formItemCourierDS = $('#table-item-courier-delivery-schedule');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -90,6 +91,7 @@ const createSOTable = (target, data) => {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],

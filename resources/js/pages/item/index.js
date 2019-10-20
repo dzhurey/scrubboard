@@ -7,6 +7,7 @@ const selectSubCategory = $('#item_sub_category_id');
 const selectPriceLists = $('#price_list');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],

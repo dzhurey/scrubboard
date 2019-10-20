@@ -19,6 +19,7 @@ const tableSalesOrder = $('#table-sales-order');
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -57,6 +58,7 @@ const createTable = (target, data) => {
 
 const createTableCustomerFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -106,6 +108,7 @@ const createTableCustomerFormTable = (target, data) => {
 
 const createTablePriceFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -177,6 +180,7 @@ const errorMessage = (data) => {
 
 const generateItemTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
     lengthChange: true,

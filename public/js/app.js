@@ -51750,6 +51750,7 @@ var formEditAgent = $('#form-edit-agent');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -51893,6 +51894,7 @@ var formEditBank = $('#form-edit-bank');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52008,6 +52010,7 @@ var formEditCategory = $('#form-edit-brand');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52118,6 +52121,7 @@ var formItemCourierDS = $('#table-item-courier-delivery-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52172,6 +52176,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
@@ -52338,9 +52343,11 @@ __webpack_require__.r(__webpack_exports__);
 var tableCourierPS = $('#table-courier-pickup-schedule');
 var formEditCourierPS = $('#form-edit-courier-pickup-schedule');
 var formItemCourierPS = $('#table-item-courier-pickup-schedule');
+var formItemCourierPSMobile = $('#table-item-courier-pickup-schedule-mobile');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52395,6 +52402,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
@@ -52453,8 +52461,25 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var createSOTableMobile = function createSOTableMobile(target, data) {
+  var format = function format(d) {
+    var items = function items(n, i) {
+      return n.transaction_lines.map(function (res) {
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(i, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(i, "\">\n                    Twin Stroller\n                </a>\n            </div>\n            <div id=\"item-").concat(i, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand.name, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+      });
+    };
+
+    return d.map(function (res) {
+      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+    });
+  };
+
+  target.append(format(data));
+};
+
 var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
   createSOTable(formItemCourierPS, list_id);
+  createSOTableMobile(formItemCourierPSMobile, list_id);
 };
 
 var uploadImage = function uploadImage() {
@@ -52562,6 +52587,7 @@ var tableCourierList = $('#table-courier-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52646,6 +52672,7 @@ var formEditCourier = $('#form-edit-courier');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52818,6 +52845,7 @@ var formEditCustomer = $('#form-edit-customer');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -52988,6 +53016,7 @@ var EditDeliveryForm = $('#form-edit-delivery');
 
 var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53056,6 +53085,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53120,6 +53150,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53377,6 +53408,7 @@ var selectPriceLists = $('#price_list');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53601,6 +53633,7 @@ var formEditCategory = $('#form-edit-category');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53718,6 +53751,7 @@ var selectCategory = $('#item_group_id');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53900,6 +53934,7 @@ var modalSITable = $('#modal-si-form-table-payment');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -53934,6 +53969,7 @@ var createTable = function createTable(target, data) {
 
 var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54117,6 +54153,7 @@ var formEditUser = $('#form-edit-user');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54290,6 +54327,7 @@ var EditPickupForm = $('#form-edit-pickup');
 
 var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54365,6 +54403,7 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54427,6 +54466,7 @@ var createSOTable = function createSOTable(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54773,6 +54813,7 @@ var collectPriceLines = function collectPriceLines(isEdit) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54796,6 +54837,7 @@ var createTable = function createTable(target, data) {
 
 var createTableItemLists = function createTableItemLists(target, data, isEdit) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54952,6 +54994,7 @@ var formEditSalesInvoice = $('#form-edit-sales-invoice');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -54993,6 +55036,7 @@ var createTable = function createTable(target, data) {
 
 var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -55041,6 +55085,7 @@ var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
     lengthChange: true,
@@ -55336,6 +55381,7 @@ var tableSalesOrder = $('#table-sales-order');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -55377,6 +55423,7 @@ var createTable = function createTable(target, data) {
 
 var createTableCustomerFormTable = function createTableCustomerFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -55429,6 +55476,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
 
 var createTablePriceFormTable = function createTablePriceFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -55506,6 +55554,7 @@ var errorMessage = function errorMessage(data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
     lengthChange: true,
@@ -56055,6 +56104,7 @@ var formEditVehicle = $('#form-edit-vehicle');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [15, 25, 50, 100],
@@ -56178,6 +56228,14 @@ if (formEditVehicle.length > 0) {
   };
 
   $(window).ready(function () {
+    if ($('.c-sidebar--logo .c-bars').is(':visible')) {
+      $('.c-bars').addClass('is-active');
+      $('.c-sidebar').addClass('is-close');
+      $('.main').addClass('is-close');
+      $('.c-header').addClass('is-close');
+      localStorage.sidebar = 'a';
+    }
+
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
       $('.c-sidebar').addClass('is-close');

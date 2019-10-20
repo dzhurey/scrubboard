@@ -12,6 +12,7 @@ const formEditSalesInvoice = $('#form-edit-sales-invoice');
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -49,6 +50,7 @@ const createTable = (target, data) => {
 };
 const createInvoiceTableSO = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -93,6 +95,7 @@ const createInvoiceTableSO = (target, data) => {
 
 const generateItemTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
     lengthChange: true,

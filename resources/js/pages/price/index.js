@@ -28,6 +28,7 @@ const collectPriceLines = (isEdit) => {
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -53,6 +54,7 @@ const createTable = (target, data) => {
 
 const createTableItemLists = (target, data, isEdit) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],

@@ -94,11 +94,19 @@
     display: none;
   }
 
+  .c-sidebar .c-nav--item > a {
+    padding: 10px 0;
+  }
+
   /* Main */
 
   .main {
     padding-left: 0;
     margin-top: 60px;
+  }
+
+  .main .c-table--outer {
+    margin: 15px;
   }
 
   .main.is-close {
@@ -133,5 +141,20 @@
   .c-form {
     margin: 10px auto 120px;
     padding: 15px;
+  }
+
+  .c-form #button-delete {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .c-form.is-fluid {
+    max-width: 100%;
+  }
+
+  /* Title */
+
+  .c-title {
+    padding: 15px 20px;
   }
 }

@@ -3,8 +3,10 @@ import ajx from './../../shared/index.js';
 const tableCourierPS = $('#table-courier-pickup-schedule');
 const formEditCourierPS = $('#form-edit-courier-pickup-schedule');
 const formItemCourierPS = $('#table-item-courier-pickup-schedule');
+const formItemCourierPSMobile = $('#table-item-courier-pickup-schedule-mobile');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: true,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -90,6 +92,7 @@ const createSOTable = (target, data) => {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
@@ -154,8 +157,76 @@ const createSOTable = (target, data) => {
   })
 };
 
+const createSOTableMobile = (target, data) => {
+
+  const format = (d) => {
+
+    const items = (n, i) => {
+      return n.transaction_lines.map(res => {
+        return `<div class="card">
+            <div class="card-header" id="card-${i}">
+                <a href="#" class="cursor-pointer" data-toggle="collapse" data-target="#item-${i}">
+                    Twin Stroller
+                </a>
+            </div>
+            <div id="item-${i}" class="collapse">
+                <div class="card-body">
+                    <div>
+                        <b>Item</b>
+                        <div>${res.transaction_line.item.description}</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <b>BOR</b>
+                        <div>${res.transaction_line.bor}</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <b>Brand</b>
+                        <div>${res.transaction_line.brand.name}</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <b>Color</b>
+                        <div>${res.transaction_line.color}</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <b>ETA</b>
+                        <div class="mt-2 mb-3">
+                          <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="mb-2 font-weight-bold">Photo</div>
+                        <form class="upload-photo" enctype="multipart/form-data">
+                          <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
+                          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
+                          <input id="method" type="hidden" name="_method" value="put">
+                          <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id} w-100 mt-2" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>`
+      })
+    }
+
+    return d.map((res) => {
+      return `<div class="item-order">
+      <small class="d-block text-muted mb-2">${res.transaction_number}</small>
+      <span class="d-block font-weight-bold mb-1">${res.customer.name}</span>
+      <p>${res.address.description}</p>` + items(res)
+    })
+  };
+
+  target.append(format(data))
+};
+
 const generateDataPickupEdit = (list_id) => {
   createSOTable(formItemCourierPS, list_id);
+  createSOTableMobile(formItemCourierPSMobile, list_id);
 };
 
 const uploadImage = () => {

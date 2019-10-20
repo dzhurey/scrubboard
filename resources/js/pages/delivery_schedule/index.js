@@ -194,7 +194,7 @@ const createTable = (target, data) => {
     searching: true,
     info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },

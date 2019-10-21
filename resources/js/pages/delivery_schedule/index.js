@@ -104,6 +104,7 @@ const createSITableDelivery = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
+          <td>${res.image_name ? res.updated_at : '-'}</td>
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {
@@ -120,6 +121,7 @@ const createSITableDelivery = (target, data) => {
         <th>Brand</th>
         <th>Color</th>
         <th class="th-qty">ETA</th>
+        <th>Delivered</th>
         <th></th>
       </tr>
     </thead><tbody>${row}</tbody></table>`;
@@ -128,11 +130,11 @@ const createSITableDelivery = (target, data) => {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
-    searching: true,
-    info: true,
-    paging: true,
+    searching: false,
+    info: false,
+    paging: false,
     pageLength: 15,
     columns: [
       {

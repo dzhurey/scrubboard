@@ -66,6 +66,7 @@ const createSOTable = (target, data) => {
         <td>
           <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
         </td>
+        <td>${res.image_name ? res.updated_at : '-'}</td>
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
             <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
@@ -85,6 +86,7 @@ const createSOTable = (target, data) => {
         <th>Brand</th>
         <th>Color</th>
         <th class="th-qty">ETA</th>
+        <th>Delivered</th>
         <th class="th-item">Photo</th>
         <th></th>
       </tr>
@@ -189,6 +191,11 @@ const createSOTableMobile = (target, data) => {
                     <div>
                         <b>Color</b>
                         <div>${res.transaction_line.color}</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <b>Delivered</b>
+                        <div>${res.image_name ? res.updated_at : '-'}</div>
                     </div>
                     <hr>
                     <div>

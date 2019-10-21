@@ -19,13 +19,13 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Customer Name" />
+            <label class="c-form--label" for="customer_id">Client</label>
+            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Client Name" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="agent_outlet">Outlet</label>
-            <input class="form-control cursor-pointer" id="agent_outlet" name="agent_outlet" required readonly placeholder="Agent Name" />
+            <label class="c-form--label" for="agent_outlet">POS</label>
+            <input class="form-control cursor-pointer" id="agent_outlet" name="agent_outlet" required readonly placeholder="POS Name" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
@@ -53,7 +53,7 @@
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 d-none">
                 <div class="form-group">
                     <label class="c-form--label" for="pickup_date">Pick Up date</label>
                     <input class="form-control datetimepicker" id="pickup_date" name="pickup_date" required readonly>

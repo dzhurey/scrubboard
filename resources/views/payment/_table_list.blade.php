@@ -5,7 +5,7 @@
             <tr>
                 <th>Payment ID</th>
                 <th>Sales Invoice ID</th>
-                <th>Customer Name</th>
+                <th>Client Name</th>
                 <th>Payment Date</th>
                 <th>Status</th>
                 <th>Payment Method</th>

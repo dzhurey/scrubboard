@@ -13,12 +13,14 @@ const EditPickupForm = $('#form-edit-pickup');
 
 const createSOFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
@@ -73,11 +75,16 @@ const createSOTable = (target, data) => {
     const items = d.transaction_lines;
     items.map((res) => {
       const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
-      const documentStatus = $('#document_status').val()
+      const documentStatus = $('#document_status').val();
+      // ${res.status !== 'open' ? '' : 'required' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
       if (formCreatePickup.length > 0 && res.status === 'open') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' } ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -85,14 +92,14 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }>
+            <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
         row += `<tr>
           <td>
-            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
+            <input type="checkbox" class="transaction_id" name="transaction_id" value="${res.id}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked'}>
           </td>
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
@@ -100,10 +107,12 @@ const createSOTable = (target, data) => {
           <td>${transactionLine.brand.name}</td>
           <td>${transactionLine.color}</td>
           <td>
-            <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } value="${res.estimation_time}" ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }>
+            <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td></td>
         </tr>`;
+      } else if (res.status === 'canceled') {
+        row += `<tr><td colspan="8" align="center">Item has been cancel</td></tr>`
       }
     });
 
@@ -122,12 +131,14 @@ const createSOTable = (target, data) => {
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [
       {
         className: 'details-control',
@@ -184,12 +195,14 @@ const createSOTable = (target, data) => {
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [
       { data: 'courier_code' },

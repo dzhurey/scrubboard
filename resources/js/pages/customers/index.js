@@ -5,15 +5,22 @@ const formCreateCustomer = $('#form-create-customer');
 const formEditCustomer = $('#form-edit-customer');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       { data: 'id' },
-      { data: 'partner_type' },
+      { 
+        data: 'partner_type',
+        render(data) {
+          return `${data === 'customer' ? 'General' : 'Endorser'}`;
+        },
+      },
       { data: 'name' },
       { data: 'phone_number' },
       { data: 'created_at' },
@@ -85,6 +92,9 @@ if (formEditCustomer.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
+    if (data.birth_date === '') {
+      data.birth_date = null;
+    }
     ajx.put(`/api/customers/${idCustomer}`, data).then(res => window.location = '/customers').catch(res => {
       const errors = res.responseJSON.errors;      
       errorMessage(errors);
@@ -108,6 +118,9 @@ if (formCreateCustomer.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formCreateCustomer.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
+    if (data.birth_date === '') {
+      delete data.birth_date;
+    }
     ajx.post('/api/customers', data).then(res => window.location = '/customers').catch(res => {
       const errors = res.responseJSON.errors;      
       errorMessage(errors);

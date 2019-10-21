@@ -19,7 +19,7 @@ class VehicleController extends Controller
         Request $request,
         VehiclePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -36,7 +36,7 @@ class VehicleController extends Controller
         Vehicle $vehicle,
         VehiclePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -48,7 +48,7 @@ class VehicleController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -59,7 +59,7 @@ class VehicleController extends Controller
         StoreVehicle $request,
         VehicleStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -70,7 +70,7 @@ class VehicleController extends Controller
 
     public function edit(Request $request, Vehicle $vehicle)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -82,7 +82,7 @@ class VehicleController extends Controller
         Vehicle $vehicle,
         VehicleStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,11 +93,11 @@ class VehicleController extends Controller
 
     public function destroy(Request $request, Vehicle $vehicle)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($vehicle->courierSchedules)) {
+        if (count($vehicle->courierSchedules) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_vehicle_has_schedule"), 422);
         }
 

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <form id="modal-customer-form" class="needs-validatio">
                 <div class="modal-header">
-                    <h2 class="modal-title">Customer Data</h2>
+                    <h2 class="modal-title">Client Data</h2>
                 </div>
                 <div class="modal-body">
                     <div class="c-table--outer mx-0">
@@ -12,7 +12,7 @@
                                 <tr>
                                     <th class="checkbox"></th>
                                     <th>ID</th>
-                                    <th>Customer Name</th>
+                                    <th>Client Name</th>
                                     <th>Address</th>
                                     <th>Phone Number</th>
                                     <th></th>

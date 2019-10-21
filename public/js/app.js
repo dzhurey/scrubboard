@@ -51750,12 +51750,14 @@ var formEditAgent = $('#form-edit-agent');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'agent_group',
       render: function render(data) {
@@ -51892,12 +51894,14 @@ var formEditBank = $('#form-edit-bank');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52006,12 +52010,14 @@ var formEditCategory = $('#form-edit-brand');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52112,15 +52118,18 @@ __webpack_require__.r(__webpack_exports__);
 var tableCourierDS = $('#table-courier-delivery-schedule');
 var formEditCourierDS = $('#form-edit-courier-delivery-schedule');
 var formItemCourierDS = $('#table-item-courier-delivery-schedule');
+var formItemCourierDSMobile = $('#table-item-courier-delivery-schedule-mobile');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -52168,12 +52177,14 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
+    lengthMenu: [15, 25, 50, 100],
     searching: false,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 99,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -52225,8 +52236,29 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var createSOTableMobile = function createSOTableMobile(target, data) {
+  var format = function format(d) {
+    var items = function items(n, i) {
+      return n.transaction_lines.map(function (res) {
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand.name, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+      });
+    };
+
+    return d.map(function (res) {
+      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+    });
+  };
+
+  target.append(format(data));
+  uploadImage();
+};
+
 var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
-  createSOTable(formItemCourierDS, list_id);
+  if (window.innerWidth > 768) {
+    createSOTable(formItemCourierDS, list_id);
+  } else {
+    createSOTableMobile(formItemCourierDSMobile, list_id);
+  }
 };
 
 var uploadImage = function uploadImage() {
@@ -52333,15 +52365,18 @@ __webpack_require__.r(__webpack_exports__);
 var tableCourierPS = $('#table-courier-pickup-schedule');
 var formEditCourierPS = $('#form-edit-courier-pickup-schedule');
 var formItemCourierPS = $('#table-item-courier-pickup-schedule');
+var formItemCourierPSMobile = $('#table-item-courier-pickup-schedule-mobile');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -52389,12 +52424,14 @@ var createSOTable = function createSOTable(target, data) {
   };
 
   target.DataTable({
+    // // scrollX: true,
     data: data,
     lengthChange: false,
+    lengthMenu: [15, 25, 50, 100],
     searching: false,
     info: false,
     paging: false,
-    pageLength: 10,
+    pageLength: 99,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -52446,12 +52483,34 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var createSOTableMobile = function createSOTableMobile(target, data) {
+  var format = function format(d) {
+    var items = function items(n, i) {
+      return n.transaction_lines.map(function (res) {
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand.name, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" name=\"image\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+      });
+    };
+
+    return d.map(function (res) {
+      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+    });
+  };
+
+  target.append(format(data));
+  uploadImage();
+};
+
 var generateDataPickupEdit = function generateDataPickupEdit(list_id) {
-  createSOTable(formItemCourierPS, list_id);
+  if (window.innerWidth > 768) {
+    createSOTable(formItemCourierPS, list_id);
+  } else {
+    createSOTableMobile(formItemCourierPSMobile, list_id);
+  }
 };
 
 var uploadImage = function uploadImage() {
-  $('.upload-photo').change(function (e) {
+  $('.upload_photo').change(function (e) {
+    debugger;
     var input = e.target;
     sessionStorage.clear();
     sessionStorage.setItem('target_image', input.getAttribute('data-id'));
@@ -52555,12 +52614,14 @@ var tableCourierList = $('#table-courier-schedule');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'courier_schedule.schedule_type'
     }, {
@@ -52568,9 +52629,14 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'transaction_line.bor'
     }, {
+      data: 'transaction_line.transaction.customer',
+      render: function render(data, type, row) {
+        return data.name;
+      }
+    }, {
       data: 'transaction_line.transaction',
       render: function render(data, type, row) {
-        return "".concat(row.transaction_line.transaction.agent ? row.transaction_line.transaction.agent.name : row.transaction_line.transaction.customer.name);
+        return "".concat(row.transaction_line.transaction.is_own_address ? row.transaction_line.transaction.customer.name : row.transaction_line.transaction.agent.name);
       }
     }, {
       data: 'transaction_line.address',
@@ -52633,12 +52699,14 @@ var formEditCourier = $('#form-edit-courier');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -52804,16 +52872,21 @@ var formEditCustomer = $('#form-edit-customer');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'id'
     }, {
-      data: 'partner_type'
+      data: 'partner_type',
+      render: function render(data) {
+        return "".concat(data === 'customer' ? 'General' : 'Endorser');
+      }
     }, {
       data: 'name'
     }, {
@@ -52893,6 +52966,11 @@ if (formEditCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if (data.birth_date === '') {
+      data.birth_date = null;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
@@ -52921,6 +52999,11 @@ if (formCreateCustomer.length > 0) {
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
+
+    if (data.birth_date === '') {
+      delete data.birth_date;
+    }
+
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
     })["catch"](function (res) {
@@ -52960,12 +53043,14 @@ var EditDeliveryForm = $('#form-edit-delivery');
 
 var createSiFormTable = function createSiFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -53013,24 +53098,32 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
     var items = d.transaction_lines;
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
-      var documentStatus = $('#document_status').val();
+      var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td>").concat(res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
+      } else if (res.status === 'canceled') {
+        row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -53088,12 +53181,14 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -53344,12 +53439,14 @@ var selectPriceLists = $('#price_list');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'description'
     }, {
@@ -53567,12 +53664,14 @@ var formEditCategory = $('#form-edit-category');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -53683,12 +53782,14 @@ var selectCategory = $('#item_group_id');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -53864,12 +53965,14 @@ var modalSITable = $('#modal-si-form-table-payment');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'payment_code'
@@ -53897,12 +54000,14 @@ var createTable = function createTable(target, data) {
 
 var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -54079,12 +54184,14 @@ var formEditUser = $('#form-edit-user');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -54251,12 +54358,14 @@ var EditPickupForm = $('#form-edit-pickup');
 
 var createSOFormTable = function createSOFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -54307,24 +54416,32 @@ var createSOTable = function createSOTable(target, data) {
     var items = d.transaction_lines;
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
-      var documentStatus = $('#document_status').val();
+      var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
+      // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
+      // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required', " ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required', "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '', ">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
+      } else if (res.status === 'canceled') {
+        row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
 
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [{
       className: 'details-control',
       orderable: false,
@@ -54380,12 +54497,14 @@ var createSOTable = function createSOTable(target, data) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
       data: 'courier_code'
@@ -54725,12 +54844,14 @@ var collectPriceLines = function collectPriceLines(isEdit) {
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name'
     }, {
@@ -54747,11 +54868,13 @@ var createTable = function createTable(target, data) {
 
 var createTableItemLists = function createTableItemLists(target, data, isEdit) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
     columns: [{
       data: 'description',
       render: function render(data) {
@@ -54902,13 +55025,15 @@ var formEditSalesInvoice = $('#form-edit-sales-invoice');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -54921,8 +55046,6 @@ var createTable = function createTable(target, data) {
       data: 'delivery_status'
     }, {
       data: 'transaction_date'
-    }, {
-      data: 'pickup_date'
     }, {
       data: 'delivery_date'
     }, {
@@ -54944,12 +55067,14 @@ var createTable = function createTable(target, data) {
 
 var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
@@ -54991,13 +55116,15 @@ var createInvoiceTableSO = function createInvoiceTableSO(target, data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name',
       render: function render(data, type, row) {
@@ -55285,13 +55412,15 @@ var tableSalesOrder = $('#table-sales-order');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
     }, {
@@ -55306,8 +55435,6 @@ var createTable = function createTable(target, data) {
       data: 'transaction_date'
     }, {
       data: 'pickup_date'
-    }, {
-      data: 'delivery_date'
     }, {
       data: 'total_amount',
       render: function render(data) {
@@ -55327,16 +55454,18 @@ var createTable = function createTable(target, data) {
 
 var createTableCustomerFormTable = function createTableCustomerFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"radio\" name=\"customer_id_radio\" class=\"check-customer\" value=\"".concat(data, "\" price-id=\"").concat(row.price_id, "\" customer-name=\"").concat(row.name, "\" required/>");
+        return "<input type=\"radio\" name=\"customer_id_radio\" class=\"check-customer\" value=\"".concat(data, "\" price-id=\"").concat(row.price_id, "\" customer-name=\"").concat(row.name, "\" customer-type=\"").concat(row.partner_type, "\" required/>");
       }
     }, {
       data: 'id'
@@ -55359,6 +55488,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
       $('.check-customer').change(function (e) {
         var price_id = e.target.getAttribute('price-id');
         var name = e.target.getAttribute('customer-name');
+        var type = e.target.getAttribute('customer-type');
         var customer_id = e.target.value;
         sessionStorage.setItem('choosed_customer', JSON.stringify({
           customer_id: customer_id,
@@ -55366,6 +55496,7 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
           price_id: price_id
         }));
         modalPriceFormTable.DataTable().destroy();
+        $('#order_type').val("".concat(type === 'customer' ? 'general' : 'endorser'));
         tableSOItems.DataTable().destroy();
         generateItemTable(tableSOItems, []);
         getPriceList(price_id);
@@ -55376,12 +55507,14 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
 
 var createTablePriceFormTable = function createTablePriceFormTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [{
       data: 'item_id',
       render: function render(data, type, row) {
@@ -55452,13 +55585,15 @@ var errorMessage = function errorMessage(data) {
 
 var generateItemTable = function generateItemTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'name',
       render: function render(data, type, row) {
@@ -55472,7 +55607,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" required value=\"").concat(row.brand_id, "\"></select>");
+        return "<select class=\"form-control brand_id\" id=\"brand_id_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"brand_id\" value=\"").concat(row.brand_id, "\"></select>");
       }
     }, {
       data: 'id',
@@ -55515,8 +55650,12 @@ var generateItemTable = function generateItemTable(target, data) {
         var buttonPicked = "<button id=\"picked_".concat(row.id, "\" type=\"button\" class=\"btn btn-primary m-0 auto-button\" style=\"display: inline-block; vertical-align: middle;\">Picked</button>");
 
         if (row.status) {
-          if (row.status === 'canceled' || row.status === 'done') {
+          if (row.status === 'canceled') {
             return status;
+          }
+
+          if (row.status === 'done') {
+            return status + buttonCancel;
           }
 
           return status + buttonCancel + buttonPicked;
@@ -55549,6 +55688,10 @@ var generateItemTable = function generateItemTable(target, data) {
       });
       $('.brand_id').each(function (i, item) {
         item.value = item.getAttribute('value');
+        $(item).change(function (e) {
+          var brand_id = e.target.id;
+          sessionStorage.setItem(brand_id, e.target.value);
+        });
       });
       $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each(function (i, item) {
         $(item).on('change', handleChangeForm);
@@ -55584,6 +55727,10 @@ var removeItem = function removeItem() {
     });
     sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
     tableSOItems.DataTable().row([parent]).remove().draw();
+    $('.brand_id').each(function (i, item) {
+      var brand_id = item.id;
+      item.value = sessionStorage.getItem(brand_id);
+    });
     totalBeforeDisc();
 
     if ($('.remove-item').length === 0) {
@@ -55670,6 +55817,10 @@ var totalBeforeDisc = function totalBeforeDisc() {
   $('#discount').change(function (e) {
     return finalTotal(e.target.value);
   });
+  $('#discount_amount').change(function (e) {
+    $('#discount').val(parseFloat(e.target.value) / parseFloat($('#original_amount').val()) * 100);
+    finalTotal($('#discount').val());
+  });
   $('#freight').change(function (e) {
     return finalTotal($('#discount').val(), e.target.value);
   });
@@ -55752,7 +55903,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
-    delivery_date: $('#delivery_date').val(),
+    // delivery_date: $('#delivery_date').val(),
     original_amount: $('#original_amount').val(),
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
@@ -55914,8 +56065,8 @@ if (formEditSalesOrder.length > 0) {
     $('#original_amount').val(res.sales_order.original_amount);
     $('#total_amount').val(res.sales_order.total_amount);
     $('#transaction_date').val(res.sales_order.transaction_date);
-    $('#pickup_date').val(res.sales_order.pickup_date);
-    $('#delivery_date').val(res.sales_order.delivery_date);
+    $('#pickup_date').val(res.sales_order.pickup_date); // $('#delivery_date').val(res.sales_order.delivery_date);
+
     getPriceList(res.sales_order.customer.price_id);
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
@@ -55984,12 +56135,14 @@ var formEditVehicle = $('#form-edit-vehicle');
 
 var createTable = function createTable(target, data) {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [{
       data: 'number'
     }, {
@@ -56106,6 +56259,14 @@ if (formEditVehicle.length > 0) {
   };
 
   $(window).ready(function () {
+    if ($('.c-sidebar--logo .c-bars').is(':visible')) {
+      $('.c-bars').addClass('is-active');
+      $('.c-sidebar').addClass('is-close');
+      $('.main').addClass('is-close');
+      $('.c-header').addClass('is-close');
+      localStorage.sidebar = 'a';
+    }
+
     if (localStorage.sidebar === 'a') {
       $('.c-bars').addClass('is-active');
       $('.c-sidebar').addClass('is-close');
@@ -56135,6 +56296,7 @@ if (formEditVehicle.length > 0) {
       close: 'fa fa-remove'
     }
   });
+  $('#birth_date').val('');
   $('.c-bars').click(function (e) {
     $(e.currentTarget).toggleClass('is-active');
     $('.c-sidebar').toggleClass('is-close');
@@ -56147,6 +56309,15 @@ if (formEditVehicle.length > 0) {
     } else {
       localStorage.sidebar = 'b';
       tooltipSidebar();
+    }
+  });
+  $('.form-control').each(function (idx, itm) {
+    if (itm.hasAttribute('required')) {
+      var label = itm.parentElement.querySelector('label');
+
+      if (label) {
+        label.innerHTML += '<span style="color: red">&nbsp;*</span>';
+      }
     }
   });
 

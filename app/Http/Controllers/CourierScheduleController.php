@@ -18,7 +18,7 @@ class CourierScheduleController extends Controller
         Request $request,
         CourierScheduleLinePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation', 'courier'])) {
+        if (!$this->allowAny(['superadmin', 'operation', 'courier', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

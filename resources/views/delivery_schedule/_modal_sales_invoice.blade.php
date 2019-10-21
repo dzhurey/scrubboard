@@ -12,7 +12,7 @@
                                 <tr>
                                     <th class="checkbox"></th>
                                     <th>Sales Invoices Number</th>
-                                    <th>Customer</th>
+                                    <th>Client Name</th>
                                     <th>Pickup Date</th>
                                     <th>Address</th>
                                     <th>Qty Items</th>

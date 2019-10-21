@@ -21,7 +21,7 @@ class DeliveryScheduleController extends Controller
         Request $request,
         DeliverySchedulePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -38,7 +38,7 @@ class DeliveryScheduleController extends Controller
         DeliverySchedule $delivery_schedule,
         DeliverySchedulePresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -50,7 +50,7 @@ class DeliveryScheduleController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -63,7 +63,7 @@ class DeliveryScheduleController extends Controller
         StoreCourierSchedule $request,
         DeliveryScheduleStoreService $service
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -75,7 +75,7 @@ class DeliveryScheduleController extends Controller
 
     public function edit(Request $request, DeliverySchedule $delivery_schedule)
     {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -90,7 +90,7 @@ class DeliveryScheduleController extends Controller
         DeliverySchedule $delivery_schedule,
         DeliveryScheduleUpdateService $service
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,7 +104,7 @@ class DeliveryScheduleController extends Controller
         CourierScheduleCancelService $service,
         DeliverySchedule $delivery_schedule
     ) {
-        if (!$this->allowAny(['superadmin', 'operation'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'operation'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

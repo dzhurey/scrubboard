@@ -8,10 +8,11 @@ const formEditSalesInvoice = $('#form-edit-sales-invoice');
 const tableSOItems = $('#table-so-item');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     columns: [
@@ -101,11 +102,12 @@ const getDataTableSO = (id, isEditable) => {
 
 const createTableSO = (target, data, isEditable) => {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paginate: false,
     pageLength: 5,
     columns: [

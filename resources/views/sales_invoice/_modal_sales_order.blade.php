@@ -12,7 +12,7 @@
                                 <tr>
                                     <th class="checkbox"></th>
                                     <th>Sales Order ID</th>
-                                    <th>Customer</th>
+                                    <th>Client Name</th>
                                     <th>Outlet</th>
                                     <th>Order Status</th>
                                     <th>Document Date</th>

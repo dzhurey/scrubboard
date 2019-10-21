@@ -19,13 +19,15 @@ const tableSalesOrder = $('#table-sales-order');
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -34,7 +36,6 @@ const createTable = (target, data) => {
       { data: 'pickup_status' },
       { data: 'transaction_date' },
       { data: 'pickup_date' },
-      { data: 'delivery_date' },
       {
         data: 'total_amount',
         render(data) {
@@ -57,17 +58,19 @@ const createTable = (target, data) => {
 
 const createTableCustomerFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="radio" name="customer_id_radio" class="check-customer" value="${data}" price-id="${row.price_id}" customer-name="${row.name}" required/>`
+          return `<input type="radio" name="customer_id_radio" class="check-customer" value="${data}" price-id="${row.price_id}" customer-name="${row.name}" customer-type="${row.partner_type}" required/>`
         }
       },
       { data: 'id' },
@@ -90,9 +93,11 @@ const createTableCustomerFormTable = (target, data) => {
       $('.check-customer').change((e) => {
         const price_id = e.target.getAttribute('price-id');
         const name = e.target.getAttribute('customer-name');
+        const type = e.target.getAttribute('customer-type');
         const customer_id = e.target.value;
         sessionStorage.setItem('choosed_customer', JSON.stringify({ customer_id: customer_id, name: name, price_id: price_id }));
         modalPriceFormTable.DataTable().destroy();
+        $('#order_type').val(`${type === 'customer' ? 'general' : 'endorser'}`);
         tableSOItems.DataTable().destroy();
         generateItemTable(tableSOItems, []);
         getPriceList(price_id);
@@ -103,12 +108,14 @@ const createTableCustomerFormTable = (target, data) => {
 
 const createTablePriceFormTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'item_id',
@@ -173,13 +180,15 @@ const errorMessage = (data) => {
 
 const generateItemTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       {
         data: 'name',
@@ -196,7 +205,7 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" required value="${row.brand_id}"></select>`;
+          return `<select class="form-control brand_id" id="brand_id_${row.id}" data-id="${row.item_id}" name="brand_id" value="${row.brand_id}"></select>`;
         }
       },
       {
@@ -257,8 +266,11 @@ const generateItemTable = (target, data) => {
           const buttonCancel = `<button id="cancel_${row.id}" type="button" class="btn btn-light mx-2 auto-button" style="display: inline-block; vertical-align: middle; top: 0;">Cancel</button>`;
           const buttonPicked = `<button id="picked_${row.id}" type="button" class="btn btn-primary m-0 auto-button" style="display: inline-block; vertical-align: middle;">Picked</button>`;
           if (row.status) {
-            if (row.status === 'canceled' || row.status === 'done') {
+            if (row.status === 'canceled') {
               return status;
+            }
+            if (row.status === 'done') {
+              return status + buttonCancel;
             }
             return status + buttonCancel + buttonPicked;
           } else {
@@ -290,6 +302,10 @@ const generateItemTable = (target, data) => {
       })
       $('.brand_id').each((i, item) => {
         item.value = item.getAttribute('value');
+        $(item).change((e) => {
+          const brand_id = e.target.id;
+          sessionStorage.setItem(brand_id, e.target.value);
+        })
       })
       $('.brand_id, .form_bor, .form_color, .form_note, .quantity, .discount').each((i, item) => {
         $(item).on('change', handleChangeForm)
@@ -319,6 +335,10 @@ const removeItem = () => {
     const latest_choosed_item = choosed_item.filter(res => res.id !== parseFloat(id));
     sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
     tableSOItems.DataTable().row([parent]).remove().draw();
+    $('.brand_id').each((i, item) => {
+      const brand_id = item.id;
+      item.value = sessionStorage.getItem(brand_id);
+    })
     totalBeforeDisc();
     if ($('.remove-item').length === 0) {
       $('#original_amount').val(0);
@@ -378,6 +398,10 @@ const totalBeforeDisc = () => {
     finalTotal($('#discount').val());
   });
   $('#discount').change((e) => finalTotal(e.target.value));
+  $('#discount_amount').change((e) => {
+    $('#discount').val(parseFloat(e.target.value)/parseFloat($('#original_amount').val())*100);
+    finalTotal($('#discount').val());
+  });
   $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
   updateDiscountAndQuantity();
 };
@@ -456,7 +480,7 @@ const dataFormSalesOrder = () => {
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
-    delivery_date: $('#delivery_date').val(),
+    // delivery_date: $('#delivery_date').val(),
     original_amount: $('#original_amount').val(),
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
@@ -593,7 +617,7 @@ if (formEditSalesOrder.length > 0) {
       $('#total_amount').val(res.sales_order.total_amount);
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#delivery_date').val(res.sales_order.delivery_date);
+      // $('#delivery_date').val(res.sales_order.delivery_date);
       getPriceList(res.sales_order.customer.price_id);
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');

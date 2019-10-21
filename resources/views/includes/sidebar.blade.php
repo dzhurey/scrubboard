@@ -1,13 +1,16 @@
 <div class="c-sidebar">
     <div class="c-sidebar--logo mb-4">
         <div class="mb-4 text-center">
+            <div class="c-bars">
+                <img class="svg" src="{{ asset('assets/images/icons/x.svg') }}" alt="menu">
+            </div>
           <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}" href="{{ route('home') }}">
             <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="50">
             <img class="logo-icon" src="{{ asset('assets/images/ic-logo-bebewash.png') }}" height="40">
           </a>
         </div>
         @canany(['superadmin', 'sales'])
-        <a class="btn btn-primary btn-block btn-lg" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
+        <a class="btn btn-primary btn-block" href="{{ route('sales_orders.create') }}" data-toggle="tooltip" data-placement="right"
             title="Sales Order">
             <span>
                 <img class="svg" src="{{ asset('assets/images/icons/plus.svg') }}">
@@ -39,7 +42,7 @@
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/home.svg') }}">
                 </span>
-                <span>Outlet</span>
+                <span>POS</span>
             </a>
         </div>
         <div class="c-nav--item" id="vehicle" data-toggle="tooltip" data-placement="right" title="Vehicle">
@@ -76,12 +79,12 @@
         </div>
         @endcanany
         @canany(['superadmin', 'sales'])
-        <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Customer">
+        <div class="c-nav--item" id="customer" data-toggle="tooltip" data-placement="right" title="Client">
             <a class="{{ (request()->segment(1) == 'customers') ? 'is-active' : '' }}"  href="{{ route('customers.index') }}">
                 <span class="mr-4">
                     <img class="svg" src="{{ asset('assets/images/icons/users.svg') }}">
                 </span>
-                <span>Customer</span>
+                <span>Client</span>
             </a>
         </div>
         @endcanany

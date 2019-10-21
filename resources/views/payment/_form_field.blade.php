@@ -19,7 +19,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="customer-name">Customer Name</label>
+                    <label class="c-form--label" for="customer-name">Client Name</label>
                     <input class="form-control" id="customer-name" name="customer-name" required disabled readonly>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>

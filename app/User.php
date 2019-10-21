@@ -29,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
 
     const ROLES = [
         'superadmin' => 'Superadmin',
-        'sales' => 'Sales',
+        'sales' => 'Client Service',
         'finance' => 'Finance',
         'operation' => 'Operation',
         'courier' => 'Kurir',

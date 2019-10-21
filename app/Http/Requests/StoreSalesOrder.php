@@ -65,7 +65,6 @@ class StoreSalesOrder extends FormRequest
             'transaction_date' => 'required|date_format:"Y-m-d"',
             'pickup_date' => 'required|date_format:"Y-m-d"',
             'due_date' => 'sometimes|required|date_format:"Y-m-d"',
-            'delivery_date' => 'required|date_format:"Y-m-d"',
             'original_amount' => 'required|numeric',
             'discount' => 'required|numeric',
             'discount_amount' => 'required|numeric',
@@ -81,7 +80,7 @@ class StoreSalesOrder extends FormRequest
         {
             $rules['transaction_lines.'.$key.'.id'] = 'sometimes|nullable';
             $rules['transaction_lines.'.$key.'.item_id'] = 'required';
-            $rules['transaction_lines.'.$key.'.brand_id'] = 'required';
+            $rules['transaction_lines.'.$key.'.brand_id'] = 'nullable|integer';
             $rules['transaction_lines.'.$key.'.color'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.note'] = 'nullable|string';
             $rules['transaction_lines.'.$key.'.quantity'] = 'required|numeric';

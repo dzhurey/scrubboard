@@ -51,7 +51,7 @@ class AgentController extends Controller
 
     public function create(Request $request)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -65,7 +65,7 @@ class AgentController extends Controller
         StoreAgent $request,
         AgentStoreService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -77,7 +77,7 @@ class AgentController extends Controller
 
     public function edit(Request $request, Agent $agent)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -93,7 +93,7 @@ class AgentController extends Controller
         Agent $agent,
         AgentUpdateService $service
     ) {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -104,11 +104,11 @@ class AgentController extends Controller
 
     public function destroy(Request $request, Agent $agent)
     {
-        if (!$this->allowUser('superadmin-only')) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (!empty($agent->transactions)) {
+        if (count($agent->transactions) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_agent_has_transaction"), 422);
         }
 

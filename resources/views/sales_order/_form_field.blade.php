@@ -10,12 +10,12 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="customer_id">Customer</label>
-            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Pilih Customer" data-toggle="modal" data-target="#modal-customer" />
+            <label class="c-form--label" for="customer_id">Client Name</label>
+            <input class="form-control cursor-pointer" id="customer_id" name="customer_id" required readonly placeholder="Pilih Client" data-toggle="modal" data-target="#modal-customer" />
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="agent_id">Outlet</label>
+            <label class="c-form--label" for="agent_id">POS</label>
             <select class="form-control select2" id="agent_id" name="agent_id" required>
                 <option></option>
             </select>
@@ -52,7 +52,7 @@
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 d-none">
                 <div class="form-group">
                     <label class="c-form--label" for="delivery_date">Delivery date</label>
                     <input class="form-control datetimepicker" id="delivery_date" name="delivery_date" required>
@@ -69,7 +69,7 @@
             <thead>
                 <tr>
                     <th class="th-item">Item</th>
-                    <th class="th-price">BOR</th>
+                    <th class="th-price">BOR<span style="color: red">&nbsp;*</span></th>
                     <th class="th-note">Brand</th>
                     <th class="th-price">Color</th>
                     <th class="th-note">Notes</th>
@@ -109,7 +109,7 @@
             <div class="col-sm-3">
                 <div class="form-group">
                     <label class="c-form--label" for="discount">Discount %</label>
-                    <input class="form-control is-number is-disabled" readonly id="discount" value="0">
+                    <input class="form-control is-number" id="discount" value="0">
                 </div>
             </div>
             <div class="col-sm-9">
@@ -119,7 +119,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Rp</span>
                         </div>
-                        <input class="form-control is-number" id="discount_amount" value="0" readonly>
+                        <input class="form-control is-number" id="discount_amount" value="0">
                     </div>
                 </div>
             </div>

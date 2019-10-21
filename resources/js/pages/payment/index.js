@@ -9,12 +9,14 @@ const modalSIpayment = $('#modal-si-form-payment');
 const modalSITable = $('#modal-si-form-table-payment');
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     order: [[3, 'desc']],
     columns: [
       { data: 'payment_code' },
@@ -38,12 +40,14 @@ const createTable = (target, data) => {
 
 const createSiFormTablePayment = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
-    pageLength: 10,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
     columns: [
       {
         data: 'id',

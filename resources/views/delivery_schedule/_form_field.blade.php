@@ -37,7 +37,7 @@
                 <tr>
                     <th class="checkbox"></th>
                     <th class="th-item">Sales Invoices Id</th>
-                    <th class="th-note">Customer</th>
+                    <th class="th-note">Client Name</th>
                     <th class="th-item">Address</th>
                     <th></th>
                 </tr>

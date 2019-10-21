@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label class="c-form--label" for="business-partner">Business Partner</label>
                     <select class="form-control" id="business-partner" name="partner_type" required="">
-                        <option value="customer">Customer</option>
+                        <option value="customer">General</option>
                         <option value="endorser">Endorser</option>
                     </select>
                     <div class="invalid-feedback">Data invalid.</div>
@@ -22,8 +22,7 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="c-form--label" for="birthday">Birthday</label>
-                    <input class="form-control datetimepicker" id="birth_date" name="birth_date" required>
-                    <div class="invalid-feedback">Data invalid.</div>
+                    <input class="form-control datetimepicker" id="birth_date" name="birth_date">
                 </div>
             </div>
             <div class="col-sm-6">
@@ -117,7 +116,7 @@
         <h2 class="c-form--title">Address</h2>
         <div class="form-group">
             <label class="c-form--label" for="billing_address">Address</label>
-            <textarea class="form-control" id="billing_address" name="billing_address"></textarea>
+            <textarea class="form-control" id="billing_address" name="billing_address" required></textarea>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">

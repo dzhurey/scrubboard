@@ -12,13 +12,15 @@ const formEditSalesInvoice = $('#form-edit-sales-invoice');
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
-    order: [[5, 'desc']],
+    pageLength: 15,
+    order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
       { data: 'customer.name' },
@@ -26,7 +28,6 @@ const createTable = (target, data) => {
       { data: 'transaction_status' },
       { data: 'delivery_status' },
       { data: 'transaction_date' },
-      { data: 'pickup_date' },
       { data: 'delivery_date' },
       {
         data: 'total_amount',
@@ -49,12 +50,14 @@ const createTable = (target, data) => {
 };
 const createInvoiceTableSO = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       {
         data: 'id',
@@ -92,13 +95,15 @@ const createInvoiceTableSO = (target, data) => {
 
 const generateItemTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paginate: false,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       {
         data: 'name',

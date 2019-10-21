@@ -28,7 +28,7 @@ class PaymentController extends Controller
         Request $request,
         PaymentPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -51,7 +51,7 @@ class PaymentController extends Controller
         Payment $payment,
         PaymentPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -68,7 +68,7 @@ class PaymentController extends Controller
      */
     public function create(Request $request)
     {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -90,7 +90,7 @@ class PaymentController extends Controller
         PaymentStoreService $service,
         PaymentPresenter $presenter
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -108,7 +108,7 @@ class PaymentController extends Controller
      */
     public function edit(Request $request, Payment $payment)
     {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -132,7 +132,7 @@ class PaymentController extends Controller
         Payment $payment,
         PaymentUpdateService $service
     ) {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
@@ -149,7 +149,7 @@ class PaymentController extends Controller
      */
     public function destroy(Request $request, Payment $payment)
     {
-        if (!$this->allowAny(['superadmin', 'finance'])) {
+        if (!$this->allowAny(['superadmin', 'sales', 'finance'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 

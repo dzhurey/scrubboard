@@ -4,13 +4,12 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Customer</th>
-                <th>Outlet</th>
+                <th>Client Name</th>
+                <th>POS</th>
                 <th>Order Status</th>
                 <th>Pickup status</th>
                 <th>Document Date</th>
                 <th>Pick Up Date</th>
-                <th>Delivery Date</th>
                 <th>Total</th>
                 <th></th>
             </tr>

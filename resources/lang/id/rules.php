@@ -19,5 +19,5 @@ return [
     "cannot_delete_vehicle_has_schedule" => "Kendaraan ini memiliki jadwal, tidak bisa dihapus",
     "cannot_delete_bank_has_payment" => "Bank memiliki pembayaran, tidak bisa dihapus",
     "cannot_delete_agent_has_transaction" => "Agen ini memiliki transaksi, tidak bisa dihapus",
-    "bor_must_be_unique" => "BOR sudah digunakan sebelumnya",
+    "bor_must_be_unique" => "BOR number has been already used in transaction",
 ];

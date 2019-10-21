@@ -28,12 +28,14 @@ const collectPriceLines = (isEdit) => {
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 5,
+    pageLength: 15,
     columns: [
       { data: 'name' },
       {
@@ -52,11 +54,13 @@ const createTable = (target, data) => {
 
 const createTableItemLists = (target, data, isEdit) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
-    paging: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
+    paging: true,
     columns: [
       { 
         data: 'description',

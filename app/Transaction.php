@@ -52,7 +52,6 @@ class Transaction extends BaseModel
         'agent_id',
         'transaction_date',
         'pickup_date',
-        'delivery_date',
         'due_date',
         'original_amount',
         'discount',

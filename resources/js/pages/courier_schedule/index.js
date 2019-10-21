@@ -4,20 +4,28 @@ const tableCourierList = $('#table-courier-schedule');
 
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
-    lengthChange: false,
-    searching: false,
-    info: false,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
     paging: true,
-    pageLength: 10,
+    pageLength: 15,
     columns: [
       { data: 'courier_schedule.schedule_type' },
       { data: 'transaction_line.transaction_number' },
       { data: 'transaction_line.bor' },
       { 
+        data: 'transaction_line.transaction.customer',
+        render(data, type, row) {
+          return data.name;
+        }
+      },
+      { 
         data: 'transaction_line.transaction',
         render(data, type, row) {
-          return `${row.transaction_line.transaction.agent ? row.transaction_line.transaction.agent.name : row.transaction_line.transaction.customer.name}`
+          return `${row.transaction_line.transaction.is_own_address ? row.transaction_line.transaction.customer.name : row.transaction_line.transaction.agent.name}`
         }
       },
       {

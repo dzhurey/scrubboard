@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-sm-6">
-        <h2 class="c-form--title">Outlet Data</h2>
+        <h2 class="c-form--title">POS Data</h2>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="agent_group_id">Outlet type</label>
+                    <label class="c-form--label" for="agent_group_id">POS type</label>
                     <select class="form-control" id="agent_group_id" name="agent_group_id" required>
                         <option value="1">Agent</option>
                     </select>
@@ -13,7 +13,7 @@
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="agent_code">Agent code</label>
+                    <label class="c-form--label" for="agent_code">POS code</label>
                     <input class="form-control" id="agent_code" name="agent_code" disabled>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>

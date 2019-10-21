@@ -37,11 +37,12 @@ const createSOListDropdown = () => {
 };
 const createTableSOdeliverySchedule = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
-    paging: false,
+    info: true,
+    paging: true,
     pageLength: 10,
     columns: [
       { 
@@ -82,10 +83,11 @@ const createTableSOdeliverySchedule = (target, data) => {
 };
 const createTable = (target, data) => {
   target.DataTable({
+    // scrollX: true,
     data: data,
     lengthChange: false,
     searching: false,
-    info: false,
+    info: true,
     paging: true,
     pageLength: 5,
     columns: [

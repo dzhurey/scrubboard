@@ -98,10 +98,10 @@ const generateItemTable = (target, data) => {
     // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
-    searching: true,
-    info: true,
+    searching: false,
+    info: false,
     paginate: false,
     pageLength: 15,
     columns: [
@@ -360,6 +360,6 @@ if (formEditSalesInvoice.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
   $('#footer-form').remove();
-  $('#due_date, #transaction_date, #delivery_date, #discount, #freight, #is_own_address').attr('readonly', true);
+  $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }

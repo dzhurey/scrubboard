@@ -183,10 +183,10 @@ const generateItemTable = (target, data) => {
     // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
-    searching: true,
-    info: true,
+    searching: false,
+    info: false,
     paginate: false,
     pageLength: 15,
     columns: [

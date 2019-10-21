@@ -103,7 +103,7 @@
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="note">Note</label>
-            <textarea class="form-control" id="note" rows="6" readonly></textarea>
+            <textarea class="form-control" id="note" rows="6"></textarea>
         </div>
     </div>
     <div class="col-sm-3"></div>

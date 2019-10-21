@@ -52965,11 +52965,10 @@ if (formEditCustomer.length > 0) {
     var dataForm = formEditCustomer.serializeArray();
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
-    }, {});
-
-    if (data.birth_date === '') {
-      data.birth_date = null;
-    }
+    }, {}); // if (data.birth_date === '') {
+    //   debugger;
+    //   data.birth_date = null;
+    // }
 
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/customers/".concat(idCustomer), data).then(function (res) {
       return window.location = '/customers';
@@ -52998,11 +52997,9 @@ if (formCreateCustomer.length > 0) {
     var dataForm = formCreateCustomer.serializeArray();
     var data = dataForm.reduce(function (x, y) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
-    }, {});
-
-    if (data.birth_date === '') {
-      delete data.birth_date;
-    }
+    }, {}); // if (data.birth_date === '') {
+    //   data.birth_date;
+    // }
 
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
@@ -55119,10 +55116,10 @@ var generateItemTable = function generateItemTable(target, data) {
     // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
-    searching: true,
-    info: true,
+    searching: false,
+    info: false,
     paginate: false,
     pageLength: 15,
     columns: [{
@@ -55376,7 +55373,7 @@ if (formEditSalesInvoice.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
   $('#footer-form').remove();
-  $('#due_date, #transaction_date, #delivery_date, #discount, #freight, #is_own_address').attr('readonly', true);
+  $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -55588,10 +55585,10 @@ var generateItemTable = function generateItemTable(target, data) {
     // scrollX: true,
     destroy: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
-    searching: true,
-    info: true,
+    searching: false,
+    info: false,
     paginate: false,
     pageLength: 15,
     columns: [{

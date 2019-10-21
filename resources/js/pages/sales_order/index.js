@@ -480,7 +480,7 @@ const dataFormSalesOrder = () => {
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
     pickup_date: $('#pickup_date').val(),
-    delivery_date: $('#delivery_date').val(),
+    // delivery_date: $('#delivery_date').val(),
     original_amount: $('#original_amount').val(),
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
@@ -617,7 +617,7 @@ if (formEditSalesOrder.length > 0) {
       $('#total_amount').val(res.sales_order.total_amount);
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
-      $('#delivery_date').val(res.sales_order.delivery_date);
+      // $('#delivery_date').val(res.sales_order.delivery_date);
       getPriceList(res.sales_order.customer.price_id);
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');

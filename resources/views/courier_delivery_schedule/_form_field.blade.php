@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div class="c-table--outer mx-0">
+<div class="c-table--outer mx-0 d-none d-md-block d-lg-block">
     <div class="table-responsive">
         <table id="table-item-courier-delivery-schedule" class="c-table table table-striped">
             <thead>
@@ -49,6 +49,12 @@
                 </tr>
             </thead>
         </table>
+    </div>
+</div>
+
+<div class="d-sm-block d-md-none">
+    <h2 class="c-form--title">Sales Order</h2>
+    <div id="table-item-courier-delivery-schedule-mobile">
     </div>
 </div>
 

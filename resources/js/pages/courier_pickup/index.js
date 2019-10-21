@@ -164,12 +164,12 @@ const createSOTableMobile = (target, data) => {
     const items = (n, i) => {
       return n.transaction_lines.map(res => {
         return `<div class="card">
-            <div class="card-header" id="card-${i}">
-                <a href="#" class="cursor-pointer" data-toggle="collapse" data-target="#item-${i}">
-                    Twin Stroller
+            <div class="card-header" id="card-${n.id}">
+                <a href="#" class="cursor-pointer" data-toggle="collapse" data-target="#item-${n.id}">
+                  ${res.transaction_line.item.description}
                 </a>
             </div>
-            <div id="item-${i}" class="collapse">
+            <div id="item-${n.id}" class="collapse">
                 <div class="card-body">
                     <div>
                         <b>Item</b>
@@ -221,16 +221,22 @@ const createSOTableMobile = (target, data) => {
     })
   };
 
-  target.append(format(data))
+  target.append(format(data));
+  uploadImage();
 };
 
 const generateDataPickupEdit = (list_id) => {
-  createSOTable(formItemCourierPS, list_id);
-  createSOTableMobile(formItemCourierPSMobile, list_id);
+  if (window.innerWidth > 768) {
+    createSOTable(formItemCourierPS, list_id);
+  } else {
+    createSOTableMobile(formItemCourierPSMobile, list_id);
+  }
+  
 };
 
 const uploadImage = () => {
-  $('.upload-photo').change((e) => {
+  $('.upload_photo').change((e) => {
+    debugger;
     const input = e.target;
     sessionStorage.clear();
     sessionStorage.setItem('target_image', input.getAttribute('data-id'));

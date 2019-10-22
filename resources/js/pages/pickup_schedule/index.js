@@ -94,6 +94,7 @@ const createSOTable = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
+          <td>${res.image_name ? res.updated_at : '-'}</td>
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
@@ -284,7 +285,7 @@ const dataFormPickup = (tableList) => {
   $('.transaction_id').each((i, item) => {
     const $parent = item.closest('tr');
     const status = $parent.querySelector('.transaction_line_status').innerHTML
-    if ($(item).prop('checked') && status === 'open') {
+    if ($(item).prop('checked')) {
       courier_schedule_lines.push({
         transaction_line_id: $(item).val(),
         estimation_time: $parent.querySelector('input[name="eta"]').value,

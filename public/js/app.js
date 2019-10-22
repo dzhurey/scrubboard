@@ -54419,7 +54419,7 @@ var createSOTable = function createSOTable(target, data) {
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.image_name ? res.updated_at : '-', "</td>\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
         row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand.name, "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.image_name ? res.updated_at : '-', "</td>\n          <td></td>\n        </tr>");
       } else if (res.status === 'canceled') {
@@ -54579,7 +54579,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
     var $parent = item.closest('tr');
     var status = $parent.querySelector('.transaction_line_status').innerHTML;
 
-    if ($(item).prop('checked') && status === 'open') {
+    if ($(item).prop('checked')) {
       courier_schedule_lines.push({
         transaction_line_id: $(item).val(),
         estimation_time: $parent.querySelector('input[name="eta"]').value

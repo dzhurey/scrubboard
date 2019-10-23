@@ -124,7 +124,7 @@
             </a>
         </div>
         @endcanany
-        @canany(['superadmin', 'operation'])
+        @canany(['superadmin', 'operation', 'sales'])
         <div class="c-nav--item" id="courier_schedules" data-toggle="tooltip" data-placement="right" title="Courier schedule">
             <a class="{{ (request()->segment(1) == 'courier_schedules') ? 'is-active' : '' }}" href="{{ route('courier_schedules.index') }}">
                 <span class="mr-4">

@@ -10,6 +10,7 @@ use App\SalesOrder;
 use App\Presenters\CourierScheduleLinePresenter;
 use App\Presenters\PickupSchedulePresenter;
 use App\Traits\CourierScheduleTrait;
+use App\Services\File\FileStoreService;
 
 class CourierPickupScheduleController extends Controller
 {
@@ -19,29 +20,6 @@ class CourierPickupScheduleController extends Controller
     {
         $this->middleware('auth');
     }
-
-    // public function index(
-    //     Request $request,
-    //     CourierScheduleLinePresenter $presenter
-    // ) {
-    //     if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
-    //         return $this->renderError($request, __("authorize.not_superadmin"), 401);
-    //     }
-
-    //     $courier_deliveries = CourierScheduleLine::whereHas('courierSchedule', function ($query) use ($request) {
-    //         $query->where([
-    //             ['schedule_type', '=', 'pickup'],
-    //             ['person_id', '=', $request->user()->id],
-    //         ]);
-    //     });
-
-    //     $results = $presenter->setBuilder($courier_deliveries)->performCollection($request);
-    //     $data = [
-    //         'query' => $results->getValidated(),
-    //         'courier_pickup_schedules' => $results->getCollection(),
-    //     ];
-    //     return $this->renderView($request, 'courier_pickup_schedule.index', $data, [], 200);
-    // }
 
     public function index(
         Request $request,
@@ -99,7 +77,8 @@ class CourierPickupScheduleController extends Controller
      */
     public function update(
         Request $request,
-        CourierScheduleLine $courier_schedule_line
+        CourierScheduleLine $courier_schedule_line,
+        FileStoreService $service
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -114,11 +93,7 @@ class CourierPickupScheduleController extends Controller
         ]);
 
         $uploadedFile = $request->file('image');
-        $path = $uploadedFile->store('public/uploads');
-        $courier_schedule_line->image_name = $path;
-        $courier_schedule_line->save();
-        $courier_schedule_line->transactionLine->status = 'done';
-        $courier_schedule_line->transactionLine->save();
+        $service->perform($uploadedFile, $courier_schedule_line);
 
         return $this->renderView($request, '', [], ['route' => 'courier.pickup_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }

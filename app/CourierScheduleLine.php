@@ -29,4 +29,9 @@ class CourierScheduleLine extends BaseModel
     {
         return $this->belongsTo('App\TransactionLine');
     }
+
+    public function files()
+    {
+        return $this->hasMany('App\File');
+    }
 }

@@ -61,12 +61,12 @@ const createSOTable = (target, data) => {
       row += `<tr>
         <td>${res.transaction_line.item.description}</td>
         <td>${res.transaction_line.bor}</td>
-        <td>${res.transaction_line.brand.name}</td>
+        <td>${res.transaction_line.brand !== null ? res.transaction_line.brand.name : ''}</td>
         <td>${res.transaction_line.color}</td>
         <td>
           <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
         </td>
-        <td>${res.image_name ? res.updated_at : '-'}</td>
+        <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
@@ -185,7 +185,7 @@ const createSOTableMobile = (target, data) => {
                     <hr>
                     <div>
                         <b>Brand</b>
-                        <div>${res.transaction_line.brand.name}</div>
+                        <div>${res.transaction_line.brand !== null ? res.transaction_line.brand.name : ''}</div>
                     </div>
                     <hr>
                     <div>
@@ -195,7 +195,7 @@ const createSOTableMobile = (target, data) => {
                     <hr>
                     <div>
                         <b>Picked</b>
-                        <div>${res.image_name ? res.updated_at : '-'}</div>
+                        <div>${res.files.length > 0 ? res.files[0].created_at : '-'}</div>
                     </div>
                     <hr>
                     <div>
@@ -238,7 +238,7 @@ const generateDataPickupEdit = (list_id) => {
   } else {
     createSOTableMobile(formItemCourierPSMobile, list_id);
   }
-  
+
 };
 
 const uploadImage = () => {

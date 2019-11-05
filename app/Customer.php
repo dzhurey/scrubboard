@@ -39,6 +39,7 @@ class Customer extends BaseModel
         'bebe_gender',
         'bebe_birth_date',
         'price_id',
+        'instagram',
     ];
 
     protected $searchable = [

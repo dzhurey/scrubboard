@@ -208,6 +208,14 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>
+    <div class="col-sm-6">
+    <h2 class="c-form--title mt-5">Social Media</h2>
+        <div class="form-group">
+            <label class="c-form--label" for="instagram">Instagram</label>
+            <input class="form-control" id="instagram" name="instagram">
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+    </div>
 </div>
 
 <hr class="my-4">

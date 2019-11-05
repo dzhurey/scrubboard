@@ -84,7 +84,7 @@ const createSITableDelivery = (target, data) => {
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
           <td>${transactionLine.bor}</td>
-          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.brand !== null ? transactionLine.brand.name : ''}</td>
           <td>${transactionLine.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
@@ -99,12 +99,12 @@ const createSITableDelivery = (target, data) => {
           <td class="transaction_line_status">${res.status === 'done' ? 'Picked' : res.status}</td>
           <td>${transactionLine.item.description}</td>
           <td>${transactionLine.bor}</td>
-          <td>${transactionLine.brand.name}</td>
+          <td>${transactionLine.brand !== null ? transactionLine.brand.name : ''}</td>
           <td>${transactionLine.color}</td>
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
-          <td>${res.image_name ? res.updated_at : '-'}</td>
+          <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {

@@ -89,11 +89,11 @@ class CourierPickupScheduleController extends Controller
         }
 
         $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $uploadedFile = $request->file('image');
-        $service->perform($uploadedFile, $courier_schedule_line);
+        $uploadedFiles = $request->file('image');
+        $service->perform($uploadedFiles, $courier_schedule_line);
 
         return $this->renderView($request, '', [], ['route' => 'courier.pickup_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }

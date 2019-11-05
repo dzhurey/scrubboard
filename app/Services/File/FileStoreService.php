@@ -18,18 +18,20 @@ class FileStoreService extends BaseService
       $this->model = $model;
     }
 
-    public function perform($uploadedFile, CourierScheduleLine $courier_schedule_line)
+    public function perform($files, CourierScheduleLine $courier_schedule_line)
     {
         $this->courier_schedule_line = $courier_schedule_line;
         DB::beginTransaction();
         try {
-            $path = $uploadedFile->store('public/uploads');
-            $file = $this->model;
-            $file->name = $path;
-            $file->courier_schedule_line_id = $courier_schedule_line->id;
-            $file->save();
-            $courier_schedule_line->transactionLine->status = 'done';
-            $courier_schedule_line->transactionLine->save();
+            foreach ($files as $file) {
+                $path = $file->store('public/uploads');
+                $file = new File;
+                $file->name = $path;
+                $file->courier_schedule_line_id = $courier_schedule_line->id;
+                $file->save();
+                $courier_schedule_line->transactionLine->status = 'done';
+                $courier_schedule_line->transactionLine->save();
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);

@@ -70,7 +70,7 @@ const createSOTable = (target, data) => {
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
+            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" multiple name="image[]" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
             <input id="method" type="hidden" name="_method" value="put">
             <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">Upload</button>
           </form>
@@ -209,9 +209,9 @@ const createSOTableMobile = (target, data) => {
                         <div class="mb-2 font-weight-bold">Photo</div>
                         <form class="upload-photo" enctype="multipart/form-data">
                           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-                          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
+                          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" name="image[]" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
                           <input id="method" type="hidden" name="_method" value="put">
-                          <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id} w-100 mt-2" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">Upload</button>
+                          <button class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id} w-100 mt-2" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">Upload</button>
                         </form>
                     </div>
                 </div>
@@ -243,6 +243,7 @@ const generateDataPickupEdit = (list_id) => {
 
 const uploadImage = () => {
   $('.upload_photo').change((e) => {
+    e.preventDefault()
     const input = e.target;
     sessionStorage.clear();
     sessionStorage.setItem('target_image', input.getAttribute('data-id'));

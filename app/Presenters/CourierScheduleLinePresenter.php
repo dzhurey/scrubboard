@@ -41,6 +41,10 @@ class CourierScheduleLinePresenter extends BasePresenter
         $input->status = $input->transactionLine->status;
         $input->courier = $input->courierSchedule->person;
         $input->vehicle = $input->courierSchedule->vehicle;
+        $input->files = $input->files->transform(function ($item) {
+            $item->path = Storage::url($item->name);
+            return $item;
+        });
         return $input;
     }
 }

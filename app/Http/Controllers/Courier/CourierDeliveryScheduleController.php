@@ -9,6 +9,7 @@ use App\DeliverySchedule;
 use App\Presenters\CourierScheduleLinePresenter;
 use App\Presenters\DeliverySchedulePresenter;
 use App\Traits\CourierScheduleTrait;
+use App\Services\File\FileStoreService;
 
 class CourierDeliveryScheduleController extends Controller
 {
@@ -76,7 +77,8 @@ class CourierDeliveryScheduleController extends Controller
      */
     public function update(
         Request $request,
-        CourierScheduleLine $courier_schedule_line
+        CourierScheduleLine $courier_schedule_line,
+        FileStoreService $service
     ) {
         if (!$this->allowAny(['superadmin', 'sales', 'finance', 'operation', 'courier'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -87,15 +89,11 @@ class CourierDeliveryScheduleController extends Controller
         }
 
         $validated = $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $uploadedFile = $request->file('image');
-        $path = $uploadedFile->store('public/uploads');
-        $courier_schedule_line->image_name = $path;
-        $courier_schedule_line->save();
-        $courier_schedule_line->transactionLine->status = 'done';
-        $courier_schedule_line->transactionLine->save();
+        $uploadedFiles = $request->file('image');
+        $service->perform($uploadedFiles, $courier_schedule_line);
 
         return $this->renderView($request, '', [], ['route' => 'courier.delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }

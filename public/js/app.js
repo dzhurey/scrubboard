@@ -52809,7 +52809,7 @@ if (formEditCourier.length > 0) {
     $('#district').val(res.person.district);
     $('#city').val(res.person.city);
     $('#country').val(res.person.country);
-    $('#zip_code').val(res.person.city);
+    $('#zip_code').val(res.person.zip_code);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52948,12 +52948,12 @@ if (formEditCustomer.length > 0) {
     $('#billing_district').val(res.customer.billing_address.district);
     $('#billing_city').val(res.customer.billing_address.city);
     $('#billing_country').val(res.customer.billing_address.country);
-    $('#billing_zip_code').val(res.customer.billing_address.city);
+    $('#billing_zip_code').val(res.customer.billing_address.zip_code);
     $('#shipping_address').val(res.customer.shipping_address.description);
     $('#shipping_district').val(res.customer.shipping_address.district);
     $('#shipping_city').val(res.customer.shipping_address.city);
     $('#shipping_country').val(res.customer.shipping_address.country);
-    $('#shipping_zip_code').val(res.customer.shipping_address.city);
+    $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
     $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
     if ($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
   })["catch"](function (res) {

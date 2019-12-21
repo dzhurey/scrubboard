@@ -52296,7 +52296,7 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -52540,10 +52540,11 @@ var uploadImage = function uploadImage() {
       contentType: false,
       url: "/api/courier/pickup_schedules/".concat(line_id),
       data: formData,
-      success: function success(res) {// window.location.reload();
+      success: function success(res) {
+        window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;

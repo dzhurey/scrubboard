@@ -74,6 +74,7 @@ class CourierDeliveryScheduleController extends Controller
      * form attributes:
      *  image: "image_uploaded.jpg/png"
      *  _method: "put"
+     *  receiver_by: string
      */
     public function update(
         Request $request,

@@ -52540,8 +52540,7 @@ var uploadImage = function uploadImage() {
       contentType: false,
       url: "/api/courier/pickup_schedules/".concat(line_id),
       data: formData,
-      success: function success(res) {
-        window.location.reload();
+      success: function success(res) {// window.location.reload();
       },
       error: function error(res) {
         console.log(res);
@@ -52809,7 +52808,7 @@ if (formEditCourier.length > 0) {
     $('#district').val(res.person.district);
     $('#city').val(res.person.city);
     $('#country').val(res.person.country);
-    $('#zip_code').val(res.person.zip_code);
+    $('#zip_code').val(res.person.city);
   })["catch"](function (res) {
     return console.log(res);
   });

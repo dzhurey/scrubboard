@@ -276,7 +276,7 @@ const uploadImage = () => {
         window.location.reload();
       },
       error: (res) => {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
 

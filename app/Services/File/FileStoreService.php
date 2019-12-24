@@ -18,7 +18,7 @@ class FileStoreService extends BaseService
       $this->model = $model;
     }
 
-    public function perform($files, CourierScheduleLine $courier_schedule_line)
+    public function perform($files, CourierScheduleLine $courier_schedule_line, String $received_by)
     {
         $this->courier_schedule_line = $courier_schedule_line;
         DB::beginTransaction();
@@ -29,9 +29,11 @@ class FileStoreService extends BaseService
                 $file->name = $path;
                 $file->courier_schedule_line_id = $courier_schedule_line->id;
                 $file->save();
-                $courier_schedule_line->transactionLine->status = 'done';
-                $courier_schedule_line->transactionLine->save();
             }
+            $courier_schedule_line->transactionLine->status = 'done';
+            $courier_schedule_line->transactionLine->save();
+            $courier_schedule_line->received_by = $received_by;
+            $courier_schedule_line->save();
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);

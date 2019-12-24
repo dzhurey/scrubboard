@@ -49,7 +49,7 @@ class StorePayment extends FormRequest
             'payment_date' => 'required|date_format:"Y-m-d"',
             'note' => 'nullable|string',
             'transaction_id' => 'required',
-            'payment_type' => 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ','),
+            'payment_type' => 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ','),
             'bank_account_id' => 'required_if:payment_type,bank_transfer',
             'bank_id' => 'required_if:payment_type,credit_card',
             'amount' => 'required|numeric',

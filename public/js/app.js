@@ -52809,7 +52809,7 @@ if (formEditCourier.length > 0) {
     $('#district').val(res.person.district);
     $('#city').val(res.person.city);
     $('#country').val(res.person.country);
-    $('#zip_code').val(res.person.zip_code);
+    $('#zip_code').val(res.person.city);
   })["catch"](function (res) {
     return console.log(res);
   });

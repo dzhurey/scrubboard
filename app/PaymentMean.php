@@ -6,21 +6,28 @@ use App\BaseModel;
 
 class PaymentMean extends BaseModel
 {
-    const PAYMENT_TYPES = [
+    const PAYMENT_METHODS = [
         'cash' => 'Cash',
         'bank_transfer' => 'Bank Transfer',
         'credit_card' => 'Credit Card',
         'other' => 'Other',
+        'bebewash' => 'Bebewash'
+    ];
+
+    const PAYMENT_TYPES = [
+        'down_payment' => 'Down Payment',
+        'acquittance' => 'Pelunasan',
     ];
 
     protected $fillable = [
         'payment_id',
         'bank_account_id',
         'bank_id',
-        'payment_type',
+        'payment_method',
         'amount',
         'payment_date',
-        'note'
+        'note',
+        'payment_type',
     ];
 
     protected $searchable = [];

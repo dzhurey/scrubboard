@@ -50,7 +50,7 @@ class CourierScheduleUpdateService extends BaseService
     private function updateCourierScheduleLines($attributes)
     {
         $lines = [];
-        $excluded = ['status', 'image_name'];
+        $excluded = ['status', 'image_name', 'received_by'];
         foreach ($attributes['courier_schedule_lines'] as $key => $value) {
             $value['courier_schedule_id'] = $this->model->id;
             $line = $this->getOrCreateCourierScheduleLine($value);

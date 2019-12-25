@@ -49,18 +49,18 @@ class StorePayment extends FormRequest
             'payment_date' => 'required|date_format:"Y-m-d"',
             'note' => 'nullable|string',
             'transaction_id' => 'required',
-            'payment_type' => 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ','),
-            'bank_account_id' => 'required_if:payment_type,bank_transfer',
-            'bank_id' => 'required_if:payment_type,credit_card',
-            'amount' => 'required|numeric',
             'total_amount' => 'required|numeric',
+            'payment_lines' => 'required|array',
         ];
 
-        // foreach($this->request->get('payment_lines') as $key => $val)
-        // {
-        //     $rules['payment_lines.'.$key.'.transaction_id'] = 'required';
-        //     $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
-        // }
+        foreach($this->request->get('payment_lines') as $key => $val)
+        {
+            $rules['payment_lines.'.$key.'.payment_method'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ',');
+            $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ',');
+            $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
+            $rules['payment_lines.'.$key.'.bank_account_id'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
+            $rules['payment_lines.'.$key.'.bank_id'] = 'required_if:payment_lines.'.$key.'.payment_method,credit_card';
+        }
 
         return $rules;
     }
@@ -68,27 +68,30 @@ class StorePayment extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->request->get('payment_type') == 'bank_transfer' && !empty($this->request->get('bank_account_id')) && $this->bankAccountIdIsNotFound()) {
-                $validator->errors()->add('bank_account', __('rules.data_not_found'));
-            }
+            foreach($this->request->get('payment_lines') as $key => $val)
+            {
+                if ($val['payment_method'] == 'bank_transfer' && !empty($val['bank_account_id']) && $this->bankAccountIdIsNotFound($val['bank_account_id'])) {
+                    $validator->errors()->add('bank_account', __('rules.data_not_found'));
+                }
 
-            if ($this->request->get('payment_type') == 'credit_card' && !empty($this->request->get('bank_id')) && $this->bankIdIsNotFound()) {
-                $validator->errors()->add('bank', __('rules.data_not_found'));
-            }
+                if ($val['payment_method'] == 'credit_card' && !empty($val['bank_id']) && $this->bankIdIsNotFound($val['bank_id'])) {
+                    $validator->errors()->add('bank', __('rules.data_not_found'));
+                }
 
-            if ($this->transactionIdIsNotFound()) {
-                $validator->errors()->add('transaction', __('rules.data_not_found'));
-            }
+                // if ($this->transactionIdIsNotFound()) {
+                //     $validator->errors()->add('transaction', __('rules.data_not_found'));
+                // }
 
-            if ($this->customerIdIsNotFound()) {
-                $validator->errors()->add('customer', __('rules.data_not_found'));
+                // if ($this->customerIdIsNotFound()) {
+                //     $validator->errors()->add('customer', __('rules.data_not_found'));
+                // }
             }
         });
     }
 
-    public function bankAccountIdIsNotFound()
+    public function bankAccountIdIsNotFound($bankAccountId)
     {
-        $bank_account = BankAccount::find($this->request->get('bank_account_id'));
+        $bank_account = BankAccount::find($bankAccountId);
 
         if (empty($bank_account)) {
             return true;
@@ -97,9 +100,9 @@ class StorePayment extends FormRequest
         return false;
     }
 
-    public function bankIdIsNotFound()
+    public function bankIdIsNotFound($bankId)
     {
-        $bank = Bank::find($this->request->get('bank_id'));
+        $bank = Bank::find($bankId);
 
         if (empty($bank)) {
             return true;

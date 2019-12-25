@@ -52,7 +52,7 @@ class CourierScheduleStoreService extends BaseService
     public function createCourierScheduleLines($attributes)
     {
         $lines = [];
-        $excluded = ['image_name'];
+        $excluded = ['image_name', 'received_by'];
         foreach ($attributes['courier_schedule_lines'] as $key => $value) {
             $value['courier_schedule_id'] = $this->model->id;
             $model_line = new CourierScheduleLine();

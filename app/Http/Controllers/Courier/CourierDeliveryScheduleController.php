@@ -74,6 +74,7 @@ class CourierDeliveryScheduleController extends Controller
      * form attributes:
      *  image: "image_uploaded.jpg/png"
      *  _method: "put"
+     *  receiver_by: string
      */
     public function update(
         Request $request,
@@ -90,10 +91,14 @@ class CourierDeliveryScheduleController extends Controller
 
         $validated = $request->validate([
             'image.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'received_by' => 'required'
         ]);
 
         $uploadedFiles = $request->file('image');
-        $service->perform($uploadedFiles, $courier_schedule_line);
+        if (count($uploadedFiles) > 10) {
+            return $this->renderError($request, __("rules.files_must_not_more_than_10"), 422);
+        }
+        $service->perform($uploadedFiles, $courier_schedule_line, $validated['received_by']);
 
         return $this->renderView($request, '', [], ['route' => 'courier.delivery_schedules.edit', 'data' => ['courier_schedule_line' => $courier_schedule_line->id]], 204);
     }

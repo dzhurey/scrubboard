@@ -52296,7 +52296,7 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -52544,7 +52544,7 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -52948,12 +52948,12 @@ if (formEditCustomer.length > 0) {
     $('#billing_district').val(res.customer.billing_address.district);
     $('#billing_city').val(res.customer.billing_address.city);
     $('#billing_country').val(res.customer.billing_address.country);
-    $('#billing_zip_code').val(res.customer.billing_address.city);
+    $('#billing_zip_code').val(res.customer.billing_address.zip_code);
     $('#shipping_address').val(res.customer.shipping_address.description);
     $('#shipping_district').val(res.customer.shipping_address.district);
     $('#shipping_city').val(res.customer.shipping_address.city);
     $('#shipping_country').val(res.customer.shipping_address.country);
-    $('#shipping_zip_code').val(res.customer.shipping_address.city);
+    $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
     $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
     if ($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
   })["catch"](function (res) {

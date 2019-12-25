@@ -16,6 +16,7 @@ class CourierScheduleLine extends BaseModel
         'transaction_line_id',
         'estimation_time',
         'image_name',
+        'received_by',
     ];
 
     protected $searchable = [];

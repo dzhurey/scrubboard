@@ -52132,7 +52132,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/courier/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'vehicle.number'
     }, {
@@ -52236,11 +52239,17 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var renderPhotos = function renderPhotos(files) {
+  return files.map(function (file) {
+    return "<div class=\"col-4 my-3\"><img src=\"".concat(file.path, "\" class=\"img-fluid border rounded\" /></div>");
+  }).join('');
+};
+
 var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">Nama penerima</label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by, "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
@@ -52379,7 +52388,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'vehicle.number'
     }, {
@@ -52418,7 +52430,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Picked</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52483,11 +52495,17 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var renderPhotos = function renderPhotos(files) {
+  return files.map(function (file) {
+    return "<div class=\"col-4 my-3\"><img src=\"".concat(file.path, "\" class=\"img-fluid border rounded\" /></div>");
+  }).join('');
+};
+
 var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span></div>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">Nama penerima</label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by, "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
@@ -52544,7 +52562,11 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        window.alert(res.responseJSON.message);
+        var errorsObj = res.responseJSON.errors;
+        var keys = Object.keys(errorsObj);
+        keys.forEach(function (key) {
+          return $("input[name=\"".concat(key, "\"]")).addClass('is-error');
+        }); // window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -53188,7 +53210,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'person.name'
     }, {
@@ -54504,7 +54529,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'person.name'
     }, {

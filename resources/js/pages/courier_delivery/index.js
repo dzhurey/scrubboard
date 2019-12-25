@@ -16,7 +16,12 @@ const createTable = (target, data) => {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [
-      { data: 'courier_code' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="/courier/delivery_schedules/${data}/edit">${row.courier_code}</a>`
+        }
+      },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
       {
@@ -159,6 +164,12 @@ const createSOTable = (target, data) => {
   })
 };
 
+const renderPhotos = (files) => {
+  return files.map((file) => {
+    return `<div class="col-4 my-3"><img src="${file.path}" class="img-fluid border rounded" /></div>`;
+  }).join('');
+};
+
 const createSOTableMobile = (target, data) => {
 
   const format = (d) => {
@@ -206,8 +217,14 @@ const createSOTableMobile = (target, data) => {
                     </div>
                     <hr>
                     <div>
-                        <div class="mb-2 font-weight-bold">Photo</div>
-                        <form class="upload-photo" enctype="multipart/form-data">
+                        <div class="mb-2 font-weight-bold">Photos <span class="text-black-50">(${res.files.length})</span>
+                        <div class="row  mb-4">${renderPhotos(res.files)}</div>
+                        <form class="upload-photo needs-validation" enctype="multipart/form-data" novalidate>
+                          <div class="form-group mt-4">
+                            <label class="c-form--label" for="outlet">Nama penerima</label>
+                            <input type="text" class="form-control" name="received_by" value="${res.received_by}" required/>
+                            <div class="invalid-feedback">Data invalid.</div>
+                          </div>
                           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
                           <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" multiple name="image[]" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
                           <input id="method" type="hidden" name="_method" value="put">

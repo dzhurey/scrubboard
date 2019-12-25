@@ -208,7 +208,12 @@ const createTable = (target, data) => {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [
-      { data: 'courier_code' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="/pickup_schedules/${data}/edit">${row.courier_code}</a>`
+        }
+      },
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },

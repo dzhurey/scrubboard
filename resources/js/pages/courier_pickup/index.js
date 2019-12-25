@@ -66,7 +66,7 @@ const createSOTable = (target, data) => {
         <td>
           <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
         </td>
-        <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+        <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
@@ -195,7 +195,7 @@ const createSOTableMobile = (target, data) => {
                     <hr>
                     <div>
                         <b>Picked</b>
-                        <div>${res.files.length > 0 ? res.files[0].created_at : '-'}</div>
+                        <div>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</div>
                     </div>
                     <hr>
                     <div>
@@ -287,7 +287,7 @@ const uploadImage = () => {
 };
 
 if (tableCourierPS.length > 0) {
-  ajx.get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done&filter[]=document_status,!=,canceled').then((res) => {
+  ajx.get('/api/courier/pickup_schedules').then((res) => {
     createTable(tableCourierPS, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }

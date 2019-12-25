@@ -104,7 +104,7 @@ const createSITableDelivery = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
-          <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {

@@ -42,7 +42,7 @@
 </div>
 
 <h2 class="c-form--title mt-4">Payment Means</h2>
-<div class="row">
+<div class="row payment-means">
     <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="payment_method">Payment Method</label>
@@ -54,8 +54,15 @@
             <div class="invalid-feedback">Data invalid.</div>
         </div>
     </div>
-    <div class="col-sm-4"></div>
     <div class="col-sm-4">
+        <div class="form-group">
+            <label class="c-form--label" for="payment_type">Payment Type</label>
+            <select class="form-control" id="payment_type" name="payment_type" required>
+                <option value="down_payment">Down Payment</option>
+                <option value="out_standing_payment">Outstanding Payment</option>
+            </select>
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
         <div id="field-transfer">
             <div class="form-group">
                 <label class="c-form--label" for="transaction_date">Transfer Date</label>
@@ -79,6 +86,8 @@
                 }}
             </div>
         </div>
+    </div>
+    <div class="col-sm-4">
         <div class="form-group">
             <label class="c-form--label" for="amount">Amount</label>
             <div class="input-group flex-nowrap">
@@ -96,6 +105,14 @@
             <label class="c-form--label" for="balance_due">Balance Due</label>
             <input class="form-control" id="balance_due" name="balance_due" required disabled readonly>
         </div> -->
+    </div>
+</div>
+<div class="text-right">
+    <a href="javascript:void(0)" id="add-payment-means"><i class="fa fa-plus"></i> Add payment means</a>
+</div>
+
+<div class="row">
+    <div class="col-sm-4 offset-sm-8">
         <div class="form-group">
             <label class="c-form--label" for="total-amount">Total Amount</label>
             <div class="input-group flex-nowrap">

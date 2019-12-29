@@ -102,16 +102,27 @@ class PaymentStoreService extends BaseService
 
     private function createPaymentLine($attributes)
     {
-        $attributes['payment_id'] = $this->model->id;
-        $this->model_line = $this->assignAttributes($this->model_line, $attributes);
-        $this->model_line->save();
+        foreach ($attributes['payment_lines'] as $item) {
+            $paymentLine = new PaymentLine;
+            $paymentLine->transaction_id = $attributes['transaction_id'];
+            $paymentLine->amount = $item['amount'];
+            $this->model->paymentLines()->save($paymentLine);
+        }
     }
 
     private function createPaymentMean($attributes)
     {
-        $attributes['payment_id'] = $this->model->id;
-        $this->model_mean = $this->assignAttributes($this->model_mean, $attributes);
-        $this->model_mean->save();
+        foreach ($attributes['payment_lines'] as $item) {
+            $paymentMean = new PaymentMean;
+            $paymentMean->payment_method = $item['payment_method'];
+            $paymentMean->payment_type = $item['payment_type'];
+            $paymentMean->bank_id = $item['bank_id'];
+            $paymentMean->bank_account_id = $item['bank_account_id'];
+            $paymentMean->amount = $item['amount'];
+            $paymentMean->payment_date = $attributes['payment_date'];
+            $paymentMean->note = $attributes['note'];
+            $this->model->paymentMeans()->save($paymentMean);
+        }
     }
 
     public function updateTransactionStatus()

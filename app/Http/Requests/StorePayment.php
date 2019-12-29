@@ -58,6 +58,7 @@ class StorePayment extends FormRequest
             $rules['payment_lines.'.$key.'.payment_method'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ',');
             $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ',');
             $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
+            $rules['payment_lines.'.$key.'.note'] = 'nullable|string';
             $rules['payment_lines.'.$key.'.bank_account_id'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
             $rules['payment_lines.'.$key.'.bank_id'] = 'required_if:payment_lines.'.$key.'.payment_method,credit_card';
         }

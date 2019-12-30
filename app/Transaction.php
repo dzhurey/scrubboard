@@ -60,7 +60,7 @@ class Transaction extends BaseModel
         'total_amount',
         'balance_due',
         'dp_amount',
-        'db_balance_due',
+        'dp_balance_due',
         'note',
         'order_id',
         'is_own_address',

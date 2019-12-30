@@ -41,12 +41,10 @@ class PaymentStoreService extends BaseService
             $this->createPayment($attributes);
 
             if (!empty($this->model->id)) {
-                // $lines = $this->createPaymentLines($attributes);
-                // $this->model->paymentLines()->saveMany($lines);
                 $this->createPaymentLine($attributes);
                 $this->createPaymentMean($attributes);
 
-                $this->updateTransactionStatus();
+                $this->updateTransaction();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -89,17 +87,6 @@ class PaymentStoreService extends BaseService
         $this->model->save();
     }
 
-    // private function createPaymentLines($attributes)
-    // {
-    //     $lines = [];
-    //     foreach ($attributes['payment_lines'] as $key => $value) {
-    //         $value['payment_id'] = $this->model->id;
-    //         $model_line = new PaymentLine();
-    //         array_push($lines, $this->assignAttributes($model_line, $value));
-    //     }
-    //     return ($lines);
-    // }
-
     private function createPaymentLine($attributes)
     {
         foreach ($attributes['payment_lines'] as $item) {
@@ -125,7 +112,7 @@ class PaymentStoreService extends BaseService
         }
     }
 
-    public function updateTransactionStatus()
+    public function updateTransaction()
     {
         $this->model->paymentLines->each(function ($payment_line) {
             $payment_line->transaction->transaction_status = 'closed';

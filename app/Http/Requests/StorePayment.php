@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\Payment;
+use App\SalesInvoice;
 use App\PaymentMean;
 use App\BankAccount;
 use App\Bank;
@@ -34,11 +35,18 @@ class StorePayment extends FormRequest
      *     "payment_date": "2019-08-24",
      *     "note": "alalal",
      *     "transaction_id": 25,
-     *     "payment_type": "bank_transfer",
-     *     "bank_account_id": 1,
-     *     "bank_id": 2,
-     *     "amount": 15000,
-     *     "total_amount": 15000
+     *     "total_amount": 15000,
+     *     "payment_lines": [
+     *       {
+     *         "payment_method": "bank_transfer", // options: cash, bank_transfer, credit_card, other, bebewash
+     *         "payment_type": "acquittance", // options: down_payment, acquittance
+     *         "amount": 15000,
+     *         "note": "asdads",
+     *         "receiver_name": "Suryadi", // required if payment_method = bank_transfer
+     *         "bank_account_id": 1, // required if payment_method = bank_transfer
+     *         "bank_id": null // required if payment_method = credit_card
+     *       }
+     *     ]
      * }
      */
 
@@ -59,6 +67,7 @@ class StorePayment extends FormRequest
             $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ',');
             $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['payment_lines.'.$key.'.note'] = 'nullable|string';
+            $rules['payment_lines.'.$key.'.receiver_name'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
             $rules['payment_lines.'.$key.'.bank_account_id'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
             $rules['payment_lines.'.$key.'.bank_id'] = 'required_if:payment_lines.'.$key.'.payment_method,credit_card';
         }
@@ -69,6 +78,8 @@ class StorePayment extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+            $totalDp = 0;
+            $totalAmount = 0;
             foreach($this->request->get('payment_lines') as $key => $val)
             {
                 if ($val['payment_method'] == 'bank_transfer' && !empty($val['bank_account_id']) && $this->bankAccountIdIsNotFound($val['bank_account_id'])) {
@@ -79,13 +90,33 @@ class StorePayment extends FormRequest
                     $validator->errors()->add('bank', __('rules.data_not_found'));
                 }
 
-                // if ($this->transactionIdIsNotFound()) {
-                //     $validator->errors()->add('transaction', __('rules.data_not_found'));
-                // }
+                if ($val['payment_type'] == 'down_payment') {
+                    $totalDp += $val['amount'];
+                }
+                $totalAmount += $val['amount'];
+            }
+            if ($this->transactionIdIsNotFound()) {
+                $validator->errors()->add('transaction', __('rules.data_not_found'));
+                return false;
+            }
 
-                // if ($this->customerIdIsNotFound()) {
-                //     $validator->errors()->add('customer', __('rules.data_not_found'));
-                // }
+            if ($this->customerIdIsNotFound()) {
+                $validator->errors()->add('customer', __('rules.data_not_found'));
+                return false;
+            }
+
+            $transaction = SalesInvoice::find($this->request->get('transaction_id'));
+
+            if ($this->request->get('total_amount') > $transaction->total_amount) {
+                $validator->errors()->add('total_amount', __('rules.more_than_amount'));
+            }
+
+            if ($totalDp > $transaction->dp_amount) {
+                $validator->errors()->add('dp_amount', __('rules.more_than_amount'));
+            }
+
+            if ($totalAmount != $this->request->get('total_amount')) {
+                $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));
             }
         });
     }

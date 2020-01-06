@@ -11,7 +11,7 @@ class PaymentMean extends BaseModel
         'bank_transfer' => 'Bank Transfer',
         'credit_card' => 'Credit Card',
         'other' => 'Other',
-        'bebewash' => 'Bebewash'
+        'bebemoney' => 'Bebemoney'
     ];
 
     const PAYMENT_TYPES = [

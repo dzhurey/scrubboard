@@ -22,4 +22,5 @@ return [
     "bor_must_be_unique" => "BOR must be unique",
     "more_than_amount" => "More than transaction amount",
     "not_equal_with_lines" => "Not equal with amount in lines",
+    "files_must_not_more_than_10" => "Photo must not more than 10",
 ];

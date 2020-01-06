@@ -52296,7 +52296,7 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -52544,7 +52544,7 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        console.log(res);
+        window.alert(res.responseJSON.message);
       }
     });
     return false;

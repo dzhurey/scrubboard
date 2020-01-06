@@ -22,4 +22,5 @@ return [
     "bor_must_be_unique" => "BOR number has been already used in transaction",
     "more_than_amount" => "Melebihi dari jumlah di transaksi",
     "not_equal_with_lines" => "Tidak sama dengan jumlah di detail",
+    "files_must_not_more_than_10" => "Foto tidak boleh lebih dari 10",
 ];

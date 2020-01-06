@@ -41,12 +41,10 @@ class PaymentStoreService extends BaseService
             $this->createPayment($attributes);
 
             if (!empty($this->model->id)) {
-                // $lines = $this->createPaymentLines($attributes);
-                // $this->model->paymentLines()->saveMany($lines);
                 $this->createPaymentLine($attributes);
                 $this->createPaymentMean($attributes);
 
-                $this->updateTransactionStatus();
+                $this->updateTransaction();
             }
         } catch (\Exception $e) {
             DB::rollBack();
@@ -89,36 +87,47 @@ class PaymentStoreService extends BaseService
         $this->model->save();
     }
 
-    // private function createPaymentLines($attributes)
-    // {
-    //     $lines = [];
-    //     foreach ($attributes['payment_lines'] as $key => $value) {
-    //         $value['payment_id'] = $this->model->id;
-    //         $model_line = new PaymentLine();
-    //         array_push($lines, $this->assignAttributes($model_line, $value));
-    //     }
-    //     return ($lines);
-    // }
-
     private function createPaymentLine($attributes)
     {
-        $attributes['payment_id'] = $this->model->id;
-        $this->model_line = $this->assignAttributes($this->model_line, $attributes);
-        $this->model_line->save();
+        foreach ($attributes['payment_lines'] as $item) {
+            $paymentLine = new PaymentLine;
+            $paymentLine->transaction_id = $attributes['transaction_id'];
+            $paymentLine->amount = $item['amount'];
+            $this->model->paymentLines()->save($paymentLine);
+        }
     }
 
     private function createPaymentMean($attributes)
     {
-        $attributes['payment_id'] = $this->model->id;
-        $this->model_mean = $this->assignAttributes($this->model_mean, $attributes);
-        $this->model_mean->save();
+        foreach ($attributes['payment_lines'] as $item) {
+            $paymentMean = new PaymentMean;
+            $paymentMean->payment_method = $item['payment_method'];
+            $paymentMean->payment_type = $item['payment_type'];
+            if (array_key_exists('bank_id', $item)) {
+                $paymentMean->bank_id = $item['bank_id'];
+            }
+            if (array_key_exists('bank_account_id', $item)) {
+                $paymentMean->bank_account_id = $item['bank_account_id'];
+            }
+            if (array_key_exists('receiver_name', $item)) {
+                $paymentMean->receiver_name = $item['receiver_name'];
+            }
+            $paymentMean->amount = $item['amount'];
+            $paymentMean->payment_date = $attributes['payment_date'];
+            $paymentMean->note = $attributes['note'];
+            $this->model->paymentMeans()->save($paymentMean);
+        }
     }
 
-    public function updateTransactionStatus()
+    public function updateTransaction()
     {
-        $this->model->paymentLines->each(function ($payment_line) {
-            $payment_line->transaction->transaction_status = 'closed';
-            $payment_line->transaction->save();
-        });
+        $transaction = $this->model->paymentLines->first()->transaction;
+        if ($this->model->total_amount == $transaction->total_amount) {
+            $transaction->transaction_status = 'closed';
+        }
+        $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
+        $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
+        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        $transaction->save();
     }
 }

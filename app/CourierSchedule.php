@@ -37,6 +37,7 @@ class CourierSchedule extends BaseModel
      */
     protected $fillable = [
         'person_id',
+        'address_id',
         'vehicle_id',
         'schedule_date',
         'document_status',
@@ -60,6 +61,11 @@ class CourierSchedule extends BaseModel
     public function courierScheduleLines()
     {
         return $this->hasMany('App\CourierScheduleLine', 'courier_schedule_id');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo('App\Address');
     }
 
     public function deliveryStatus()

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Customer;
 use App\Presenters\CustomerPresenter;
 use App\Http\Requests\StoreCustomer;
+use App\Http\Requests\StoreUpdateCustomer;
 use App\Services\Customer\CustomerStoreService;
 use App\Services\Customer\CustomerUpdateService;
 
@@ -79,7 +80,7 @@ class CustomerController extends Controller
     }
 
     public function update(
-        StoreCustomer $request,
+        StoreUpdateCustomer $request,
         Customer $customer,
         CustomerUpdateService $service
     ) {

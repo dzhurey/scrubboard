@@ -7,6 +7,7 @@ use Illuminate\Validation\Validator;
 use App\CourierSchedule;
 use App\TransactionLine;
 use App\Person;
+use App\Address;
 
 class StoreCourierSchedule extends FormRequest
 {
@@ -29,6 +30,7 @@ class StoreCourierSchedule extends FormRequest
      *     "person_id": 1,
      *     "vehicle_id": 1,
      *     "schedule_date": "2019-08-29",
+     *     "address_id": 1,
      *     "courier_schedule_lines": [
      *     {
      *         "transaction_line_id": 10,
@@ -43,6 +45,7 @@ class StoreCourierSchedule extends FormRequest
         $rules = [
             'person_id' => 'required',
             'vehicle_id' => 'required',
+            'address_id' => 'required',
             'schedule_date' => 'required|date_format:"Y-m-d"',
             'courier_schedule_lines' => 'required|array',
         ];
@@ -63,6 +66,9 @@ class StoreCourierSchedule extends FormRequest
             if ($this->personIsNotCourier()) {
                 $validator->errors()->add('person', __('rules.person_not_courier'));
             }
+            if ($this->addressIsNotFound()) {
+                $validator->errors()->add('address_id', __('rules.data_not_found'));
+            }
         });
     }
 
@@ -75,6 +81,17 @@ class StoreCourierSchedule extends FormRequest
         }
 
         if ($person->user->role !== 'courier') {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function addressIsNotFound()
+    {
+        $item = Address::find($this->request->get('address_id'));
+
+        if (empty($item)) {
             return true;
         }
 

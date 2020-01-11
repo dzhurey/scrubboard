@@ -8,48 +8,31 @@ const createTable = (target, data) => {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [
       {
         data: 'id',
         render(data, type, row) {
-          return `<a href="/courier/pickup_schedules/${data}/edit">${row.courier_code}</a>`
-        }
-      },
-      { data: 'vehicle.number' },
-      { data: 'schedule_date' },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return row.transaction.customer.name;
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
           const is_own_address = row.transaction.is_own_address;
-          return `${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
           const address = row.transaction.address;
-          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
+          return `
+            <h3><strong><a href="/courier/pickup_schedules/${data}/edit">${row.courier_code}</a></strong></h3>
+            <small><strong>Schedule Date</strong></small>
+            <div><small>${row.schedule_date}</small></div>
+            <small><strong>Client Name</strong></small>
+            <div><small>${row.transaction.customer.name}</small></div>
+            <small><strong>Destination</strong></small>
+            <div><small>${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}</small></div>
+            <small><strong>Address</strong></small>
+            <div><small>${address.description},<br/>${address.district}, ${address.city}, ${address.country} ${address.zip_code}</small></div>
+          `
         }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<a href="/courier/pickup_schedules/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
-          data-placement="top" title="Edit"><img src="${window.location.origin}/assets/images/icons/edit.svg" alt="edit" width="16"></a>`
-        },
       },
     ],
     drawCallback: () => {
@@ -310,7 +293,7 @@ const uploadImage = () => {
 };
 
 if (tableCourierPS.length > 0) {
-  ajx.get('/api/courier/pickup_schedules').then((res) => {
+  ajx.get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done&filter[]=document_status,!=,canceled').then((res) => {
     createTable(tableCourierPS, res.pickup_schedules.data);
   }).catch(res => console.log(res));
 }

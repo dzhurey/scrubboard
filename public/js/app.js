@@ -51748,17 +51748,23 @@ var sliderItem = function sliderItem(sliders) {
 var makeSliderPhotos = function makeSliderPhotos(data) {
   var modalBody = $('#modal-photos .modal-body');
   modalBody[0].insertAdjacentHTML('beforeend', "\n    <div id=\"slider-photo\" class=\"carousel slide\" data-ride=\"carousel\">\n      <div class=\"carousel-inner\">".concat(sliderItem(data), "</div>\n      <a class=\"carousel-control-prev\" href=\"#slider-photo\" role=\"button\" data-slide=\"prev\">\n        <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Previous</span>\n      </a>\n      <a class=\"carousel-control-next\" href=\"#slider-photo\" role=\"button\" data-slide=\"next\">\n        <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Next</span>\n      </a>\n    </div>\n  "));
+  $('#counter').text("(".concat(data.length, ")"));
   $('#slider-photo').carousel({
     interval: 0,
     wrap: false
   });
 };
 
+var data = [];
 /* harmony default export */ __webpack_exports__["default"] = (function (data) {
-  $('.main')[0].insertAdjacentHTML('beforeend', modal);
-  $('#counter').text("(".concat(data.length, ")"));
-  $('#modal-photos').on('show.bs.modal', function () {
-    return makeSliderPhotos(data);
+  data = data;
+  if ($('#modal-photos').length === 0) $('.main')[0].insertAdjacentHTML('beforeend', modal);
+  $('#modal-photos').on('show.bs.modal', function (e) {
+    var id = e.relatedTarget.getAttribute('data-id');
+    var files = data.filter(function (res) {
+      return res.id === parseInt(id);
+    })[0].files;
+    makeSliderPhotos(files);
   });
   $('#modal-photos').on('hide.bs.modal', function () {
     return $('#slider-photo').remove();
@@ -52165,45 +52171,25 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<a href=\"/courier/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
-      }
-    }, {
-      data: 'vehicle.number'
-    }, {
-      data: 'schedule_date'
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return row.transaction.customer.name;
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
-        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<a href=\"/courier/delivery_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+        return "\n            <h3><strong><a href=\"/courier/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a></strong></h3>\n            <small><strong>Schedule Date</strong></small>\n            <div><small>").concat(row.schedule_date, "</small></div>\n            <small><strong>Client Name</strong></small>\n            <div><small>").concat(row.transaction.customer.name, "</small></div>\n            <small><strong>Destination</strong></small>\n            <div><small>").concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name, "</small></div>\n            <small><strong>Address</strong></small>\n            <div><small>").concat(address.description, ",<br/>").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code, "</small></div>\n          ");
       }
     }],
+    rowReorder: {
+      selector: 'td:nth-child(2)'
+    },
+    responsive: true,
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
@@ -52421,43 +52407,19 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [{
       data: 'id',
       render: function render(data, type, row) {
-        return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
-      }
-    }, {
-      data: 'vehicle.number'
-    }, {
-      data: 'schedule_date'
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return row.transaction.customer.name;
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
-        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+        return "\n            <h3><strong><a href=\"/courier/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a></strong></h3>\n            <small><strong>Schedule Date</strong></small>\n            <div><small>").concat(row.schedule_date, "</small></div>\n            <small><strong>Client Name</strong></small>\n            <div><small>").concat(row.transaction.customer.name, "</small></div>\n            <small><strong>Destination</strong></small>\n            <div><small>").concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name, "</small></div>\n            <small><strong>Address</strong></small>\n            <div><small>").concat(address.description, ",<br/>").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code, "</small></div>\n          ");
       }
     }],
     drawCallback: function drawCallback() {
@@ -52615,7 +52577,7 @@ var uploadImage = function uploadImage() {
 };
 
 if (tableCourierPS.length > 0) {
-  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules').then(function (res) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/courier/pickup_schedules?filter[]=pickup_status,!=,done&filter[]=document_status,!=,canceled').then(function (res) {
     createTable(tableCourierPS, res.pickup_schedules.data);
   })["catch"](function (res) {
     return console.log(res);
@@ -53158,23 +53120,19 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
   var format = function format(d) {
     var row = '';
     var items = d.transaction_lines;
+    Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(items);
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
-      var documentStatus = $('#document_status').val();
-      Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(res.files); // ${res.status !== 'open' ? '' : 'required' }
+      var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(items.filter(function (res) {
-          return res.files.length > 0;
-        }).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(items.filter(function (res) {
-          return res.files.length > 0;
-        }).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status === 'canceled') {
         row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }
@@ -54488,23 +54446,19 @@ var createSOTable = function createSOTable(target, data) {
   var format = function format(d) {
     var row = '';
     var items = d.transaction_lines;
+    Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(items);
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
-      var documentStatus = $('#document_status').val();
-      Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(res.files); // ${res.status !== 'open' ? '' : 'required' }
+      var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled' : 'required' }
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(items.filter(function (res) {
-          return res.files.length > 0;
-        }).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(items.filter(function (res) {
-          return res.files.length > 0;
-        }).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status === 'canceled') {
         row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }

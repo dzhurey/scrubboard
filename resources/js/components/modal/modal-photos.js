@@ -39,15 +39,22 @@ const makeSliderPhotos = (data) => {
       </a>
     </div>
   `);
+  $('#counter').text(`(${data.length})`);
   $('#slider-photo').carousel({
     interval: 0,
     wrap: false,
   })
 };
 
+let data = [];
+
 export default (data) => {
-  $('.main')[0].insertAdjacentHTML('beforeend', modal);
-  $('#counter').text(`(${data.length})`);
-  $('#modal-photos').on('show.bs.modal', () => makeSliderPhotos(data));
+  data = data;
+  if ($('#modal-photos').length === 0) $('.main')[0].insertAdjacentHTML('beforeend', modal);
+  $('#modal-photos').on('show.bs.modal', (e) => {
+    const id = e.relatedTarget.getAttribute('data-id');
+    const files = data.filter((res) => res.id === parseInt(id))[0].files;
+    makeSliderPhotos(files);
+  });
   $('#modal-photos').on('hide.bs.modal', () => $('#slider-photo').remove());
 };

@@ -7,7 +7,6 @@ use App\Address;
 use App\Presenters\AddressPresenter;
 use App\Http\Requests\StoreAddress;
 use App\Services\Address\AddressStoreService;
-use App\Services\Address\AddressUpdateService;
 
 class AddressController extends Controller
 {
@@ -75,9 +74,9 @@ class AddressController extends Controller
     // }
 
     public function update(
-        address $request,
+        StoreAddress $request,
         Address $address,
-        AddressUpdateService $service
+        AddressStoreService $service
     ) {
         if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
@@ -85,7 +84,7 @@ class AddressController extends Controller
 
         $validated = $request->validated();
         $service->perform($validated, $address);
-        return $this->renderView($request, '', [], ['route' => 'addresses.edit', 'data' => ['address' => $address->id]], 204);
+        return $this->renderView($request, '', [], [], 204);
     }
 
     public function destroy(Request $request, Address $address)
@@ -94,8 +93,12 @@ class AddressController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (count($address->transactions) > 0) {
-            return $this->renderError($request, __("rules.address_has_transaction"), 422);
+        // if (count($address->transactions) > 0) {
+        //     return $this->renderError($request, __("rules.address_has_transaction"), 422);
+        // }
+
+        if ($address->is_default) {
+            return $this->renderError($request, __("rules.address_is_default"), 422);
         }
 
         $address->delete();

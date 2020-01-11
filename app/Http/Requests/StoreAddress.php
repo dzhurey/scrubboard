@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\Rules\PhoneNumber;
 use App\Address;
+use App\Customer;
 
 class StoreAddress extends FormRequest
 {
@@ -25,20 +26,15 @@ class StoreAddress extends FormRequest
      * @return array
      *
      * {
-     *  "name" : "Agent C",
-	 *  "email" : "agentc@agent.com",
-	 *  "phone_number" : "022211113",
-	 *  "mobile_number" : "088111333222",
-	 *  "address" : "Jalan",
-	 *  "district" : "Jalan",
-	 *  "sub_district" : "Jalan Sub",
-	 *  "city" : "Kota",
-	 *  "country" : "Negara",
-	 *  "zip_code" : "620000",
-	 *  "contact_name" : "Agent Nama",
-	 *  "contact_phone_number" : "022213333",
-	 *  "contact_mobile_number" : "08999922211",
-	 *  "agent_group_id" : 2
+     *   "customer_id": 1,
+     *   "is_shipping": true,
+     *   "is_billing": false,
+     *   "is_default": true,
+     *   "address": "Jalan Kenangan",
+     *   "district": "Cilandak",
+     *   "city": "Jakarta Selatan",
+     *   "country": "Indonesia",
+     *   "zip_code": "82382",
      * }
      *
      */
@@ -57,21 +53,25 @@ class StoreAddress extends FormRequest
         ];
     }
 
-    // public function getValidatorInstance()
-    // {
-    //     $this->cleanPhoneNumber();
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if ($this->customerIsNotFound()) {
+                $validator->errors()->add('customer_id', __('rules.data_not_found'));
+            }
+        });
+    }
 
-    //     return parent::getValidatorInstance();
-    // }
+    private function customerIsNotFound()
+    {
+        $item = Customer::find($this->request->get('customer_id'));
 
-    // protected function cleanPhoneNumber()
-    // {
-    //     if($this->request->has('phone_number') && substr($this->request->get('phone_number'), 1, 1) === '0'){
-    //         $this->merge([
-    //             'phone_number' => '+62'.substr($this->request->get('phone_number'), 1)
-    //         ]);
-    //     }
-    // }
+        if (empty($item)) {
+            return true;
+        }
+
+        return false;
+    }
 
     // protected function sanitizeAttributes()
     // {

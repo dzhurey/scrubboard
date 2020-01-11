@@ -93,9 +93,9 @@ class AddressController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        // if (count($address->transactions) > 0) {
-        //     return $this->renderError($request, __("rules.address_has_transaction"), 422);
-        // }
+        if (count($address->courierSchedules) > 0) {
+            return $this->renderError($request, __("rules.address_has_schedules"), 422);
+        }
 
         if ($address->is_default) {
             return $this->renderError($request, __("rules.address_is_default"), 422);

@@ -24,4 +24,5 @@ return [
     "not_equal_with_lines" => "Not equal with amount in lines",
     "files_must_not_more_than_10" => "Photo must not more than 10",
     "address_is_default" => "Address is a default address",
+    "address_has_schedules" => "Address has schedules, delete schedules first to delete this address",
 ];

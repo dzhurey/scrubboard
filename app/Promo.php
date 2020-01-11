@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Promo extends Model
+class Promo extends BaseModel
 {
     const PROMO_TYPES = [
         'promo' => 'Promo',
@@ -22,7 +22,6 @@ class Promo extends Model
 
     protected $searchable = [
         'name',
-        'code'
     ];
 
     public function salesOrder()

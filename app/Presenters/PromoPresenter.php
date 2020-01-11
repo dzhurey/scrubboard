@@ -6,7 +6,7 @@ use Lib\Presenters\PresenterInterface;
 use Lib\Presenters\BasePresenter;
 use App\Promo;
 
-class PromoPresenter extends BasePresenter implements PresenterInterface
+class PromoPresenter extends BasePresenter
 {
     protected $model;
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use App\Promo;
 
-class StorePromo extends FormRequest
+class StoreUpdatePromo extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,6 @@ class StorePromo extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'code' => 'required|unique:promos|max:255',
             'percentage' => 'required|numeric|max:100|min:0',
             'max_promo' => 'required|numeric',
             'start_promo' => 'required|date_format:"Y-m-d H:i:s"',

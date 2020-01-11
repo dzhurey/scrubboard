@@ -17,9 +17,9 @@ class CreatePromosTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name', 255);
-            $table->string('code', 255);
+            $table->string('code', 255)->unique();
             $table->string('quota', 255)->nullable();
-            $table->decimal('percentage', 3, 2);
+            $table->decimal('percentage', 5, 2);
             $table->decimal('max_promo', 20, 2);
             $table->dateTime('start_promo');
             $table->dateTime('end_promo');

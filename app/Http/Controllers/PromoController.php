@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Promo;
 use App\Presenters\PromoPresenter;
 use App\Http\Requests\StorePromo;
+use App\Http\Requests\StoreUpdatePromo;
 use App\Services\Promo\PromoStoreService;
-use App\Services\Promo\PromoUpdateService;
 
 class PromoController extends Controller
 {
@@ -47,6 +47,24 @@ class PromoController extends Controller
         return $this->renderView($request, '', $data, [], 200);
     }
 
+    public function showByCode(
+        Request $request,
+        PromoPresenter $presenter,
+        $code
+    ) {
+        if (!$this->allowAny(['superadmin', 'sales'])) {
+            return $this->renderError($request, __("authorize.not_superadmin"), 401);
+        }
+
+        $promo = Promo::where('code', $code)->first();
+
+        $data = [
+            'promo' => $presenter->transform($promo),
+        ];
+
+        return $this->renderView($request, '', $data, [], 200);
+    }
+
     public function create(Request $request)
     {
         if (!$this->allowAny(['superadmin', 'sales'])) {
@@ -79,9 +97,9 @@ class PromoController extends Controller
     }
 
     public function update(
-        StorePromo $request,
+        StoreUpdatePromo $request,
         Promo $promo,
-        PromoUpdateService $service
+        PromoStoreService $service
     ) {
         if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);

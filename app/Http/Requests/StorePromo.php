@@ -22,6 +22,18 @@ class StorePromo extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
+     * 
+     * input json
+     * {
+     *      "name": "Promo Tahun Baru",
+     *      "code": "FEB",
+     *      "percentage": 10,
+     *      "max_promo": 20000,
+     *      "start_promo": "2020-02-01 00:00:00",
+     *      "end_promo": "2020-02-20 15:03:01",
+     *      "type": "promo"
+     * }
+     * 
      */
     public function rules()
     {

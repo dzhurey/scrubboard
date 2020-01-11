@@ -13,6 +13,7 @@ class Promo extends BaseModel
 
     protected $fillable = [
         'name',
+        'code',
         'percentage',
         'max_promo',
         'start_promo',

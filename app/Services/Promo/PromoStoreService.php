@@ -34,7 +34,11 @@ class PromoStoreService extends BaseService
 
     private function createPromo($attributes)
     {
-        $this->promo = $this->assignAttributes($this->promo, $attributes);
+        $excluded = [];
+        if (!empty($this->promo->id)) {
+            $excluded = ['code'];
+        }
+        $this->promo = $this->assignAttributes($this->promo, $attributes, $excluded);
         $this->promo->save();
     }
 }

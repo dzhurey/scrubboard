@@ -63,6 +63,7 @@ class Transaction extends BaseModel
         'dp_balance_due',
         'note',
         'order_id',
+        'promo_id',
         'is_own_address',
     ];
 

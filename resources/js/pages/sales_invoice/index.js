@@ -192,6 +192,7 @@ const getDetailSalesOrder = (url, key, id) => {
     $('#status_order').val(res[key].order_type === 'general' ? 'open' : 'closed');
     $('#note').val(res[key].note);
     $('#pickup_date').val(res[key].pickup_date);
+    $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
     const choosed_item = [];
     let id = 0;
@@ -206,12 +207,12 @@ const getDetailSalesOrder = (url, key, id) => {
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,
-          discount: res.discount,
-          quantity: res.quantity,
+          discount: parseFloat(res.discount),
+          quantity: parseFloat(res.quantity),
           color: res.color,
           note: res.note,
           name: res.item.description,
-          amount: res.amount,
+          amount: parseFloat(res.amount),
           status: res.status,
         });
       }
@@ -304,6 +305,7 @@ const dataFormSalesOrder = () => {
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
     freight: $('#freight').val(),
+    dp_amount: $('#dp_amount').val(),
     transaction_lines: transaction_lines,
   }
 };
@@ -359,6 +361,7 @@ if (tableInvoice.length > 0) {
 if (formEditSalesInvoice.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  $('#dp_amount').attr('readonly', true);
   $('#footer-form').remove();
   $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);

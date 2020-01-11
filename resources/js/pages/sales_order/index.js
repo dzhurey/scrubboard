@@ -588,12 +588,12 @@ if (formEditSalesOrder.length > 0) {
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,
-          discount: res.discount,
-          quantity: res.quantity,
+          discount: parseFloat(res.discount),
+          quantity: parseFloat(res.quantity),
           color: res.color,
           note: res.note,
           name: res.item.description,
-          amount: res.amount,
+          amount: parseFloat(res.amount),
           status: res.status,
         });
       });

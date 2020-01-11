@@ -38,7 +38,7 @@ class StoreUpdatePaymentMean extends FormRequest
     {
         return [
             'payment_id' => 'required',
-            'payment_type' => 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ','),
+            'payment_type' => 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ','),
             'bank_account_id' => 'required_if:payment_type,bank_transfer',
             'note' => 'nullable|string',
             'amount' => 'required|numeric',

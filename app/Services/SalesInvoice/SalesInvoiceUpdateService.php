@@ -46,6 +46,12 @@ class SalesInvoiceUpdateService extends BaseService
     {
         $attributes['balance_due'] = $this->model->balance_due;
         $attributes['order_id'] = $this->model->order_id;
+        if (!array_key_exists('dp_amount', $attributes)) {
+            $attributes['dp_amount'] = $this->model->dp_amount;
+            $attributes['dp_balance_due'] = $this->model->dp_balance_due;
+        } else {
+            $attributes['dp_balance_due'] = $attributes['dp_amount'];
+        }
         $this->model = $this->assignAttributes($this->model, $attributes, ['transaction_type', 'transaction_status']);
         $this->model->save();
     }

@@ -1,4 +1,5 @@
 import ajx from './../../shared/index.js';
+import modalPhotos from './../../components/modal/modal-photos.js';
 
 const list_id = [];
 const courierId = $('#person_id');
@@ -70,7 +71,8 @@ const createSITableDelivery = (target, data) => {
     const items = d.transaction_lines;
     items.map((res) => {
       const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
-      const documentStatus = $('#document_status').val()
+      const documentStatus = $('#document_status').val();
+      modalPhotos(res.files);
       // ${res.status !== 'open' ? '' : 'required' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled readonly' : '' }
       // ${res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' || documentStatus == 'canceled' ? 'disabled' : '' }
@@ -89,6 +91,8 @@ const createSITableDelivery = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
+          <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          ${items.filter((res) => res.files.length > 0).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
@@ -105,6 +109,7 @@ const createSITableDelivery = (target, data) => {
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          ${items.filter((res) => res.files.length > 0).length > 0 ? '<td><a href="javascript:void(0)" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {
@@ -122,6 +127,7 @@ const createSITableDelivery = (target, data) => {
         <th>Color</th>
         <th class="th-qty">ETA</th>
         <th>Delivered</th>
+        ${items.filter((res) => res.files.length > 0).length > 0 ? '<th>Photos</th>' : ''}
         <th></th>
       </tr>
     </thead><tbody>${row}</tbody></table>`;

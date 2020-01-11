@@ -221,8 +221,11 @@ const createSOTableMobile = (target, data) => {
                         <div class="row  mb-4">${renderPhotos(res.files)}</div>
                         <form class="upload-photo needs-validation" enctype="multipart/form-data" novalidate>
                           <div class="form-group mt-4">
-                            <label class="c-form--label" for="outlet">Nama penerima</label>
-                            <input type="text" class="form-control" name="received_by" value="${res.received_by}" required/>
+                            <label class="c-form--label" for="outlet">
+                              Nama penerima
+                              <span style="color: red">&nbsp;*</span>
+                            </label>
+                            <input type="text" class="form-control" name="received_by" value="${res.received_by !== null ? res.received_by : ''}" required/>
                             <div class="invalid-feedback">Data invalid.</div>
                           </div>
                           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />

@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-edit-delivery" class="c-form needs-validation" novalidate>
+<form id="form-edit-delivery" class="c-form is-fluid needs-validation" novalidate>
     @include('delivery_schedule._form_field')
 </form>
 @endsection

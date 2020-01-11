@@ -492,38 +492,30 @@ h5 {
   width: 50px;
 }
 
-.c-table.table tbody td a,
-.c-table.table tbody td .btn {
+.c-table.table tbody td a.btn {
   opacity: 0.5;
   position: relative;
   top: -3px;
 }
 
-.c-table.table tbody td a:hover,
-.c-table.table tbody td a:active,
-.c-table.table tbody td a:focus,
-.c-table.table tbody td .btn:hover,
-.c-table.table tbody td .btn:active,
-.c-table.table tbody td .btn:focus {
+.c-table.table tbody td a.btn:hover,
+.c-table.table tbody td a.btn:active,
+.c-table.table tbody td a.btn:focus {
   outline: none;
   opacity: 0.7;
   background-color: transparent;
   border-color: transparent;
 }
 
-.c-table.table tbody td a.btn-primary,
-.c-table.table tbody td .btn.btn-primary {
+.c-table.table tbody td a.btn.btn-primary {
   opacity: 1 !important;
   top: 0 !important;
   margin-top: 10px;
 }
 
-.c-table.table tbody td a.btn-primary:hover,
-.c-table.table tbody td a.btn-primary:active,
-.c-table.table tbody td a.btn-primary:focus,
-.c-table.table tbody td .btn.btn-primary:hover,
-.c-table.table tbody td .btn.btn-primary:active,
-.c-table.table tbody td .btn.btn-primary:focus {
+.c-table.table tbody td a.btn.btn-primary:hover,
+.c-table.table tbody td a.btn.btn-primary:active,
+.c-table.table tbody td a.btn.btn-primary:focus {
   outline: none;
   opacity: 1;
   background-color: #0062cc;
@@ -2260,5 +2252,13 @@ input.datetimepicker {
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: calc(100% - 10px);
+}
+
+.carousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3e%3c/svg%3e");
+}
+
+.carousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3e%3c/svg%3e");
 }
 

@@ -34,4 +34,9 @@ class Address extends BaseModel
     {
         return $this->belongsTo('App\Customer');
     }
+
+    public function courierSchedules()
+    {
+        return $this->hasMany('App\CourierSchedule');
+    }
 }

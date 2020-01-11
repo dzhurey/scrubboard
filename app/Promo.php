@@ -24,4 +24,9 @@ class Promo extends Model
         'name',
         'code'
     ];
+
+    public function salesOrder()
+    {
+        return $this->hasMany('App\SalesOrder');
+    }
 }

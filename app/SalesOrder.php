@@ -36,5 +36,9 @@ class SalesOrder extends Transaction
         return self::latest()->first();
     }
 
+    public function promo()
+    {
+        return $this->belongsTo('App\Promo');
+    }
 
 }

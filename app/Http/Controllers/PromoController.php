@@ -116,7 +116,7 @@ class PromoController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (count($promo->transactions) > 0) {
+        if (count($promo->salesOrder) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_promo_has_transaction"), 422);
         }
 

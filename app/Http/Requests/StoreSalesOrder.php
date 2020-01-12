@@ -41,6 +41,7 @@ class StoreSalesOrder extends FormRequest
      *      "note": "",
      *      "is_own_address": true,
      *      "agent_id": 1,
+     *      "is_pre_order": false,
      *      "transaction_lines": [
      *          {
      *              "id": 2, (if update add the id, if new line just fill with null, if create not need this key)

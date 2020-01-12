@@ -27,4 +27,6 @@ return [
     "promo_exceeds_quota" => "Kode promo melebihi kuota",
     "address_is_default" => "Alamat merupakan default alamat",
     "address_has_schedules" => "Alamat memiliki jadwal, hapus jadwal untuk menghapus alamat ini",
+    "transaction_not_use_own_address" => "Transaksi tidak menggunakan alamat agen, harus menyertakan alamat customer yang digunakan",
+    "address_is_not_shipping" => "Alamat bukan merupakan alamat pengiriman",
 ];

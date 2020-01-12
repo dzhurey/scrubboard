@@ -41,4 +41,8 @@ class SalesOrder extends Transaction
         return $this->belongsTo('App\Promo');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

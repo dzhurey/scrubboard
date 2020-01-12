@@ -64,6 +64,7 @@ class Transaction extends BaseModel
         'note',
         'order_id',
         'promo_id',
+        'user_id',
         'is_own_address',
     ];
 

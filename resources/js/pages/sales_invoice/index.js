@@ -196,6 +196,8 @@ const getDetailSalesOrder = (url, key, id) => {
     $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#dp_amount_print').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
+    $('#freight').val(parseFloat(res[key].freight));
+    $('#freight_print').val(parseFloat(res[key].freight));
     const choosed_item = [];
     let id = 0;
     res[key].transaction_lines.forEach(res => {
@@ -312,6 +314,7 @@ const dataFormSalesOrder = () => {
     freight: $('#freight').val(),
     dp_amount: $('#dp_amount').val(),
     transaction_lines: transaction_lines,
+    promo_id: null, // TO DO
   }
 };
 
@@ -379,8 +382,7 @@ $('#btn-print').click(() => {
   const stylePrintJS = `
     @page :left {
       margin-left: 5mm;
-    }
-    
+    }    
     @page :right {
       margin-left: 5mm;
     }
@@ -424,7 +426,8 @@ $('#btn-print').click(() => {
       padding-left: 0 !important;
       margin-top: 0 !important;
     }
-    #form-edit-sales-invoice {
+    #form-edit-sales-invoice,
+    #form-create-sales-invoice {
       box-shadow: none !important;
       margin: 0 !important;
       padding: 0 !important;
@@ -559,8 +562,9 @@ $('#btn-print').click(() => {
       font-size: 12pt !important;
     }
   `;
+  const target = $('#form-edit-sales-invoice').length > 0 ? 'form-edit-sales-invoice' : 'form-create-sales-invoice';
   printJS({
-    printable: 'form-edit-sales-invoice',
+    printable: target,
     type: 'html',
     style: stylePrintJS,
     targetStyles: ['*'],

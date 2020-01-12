@@ -76,9 +76,9 @@ const createTableCustomerFormTable = (target, data) => {
       { data: 'id' },
       { data: 'name' },
       {
-        data: 'shipping_address',
+        data: 'shipping_addresses',
         render(data, type, row) {
-          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`
+          return `${data[0].description}, ${data[0].district}, ${data[0].city}, ${data[0].country} ${data[0].zip_code}`
         }
       },
       { data: 'phone_number' },
@@ -476,6 +476,8 @@ const dataFormSalesOrder = () => {
 
   return {
     is_own_address: $('#is_own_address').prop('checked'),
+    is_pre_order: $('#is_pre_order').prop('checked'),
+    promo_id: '', // TO DO
     customer_id: $('#customer_id').attr('customer-id'),
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
@@ -548,6 +550,7 @@ if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
+  $('#user_name').remove();
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();
     $('#form-submit').attr('disabled', true);
@@ -607,6 +610,10 @@ if (formEditSalesOrder.length > 0) {
       $('#is_own_address').attr('readonly', true);
       $('#is_own_address').attr('disabled', true);
       $('#is_own_address').attr('checked', res.sales_order.is_own_address);
+      $('#is_pre_order').attr('readonly', true);
+      $('#is_pre_order').attr('disabled', true);
+      $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
+      $('#user_id').val(res.sales_order.creator.username);
       $('#order_type').val(res.sales_order.order_type);
       $('#note').val(res.sales_order.note);
       $('#discount').val(res.sales_order.discount);

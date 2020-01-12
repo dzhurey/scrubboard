@@ -55498,6 +55498,8 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
     $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#dp_amount_print').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
+    $('#freight').val(parseFloat(res[key].freight));
+    $('#freight_print').val(parseFloat(res[key].freight));
     var choosed_item = [];
     var id = 0;
     res[key].transaction_lines.forEach(function (res) {
@@ -55621,7 +55623,9 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     status_order: $('#status_order').val(),
     freight: $('#freight').val(),
     dp_amount: $('#dp_amount').val(),
-    transaction_lines: transaction_lines
+    transaction_lines: transaction_lines,
+    promo_id: null // TO DO
+
   };
 };
 
@@ -55691,9 +55695,10 @@ if (formEditSalesInvoice.length > 0) {
 
 $('#btn-print').click(function () {
   // window.print();
-  var stylePrintJS = "\n    @page :left {\n      margin-left: 5mm;\n    }\n    \n    @page :right {\n      margin-left: 5mm;\n    }\n    @page {\n      body {\n        size: A6;\n        width: 100% !important;\n        margin: 0 !important;\n      }\n    }\n    .c-sidebar,\n    .c-header,\n    #customers-form,\n    #pickup-outlet,\n    #pos-outlet,\n    #inv-data #pickup-date.col-sm-6,\n    #status--order,\n    #delivery--date,\n    .btn,\n    .c-form--title,\n    #inv-data .col-sm-2,\n    .c-table--outer table tr th:nth-child(2),\n    .c-table--outer table tr th:nth-child(3),\n    .c-table--outer table tr th:nth-child(4),\n    .c-table--outer table tr th:nth-child(5),\n    .c-table--outer table tr th:nth-child(7),\n    .c-table--outer table tr th:last-child,\n    .c-table--outer table tr td:nth-child(2),\n    .c-table--outer table tr td:nth-child(3),\n    .c-table--outer table tr td:nth-child(4),\n    .c-table--outer table tr td:nth-child(5),\n    .c-table--outer table tr td:nth-child(7),\n    .c-table--outer table tr td:last-child,\n    #foot-note,\n    #discount-percent,\n    hr {\n      display: none !important;\n    }\n    .main {\n      max-width: 100% !important;\n      padding-left: 0 !important;\n      margin-top: 0 !important;\n    }\n    #form-edit-sales-invoice {\n      box-shadow: none !important;\n      margin: 0 !important;\n      padding: 0 !important;\n    }\n    .form-control {\n      border: 0 !important;\n      padding: 0 !important;\n    }\n    label,\n    .c-table--outer.mx-0 {\n      margin: 0 !important;\n    }\n    label span {\n      display: none !important;\n    }\n    .c-form--label {\n      width: 100% !important;\n      font-size: 12pt !important;\n      font-weight: 800 !important;\n    }\n    .form-control {\n      max-width: 100% !important;\n      font-size: 14pt !important;\n      text-transform: capitalize !important;\n      line-height: normal !important;\n      white-space: nowrap !important;\n      overflow: hidden !important;\n      text-overflow: ellipsis !important;\n    }\n    #order_id {\n      width: 100% !important;\n      font-size: 21pt !important;\n      font-weight: 800 !important;\n    }\n    #table-so-item {\n      width: 100% !important;\n    }\n    #inv-data .col-sm-4 {\n      display: inline-block !important;\n      width: 50% !important;\n    }\n    #inv-data > .col-sm-6 {\n      display: inline-block !important;\n      width: 50% !important;\n    }\n    #inv-data #due--date {\n      display: block !important;\n      width: 100% !important;\n      flex: 0 0 100% !important\n    }\n    .mb-4,\n    .form-group {\n      margin-bottom: 5px !important;\n    }\n    #logo-print,\n    #total-count {\n      display: block !important;\n    }\n    .c-table--outer,\n    .c-table--outer .table-responsive {\n      display: block;\n      margin-top: -100px !important;\n      width: 100% !important;\n      overflow: visible !important;\n      border: 0 !important;\n    }\n    .c-table--outer table tr td .form-control {\n      font-size: 12pt !important;\n    }\n    .c-table--outer table tr td {\n      padding: 5px 0 0 !important;\n      overflow: hidden;\n    }\n    .c-table--outer table tr th:first-child,\n    .c-table--outer table tr td:first-child {\n      display: inline-block !important;\n      width: 50% !important;\n      padding-left: 0 !important;\n    }\n    .c-table--outer table tr td input.form-control {\n      padding: 0 !important;\n      line-height: 18px !important;\n      height: 18px !important;\n      margin: 0 !important;\n      position: relative !important;\n      bottom: -15px !important;\n    }\n    .c-table--outer table tr th:nth-child(6),\n    .c-table--outer table tr td:nth-child(6),\n    .c-table--outer table tr td:nth-child(6) input.form-control {\n      display: inline-block !important;\n      width: 10mm !important;\n    }\n    .c-table--outer table tr th:nth-child(8),\n    .c-table--outer table tr td:nth-child(8),\n    .c-table--outer table tr td:nth-child(8) .input-group,\n    .c-table--outer table tr th:nth-child(9),\n    .c-table--outer table tr td:nth-child(9),\n    .c-table--outer table tr td:nth-child(9) .input-group {\n      display: inline-block !important;\n      width: 40mm !important;\n      text-align: right !important:\n      padding-right: 0 !important;\n    }\n    table {\n      width: 100% !important;\n      page-break-inside: avoid;\n    }\n    .c-table--outer table tr td .input-group {\n      top: 15px !important;\n      left: 15px !important;\n    }\n    .c-table--outer table tr td .input-group .input-group-prepend,\n    #foot-note .input-group .input-group-prepend {\n      border: 0 !important;\n      display: none !important;\n    }\n    .c-table--outer .c-table.table tbody th:last-child\n    .c-table--outer .c-table.table tbody td:last-child {\n      padding-right: 0 !important;\n    }\n    #total-count {\n      width: 50% !important;\n      margin-left: 50% !important;\n    }\n    #total-count .form-control {\n      text-align: right !important;\n      width: 40mm !important;\n      position: relative !important;\n      left: -35px !important;\n      top: -5px !important;\n      font-size: 12pt !important;\n    }\n  ";
+  var stylePrintJS = "\n    @page :left {\n      margin-left: 5mm;\n    }    \n    @page :right {\n      margin-left: 5mm;\n    }\n    @page {\n      body {\n        size: A6;\n        width: 100% !important;\n        margin: 0 !important;\n      }\n    }\n    .c-sidebar,\n    .c-header,\n    #customers-form,\n    #pickup-outlet,\n    #pos-outlet,\n    #inv-data #pickup-date.col-sm-6,\n    #status--order,\n    #delivery--date,\n    .btn,\n    .c-form--title,\n    #inv-data .col-sm-2,\n    .c-table--outer table tr th:nth-child(2),\n    .c-table--outer table tr th:nth-child(3),\n    .c-table--outer table tr th:nth-child(4),\n    .c-table--outer table tr th:nth-child(5),\n    .c-table--outer table tr th:nth-child(7),\n    .c-table--outer table tr th:last-child,\n    .c-table--outer table tr td:nth-child(2),\n    .c-table--outer table tr td:nth-child(3),\n    .c-table--outer table tr td:nth-child(4),\n    .c-table--outer table tr td:nth-child(5),\n    .c-table--outer table tr td:nth-child(7),\n    .c-table--outer table tr td:last-child,\n    #foot-note,\n    #discount-percent,\n    hr {\n      display: none !important;\n    }\n    .main {\n      max-width: 100% !important;\n      padding-left: 0 !important;\n      margin-top: 0 !important;\n    }\n    #form-edit-sales-invoice,\n    #form-create-sales-invoice {\n      box-shadow: none !important;\n      margin: 0 !important;\n      padding: 0 !important;\n    }\n    .form-control {\n      border: 0 !important;\n      padding: 0 !important;\n    }\n    label,\n    .c-table--outer.mx-0 {\n      margin: 0 !important;\n    }\n    label span {\n      display: none !important;\n    }\n    .c-form--label {\n      width: 100% !important;\n      font-size: 12pt !important;\n      font-weight: 800 !important;\n    }\n    .form-control {\n      max-width: 100% !important;\n      font-size: 14pt !important;\n      text-transform: capitalize !important;\n      line-height: normal !important;\n      white-space: nowrap !important;\n      overflow: hidden !important;\n      text-overflow: ellipsis !important;\n    }\n    #order_id {\n      width: 100% !important;\n      font-size: 21pt !important;\n      font-weight: 800 !important;\n    }\n    #table-so-item {\n      width: 100% !important;\n    }\n    #inv-data .col-sm-4 {\n      display: inline-block !important;\n      width: 50% !important;\n    }\n    #inv-data > .col-sm-6 {\n      display: inline-block !important;\n      width: 50% !important;\n    }\n    #inv-data #due--date {\n      display: block !important;\n      width: 100% !important;\n      flex: 0 0 100% !important\n    }\n    .mb-4,\n    .form-group {\n      margin-bottom: 5px !important;\n    }\n    #logo-print,\n    #total-count {\n      display: block !important;\n    }\n    .c-table--outer,\n    .c-table--outer .table-responsive {\n      display: block;\n      margin-top: -100px !important;\n      width: 100% !important;\n      overflow: visible !important;\n      border: 0 !important;\n    }\n    .c-table--outer table tr td .form-control {\n      font-size: 12pt !important;\n    }\n    .c-table--outer table tr td {\n      padding: 5px 0 0 !important;\n      overflow: hidden;\n    }\n    .c-table--outer table tr th:first-child,\n    .c-table--outer table tr td:first-child {\n      display: inline-block !important;\n      width: 50% !important;\n      padding-left: 0 !important;\n    }\n    .c-table--outer table tr td input.form-control {\n      padding: 0 !important;\n      line-height: 18px !important;\n      height: 18px !important;\n      margin: 0 !important;\n      position: relative !important;\n      bottom: -15px !important;\n    }\n    .c-table--outer table tr th:nth-child(6),\n    .c-table--outer table tr td:nth-child(6),\n    .c-table--outer table tr td:nth-child(6) input.form-control {\n      display: inline-block !important;\n      width: 10mm !important;\n    }\n    .c-table--outer table tr th:nth-child(8),\n    .c-table--outer table tr td:nth-child(8),\n    .c-table--outer table tr td:nth-child(8) .input-group,\n    .c-table--outer table tr th:nth-child(9),\n    .c-table--outer table tr td:nth-child(9),\n    .c-table--outer table tr td:nth-child(9) .input-group {\n      display: inline-block !important;\n      width: 40mm !important;\n      text-align: right !important:\n      padding-right: 0 !important;\n    }\n    table {\n      width: 100% !important;\n      page-break-inside: avoid;\n    }\n    .c-table--outer table tr td .input-group {\n      top: 15px !important;\n      left: 15px !important;\n    }\n    .c-table--outer table tr td .input-group .input-group-prepend,\n    #foot-note .input-group .input-group-prepend {\n      border: 0 !important;\n      display: none !important;\n    }\n    .c-table--outer .c-table.table tbody th:last-child\n    .c-table--outer .c-table.table tbody td:last-child {\n      padding-right: 0 !important;\n    }\n    #total-count {\n      width: 50% !important;\n      margin-left: 50% !important;\n    }\n    #total-count .form-control {\n      text-align: right !important;\n      width: 40mm !important;\n      position: relative !important;\n      left: -35px !important;\n      top: -5px !important;\n      font-size: 12pt !important;\n    }\n  ";
+  var target = $('#form-edit-sales-invoice').length > 0 ? 'form-edit-sales-invoice' : 'form-create-sales-invoice';
   print_js__WEBPACK_IMPORTED_MODULE_1___default()({
-    printable: 'form-edit-sales-invoice',
+    printable: target,
     type: 'html',
     style: stylePrintJS,
     targetStyles: ['*']
@@ -55792,9 +55797,9 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
     }, {
       data: 'name'
     }, {
-      data: 'shipping_address',
+      data: 'shipping_addresses',
       render: function render(data, type, row) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data[0].description, ", ").concat(data[0].district, ", ").concat(data[0].city, ", ").concat(data[0].country, " ").concat(data[0].zip_code);
       }
     }, {
       data: 'phone_number'
@@ -56219,6 +56224,9 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
   });
   return {
     is_own_address: $('#is_own_address').prop('checked'),
+    is_pre_order: $('#is_pre_order').prop('checked'),
+    promo_id: '',
+    // TO DO
     customer_id: $('#customer_id').attr('customer-id'),
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
@@ -56315,6 +56323,7 @@ if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
+  $('#user_name').remove();
   formCreateSalesOrder.submit(function (e) {
     e.preventDefault();
     $('#form-submit').attr('disabled', true);
@@ -56376,6 +56385,10 @@ if (formEditSalesOrder.length > 0) {
     $('#is_own_address').attr('readonly', true);
     $('#is_own_address').attr('disabled', true);
     $('#is_own_address').attr('checked', res.sales_order.is_own_address);
+    $('#is_pre_order').attr('readonly', true);
+    $('#is_pre_order').attr('disabled', true);
+    $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
+    $('#user_id').val(res.sales_order.creator.username);
     $('#order_type').val(res.sales_order.order_type);
     $('#note').val(res.sales_order.note);
     $('#discount').val(res.sales_order.discount);

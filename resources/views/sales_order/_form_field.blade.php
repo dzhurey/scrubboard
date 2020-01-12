@@ -2,6 +2,17 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input form-check-box" id="is_pre_order" type="checkbox" name="is_pre_order">
+                <label class="form-check-label" for="is_pre_order">Pre Order</label>
+            </div>
+        </div>
+        <div id="user_name" class="form-group">
+            <label class="c-form--label" for="user_id">Author</label>
+            <input class="form-control cursor-pointer" id="user_id" name="user_id" readonly />
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="order_type">Order type</label>
             <select class="form-control" id="order_type" name="order_type" required>
                 <option value="general">General</option>

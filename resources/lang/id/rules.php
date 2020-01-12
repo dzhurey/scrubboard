@@ -23,4 +23,10 @@ return [
     "more_than_amount" => "Melebihi dari jumlah di transaksi",
     "not_equal_with_lines" => "Tidak sama dengan jumlah di detail",
     "files_must_not_more_than_10" => "Foto tidak boleh lebih dari 10",
+    "promo_does_not_exist" => "Kode promo tidak tersedia",
+    "promo_exceeds_quota" => "Kode promo melebihi kuota",
+    "address_is_default" => "Alamat merupakan default alamat",
+    "address_has_schedules" => "Alamat memiliki jadwal, hapus jadwal untuk menghapus alamat ini",
+    "transaction_not_use_own_address" => "Transaksi tidak menggunakan alamat agen, harus menyertakan alamat customer yang digunakan",
+    "address_is_not_shipping" => "Alamat bukan merupakan alamat pengiriman",
 ];

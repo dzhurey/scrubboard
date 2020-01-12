@@ -23,4 +23,10 @@ return [
     "more_than_amount" => "More than transaction amount",
     "not_equal_with_lines" => "Not equal with amount in lines",
     "files_must_not_more_than_10" => "Photo must not more than 10",
+    "promo_does_not_exist" => "Promo code does not exist",
+    "promo_exceeds_quota" => "Promo code exceeds quota",
+    "address_is_default" => "Address is a default address",
+    "address_has_schedules" => "Address has schedules, delete schedules first to delete this address",
+    "transaction_not_use_own_address" => "Transaction not use agent address, must define customer address used",
+    "address_is_not_shipping" => "Addres is not a shipping address",
 ];

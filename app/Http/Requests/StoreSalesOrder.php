@@ -41,6 +41,7 @@ class StoreSalesOrder extends FormRequest
      *      "note": "",
      *      "is_own_address": true,
      *      "agent_id": 1,
+     *      "is_pre_order": false,
      *      "transaction_lines": [
      *          {
      *              "id": 2, (if update add the id, if new line just fill with null, if create not need this key)
@@ -73,6 +74,8 @@ class StoreSalesOrder extends FormRequest
             'note' => 'nullable|string',
             'is_own_address' => 'required|boolean',
             'order_id' => 'nullable',
+            'promo_id' => 'nullable',
+            'is_pre_order' => 'required',
             'transaction_lines' => 'required|array',
         ];
 

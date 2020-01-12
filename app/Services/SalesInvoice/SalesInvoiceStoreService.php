@@ -59,7 +59,7 @@ class SalesInvoiceStoreService extends BaseService
         $attributes['order_id'] = isset($attributes['order_id']) ? $attributes['order_id'] : null;
         $attributes['balance_due'] = $attributes['total_amount'];
         $attributes['user_id'] = Auth::user()->id;
-        $this->model = $this->assignAttributes($this->model, $attributes, ['is_pre_order']);
+        $this->model = $this->assignAttributes($this->model, $attributes, ['is_pre_order', 'promo_id']);
         $this->model->transaction_number = $this->model->generateTransactionNumber();
         $this->model->save();
     }

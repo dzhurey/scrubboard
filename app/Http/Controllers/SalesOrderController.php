@@ -10,6 +10,7 @@ use App\Presenters\SalesOrderPresenter;
 use App\Http\Requests\StoreSalesOrder;
 use App\Services\SalesOrder\SalesOrderStoreService;
 use App\Services\SalesOrder\SalesOrderUpdateService;
+use PDF;
 
 class SalesOrderController extends Controller
 {
@@ -46,6 +47,12 @@ class SalesOrderController extends Controller
         $data = [
             'sales_order' => $presenter->transform($sales_order),
         ];
+
+        if ($request->header('Accept') == 'application/pdf') {
+            $pdf = PDF::loadView('sales_order.pdf', $data);
+            return $pdf->download('sales_order.pdf');
+        }
+
         return $this->renderView($request, '', $data, [], 200);
     }
 

@@ -1,4 +1,5 @@
 import ajx from './../../shared/index.js';
+import printJS from 'print-js';
 
 let transaction_lines = [];
 
@@ -193,6 +194,7 @@ const getDetailSalesOrder = (url, key, id) => {
     $('#note').val(res[key].note);
     $('#pickup_date').val(res[key].pickup_date);
     $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
+    $('#dp_amount_print').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
     const choosed_item = [];
     let id = 0;
@@ -245,6 +247,7 @@ const totalBeforeDisc = () => {
     price = parseFloat(price) + parseFloat(item.value);
     totalBeforeDiscField.val(price);
     $('#original_amount').val(price);
+    $('#original_amount_print').val(price);
     finalTotal($('#discount').val());
   });
   $('#discount').change((e) => finalTotal(e.target.value));
@@ -257,9 +260,11 @@ const finalTotal = (value, freightValue) => {
   const original_amount = $('#original_amount').val();
   const discountCount = parseFloat(value)/100 * parseFloat(original_amount);
   const discount = discount_amount.val(parseFloat(discountCount));
+  $('#discount_amount_print').val(parseFloat(discountCount));
   const freight = freightValue ? freightValue : $('#freight').val();
   const total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
   $('#total_amount').val(parseFloat(total));
+  $('#total_amount_print').val(parseFloat(total));
 };
 
 const dataFormSalesOrder = () => {
@@ -361,8 +366,203 @@ if (tableInvoice.length > 0) {
 if (formEditSalesInvoice.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  $('.btn[data-target="#modal-sales-order-on-invoice"]').remove();
+  $('label[for="order_id"]').text('No. Invoice');
   $('#dp_amount').attr('readonly', true);
   $('#footer-form').remove();
   $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }
+
+$('#btn-print').click(() => {
+  // window.print();
+  const stylePrintJS = `
+    @page :left {
+      margin-left: 5mm;
+    }
+    
+    @page :right {
+      margin-left: 5mm;
+    }
+    @page {
+      body {
+        size: A6;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+    }
+    .c-sidebar,
+    .c-header,
+    #customers-form,
+    #pickup-outlet,
+    #pos-outlet,
+    #inv-data #pickup-date.col-sm-6,
+    #status--order,
+    #delivery--date,
+    .btn,
+    .c-form--title,
+    #inv-data .col-sm-2,
+    .c-table--outer table tr th:nth-child(2),
+    .c-table--outer table tr th:nth-child(3),
+    .c-table--outer table tr th:nth-child(4),
+    .c-table--outer table tr th:nth-child(5),
+    .c-table--outer table tr th:nth-child(7),
+    .c-table--outer table tr th:last-child,
+    .c-table--outer table tr td:nth-child(2),
+    .c-table--outer table tr td:nth-child(3),
+    .c-table--outer table tr td:nth-child(4),
+    .c-table--outer table tr td:nth-child(5),
+    .c-table--outer table tr td:nth-child(7),
+    .c-table--outer table tr td:last-child,
+    #foot-note,
+    #discount-percent,
+    hr {
+      display: none !important;
+    }
+    .main {
+      max-width: 100% !important;
+      padding-left: 0 !important;
+      margin-top: 0 !important;
+    }
+    #form-edit-sales-invoice {
+      box-shadow: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .form-control {
+      border: 0 !important;
+      padding: 0 !important;
+    }
+    label,
+    .c-table--outer.mx-0 {
+      margin: 0 !important;
+    }
+    label span {
+      display: none !important;
+    }
+    .c-form--label {
+      width: 100% !important;
+      font-size: 12pt !important;
+      font-weight: 800 !important;
+    }
+    .form-control {
+      max-width: 100% !important;
+      font-size: 14pt !important;
+      text-transform: capitalize !important;
+      line-height: normal !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+    #order_id {
+      width: 100% !important;
+      font-size: 21pt !important;
+      font-weight: 800 !important;
+    }
+    #table-so-item {
+      width: 100% !important;
+    }
+    #inv-data .col-sm-4 {
+      display: inline-block !important;
+      width: 50% !important;
+    }
+    #inv-data > .col-sm-6 {
+      display: inline-block !important;
+      width: 50% !important;
+    }
+    #inv-data #due--date {
+      display: block !important;
+      width: 100% !important;
+      flex: 0 0 100% !important
+    }
+    .mb-4,
+    .form-group {
+      margin-bottom: 5px !important;
+    }
+    #logo-print,
+    #total-count {
+      display: block !important;
+    }
+    .c-table--outer,
+    .c-table--outer .table-responsive {
+      display: block;
+      margin-top: -100px !important;
+      width: 100% !important;
+      overflow: visible !important;
+      border: 0 !important;
+    }
+    .c-table--outer table tr td .form-control {
+      font-size: 12pt !important;
+    }
+    .c-table--outer table tr td {
+      padding: 5px 0 0 !important;
+      overflow: hidden;
+    }
+    .c-table--outer table tr th:first-child,
+    .c-table--outer table tr td:first-child {
+      display: inline-block !important;
+      width: 50% !important;
+      padding-left: 0 !important;
+    }
+    .c-table--outer table tr td input.form-control {
+      padding: 0 !important;
+      line-height: 18px !important;
+      height: 18px !important;
+      margin: 0 !important;
+      position: relative !important;
+      bottom: -15px !important;
+    }
+    .c-table--outer table tr th:nth-child(6),
+    .c-table--outer table tr td:nth-child(6),
+    .c-table--outer table tr td:nth-child(6) input.form-control {
+      display: inline-block !important;
+      width: 10mm !important;
+    }
+    .c-table--outer table tr th:nth-child(8),
+    .c-table--outer table tr td:nth-child(8),
+    .c-table--outer table tr td:nth-child(8) .input-group,
+    .c-table--outer table tr th:nth-child(9),
+    .c-table--outer table tr td:nth-child(9),
+    .c-table--outer table tr td:nth-child(9) .input-group {
+      display: inline-block !important;
+      width: 40mm !important;
+      text-align: right !important:
+      padding-right: 0 !important;
+    }
+    table {
+      width: 100% !important;
+      page-break-inside: avoid;
+    }
+    .c-table--outer table tr td .input-group {
+      top: 15px !important;
+      left: 15px !important;
+    }
+    .c-table--outer table tr td .input-group .input-group-prepend,
+    #foot-note .input-group .input-group-prepend {
+      border: 0 !important;
+      display: none !important;
+    }
+    .c-table--outer .c-table.table tbody th:last-child
+    .c-table--outer .c-table.table tbody td:last-child {
+      padding-right: 0 !important;
+    }
+    #total-count {
+      width: 50% !important;
+      margin-left: 50% !important;
+    }
+    #total-count .form-control {
+      text-align: right !important;
+      width: 40mm !important;
+      position: relative !important;
+      left: -35px !important;
+      top: -5px !important;
+      font-size: 12pt !important;
+    }
+  `;
+  printJS({
+    printable: 'form-edit-sales-invoice',
+    type: 'html',
+    style: stylePrintJS,
+    targetStyles: ['*'],
+  });
+});

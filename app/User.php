@@ -77,4 +77,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role === 'courier';
     }
+
+    public function salesOrders()
+    {
+        return $this->hasMany('App\SalesOrder');
+    }
+
+    public function salesInvoices()
+    {
+        return $this->hasMany('App\SalesInvoice');
+    }
 }

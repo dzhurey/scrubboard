@@ -27,6 +27,18 @@ class CourierSchedulePresenter extends BasePresenter
     {
         $input->person = $input->person;
         $input->vehicle = $input->vehicle;
+        if (!empty($input->address_id)) {
+            $input->address = $input->address;
+        } else {
+            $agent = $input->courierScheduleLines->first()->transactionLine->transaction->agent;
+            $input->address = [
+                "description" => $agent->address,
+                "district" => $agent->district,
+                "city" => $agent->city,
+                "country" => $agent->country,
+                "zip_code" => $agent->zip_code,
+            ];
+        }
         $input->courier_schedule_lines = $input->courierScheduleLines->transform(function ($item) {
             return $this->courier_schedule_line_presenter->transform($item);
         });

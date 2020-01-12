@@ -42,6 +42,9 @@ class CourierScheduleStoreService extends BaseService
 
     public function createCourierSchedule($attributes)
     {
+        if (!array_key_exists('address_id', $attributes)) {
+            $attributes['address_id'] = null;
+        }
         $attributes['schedule_type'] = self::SCHEDULE_TYPE;
         $attributes['document_status'] = 'open';
         $this->model = $this->assignAttributes($this->model, $attributes);

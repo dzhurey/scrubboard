@@ -39,6 +39,9 @@ Route::middleware('auth:api')->resource('pickup_schedules', 'PickupScheduleContr
 Route::middleware('auth:api')->resource('delivery_schedules', 'DeliveryScheduleController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('brands', 'BrandController', ['as' => 'api'])->except(['create', 'edit']);
 Route::middleware('auth:api')->resource('courier_schedules', 'CourierScheduleController', ['as' => 'api'])->only(['index']);
+Route::middleware('auth:api')->get('promos/{code}/code',['as' => 'promos.code','uses' => 'PromoController@showByCode']); 
+Route::middleware('auth:api')->resource('promos', 'PromoController', ['as' => 'api']);
+Route::middleware('auth:api')->resource('addresses', 'AddressController', ['as' => 'api'])->except(['create', 'edit']);
 
 // Courier only
 Route::namespace('Courier')->prefix('courier')->group(function () {

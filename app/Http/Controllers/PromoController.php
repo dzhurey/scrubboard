@@ -8,6 +8,7 @@ use App\Presenters\PromoPresenter;
 use App\Http\Requests\StorePromo;
 use App\Http\Requests\StoreUpdatePromo;
 use App\Services\Promo\PromoStoreService;
+use Carbon\Carbon;
 
 class PromoController extends Controller
 {
@@ -56,12 +57,22 @@ class PromoController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
+        $now = Carbon::now();
         $promo = Promo::where('code', $code)->first();
-
+        if (Carbon::parse($promo->start_promo) > $now || Carbon::parse($promo->end_promo) < $now) {
+            return $this->renderError($request, __("rules.promo_does_not_exist"), 404);
+        }
+        if (!$promo) {
+            return $this->renderError($request, __("rules.promo_does_not_exist"), 404);
+        }
+        if (count($promo->salesOrders) > $promo->quota) {
+            return $this->renderError($request, __("rules.promo_exceeds_quota"), 422);
+        }
+        
         $data = [
             'promo' => $presenter->transform($promo),
         ];
-
+        
         return $this->renderView($request, '', $data, [], 200);
     }
 
@@ -116,7 +127,7 @@ class PromoController extends Controller
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
-        if (count($promo->salesOrder) > 0) {
+        if (count($promo->salesOrders) > 0) {
             return $this->renderError($request, __("rules.cannot_delete_promo_has_transaction"), 422);
         }
 

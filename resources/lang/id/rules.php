@@ -23,4 +23,6 @@ return [
     "more_than_amount" => "Melebihi dari jumlah di transaksi",
     "not_equal_with_lines" => "Tidak sama dengan jumlah di detail",
     "files_must_not_more_than_10" => "Foto tidak boleh lebih dari 10",
+    "promo_does_not_exist" => "Kode promo tidak tersedia",
+    "promo_exceeds_quota" => "Kode promo melebihi kuota",
 ];

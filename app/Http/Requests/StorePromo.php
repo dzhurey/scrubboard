@@ -27,6 +27,7 @@ class StorePromo extends FormRequest
      * {
      *      "name": "Promo Tahun Baru",
      *      "code": "FEB",
+     *      "quota": null,
      *      "percentage": 10,
      *      "max_promo": 20000,
      *      "start_promo": "2020-02-01 00:00:00",
@@ -40,6 +41,7 @@ class StorePromo extends FormRequest
         return [
             'name' => 'required|max:255',
             'code' => 'required|unique:promos|max:255',
+            'quota' => 'nullable',
             'percentage' => 'required|numeric|max:100|min:0',
             'max_promo' => 'required|numeric',
             'start_promo' => 'required|date_format:"Y-m-d H:i:s"',

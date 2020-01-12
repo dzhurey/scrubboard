@@ -27,6 +27,7 @@ class StoreUpdatePromo extends FormRequest
     {
         return [
             'name' => 'required|max:255',
+            'quota' => 'nullable',
             'percentage' => 'required|numeric|max:100|min:0',
             'max_promo' => 'required|numeric',
             'start_promo' => 'required|date_format:"Y-m-d H:i:s"',

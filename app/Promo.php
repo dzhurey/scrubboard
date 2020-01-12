@@ -14,6 +14,7 @@ class Promo extends BaseModel
     protected $fillable = [
         'name',
         'code',
+        'quota',
         'percentage',
         'max_promo',
         'start_promo',
@@ -25,7 +26,7 @@ class Promo extends BaseModel
         'name',
     ];
 
-    public function salesOrder()
+    public function salesOrders()
     {
         return $this->hasMany('App\SalesOrder');
     }

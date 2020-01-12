@@ -100,6 +100,16 @@ class Transaction extends BaseModel
         return $this->belongsTo('App\Agent');
     }
 
+    public function promo()
+    {
+        return $this->belongsTo('App\Promo');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
     public function generateTransactionNumber()
     {
         $today = Carbon::now(8);

@@ -34,9 +34,4 @@ class SalesInvoice extends Transaction
     {
         return self::latest()->first();
     }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
 }

@@ -2,9 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Address extends Model
+class Address extends BaseModel
 {
     protected $fillable = [
         'customer_id',
@@ -15,10 +15,28 @@ class Address extends Model
         'city',
         'country',
         'zip_code',
+        'is_default',
+    ];
+
+    protected $searchable = [
+        'customer__name',
+        'city',
+    ];
+
+    protected $filterable = [
+        'is_billing',
+        'is_shipping',
+        'customer_id',
+        'is_default'
     ];
 
     public function customer()
     {
         return $this->belongsTo('App\Customer');
+    }
+
+    public function courierSchedules()
+    {
+        return $this->hasMany('App\CourierSchedule');
     }
 }

@@ -25,4 +25,6 @@ return [
     "files_must_not_more_than_10" => "Foto tidak boleh lebih dari 10",
     "promo_does_not_exist" => "Kode promo tidak tersedia",
     "promo_exceeds_quota" => "Kode promo melebihi kuota",
+    "address_is_default" => "Alamat merupakan default alamat",
+    "address_has_schedules" => "Alamat memiliki jadwal, hapus jadwal untuk menghapus alamat ini",
 ];

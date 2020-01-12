@@ -25,20 +25,20 @@ class CustomerUpdateService extends CustomerStoreService
         try {
             $this->createCustomer($attributes);
 
-            if (!$this->customer->isSameAddress() && $this->is_same_address) {
-                $this->customer->shippingAddress()->delete();
-            }
+            // if (!$this->customer->isSameAddress() && $this->is_same_address) {
+            //     $this->customer->shippingAddress()->delete();
+            // }
 
-            if ($this->customer->isSameAddress() && !$this->is_same_address) {
-                $this->shipping_address = new Address();
-                $this->shipping_address->is_shipping = true;
-            }
+            // if ($this->customer->isSameAddress() && !$this->is_same_address) {
+            //     $this->shipping_address = new Address();
+            //     $this->shipping_address->is_shipping = true;
+            // }
 
-            $this->createBillingAddress($attributes);
+            // $this->createBillingAddress($attributes);
 
-            if (!$this->is_same_address) {
-                $this->createShippingAddress($attributes);
-            }
+            // if (!$this->is_same_address) {
+            //     $this->createShippingAddress($attributes);
+            // }
         } catch (\Exception $e) {
             DB::rollBack();
             throw new \Exception($e->getMessage(), 1);

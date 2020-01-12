@@ -25,4 +25,6 @@ return [
     "files_must_not_more_than_10" => "Photo must not more than 10",
     "promo_does_not_exist" => "Promo code does not exist",
     "promo_exceeds_quota" => "Promo code exceeds quota",
+    "address_is_default" => "Address is a default address",
+    "address_has_schedules" => "Address has schedules, delete schedules first to delete this address",
 ];

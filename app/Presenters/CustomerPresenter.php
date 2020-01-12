@@ -16,8 +16,8 @@ class CustomerPresenter extends BasePresenter
 
     public function transform($input)
     {
-        $input->billing_address = $input->billingAddress();
-        $input->shipping_address = $input->shippingAddress();
+        $input->billing_addresses = $input->addresses()->where('is_billing', true)->get();
+        $input->shipping_addresses = $input->addresses()->where('is_shipping', true)->get();
         return $input;
     }
 }

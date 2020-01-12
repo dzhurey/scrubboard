@@ -91,6 +91,7 @@ class CustomerStoreService extends BaseService
             'customer_id' => $this->customer->id,
             'is_billing' => $is_billing,
             'is_shipping' => $is_shipping,
+            'is_default' => true,
             'description' => $attributes[$prefix.'_address'],
             'district' => $attributes[$prefix.'_district'],
             'city' => $attributes[$prefix.'_city'],

@@ -74,6 +74,7 @@ class StoreSalesOrder extends FormRequest
             'is_own_address' => 'required|boolean',
             'order_id' => 'nullable',
             'promo_id' => 'nullable',
+            'is_pre_order' => 'required',
             'transaction_lines' => 'required|array',
         ];
 

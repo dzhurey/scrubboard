@@ -27,4 +27,6 @@ return [
     "promo_exceeds_quota" => "Promo code exceeds quota",
     "address_is_default" => "Address is a default address",
     "address_has_schedules" => "Address has schedules, delete schedules first to delete this address",
+    "transaction_not_use_own_address" => "Transaction not use agent address, must define customer address used",
+    "address_is_not_shipping" => "Addres is not a shipping address",
 ];

@@ -66,6 +66,7 @@ class Transaction extends BaseModel
         'promo_id',
         'user_id',
         'is_own_address',
+        'is_pre_order',
     ];
 
     protected $searchable = [

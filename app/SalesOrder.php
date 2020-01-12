@@ -35,6 +35,4 @@ class SalesOrder extends Transaction
     {
         return self::latest()->first();
     }
-
-
 }

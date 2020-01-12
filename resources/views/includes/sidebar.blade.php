@@ -188,5 +188,15 @@
             </a>
         </div>
         @endcanany
+        @canany(['superadmin', 'sales'])
+        <div class="c-nav--item" id="invoice" data-toggle="tooltip" data-placement="right" title="Invoices">
+            <a class="{{ (request()->segment(1) == 'promos') ? 'is-active' : '' }}" href="{{ route('promos.index') }}">
+                <span class="mr-4">
+                    <img class="svg" src="{{ asset('assets/images/icons/file-text.svg') }}">
+                </span>
+                <span>Promo</span>
+            </a>
+        </div>
+        @endcanany
     </nav>
 </div>

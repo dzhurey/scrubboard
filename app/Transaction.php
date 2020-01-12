@@ -63,6 +63,8 @@ class Transaction extends BaseModel
         'dp_balance_due',
         'note',
         'order_id',
+        'promo_id',
+        'user_id',
         'is_own_address',
     ];
 
@@ -96,6 +98,16 @@ class Transaction extends BaseModel
     public function agent()
     {
         return $this->belongsTo('App\Agent');
+    }
+
+    public function promo()
+    {
+        return $this->belongsTo('App\Promo');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     public function generateTransactionNumber()

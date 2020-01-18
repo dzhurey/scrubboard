@@ -600,7 +600,7 @@ if (formEditSalesOrder.length > 0) {
           status: res.status,
         });
       });
-
+      sessionStorage.setItem('transaction_number', res.sales_order.transaction_number)
       sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
       generateItemTable(tableSOItems, choosed_item);
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
@@ -663,3 +663,18 @@ const disableAllForm = () => {
   formEditSalesOrder.find('input, select, textarea').attr('disabled', 'disabled')
   formEditSalesOrder.find('button').not('#button-cancel').attr('disabled', 'disabled')
 }
+
+$('#btn-download').click(() => {
+  const urlArray = window.location.href.split('/');
+  const id = urlArray[urlArray.length - 2];
+  const transaction_number = sessionStorage.getItem('transaction_number');
+  const windowOpen = window.open('', '_blank');
+  ajx.download(`/api/sales_orders/${id}`)
+    .then((res) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(res);
+      link.download = `proforma-${transaction_number}.pdf`;
+      link.click();
+      windowOpen.close();
+    })
+});

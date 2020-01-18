@@ -3,13 +3,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
+            body {
+                font-family: 'open-sans';
+            }
             .page-break {
                 page-break-after: always;
             }
         </style>
     </head>
     <body>
-        <h1>Bebewash</h1>
+        <!-- <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="70"> -->
         <h5>ID</h5>{{ $sales_order->transaction_number }}
         <h5>Client Name</h5>{{ $sales_order->customer->name }}
         <h5>POS</h5>{{ $sales_order->agent->name }}

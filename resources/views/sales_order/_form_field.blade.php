@@ -160,6 +160,9 @@
 <div class="row">
     <div class="col-sm-6 text-left">
         <button id="button-delete" class="btn btn-danger" type="button">Cancel Document</button>
+        <button id="btn-download" class="btn btn-default btn-sm" type="button">
+            <i class="fa fa-download"></i>&nbsp;Download proforma
+        </button>
     </div>
     <div class="col-sm-6 text-right">
         <button id='button-cancel' class="btn btn-light mr-2" type="button">Cancel</button>

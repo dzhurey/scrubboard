@@ -97,7 +97,7 @@ const createSOTable = (target, data) => {
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
-          ${res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
+          ${res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
@@ -114,7 +114,7 @@ const createSOTable = (target, data) => {
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
           <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
-          ${res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
+          ${res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {
@@ -132,7 +132,7 @@ const createSOTable = (target, data) => {
         <th>Color</th>
         <th class="th-qty">ETA</th>
         <th>Picked</th>
-        ${items.filter((res) => res.files.length > 0).length > 0 ? '<th>Photos</th>' : ''}
+        ${items.filter((res) => res.files && res.files.length > 0).length > 0 ? '<th>Photos</th>' : ''}
         <th></th>
       </tr>
     </thead><tbody>${row}</tbody></table>`;

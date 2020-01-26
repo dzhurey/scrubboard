@@ -30,6 +30,12 @@ const createTable = (target, data) => {
     order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
+      {
+        data: 'is_pre_order',
+        render(data) {
+          return data ? 'Pre Order' : 'General';
+        }
+      },
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'transaction_status' },
@@ -217,19 +223,15 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control form_note" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
+          return `
+          <input hidden type="text" class="form-control promo_id text-right is-number" id="promo_id_${row.id}" name="promo_id">
+          <input type="text" class="form-control promo-code is-number" id="promo-code_${row.id}" data-id="${row.item_id}" name="promo-code">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" data-id="${row.item_id}" value="${row.quantity ? row.quantity  : 1}" name="quantity">`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount">`
         }
       },
       {
@@ -247,6 +249,12 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount">`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
           const val = Number.parseFloat(row.amount);
           return `<div class="input-group flex-nowrap">
           <div class="input-group-prepend">
@@ -254,6 +262,12 @@ const generateItemTable = (target, data) => {
           </div>
           <input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" data-id="${row.item_id}" name="amount" value="${val}" readonly>
       </div>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control form_note" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
         }
       },
       {
@@ -285,6 +299,11 @@ const generateItemTable = (target, data) => {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.promo-code').each((i, promo) => {
+        $(promo).change(e => {
+          getPromoCode(e.target.value, e.target);
+        });
+      });
       $('.auto-button').click(e => {
         const value = e.target.id.split('_')[0];
         const id = e.target.id.split('_')[1];
@@ -465,6 +484,7 @@ const dataFormSalesOrder = () => {
           brand_id: target.querySelector('select[name="brand_id"]').value,
           color: target.querySelector('input[name="color"]').value,
           quantity: target.querySelector('input[name="quantity"]').value,
+          promo_id: target.querySelector('input[name="promo_id"]').value,
           unit_price: unit_price,
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
@@ -606,12 +626,12 @@ if (formEditSalesOrder.length > 0) {
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
       $('#customer_id').val(res.sales_order.customer.name);
       $('#agent_id').val(res.sales_order.agent_id);
-      $('#agent_id').attr('readonly', true);
-      $('#is_own_address').attr('readonly', true);
-      $('#is_own_address').attr('disabled', true);
+      // $('#agent_id').attr('readonly', true);
+      // $('#is_own_address').attr('readonly', true);
+      // $('#is_own_address').attr('disabled', true);
       $('#is_own_address').attr('checked', res.sales_order.is_own_address);
-      $('#is_pre_order').attr('readonly', true);
-      $('#is_pre_order').attr('disabled', true);
+      // $('#is_pre_order').attr('readonly', true);
+      // $('#is_pre_order').attr('disabled', true);
       $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
       $('#user_id').val(res.sales_order.creator.username);
       $('#order_type').val(res.sales_order.order_type);
@@ -629,7 +649,7 @@ if (formEditSalesOrder.length > 0) {
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-      if (isNotOpen(res)) {
+      if (isNotOpen(res) && !res.sales_order.is_pre_order) {
         disableAllForm(true)
       }
     })
@@ -656,7 +676,7 @@ if (formEditSalesOrder.length > 0) {
 }
 
 const isNotOpen = (res) => {
-  return res.sales_order.transaction_status !== 'open'
+  return res.sales_order.transaction_status !== 'open';
 }
 
 const disableAllForm = () => {
@@ -678,3 +698,22 @@ $('#btn-download').click(() => {
       windowOpen.close();
     })
 });
+
+const getPromoCode = (promoCode, target) => {
+  ajx.get(`/api/promos`).then((res) => {
+    const promo = res.promos.data.filter(promo => promo.code === promoCode)[0];
+    const index = target.id.split('_')[1];
+    const unitPriceField = $(`#unit_price_${index}`);
+    const unitPriceValue = unitPriceField.val();
+    const calculateDiscountByPromo = parseFloat(unitPriceValue) * promo.percentage/100;
+    const isMaxPromo = calculateDiscountByPromo > promo.max_promo;
+    const discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
+    $(target).prev().val(promo.id);
+    $(`#unit_price_${index}`).val(parseFloat(unitPriceValue) - parseFloat(discount));
+    $(`#amount_${index}`).val(
+      parseFloat($(`#unit_price_${index}`).val()) * parseFloat($(`#quantity_${index}`).val())
+    );
+    totalBeforeDisc();
+    finalTotal($('#discount').val());
+  })
+}

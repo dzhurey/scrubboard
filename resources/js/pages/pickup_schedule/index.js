@@ -157,9 +157,14 @@ const createSOTable = (target, data) => {
       { data: 'transaction_number' },
       { data: 'customer.name' },
       {
-        data: 'address',
-        render(data) {
-          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`;
+        data: 'id',
+        render(data, type, row) {
+          const addresses = row.customer.shipping_addresses;
+          const selectedAddress = row.address.id;
+          const options = addresses.map((res) => {
+            return `<option value="${res.id}" ${res.id === selectedAddress ? 'selected' : ''}">${res.description}, ${res.district}, ${res.city}, ${res.country} ${res.zip_code}</option>`
+          })
+          return `<select id="address_id" class="form-control select2" name="address_id">${options.join('')}</select>`
         }
       },
       {
@@ -171,6 +176,10 @@ const createSOTable = (target, data) => {
     ],
     drawCallback: () => {
       removeItem();
+      $('#address_id').val(sessionStorage.address_id);
+      $('.select2').select2({
+        theme: 'bootstrap',
+      }).trigger('change');
       if (EditPickupForm.length > 0) {
         $('.remove-item').remove();
       }
@@ -249,10 +258,9 @@ const createTable = (target, data) => {
         }
       },
       {
-        data: 'id',
+        data: 'address',
         render(data, type, row) {
-          const address = row.transaction.address;
-          return `${address.description}, ${address.district}, <br/>${address.city}, ${address.country} ${address.zip_code}`
+          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`
         }
       },
       {
@@ -306,6 +314,7 @@ const dataFormPickup = (tableList) => {
     person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
+    address_id: $('#address_id').val(),
     courier_schedule_lines: courier_schedule_lines,
   }
 };
@@ -395,10 +404,11 @@ if (EditPickupForm.length > 0) {
       $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
       $('#date').val(res.pickup_schedule.schedule_date);
       $('#document_status').val(res.pickup_schedule.transaction.transaction_status);
-      $('#person_id, #vehicle_id').select2({
+      sessionStorage.setItem('address_id', res.pickup_schedule.address.id);
+      $('#person_id, #vehicle_id, #address_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
-      });
+      }).trigger('change');
       const groupBy = (xs, key) => {
         return xs.reduce((rv, x) => {
           (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);

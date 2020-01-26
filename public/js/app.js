@@ -52677,7 +52677,7 @@ var createTable = function createTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
-        var address = row.transaction.address;
+        var address = row.address;
         return "\n            <h3><strong><a href=\"/courier/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a></strong></h3>\n            <small><strong>Schedule Date</strong></small>\n            <div><small>").concat(row.schedule_date, "</small></div>\n            <small><strong>Client Name</strong></small>\n            <div><small>").concat(row.transaction.customer.name, "</small></div>\n            <small><strong>Destination</strong></small>\n            <div><small>").concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name, "</small></div>\n            <small><strong>Address</strong></small>\n            <div><small>").concat(address.description, ",<br/>").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code, "</small></div>\n          ");
       }
     }],
@@ -54804,9 +54804,14 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'customer.name'
     }, {
-      data: 'address',
-      render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+      data: 'id',
+      render: function render(data, type, row) {
+        var addresses = row.customer.shipping_addresses;
+        var selectedAddress = row.address.id;
+        var options = addresses.map(function (res) {
+          return "<option value=\"".concat(res.id, "\" ").concat(res.id === selectedAddress ? 'selected' : '', "\">").concat(res.description, ", ").concat(res.district, ", ").concat(res.city, ", ").concat(res.country, " ").concat(res.zip_code, "</option>");
+        });
+        return "<select id=\"address_id\" class=\"form-control select2\" name=\"address_id\">".concat(options.join(''), "</select>");
       }
     }, {
       data: 'id',
@@ -54816,6 +54821,10 @@ var createSOTable = function createSOTable(target, data) {
     }],
     drawCallback: function drawCallback() {
       removeItem();
+      $('#address_id').val(sessionStorage.address_id);
+      $('.select2').select2({
+        theme: 'bootstrap'
+      }).trigger('change');
 
       if (EditPickupForm.length > 0) {
         $('.remove-item').remove();
@@ -54892,10 +54901,9 @@ var createTable = function createTable(target, data) {
         return "".concat(row.transaction.is_own_address ? customer.name : agent.name);
       }
     }, {
-      data: 'id',
+      data: 'address',
       render: function render(data, type, row) {
-        var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", <br/>").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'id',
@@ -54949,6 +54957,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
     person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
+    address_id: $('#address_id').val(),
     courier_schedule_lines: courier_schedule_lines
   };
 };
@@ -55087,10 +55096,11 @@ if (EditPickupForm.length > 0) {
     $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
     $('#date').val(res.pickup_schedule.schedule_date);
     $('#document_status').val(res.pickup_schedule.transaction.transaction_status);
-    $('#person_id, #vehicle_id').select2({
+    sessionStorage.setItem('address_id', res.pickup_schedule.address.id);
+    $('#person_id, #vehicle_id, #address_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
-    });
+    }).trigger('change');
 
     var groupBy = function groupBy(xs, key) {
       return xs.reduce(function (rv, x) {

@@ -20,7 +20,7 @@ const createTable = (target, data) => {
         data: 'id',
         render(data, type, row) {
           const is_own_address = row.transaction.is_own_address;
-          const address = row.transaction.address;
+          const address = row.address;
           return `
             <h3><strong><a href="/courier/pickup_schedules/${data}/edit">${row.courier_code}</a></strong></h3>
             <small><strong>Schedule Date</strong></small>

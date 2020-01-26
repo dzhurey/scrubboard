@@ -53151,6 +53151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var tableCustomer = $('#table-customer');
+var tableCustomerAddress = $('#table-customer--address');
 var formCreateCustomer = $('#form-create-customer');
 var formEditCustomer = $('#form-edit-customer');
 
@@ -53181,6 +53182,39 @@ var createTable = function createTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         return "<a href=\"/customers/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+}; // show table address (bebewash 0.2)
+
+
+var createTableAddress = function createTableAddress(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    columns: [{
+      data: 'description'
+    }, {
+      data: 'district'
+    }, {
+      data: 'city'
+    }, {
+      data: 'country'
+    }, {
+      data: 'zip_code'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" data-id=\"".concat(data, "\" title=\"Delete\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash-2.svg\" alt=\"delete\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -53226,20 +53260,22 @@ if (tableCustomer.length > 0) {
 if (formEditCustomer.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCustomer = urlArray[urlArray.length - 2];
+  $('#first-input--customer').remove();
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(idCustomer)).then(function (res) {
+    createTableAddress(tableCustomerAddress, res.customer.shipping_addresses);
     assignValue(res.customer);
-    $('#billing_address').val(res.customer.billing_address.description);
-    $('#billing_district').val(res.customer.billing_address.district);
-    $('#billing_city').val(res.customer.billing_address.city);
-    $('#billing_country').val(res.customer.billing_address.country);
-    $('#billing_zip_code').val(res.customer.billing_address.zip_code);
-    $('#shipping_address').val(res.customer.shipping_address.description);
-    $('#shipping_district').val(res.customer.shipping_address.district);
-    $('#shipping_city').val(res.customer.shipping_address.city);
-    $('#shipping_country').val(res.customer.shipping_address.country);
-    $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
-    $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
-    if ($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
+    $('#customer_id').val(res.customer.id); // $('#billing_address').val(res.customer.billing_address.description);
+    // $('#billing_district').val(res.customer.billing_address.district);
+    // $('#billing_city').val(res.customer.billing_address.city);
+    // $('#billing_country').val(res.customer.billing_address.country);
+    // $('#billing_zip_code').val(res.customer.billing_address.zip_code);
+    // $('#shipping_address').val(res.customer.shipping_address.description);
+    // $('#shipping_district').val(res.customer.shipping_address.district);
+    // $('#shipping_city').val(res.customer.shipping_address.city);
+    // $('#shipping_country').val(res.customer.shipping_address.country);
+    // $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
+    // $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
+    // if($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -53275,6 +53311,7 @@ if (formEditCustomer.length > 0) {
 
 if (formCreateCustomer.length > 0) {
   $('#button-delete').remove();
+  $('#customer-address').remove();
   formCreateCustomer.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -53287,6 +53324,27 @@ if (formCreateCustomer.length > 0) {
 
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+} // show table address (bebewash 0.2)
+
+
+if ($('#modal-add-address').length > 0) {
+  $('#modal-customer-form--address').submit(function (e) {
+    e.preventDefault();
+    var dataForm = $('#modal-customer-form--address').serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/addresses', data).then(function () {
+      $('#modal-add-address').modal('hide');
+      window.location.reload();
     })["catch"](function (res) {
       var errors = res.responseJSON.errors;
       errorMessage(errors);

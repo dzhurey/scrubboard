@@ -22,4 +22,5 @@
 <form id="form-edit-customer" class="c-form needs-validation" novalidate>
     @include('customer._form_field')
 </form>
+@include('customer._modal_add_address')
 @endsection

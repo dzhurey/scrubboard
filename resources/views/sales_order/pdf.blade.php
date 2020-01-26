@@ -35,7 +35,7 @@
         <table width="100%">
             <tr>
                 <td colspan="6">
-                    <img class="logo-full" src="{{ asset('assets/images/logo-bebewash.png') }}" height="70">
+                    <img class="logo-full" src="{{ public_path().'/assets/images/logo-bebewash.png' }}" height="70">
                 </td>
             </tr>
             <tr>

@@ -30,6 +30,12 @@ const createTable = (target, data) => {
     order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
+      {
+        data: 'is_pre_order',
+        render(data) {
+          return data ? 'Pre Order' : 'General';
+        }
+      },
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'transaction_status' },
@@ -606,12 +612,12 @@ if (formEditSalesOrder.length > 0) {
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
       $('#customer_id').val(res.sales_order.customer.name);
       $('#agent_id').val(res.sales_order.agent_id);
-      $('#agent_id').attr('readonly', true);
-      $('#is_own_address').attr('readonly', true);
-      $('#is_own_address').attr('disabled', true);
+      // $('#agent_id').attr('readonly', true);
+      // $('#is_own_address').attr('readonly', true);
+      // $('#is_own_address').attr('disabled', true);
       $('#is_own_address').attr('checked', res.sales_order.is_own_address);
-      $('#is_pre_order').attr('readonly', true);
-      $('#is_pre_order').attr('disabled', true);
+      // $('#is_pre_order').attr('readonly', true);
+      // $('#is_pre_order').attr('disabled', true);
       $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
       $('#user_id').val(res.sales_order.creator.username);
       $('#order_type').val(res.sales_order.order_type);
@@ -629,7 +635,7 @@ if (formEditSalesOrder.length > 0) {
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-      if (isNotOpen(res)) {
+      if (isNotOpen(res) && !res.sales_order.is_pre_order) {
         disableAllForm(true)
       }
     })
@@ -656,7 +662,7 @@ if (formEditSalesOrder.length > 0) {
 }
 
 const isNotOpen = (res) => {
-  return res.sales_order.transaction_status !== 'open'
+  return res.sales_order.transaction_status !== 'open';
 }
 
 const disableAllForm = () => {

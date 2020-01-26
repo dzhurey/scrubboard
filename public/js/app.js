@@ -51980,6 +51980,8 @@ __webpack_require__(/*! ./pages/brand/index.js */ "./resources/js/pages/brand/in
 
 __webpack_require__(/*! ./pages/courier_schedule/index.js */ "./resources/js/pages/courier_schedule/index.js");
 
+__webpack_require__(/*! ./pages/promo/index.js */ "./resources/js/pages/promo/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
@@ -55376,6 +55378,138 @@ if (formEditPrice.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/promo/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/promo/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tablePromo = $('#table-promo');
+var formCreatePromo = $('#form-create-promo');
+var formEditPromo = $('#form-edit-promo');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'type'
+    }, {
+      data: 'code'
+    }, {
+      data: 'quota'
+    }, {
+      data: 'percentage'
+    }, {
+      data: 'max_promo'
+    }, {
+      data: 'start_promo'
+    }, {
+      data: 'end_promo'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/promos/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (formCreatePromo.length > 0) {
+  $('#button-delete').remove();
+  formCreatePromo.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formCreatePromo.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/promos', data).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+if (tablePromo.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/promos').then(function (res) {
+    createTable(tablePromo, res.promos.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formEditPromo.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/promos/".concat(id)).then(function (res) {
+    $('#type').val(res.promo.type);
+    $('#promo_name').val(res.promo.name);
+    $('#promo_code').val(res.promo.code);
+    $('#promo_quota').val(res.promo.quota);
+    $('#promo_percentage').val(res.promo.percentage);
+    $('#promo_maximum').val(res.promo.max_promo);
+    $('#start_date').val(res.promo.start_promo);
+    $('#end_date').val(res.promo.end_promo);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditPromo.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formEditPromo.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/promos/".concat(id), data).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/promos/".concat(id)).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      alert('Cannot delete item that has been used in transaction');
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/sales_invoice/index.js":
 /*!***************************************************!*\
   !*** ./resources/js/pages/sales_invoice/index.js ***!
@@ -55824,6 +55958,11 @@ var createTable = function createTable(target, data) {
     order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
+    }, {
+      data: 'is_pre_order',
+      render: function render(data) {
+        return data ? 'Pre Order' : 'General';
+      }
     }, {
       data: 'customer.name'
     }, {
@@ -56457,13 +56596,13 @@ if (formEditSalesOrder.length > 0) {
     generateItemTable(tableSOItems, choosed_item);
     $('#customer_id').attr('customer-id', res.sales_order.customer_id);
     $('#customer_id').val(res.sales_order.customer.name);
-    $('#agent_id').val(res.sales_order.agent_id);
-    $('#agent_id').attr('readonly', true);
-    $('#is_own_address').attr('readonly', true);
-    $('#is_own_address').attr('disabled', true);
-    $('#is_own_address').attr('checked', res.sales_order.is_own_address);
-    $('#is_pre_order').attr('readonly', true);
-    $('#is_pre_order').attr('disabled', true);
+    $('#agent_id').val(res.sales_order.agent_id); // $('#agent_id').attr('readonly', true);
+    // $('#is_own_address').attr('readonly', true);
+    // $('#is_own_address').attr('disabled', true);
+
+    $('#is_own_address').attr('checked', res.sales_order.is_own_address); // $('#is_pre_order').attr('readonly', true);
+    // $('#is_pre_order').attr('disabled', true);
+
     $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
     $('#user_id').val(res.sales_order.creator.username);
     $('#order_type').val(res.sales_order.order_type);
@@ -56481,7 +56620,7 @@ if (formEditSalesOrder.length > 0) {
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-    if (isNotOpen(res)) {
+    if (isNotOpen(res) && !res.sales_order.is_pre_order) {
       disableAllForm(true);
     }
   })["catch"](function (res) {

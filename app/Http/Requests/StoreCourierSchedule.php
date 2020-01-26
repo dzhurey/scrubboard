@@ -48,7 +48,7 @@ class StoreCourierSchedule extends FormRequest
             'vehicle_id' => 'required',
             'address_id' => '',
             'schedule_date' => 'required|date_format:"Y-m-d"',
-            'courier_schedule_lines' => 'required|array',
+            'courier_schedule_lines' => 'array',
         ];
 
         foreach($this->request->get('courier_schedule_lines') as $key => $val)

@@ -20,7 +20,7 @@ const createTable = (target, data) => {
         data: 'id',
         render(data, type, row) {
           const is_own_address = row.transaction.is_own_address;
-          const address = row.transaction.address;
+          const address = row.address;
           return `
             <h3><strong><a href="/courier/delivery_schedules/${data}/edit">${row.courier_code}</a></strong></h3>
             <small><strong>Schedule Date</strong></small>
@@ -228,10 +228,7 @@ const createSOTableMobile = (target, data) => {
     }
 
     return d.map((res) => {
-      return `<div class="item-order">
-      <small class="d-block text-muted mb-2">${res.transaction_number}</small>
-      <span class="d-block font-weight-bold mb-1">${res.customer.name}</span>
-      <p>${res.address.description}</p>` + items(res)
+      return `<div class="item-order">${items(res)}</div>`
     })
   };
 
@@ -319,7 +316,7 @@ if (formEditCourierDS.length > 0) {
     generateDataPickupEdit([data_line]);
     const data = res.delivery_schedule;
     const customer = data_line.customer;
-    const address = data_line.address;
+    const address = res.delivery_schedule.address;
     const outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);

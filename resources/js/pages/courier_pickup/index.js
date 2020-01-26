@@ -224,10 +224,7 @@ const createSOTableMobile = (target, data) => {
     }
 
     return d.map((res) => {
-      return `<div class="item-order">
-      <small class="d-block text-muted mb-2">${res.transaction_number}</small>
-      <span class="d-block font-weight-bold mb-1">${res.customer.name}</span>
-      <p>${res.address.description}</p>` + items(res)
+      return `<div class="item-order">${items(res)}</div>`
     })
   };
 
@@ -320,7 +317,7 @@ if (formEditCourierPS.length > 0) {
     generateDataPickupEdit([data_line]);
     const data = res.pickup_schedule;
     const customer = data_line.customer;
-    const address = data_line.address;
+    const address = res.pickup_schedule.address;
     const outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);

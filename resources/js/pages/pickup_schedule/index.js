@@ -157,12 +157,10 @@ const createSOTable = (target, data) => {
       { data: 'transaction_number' },
       { data: 'customer.name' },
       {
-        data: 'id',
-        render(data, type, row) {
-          const addresses = row.customer.shipping_addresses;
-          const selectedAddress = row.address.id;
-          const options = addresses.map((res) => {
-            return `<option value="${res.id}" ${res.id === selectedAddress ? 'selected' : ''}">${res.description}, ${res.district}, ${res.city}, ${res.country} ${res.zip_code}</option>`
+        data: 'customer.shipping_addresses',
+        render(data) {
+          const options = data.map((res) => {
+            return `<option value="${res.id}">${res.description}, ${res.district}, ${res.city}, ${res.country} ${res.zip_code}</option>`
           })
           return `<select id="address_id" class="form-control select2" name="address_id">${options.join('')}</select>`
         }
@@ -177,8 +175,9 @@ const createSOTable = (target, data) => {
     drawCallback: () => {
       removeItem();
       $('#address_id').val(sessionStorage.address_id);
-      $('.select2').select2({
+      $('#address_id').select2({
         theme: 'bootstrap',
+        placeholder: 'Choose address',
       }).trigger('change');
       if (EditPickupForm.length > 0) {
         $('.remove-item').remove();
@@ -405,7 +404,7 @@ if (EditPickupForm.length > 0) {
       $('#date').val(res.pickup_schedule.schedule_date);
       $('#document_status').val(res.pickup_schedule.transaction.transaction_status);
       sessionStorage.setItem('address_id', res.pickup_schedule.address.id);
-      $('#person_id, #vehicle_id, #address_id').select2({
+      $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
       }).trigger('change');

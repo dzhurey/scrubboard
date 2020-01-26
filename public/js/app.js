@@ -56157,17 +56157,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control form_note\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
+        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"promo-code\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
         return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.quantity ? row.quantity : 1, "\" name=\"quantity\">");
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\">");
       }
     }, {
       data: 'id',
@@ -56178,8 +56173,18 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         var val = Number.parseFloat(row.amount);
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"").concat(val, "\" readonly>\n      </div>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control form_note\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
@@ -56210,6 +56215,11 @@ var generateItemTable = function generateItemTable(target, data) {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.promo-code').each(function (i, promo) {
+        $(promo).change(function (e) {
+          getPromoCode(e.target.value, e.target);
+        });
+      });
       $('.auto-button').click(function (e) {
         var value = e.target.id.split('_')[0];
         var id = e.target.id.split('_')[1];
@@ -56429,6 +56439,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
           brand_id: target.querySelector('select[name="brand_id"]').value,
           color: target.querySelector('input[name="color"]').value,
           quantity: target.querySelector('input[name="quantity"]').value,
+          promo_id: target.querySelector('input[name="promo_id"]').value,
           unit_price: unit_price,
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
@@ -56671,6 +56682,25 @@ $('#btn-download').click(function () {
     windowOpen.close();
   });
 });
+
+var getPromoCode = function getPromoCode(promoCode, target) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/promos").then(function (res) {
+    var promo = res.promos.data.filter(function (promo) {
+      return promo.code === promoCode;
+    })[0];
+    var index = target.id.split('_')[1];
+    var unitPriceField = $("#unit_price_".concat(index));
+    var unitPriceValue = unitPriceField.val();
+    var calculateDiscountByPromo = parseFloat(unitPriceValue) * promo.percentage / 100;
+    var isMaxPromo = calculateDiscountByPromo > promo.max_promo;
+    var discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
+    $(target).prev().val(promo.id);
+    $("#unit_price_".concat(index)).val(parseFloat(unitPriceValue) - parseFloat(discount));
+    $("#amount_".concat(index)).val(parseFloat($("#unit_price_".concat(index)).val()) * parseFloat($("#quantity_".concat(index)).val()));
+    totalBeforeDisc();
+    finalTotal($('#discount').val());
+  });
+};
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

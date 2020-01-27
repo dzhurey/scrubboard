@@ -55658,7 +55658,6 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        debugger;
         return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\" value=\"").concat(row.promo_id ? row.promo_id : '', "\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" readonly data-id=\"").concat(row.item_id, "\" name=\"promo-code\" value=\"").concat(row.promo ? row.promo.code : '', "\">");
       }
     }, {

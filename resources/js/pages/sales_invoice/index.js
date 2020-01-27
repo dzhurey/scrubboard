@@ -133,7 +133,6 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          debugger;
           return `
           <input hidden type="text" class="form-control promo_id text-right is-number" id="promo_id_${row.id}" name="promo_id" value="${row.promo_id ? row.promo_id : ''}">
           <input type="text" class="form-control promo-code is-number" id="promo-code_${row.id}" readonly data-id="${row.item_id}" name="promo-code" value="${row.promo ? row.promo.code : ''}">`

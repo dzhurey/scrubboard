@@ -75,14 +75,14 @@ class SalesInvoiceController extends Controller
         return $this->renderView($request, '', [], ['route' => 'sales_invoices.index', 'data' => []], 201);
     }
 
-    public function edit(Request $request, SalesInvoice $sales_invoice)
+    public function edit(Request $request, SalesInvoice $sales_invoice, SalesInvoicePresenter $presenter)
     {
         if (!$this->allowAny(['superadmin', 'sales'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
 
         $data = [
-            'sales_invoice' => $sales_invoice,
+            'sales_invoice' => $presenter->transform($sales_invoice),
             'items' => Item::orderBy('id', 'ASC')->pluck('description', 'id')
         ];
         return view('sales_invoice.edit', $data);

@@ -65,7 +65,7 @@ class SalesInvoiceUpdateService extends BaseService
             if ($value['status'] == 'canceled') {
                 throw new UnprocessableEntityException(__("rules.cannot_cancel_item_on_invoice"));
             }
-            array_push($lines, $this->assignAttributes($line, $value, ['promo_id']));
+            array_push($lines, $this->assignAttributes($line, $value));
         }
         return $lines;
     }

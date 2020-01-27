@@ -71,7 +71,7 @@ class SalesInvoiceStoreService extends BaseService
             $value['transaction_id'] = $this->model->id;
             $value['status'] = 'open';
             $model_line = new TransactionLine();
-            array_push($lines, $this->assignAttributes($model_line, $value, ['promo_id']));
+            array_push($lines, $this->assignAttributes($model_line, $value));
         }
         return ($lines);
     }

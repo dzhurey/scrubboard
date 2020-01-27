@@ -91,6 +91,7 @@ class StoreSalesInvoice extends FormRequest
             $rules['transaction_lines.'.$key.'.discount_amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['transaction_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
+            $rules['transaction_lines.'.$key.'.promo_id'] = 'nullable';
         }
 
         return $rules;

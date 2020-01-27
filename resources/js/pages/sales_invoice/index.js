@@ -133,19 +133,16 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
+          debugger;
+          return `
+          <input hidden type="text" class="form-control promo_id text-right is-number" id="promo_id_${row.id}" name="promo_id" value="${row.promo_id ? row.promo_id : ''}">
+          <input type="text" class="form-control promo-code is-number" id="promo-code_${row.id}" readonly data-id="${row.item_id}" name="promo-code" value="${row.promo ? row.promo.code : ''}">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" required readonly value="${row.quantity}" name="quantity">`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
         }
       },
       {
@@ -160,10 +157,22 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
           return `<div class="input-group flex-nowrap">
           <div class="input-group-prepend">
               <span class="input-group-text">Rp</span>
           </div><input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly></div>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
         }
       },
       {
@@ -218,6 +227,8 @@ const getDetailSalesOrder = (url, key, id) => {
           name: res.item.description,
           amount: parseFloat(res.amount),
           status: res.status,
+          promo_id: res.promo_id,
+          promo: res.promo,
         });
       }
     });

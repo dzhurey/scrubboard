@@ -24,7 +24,8 @@
             }
             th, td {
                 padding: 5px;
-                text-align: left;    
+                text-align: left;
+                vertical-align: top;  
             }
             .text-right {
                 text-align: right;

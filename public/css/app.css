@@ -528,7 +528,7 @@ h5 {
 
 .c-table.table th.th-item,
 .c-table.table td.th-item {
-  width: 260px !important;
+  width: 300px !important;
 }
 
 .c-table.table th.th-note,
@@ -542,14 +542,14 @@ h5 {
 .c-table.table td.th-qty,
 .c-table.table td.th-action,
 .c-table.table td:last-child {
-  width: 50px !important;
+  width: 80px !important;
 }
 
 .c-table.table th.th-price,
 .c-table.table th.th-total,
 .c-table.table td.th-price,
 .c-table.table td.th-total {
-  width: 130px !important;
+  width: 170px !important;
 }
 
 .c-table.table th.th-dcs,

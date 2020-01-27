@@ -55658,7 +55658,8 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" name=\"note\" required readonly value=\"").concat(row.note ? row.note : '', "\">");
+        debugger;
+        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\" value=\"").concat(row.promo_id ? row.promo_id : '', "\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" readonly data-id=\"").concat(row.item_id, "\" name=\"promo-code\" value=\"").concat(row.promo ? row.promo.code : '', "\">");
       }
     }, {
       data: 'id',
@@ -55668,17 +55669,22 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" required readonly value=\"").concat(row.discount, "\" name=\"discount\">");
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly></div");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" required readonly value=\"").concat(row.discount, "\" name=\"discount\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly></div>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" name=\"note\" required readonly value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
@@ -55730,7 +55736,9 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
           note: res.note,
           name: res.item.description,
           amount: parseFloat(res.amount),
-          status: res.status
+          status: res.status,
+          promo_id: res.promo_id,
+          promo: res.promo
         });
       }
     });
@@ -56408,6 +56416,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,
@@ -56423,6 +56432,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,

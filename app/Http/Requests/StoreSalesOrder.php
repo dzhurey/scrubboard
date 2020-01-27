@@ -97,6 +97,7 @@ class StoreSalesOrder extends FormRequest
             } else {
                 $rules['transaction_lines.'.$key.'.bor'] = ['required', 'string', new UniqueBor];
             }
+            $rules['transaction_lines.'.$key.'.promo_id'] = 'nullable';
         }
 
         return $rules;

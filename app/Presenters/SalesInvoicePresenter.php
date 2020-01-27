@@ -29,6 +29,7 @@ class SalesInvoicePresenter extends BasePresenter
         $input->transaction_lines = $input->transactionLines->transform(function ($item) {
             $item->item = $item->item;
             $item->brand = $item->brand;
+            $item->promo = $input->promo;
             return $item;
         });
         return $input;

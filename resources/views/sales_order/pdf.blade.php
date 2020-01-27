@@ -65,7 +65,13 @@
             </tr>
             <tr>
                 <td colspan="1"><b>{{ $sales_order->customer->name }}</b></td>
-                <td><b>-</b></td>
+                <td>
+                    <b>{{ $sales_order->address->description }}</b>,
+                    <b>{{ $sales_order->address->district }}</b>,<br/>
+                    <b>{{ $sales_order->address->city }}</b>,
+                    <b>{{ $sales_order->address->country }}</b>,<br/>
+                    <b>{{ $sales_order->address->zip_code }}</b>,
+                </td>
                 <td colspan="4"><b>{{ $sales_order->transaction_date }}</b></td>
             </tr>
             <tr>
@@ -94,7 +100,7 @@
             <tbody>
                 @foreach ($sales_order->transaction_lines as $value)
                 <tr>
-                    <td>-</td>
+                    <td>{{ $value->item->description }}</td>
                     <td class="text-right">{{ $value->promo->code }}</td>
                     <td class="text-right">{{ $value->quantity }}</td>
                     <td class="text-right">{{ $value->unit_price }}</td>

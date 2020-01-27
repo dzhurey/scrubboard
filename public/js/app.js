@@ -56157,7 +56157,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"promo-code\">");
+        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\" value=\"").concat(row.promo_id ? row.promo_id : '', "\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"promo-code\" value=\"").concat(row.promo ? row.promo.code : '', "\">");
       }
     }, {
       data: 'id',
@@ -56599,7 +56599,9 @@ if (formEditSalesOrder.length > 0) {
         note: res.note,
         name: res.item.description,
         amount: parseFloat(res.amount),
-        status: res.status
+        status: res.status,
+        promo_id: res.promo_id,
+        promo: res.promo
       });
     });
     sessionStorage.setItem('transaction_number', res.sales_order.transaction_number);

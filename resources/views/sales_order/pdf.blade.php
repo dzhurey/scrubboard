@@ -95,7 +95,7 @@
                 @foreach ($sales_order->transaction_lines as $value)
                 <tr>
                     <td>-</td>
-                    <td class="text-right">-</td>
+                    <td class="text-right">{{ $value->promo->code }}</td>
                     <td class="text-right">{{ $value->quantity }}</td>
                     <td class="text-right">{{ $value->unit_price }}</td>
                     <td class="text-right">{{ $value->discount }}</td>

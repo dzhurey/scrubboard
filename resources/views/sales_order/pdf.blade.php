@@ -13,7 +13,7 @@
             }
             table, th, td {
                 border-collapse: collapse;
-                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                font-family: Calibri, 'Trebuchet MS', sans-serif;
             }
             .pdf-table-list-item th, .pdf-table-list-item td{
                 border-bottom: 1px solid #ddd;

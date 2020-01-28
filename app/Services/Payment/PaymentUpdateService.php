@@ -31,6 +31,7 @@ class PaymentUpdateService extends BaseService
                 $payment_lines_meta = $this->updatePaymentMeans($attributes);
                 $this->model->paymentMeans()->saveMany($payment_lines_meta);
                 $this->removeExcluded($attributes);
+                $this->updateTransaction();
                 // $this->updatePaymentLine($attributes);
                 // $this->updatePaymentMean($attributes);
             }
@@ -118,5 +119,17 @@ class PaymentUpdateService extends BaseService
                 ['payment_method', $result]
             ])->delete();
         }
+    }
+
+    public function updateTransaction()
+    {
+        $transaction = $this->model->paymentLines->first()->transaction;
+        if ($this->model->total_amount == $transaction->total_amount) {
+            $transaction->transaction_status = 'closed';
+        }
+        $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
+        $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
+        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        $transaction->save();
     }
 }

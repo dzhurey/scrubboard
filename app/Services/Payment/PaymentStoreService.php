@@ -83,6 +83,7 @@ class PaymentStoreService extends BaseService
             $attributes['payment_code'] = "PAY/".str_pad($attributes['customer_id'], 3, '0', STR_PAD_LEFT)."/".substr($year,-2).$next_number;
         }
 
+        $attributes['payment_date'] = date('Y-m-d');
         $this->model = $this->assignAttributes($this->model, $attributes);
         $this->model->save();
     }

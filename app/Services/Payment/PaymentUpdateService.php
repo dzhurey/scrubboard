@@ -43,6 +43,7 @@ class PaymentUpdateService extends BaseService
 
     private function updatePayment($attributes)
     {
+        $attributes['payment_date'] = date('Y-m-d');
         $this->model = $this->assignAttributes($this->model, $attributes, ['payment_code']);
         $this->model->save();
     }

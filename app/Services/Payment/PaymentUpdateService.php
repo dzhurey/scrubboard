@@ -68,7 +68,6 @@ class PaymentUpdateService extends BaseService
         $payment_means = [];
         foreach ($attributes['payment_lines'] as $key => $value) {
             $value['payment_id'] = $this->model->id;
-            $value['payment_date'] = $attributes['payment_date'];
 
             $payment_mean = $this->getOrCreatePaymentMean($value);
             $payment_mean->payment_method = $value['payment_method'];
@@ -83,7 +82,7 @@ class PaymentUpdateService extends BaseService
                 $payment_mean->receiver_name = $value['receiver_name'];
             }
             $payment_mean->amount = $value['amount'];
-            $payment_mean->payment_date = $attributes['payment_date'];
+            $payment_mean->payment_date = $value['payment_date'];
             $payment_mean->note = $attributes['note'];
             array_push($payment_means, $payment_mean);
         }

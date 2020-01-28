@@ -113,7 +113,7 @@ class PaymentStoreService extends BaseService
                 $paymentMean->receiver_name = $item['receiver_name'];
             }
             $paymentMean->amount = $item['amount'];
-            $paymentMean->payment_date = $attributes['payment_date'];
+            $paymentMean->payment_date = $item['payment_date'];
             $paymentMean->note = $attributes['note'];
             $this->model->paymentMeans()->save($paymentMean);
         }

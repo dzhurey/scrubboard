@@ -52462,7 +52462,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Delivered</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52537,7 +52537,7 @@ var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by !== null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by !== null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
@@ -52694,7 +52694,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Picked</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52769,7 +52769,7 @@ var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span></div>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by != null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span></div>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by != null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
@@ -54514,6 +54514,75 @@ if (tablePayment.length > 0) {
     return console.log(res);
   });
 }
+
+var tablePaymentLines = function tablePaymentLines(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    order: [[3, 'desc']],
+    columns: [{
+      data: 'payment_method',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'payment_type',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'bank_account_id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'receiver_name',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'bank_id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'credit_card',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'amount',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }, {
+      data: 'note',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly/>";
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+tablePaymentLines($('#table-payment-lines'), [{
+  payment_method: '',
+  payment_type: '',
+  bank_account_id: '',
+  receiver_name: '',
+  bank_id: '',
+  credit_card: '',
+  amount: '',
+  note: ''
+}]);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -56180,7 +56249,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\">");
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\" readonly></div>");
       }
     }, {
       data: 'id',
@@ -56471,6 +56540,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
     total_amount: $('#total_amount').val(),
+    dp_amount: $('#dp_amount').val(),
     note: $('#note').val(),
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
@@ -56629,12 +56699,13 @@ if (formEditSalesOrder.length > 0) {
     $('#user_id').val(res.sales_order.creator.username);
     $('#order_type').val(res.sales_order.order_type);
     $('#note').val(res.sales_order.note);
-    $('#discount').val(res.sales_order.discount);
-    $('#discount_amount').val(res.sales_order.discount_amount);
-    $('#freight').val(res.sales_order.freight);
+    $('#discount').val(parseFloat(res.sales_order.discount));
+    $('#discount_amount').val(parseFloat(res.sales_order.discount_amount));
+    $('#freight').val(parseFloat(res.sales_order.freight));
     $('#status_order').val(res.sales_order.transaction_status);
-    $('#original_amount').val(res.sales_order.original_amount);
-    $('#total_amount').val(res.sales_order.total_amount);
+    $('#original_amount').val(parseFloat(res.sales_order.original_amount));
+    $('#total_amount').val(parseFloat(res.sales_order.total_amount));
+    $('#dp_amount').val(parseFloat(res.sales_order.dp_amount));
     $('#transaction_date').val(res.sales_order.transaction_date);
     $('#pickup_date').val(res.sales_order.pickup_date); // $('#delivery_date').val(res.sales_order.delivery_date);
 
@@ -56706,8 +56777,8 @@ var getPromoCode = function getPromoCode(promoCode, target) {
     var isMaxPromo = calculateDiscountByPromo > promo.max_promo;
     var discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
     $(target).prev().val(promo.id);
-    $("#unit_price_".concat(index)).val(parseFloat(unitPriceValue) - parseFloat(discount));
-    $("#amount_".concat(index)).val(parseFloat($("#unit_price_".concat(index)).val()) * parseFloat($("#quantity_".concat(index)).val()));
+    $("#discount_".concat(index)).val(parseFloat(discount));
+    $("#amount_".concat(index)).val(parseFloat(unitPriceValue - discount) * parseFloat($("#quantity_".concat(index)).val()));
     totalBeforeDisc();
     finalTotal($('#discount').val());
   });
@@ -59897,8 +59968,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

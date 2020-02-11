@@ -249,7 +249,11 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount">`
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div>
+          <input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount" readonly></div>`
         }
       },
       {
@@ -509,6 +513,7 @@ const dataFormSalesOrder = () => {
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
     total_amount: $('#total_amount').val(),
+    dp_amount: $('#dp_amount').val(),
     note: $('#note').val(),
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
@@ -640,12 +645,13 @@ if (formEditSalesOrder.length > 0) {
       $('#user_id').val(res.sales_order.creator.username);
       $('#order_type').val(res.sales_order.order_type);
       $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
+      $('#discount').val(parseFloat(res.sales_order.discount));
+      $('#discount_amount').val(parseFloat(res.sales_order.discount_amount));
+      $('#freight').val(parseFloat(res.sales_order.freight));
       $('#status_order').val(res.sales_order.transaction_status);
-      $('#original_amount').val(res.sales_order.original_amount);
-      $('#total_amount').val(res.sales_order.total_amount);
+      $('#original_amount').val(parseFloat(res.sales_order.original_amount));
+      $('#total_amount').val(parseFloat(res.sales_order.total_amount));
+      $('#dp_amount').val(parseFloat(res.sales_order.dp_amount));
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
       // $('#delivery_date').val(res.sales_order.delivery_date);
@@ -713,9 +719,9 @@ const getPromoCode = (promoCode, target) => {
     const isMaxPromo = calculateDiscountByPromo > promo.max_promo;
     const discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
     $(target).prev().val(promo.id);
-    $(`#unit_price_${index}`).val(parseFloat(unitPriceValue) - parseFloat(discount));
+    $(`#discount_${index}`).val(parseFloat(discount));
     $(`#amount_${index}`).val(
-      parseFloat($(`#unit_price_${index}`).val()) * parseFloat($(`#quantity_${index}`).val())
+      parseFloat(unitPriceValue - discount) * parseFloat($(`#quantity_${index}`).val())
     );
     totalBeforeDisc();
     finalTotal($('#discount').val());

@@ -1,7 +1,7 @@
 <div id="modal-add-address" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
-            <form id="modal-customer-form--address" class="needs-validatio">
+            <form id="modal-customer-form--address" class="needs-validation">
               <input hidden class="form-check-input form-check-box" id="customer_id" type="text" name="customer_id">
               <input hidden class="form-check-input form-check-box" type="checkbox" name="is_billing" checked="true">
               <input hidden class="form-check-input form-check-box" type="checkbox" name="is_shipping" checked="true">

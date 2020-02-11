@@ -73,6 +73,7 @@ class StoreSalesOrder extends FormRequest
             'total_amount' => 'required|numeric',
             'note' => 'nullable|string',
             'is_own_address' => 'required|boolean',
+            'dp_amount' => 'nullable|numeric',
             'order_id' => 'nullable',
             'promo_id' => 'nullable',
             'is_pre_order' => 'required',

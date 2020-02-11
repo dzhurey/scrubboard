@@ -86,7 +86,7 @@
                     <th class="th-total">Code/Promo</th>
                     <th class="th-qty text-right">Qty</th>
                     <th class="th-price text-right">Unit Price</th>
-                    <th class="th-dcs text-right">Disc (%)</th>
+                    <th id="th-disc" class="th-dcs text-right">Disc</th>
                     <th class="th-total text-right">Total</th>
                     <th class="th-note">Notes</th>
                     <th class="th-action"></th>
@@ -152,6 +152,15 @@
                     <span class="input-group-text">Rp</span>
                 </div>
                 <input class="form-control is-number" id="total_amount" value="0" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="c-form--label" for="dp_amount">Booking Fee</label>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control is-number" id="dp_amount" value="0">
             </div>
         </div>
     </div>

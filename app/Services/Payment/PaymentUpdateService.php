@@ -31,6 +31,7 @@ class PaymentUpdateService extends BaseService
                 $payment_lines_meta = $this->updatePaymentMeans($attributes);
                 $this->model->paymentMeans()->saveMany($payment_lines_meta);
                 $this->removeExcluded($attributes);
+                $this->updateTransaction();
                 // $this->updatePaymentLine($attributes);
                 // $this->updatePaymentMean($attributes);
             }
@@ -43,6 +44,7 @@ class PaymentUpdateService extends BaseService
 
     private function updatePayment($attributes)
     {
+        $attributes['payment_date'] = date('Y-m-d');
         $this->model = $this->assignAttributes($this->model, $attributes, ['payment_code']);
         $this->model->save();
     }
@@ -68,7 +70,6 @@ class PaymentUpdateService extends BaseService
         $payment_means = [];
         foreach ($attributes['payment_lines'] as $key => $value) {
             $value['payment_id'] = $this->model->id;
-            $value['payment_date'] = $attributes['payment_date'];
 
             $payment_mean = $this->getOrCreatePaymentMean($value);
             $payment_mean->payment_method = $value['payment_method'];
@@ -83,7 +84,7 @@ class PaymentUpdateService extends BaseService
                 $payment_mean->receiver_name = $value['receiver_name'];
             }
             $payment_mean->amount = $value['amount'];
-            $payment_mean->payment_date = $attributes['payment_date'];
+            $payment_mean->payment_date = $value['payment_date'];
             $payment_mean->note = $attributes['note'];
             array_push($payment_means, $payment_mean);
         }
@@ -118,5 +119,17 @@ class PaymentUpdateService extends BaseService
                 ['payment_method', $result]
             ])->delete();
         }
+    }
+
+    public function updateTransaction()
+    {
+        $transaction = $this->model->paymentLines->first()->transaction;
+        if ($this->model->total_amount == $transaction->total_amount) {
+            $transaction->transaction_status = 'closed';
+        }
+        $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
+        $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
+        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        $transaction->save();
     }
 }

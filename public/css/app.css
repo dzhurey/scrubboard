@@ -547,14 +547,11 @@ h5 {
 
 .c-table.table th.th-price,
 .c-table.table th.th-total,
-.c-table.table td.th-price,
-.c-table.table td.th-total {
-  width: 170px !important;
-}
-
 .c-table.table th.th-dcs,
+.c-table.table td.th-price,
+.c-table.table td.th-total,
 .c-table.table td.th-dcs {
-  width: 85px !important;
+  width: 170px !important;
 }
 
 .table-responsive th,

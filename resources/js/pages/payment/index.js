@@ -173,3 +173,81 @@ if (tablePayment.length > 0) {
     createTable(tablePayment, res.payments.data);
   }).catch(res => console.log(res));
 }
+
+const tablePaymentLines = (target, data) => {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [ 15, 25, 50, 100 ],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    order: [[3, 'desc']],
+    columns: [
+      {
+        data: 'payment_method',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'payment_type',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'bank_account_id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'receiver_name',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'bank_id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'credit_card',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'amount',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+      {
+        data: 'note',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" readonly/>`
+        }
+      },
+    ],
+    drawCallback: () => {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  })
+};
+
+tablePaymentLines($('#table-payment-lines'), [{
+  payment_method: '',
+  payment_type: '',
+  bank_account_id: '',
+  receiver_name: '',
+  bank_id: '',
+  credit_card: '',
+  amount: '',
+  note: ''
+}]);

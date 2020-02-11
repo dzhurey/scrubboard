@@ -32,7 +32,6 @@ class StorePayment extends FormRequest
      * input json
      * {
      *     "customer_id": 1,
-     *     "payment_date": "2019-08-24",
      *     "note": "alalal",
      *     "transaction_id": 25,
      *     "total_amount": 15000,
@@ -40,6 +39,7 @@ class StorePayment extends FormRequest
      *       {
      *         "payment_method": "bank_transfer", // options: cash, bank_transfer, credit_card, other, bebewash
      *         "payment_type": "acquittance", // options: down_payment, acquittance
+     *         "payment_date": "2019-08-24",
      *         "amount": 15000,
      *         "note": "asdads",
      *         "receiver_name": "Suryadi", // required if payment_method = bank_transfer
@@ -54,7 +54,6 @@ class StorePayment extends FormRequest
     {
         $rules = [
             'customer_id' => 'required',
-            'payment_date' => 'required|date_format:"Y-m-d"',
             'note' => 'nullable|string',
             'transaction_id' => 'required',
             'total_amount' => 'required|numeric',
@@ -65,6 +64,7 @@ class StorePayment extends FormRequest
         {
             $rules['payment_lines.'.$key.'.payment_method'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ',');
             $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ',');
+            $rules['payment_lines.'.$key.'.payment_date'] = 'required|date_format:"Y-m-d"';
             $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['payment_lines.'.$key.'.note'] = 'nullable|string';
             $rules['payment_lines.'.$key.'.receiver_name'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';

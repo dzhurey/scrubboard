@@ -161,12 +161,12 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="total_amount">Total DP</label>
+            <label class="c-form--label" for="dp_amount">Booking Fee</label>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Rp</span>
                 </div>
-                <input class="form-control" id="dp_amount" value="0">
+                <input class="form-control" id="dp_amount" value="0" readonly>
             </div>
         </div>
     </div>

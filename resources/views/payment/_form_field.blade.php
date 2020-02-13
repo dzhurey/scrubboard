@@ -117,7 +117,7 @@
                             <div class="form-group">
                                 <label class="c-form--label" for="payment_type">Payment Type</label>
                                 <select class="form-control" id="payment_type" name="payment_type" required>
-                                    <option value="down_payment">Down Payment</option>
+                                    <option value="down_payment">Booking Fee</option>
                                     <option value="acquittance">Acquittance</option>
                                 </select>
                                 <div class="invalid-feedback">Data invalid.</div>

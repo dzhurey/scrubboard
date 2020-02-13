@@ -44,7 +44,7 @@
         <table width="100%">
             <tr>
                 <td colspan="3">
-                    <img class="logo-full" src="{{ public_path().'/assets/images/logo-bebewash.png' }}" height="70">
+                    <img class="logo-full" src="{{ public_path().'/assets/images/logo-bebewash.png' }}" height="50">
                 </td>
                 <td colspan="3">
                     <div class="background">UNPAID</div>
@@ -90,12 +90,15 @@
                 <td colspan="6"></td>
             </tr>
             <tr>
-                <td colspan="5">No HP/WA</td>
-                <td>{{ $sales_order->customer->phone_number }}</td>
-            </tr>
-            <tr>
-                <td colspan="5"><b>Pickup Date</b></td>
-                <td><b>{{ $sales_order->pickup_date }}</b></td>
+                <td>
+                    <strong>No HP/WA</strong>
+                    <div>{{ $sales_order->customer->phone_number }}</div>
+                </td>
+                <td>
+                    <strong>Pickup Date</strong>
+                    <div>{{ $sales_order->pickup_date }}</div>
+                </td>
+                <td colspan="4"></td>
             </tr>
         </table>
         <table class="pdf-table-list-item" style="margin-top: 50px;" width="100%">
@@ -111,23 +114,20 @@
             </thead>
             <tbody>
                 @foreach ($sales_order->transaction_lines as $value)
-                <tr>
-                    <td>{{ $value->item->description }}</td>
-                    <td class="text-right">{{ !empty($value->promo) ? $value->promo->code : '' }}</td>
-                    <td class="text-right">{{ round($value->quantity) }}</td>
-                    <td class="text-right">{{ round($value->unit_price) }}</td>
-                    <td class="text-right">{{ round($value->discount) }}</td>
-                    <td class="text-right">{{ round($value->amount) }}</td>
-                </tr>
+                    @if($value->quantity > 0)
+                    <tr>
+                        <td>{{ $value->item->description }}</td>
+                        <td class="text-right">{{ !empty($value->promo) ? $value->promo->code : '' }}</td>
+                        <td class="text-right">{{ round($value->quantity) }}</td>
+                        <td class="text-right">{{ round($value->unit_price) }}</td>
+                        <td class="text-right">{{ round($value->discount) }}</td>
+                        <td class="text-right">{{ round($value->amount) }}</td>
+                    </tr>
+                    @endif
                 @endforeach
             </tbody>
         </table>
         <table width="100%" style="margin-top: 20px;">
-            <tr>
-                <td colspan="4"></td>
-                <td class="text-right">Delivery Fee</td>
-                <td class="text-right">{{ round($sales_order->freight) }}</td>
-            </tr>
             <!-- <tr>
                 <td colspan="4">Cash</td>
                 <td class="text-right">Bebemoney</td>
@@ -135,13 +135,28 @@
             </tr> -->
             <tr>
                 <td colspan="4"></td>
+                <td class="text-right">Total</td>
+                <td class="text-right">{{ round($sales_order->original_amount) }}</td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
                 <td class="text-right">Booking Fee</td>
                 <td class="text-right">{{ round($sales_order->dp_amount) }}</td>
             </tr>
             <tr>
                 <td colspan="4"></td>
+                <td class="text-right">Delivery Fee</td>
+                <td class="text-right">{{ round($sales_order->freight) }}</td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td class="text-right">Discount</td>
+                <td class="text-right">{{ round($sales_order->discount_amount) }}</td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
                 <td class="text-right" style="font-size: 16px; font-weight: bold">Grand Total</td>
-                <td class="text-right" style="font-size: 16px; font-weight: bold">{{ round($sales_order->total_amount) }}</td>
+                <td class="text-right" style="font-size: 16px; font-weight: bold">{{ round($sales_order->total_amount - $sales_order->dp_amount) }}</td>
             </tr>
             <tr>
                 <td style="padding-top: 60px; text-align: center;" colspan="6">Thank you for trusting our services</td>

@@ -54320,6 +54320,8 @@ var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
 var modalSIpayment = $('#modal-si-form-payment');
 var modalSITable = $('#modal-si-form-table-payment');
+var formPaymentMeans = $('#modal-add-form-payment-means');
+var paymentLines = [];
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -54349,6 +54351,11 @@ var createTable = function createTable(target, data) {
       }
     }, {
       data: 'total_amount'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/payments/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
     }],
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
@@ -54381,7 +54388,10 @@ var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
         return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
-      data: 'total_amount'
+      data: 'total_amount',
+      render: function render(value) {
+        return parseFloat(value);
+      }
     }, {
       data: 'id',
       render: function render() {
@@ -54414,11 +54424,14 @@ if (modalSIpayment.length > 0) {
     });
     $('#customer-name').val(choosed_si.customer.name);
     $('#customer-name').attr('customer-id', choosed_si.customer.id);
-    $('#transaction_type').val(choosed_si.transaction_type);
-    $('#total-amount').val(choosed_si.total_amount);
-    $('#amount').val(choosed_si.total_amount);
+    $('#transaction_type').val(choosed_si.transaction_type); // $('#total_amount').val(parseFloat(choosed_si.balance_due));
+
+    $('#total_amount').val(parseFloat(0));
+    $('#amount').val(parseFloat(choosed_si.total_amount));
     $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
     $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    $('#add-payment-means').removeAttr('disabled');
+    $('#add-payment-means').removeClass('disabled');
     return false;
   });
 }
@@ -54496,7 +54509,8 @@ if (formCreatePayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total-amount').val()
+      "total_amount": $('#total_amount').val(),
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54529,60 +54543,108 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
     columns: [{
       data: 'payment_method',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        var paymentMethod;
+
+        if (data && data === 'cash') {
+          paymentMethod = 'Cash';
+        } else if (data && data === 'bank_transfer') {
+          paymentMethod = 'Bank Transfer';
+        } else if (data && data === 'credit_card') {
+          paymentMethod = 'Credit Card';
+        } else {
+          paymentMethod = 'Bebemoney';
+        }
+
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(paymentMethod, "\"/>");
       }
     }, {
       data: 'payment_type',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data && data === 'down_payment' ? 'Booking Fee' : 'Acquittance', "\"/>");
       }
     }, {
       data: 'bank_account_id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'receiver_name',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'bank_id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'credit_card',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'amount',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'note',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly/>";
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(data, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset\"><img src=\"http://localhost:8000/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('.remove-item').click(function (e) {
+        var payment_lines = JSON.parse(sessionStorage.payment_lines);
+        var parent = e.target.closest('tr');
+        var id = e.currentTarget.id.split('_')[1];
+        var latest_payment_lines = payment_lines.filter(function (res) {
+          return res.id !== parseFloat(id);
+        });
+        paymentLines = latest_payment_lines;
+        sessionStorage.setItem('payment_lines', JSON.stringify(latest_payment_lines));
+        $('#table-payment-lines').DataTable().row([parent]).remove().draw();
+      });
     }
   });
 };
 
-tablePaymentLines($('#table-payment-lines'), [{
-  payment_method: '',
-  payment_type: '',
-  bank_account_id: '',
-  receiver_name: '',
-  bank_id: '',
-  credit_card: '',
-  amount: '',
-  note: ''
-}]);
+if (formPaymentMeans.length > 0) {
+  $('#modal-add-payment-means').on('shown.bs.modal', function (e) {
+    formPaymentMeans.removeClass('was-validated');
+  });
+  formPaymentMeans.submit(function (e) {
+    $('#table-payment-lines').DataTable().destroy();
+    var data = {
+      id: paymentLines.length + 1,
+      payment_method: $('#payment_method').val(),
+      payment_type: $('#payment_type').val(),
+      payment_date: $('#payment_date').val(),
+      bank_account_id: $('#bank_account').val(),
+      receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
+      bank_id: $('#bank_id').val(),
+      credit_card: $('#credit_card').val() === '-' ? '' : $('#credit_card').val(),
+      amount: $('#total_amount').val(),
+      note: $('#note').val()
+    };
+    paymentLines.push(data);
+    sessionStorage.setItem('payment_lines', JSON.stringify(paymentLines));
+    tablePaymentLines($('#table-payment-lines'), JSON.parse(sessionStorage.payment_lines));
+    $('#modal-add-payment-means').modal('hide');
+    $('#field-transfer').hide();
+    $('#field-credit-card').hide();
+    $('#modal-add-payment-means').on('hidden.bs.modal', function (e) {
+      formPaymentMeans.removeClass('was-validated');
+    });
+    return false;
+  });
+}
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),

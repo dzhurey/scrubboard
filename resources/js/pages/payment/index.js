@@ -7,6 +7,8 @@ const paymentMethod = $('#payment_method');
 const bankAccount = $('#bank_account');
 const modalSIpayment = $('#modal-si-form-payment');
 const modalSITable = $('#modal-si-form-table-payment');
+const formPaymentMeans = $('#modal-add-form-payment-means');
+let paymentLines = [];
 const createTable = (target, data) => {
   target.DataTable({
     // scrollX: true,
@@ -31,6 +33,13 @@ const createTable = (target, data) => {
         },
       },
       { data: 'total_amount' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="/payments/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
+          data-placement="top" title="Edit"><img src="assets/images/icons/edit.svg" alt="edit" width="16"></a>`
+        },
+      },
     ],
     drawCallback: () => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
@@ -65,6 +74,9 @@ const createSiFormTablePayment = (target, data) => {
       },
       {
         data: 'total_amount',
+        render(value) {
+          return parseFloat(value);
+        }
       },
       {
         data: 'id',
@@ -100,10 +112,13 @@ if (modalSIpayment.length > 0) {
     $('#customer-name').val(choosed_si.customer.name);
     $('#customer-name').attr('customer-id', choosed_si.customer.id);
     $('#transaction_type').val(choosed_si.transaction_type);
-    $('#total-amount').val(choosed_si.total_amount);
-    $('#amount').val(choosed_si.total_amount);
+    // $('#total_amount').val(parseFloat(choosed_si.balance_due));
+    $('#total_amount').val(parseFloat(0));
+    $('#amount').val(parseFloat(choosed_si.total_amount));
     $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
     $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    $('#add-payment-means').removeAttr('disabled');
+    $('#add-payment-means').removeClass('disabled');
     return false;
   });
 }
@@ -157,7 +172,8 @@ if (formCreatePayment.length > 0) {
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount" : $('#total-amount').val(),
-      "total_amount" : $('#total-amount').val(),
+      "total_amount" : $('#total_amount').val(),
+      "payment_lines": JSON.parse(sessionStorage.payment_lines),
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {
@@ -189,65 +205,110 @@ const tablePaymentLines = (target, data) => {
       {
         data: 'payment_method',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          let paymentMethod;
+          if (data && data === 'cash') {
+            paymentMethod = 'Cash';
+          } else if (data && data === 'bank_transfer') {
+            paymentMethod = 'Bank Transfer';
+          } else if (data && data === 'credit_card') {
+            paymentMethod = 'Credit Card';
+          } else {
+            paymentMethod = 'Bebemoney';
+          }
+          return `<input type="text" class="form-control" readonly value="${paymentMethod}"/>`
         }
       },
       {
         data: 'payment_type',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data && data === 'down_payment' ? 'Booking Fee' : 'Acquittance'}"/>`
         }
       },
       {
         data: 'bank_account_id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
         }
       },
       {
         data: 'receiver_name',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
         }
       },
       {
         data: 'bank_id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
         }
       },
       {
         data: 'credit_card',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
         }
       },
       {
         data: 'amount',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
         }
       },
       {
         data: 'note',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly/>`
+          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="javascript:void(0)" id="delete_${data}" data-id="${data}" class="btn btn-light is-small table-action remove-item" data-toggle="tooltip" data-placement="top" title="Reset"><img src="http://localhost:8000/assets/images/icons/trash.svg" alt="edit" width="16"></a>`
         }
       },
     ],
     drawCallback: () => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('.remove-item').click((e) => {
+        const payment_lines = JSON.parse(sessionStorage.payment_lines);
+        const parent = e.target.closest('tr');
+        const id = e.currentTarget.id.split('_')[1];
+        const latest_payment_lines = payment_lines.filter(res => res.id !== parseFloat(id));
+        paymentLines = latest_payment_lines;
+        sessionStorage.setItem('payment_lines', JSON.stringify(latest_payment_lines));
+        $('#table-payment-lines').DataTable().row([parent]).remove().draw();
+      });
     }
   })
 };
 
-tablePaymentLines($('#table-payment-lines'), [{
-  payment_method: '',
-  payment_type: '',
-  bank_account_id: '',
-  receiver_name: '',
-  bank_id: '',
-  credit_card: '',
-  amount: '',
-  note: ''
-}]);
+if (formPaymentMeans.length > 0) {
+  $('#modal-add-payment-means').on('shown.bs.modal', (e) => {
+    formPaymentMeans.removeClass('was-validated');
+  })
+  formPaymentMeans.submit((e) => {
+    $('#table-payment-lines').DataTable().destroy();
+    const data = {
+      id: paymentLines.length + 1,
+      payment_method: $('#payment_method').val(),
+      payment_type: $('#payment_type').val(),
+      payment_date: $('#payment_date').val(),
+      bank_account_id: $('#bank_account').val(),
+      receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
+      bank_id: $('#bank_id').val(),
+      credit_card: $('#credit_card').val() === '-' ? '' : $('#credit_card').val(),
+      amount: $('#total_amount').val(),
+      note: $('#note').val(),
+    };
+    paymentLines.push(data);
+    sessionStorage.setItem('payment_lines', JSON.stringify(paymentLines));
+    tablePaymentLines($('#table-payment-lines'), JSON.parse(sessionStorage.payment_lines));
+    $('#modal-add-payment-means').modal('hide');
+    $('#field-transfer').hide();
+    $('#field-credit-card').hide();
+    $('#modal-add-payment-means').on('hidden.bs.modal', (e) => {
+      formPaymentMeans.removeClass('was-validated');
+    })
+    return false;
+  });
+}

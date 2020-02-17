@@ -72,7 +72,7 @@
     </div>
     <div class="col-sm-4 offset-sm-2">
         <div class="form-group">
-            <label class="c-form--label" for="total-amount">Total Amount</label>
+            <label class="c-form--label" for="totalAmount">Total Amount</label>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Rp</span>

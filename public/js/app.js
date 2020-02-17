@@ -54434,7 +54434,8 @@ if (modalSIpayment.length > 0) {
     $('#transaction_type').val(choosed_si.transaction_type); // $('#total_amount').val(parseFloat(choosed_si.balance_due));
 
     $('#total_amount').val(parseFloat(0));
-    $('#amount').val(parseFloat(choosed_si.total_amount));
+    $('#amount').val(parseFloat(choosed_si.balance_due));
+    $('#totalAmount').val(parseFloat(choosed_si.total_amount));
     $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
     $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
     $('#add-payment-means').removeAttr('disabled');
@@ -54511,13 +54512,8 @@ if (formCreatePayment.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payments', {
       "customer_id": $('#customer-name').attr('customer-id'),
-      "payment_date": $('#date').val(),
-      "payment_type": $('#payment_method').val(),
       "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
-      "bank_account_id": $('#bank_account').val(),
       "note": $('#note').val(),
-      "bank_id": $('select[name="bank_id"]').val(),
-      "amount": $('#total-amount').val(),
       "total_amount": paymentLines.reduce(function (agg, item) {
         return agg += parseFloat(item.amount);
       }, 0),
@@ -54573,13 +54569,8 @@ if (formEditPayment.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
       "customer_id": $('#customer-name').attr('customer-id'),
-      "payment_date": $('#date').val(),
-      "payment_type": $('#payment_method').val(),
       "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
-      "bank_account_id": $('#bank_account').val(),
       "note": $('#note').val(),
-      "bank_id": $('select[name="bank_id"]').val(),
-      "amount": $('#total-amount').val(),
       "total_amount": paymentLines.reduce(function (agg, item) {
         return agg += parseFloat(item.amount);
       }, 0),
@@ -54649,14 +54640,15 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
         return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
-      data: 'credit_card',
+      data: 'credit_card_no',
       render: function render(data, type, row) {
         return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
       data: 'bank_id',
       render: function render(data, type, row) {
-        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data && row.payment_method === 'credit_card' ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data && row.payment_method === 'credit_card' ? row.bank.name : '', "\"/>");
+        var bank = row.bank ? row.bank.name : row.bank_name;
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data && row.payment_method === 'credit_card' ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(row && row.payment_method === 'credit_card' ? bank : '', "\"/>");
       }
     }, {
       data: 'amount',
@@ -54699,8 +54691,8 @@ if (formPaymentMeans.length > 0) {
     $('#bank_account').val('');
     $('#receiver_name').val('');
     $('#bank_id').val('');
-    $('#credit_card').val();
-    $('#total_amount').val();
+    $('#credit_card').val('');
+    $('#total_amount').val(0);
     $('#note').val();
   });
   formPaymentMeans.submit(function (e) {
@@ -54722,7 +54714,7 @@ if (formPaymentMeans.length > 0) {
       receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
       bank_id: $('select[name="bank_id"]').val(),
       bank_name: $('select[name="bank_id"]').children('option:selected').text(),
-      credit_card: $('#credit_card').val() === '-' ? '' : $('#credit_card').val(),
+      credit_card_no: '-' || false,
       amount: $('#total_amount').val(),
       note: $('#note').val()
     };
@@ -54732,9 +54724,6 @@ if (formPaymentMeans.length > 0) {
     $('#modal-add-payment-means').modal('hide');
     $('#field-transfer').hide();
     $('#field-credit-card').hide();
-    $('#modal-add-payment-means').on('hidden.bs.modal', function (e) {
-      formPaymentMeans.removeClass('was-validated');
-    });
     return false;
   });
 }
@@ -60123,8 +60112,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -44,6 +44,7 @@ class StorePayment extends FormRequest
      *         "note": "asdads",
      *         "receiver_name": "Suryadi", // required if payment_method = bank_transfer
      *         "bank_account_id": 1, // required if payment_method = bank_transfer
+     *         "credit_card_no": "023902392233232", // required if payment_method = credit_card
      *         "bank_id": null // required if payment_method = credit_card
      *       }
      *     ]
@@ -112,13 +113,9 @@ class StorePayment extends FormRequest
             //     $validator->errors()->add('total_amount', __('rules.more_than_amount'));
             // }
 
-            // if ($totalDp > $transaction->dp_amount) {
-            //     $validator->errors()->add('dp_amount', __('rules.more_than_amount'));
-            // }
-
-            // if ($totalAmount != $this->request->get('total_amount')) {
-            //     $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));
-            // }
+            if ($totalAmount != $this->request->get('total_amount')) {
+                $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));
+            }
         });
     }
 

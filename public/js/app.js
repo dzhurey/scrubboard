@@ -54521,6 +54521,7 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit(function (e) {
     e.preventDefault();
+    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payments', {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54531,8 +54532,10 @@ if (formCreatePayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+      "total_amount": paymentLines.reduce(function (agg, item) {
+        return agg += parseFloat(item.amount);
+      }, 0),
+      "payment_lines": paymentLines
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54579,6 +54582,7 @@ if (formEditPayment.length > 0) {
   });
   formEditPayment.submit(function (e) {
     e.preventDefault();
+    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54589,8 +54593,10 @@ if (formEditPayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+      "total_amount": paymentLines.reduce(function (agg, item) {
+        return agg += parseFloat(item.amount);
+      }, 0),
+      "payment_lines": paymentLines
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -60130,8 +60136,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

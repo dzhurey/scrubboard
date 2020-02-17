@@ -26,7 +26,7 @@ const createTable = (target, data) => {
       { data: 'payment_lines[0].transaction.transaction_number' },
       { data: 'customer.name' },
       { data: 'payment_date' },
-      { 
+      {
         data: 'id',
         render(data, type, row) {
           const arrayData = [];
@@ -36,7 +36,7 @@ const createTable = (target, data) => {
           return due_balance === 0  ? 'PAID' : 'UNPAID';
         },
       },
-      { 
+      {
         data: 'payment_means',
         render(data) {
           const arrayData = [];
@@ -44,7 +44,7 @@ const createTable = (target, data) => {
           return arrayData.reduce((a,b) => a + b);
         },
       },
-      { 
+      {
         data: 'payment_lines[0].transaction.total_amount',
         render(data) {
           return parseFloat(data);
@@ -180,6 +180,7 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit((e) => {
     e.preventDefault();
+    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.post('/api/payments', {
       "customer_id" : $('#customer-name').attr('customer-id'),
@@ -190,8 +191,8 @@ if (formCreatePayment.length > 0) {
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount" : $('#total-amount').val(),
-      "total_amount" : $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines),
+      "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
+      "payment_lines": paymentLines,
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {
@@ -235,6 +236,7 @@ if (formEditPayment.length > 0) {
 
   formEditPayment.submit((e) => {
     e.preventDefault();
+    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/payments/${id}`, {
       "customer_id" : $('#customer-name').attr('customer-id'),
@@ -245,8 +247,8 @@ if (formEditPayment.length > 0) {
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount" : $('#total-amount').val(),
-      "total_amount" : $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines),
+      "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
+      "payment_lines": paymentLines,
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {

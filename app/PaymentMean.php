@@ -29,6 +29,7 @@ class PaymentMean extends BaseModel
         'note',
         'payment_type',
         'receiver_name',
+        'credit_card_no',
     ];
 
     protected $searchable = [];

@@ -77,6 +77,9 @@ class PaymentUpdateService extends BaseService
             if (array_key_exists('bank_id', $value)) {
                 $payment_mean->bank_id = $value['bank_id'];
             }
+            if (array_key_exists('credit_card_no', $value)) {
+                $payment_mean->credit_card_no = $value['credit_card_no'];
+            }
             if (array_key_exists('bank_account_id', $value)) {
                 $payment_mean->bank_account_id = $value['bank_account_id'];
             }

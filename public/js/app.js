@@ -54357,15 +54357,11 @@ var createTable = function createTable(target, data) {
         return due_balance === 0 ? 'PAID' : 'UNPAID';
       }
     }, {
-      data: 'payment_means',
+      data: 'payment_lines[0].transaction.balance_due',
       render: function render(data) {
-        var arrayData = [];
-        data.forEach(function (res) {
-          return arrayData.push(parseFloat(res.amount));
-        });
-        return arrayData.reduce(function (a, b) {
-          return a + b;
-        });
+        return parseFloat(data); // const arrayData = [];
+        // data.forEach((res) => arrayData.push(parseFloat(res.amount)));
+        // return arrayData.reduce((a,b) => a + b);
       }
     }, {
       data: 'payment_lines[0].transaction.total_amount',

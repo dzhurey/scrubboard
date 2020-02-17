@@ -37,11 +37,12 @@ const createTable = (target, data) => {
         },
       },
       { 
-        data: 'payment_means',
+        data: 'payment_lines[0].transaction.balance_due',
         render(data) {
-          const arrayData = [];
-          data.forEach((res) => arrayData.push(parseFloat(res.amount)));
-          return arrayData.reduce((a,b) => a + b);
+          return parseFloat(data)
+          // const arrayData = [];
+          // data.forEach((res) => arrayData.push(parseFloat(res.amount)));
+          // return arrayData.reduce((a,b) => a + b);
         },
       },
       { 

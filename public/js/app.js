@@ -54344,17 +54344,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'payment_date'
     }, {
-      data: 'transaction.balance_due',
+      data: 'payment_lines[0].transaction.balance_due',
       render: function render(data, type, row) {
         return parseFloat(data) === 0 ? 'PAID' : 'UNPAID';
       }
     }, {
-      data: 'transaction.balance_due',
+      data: 'payment_lines[0].transaction.balance_due',
       render: function render(data) {
         return parseFloat(data);
       }
     }, {
-      data: 'transaction.total_amount',
+      data: 'payment_lines[0].transaction.total_amount',
       render: function render(data) {
         return parseFloat(data);
       }
@@ -60110,8 +60110,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

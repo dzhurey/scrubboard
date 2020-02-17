@@ -27,19 +27,19 @@ const createTable = (target, data) => {
       { data: 'customer.name' },
       { data: 'payment_date' },
       {
-        data: 'transaction.balance_due',
+        data: 'payment_lines[0].transaction.balance_due',
         render(data, type, row) {
           return parseFloat(data) === 0  ? 'PAID' : 'UNPAID';
         },
       },
       { 
-        data: 'transaction.balance_due',
+        data: 'payment_lines[0].transaction.balance_due',
         render(data) {
           return parseFloat(data);
         },
       },
       {
-        data: 'transaction.total_amount',
+        data: 'payment_lines[0].transaction.total_amount',
         render(data) {
           return parseFloat(data);
         },

@@ -42,4 +42,9 @@ class PaymentMean extends BaseModel
     {
         return $this->belongsTo('App\BankAccount');
     }
+
+    public function bank()
+    {
+        return $this->belongsTo('App\Bank');
+    }
 }

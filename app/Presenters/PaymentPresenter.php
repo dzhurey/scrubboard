@@ -19,7 +19,11 @@ class PaymentPresenter extends BasePresenter
         $input->customer = $input->customer;
         $input->transaction_number = $input->paymentLines->first()->transaction->transaction_number;
         $input->transaction = $input->paymentLines->first()->transaction;
-        $input->payment_means = $input->paymentMeans;
+        $input->payment_means = $input->paymentMeans->transform(function ($item) {
+            $item->bank_account = $item->bankAccount;
+            $item->bank = $item->bank;
+            return $item;
+        });;
         return $input;
     }
 }

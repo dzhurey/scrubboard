@@ -93,7 +93,12 @@ class PaymentUpdateService extends BaseService
 
     private function getOrCreatePaymentMean($value)
     {
-        $line = $this->model->paymentMeans->where('payment_method', '=', $value['payment_method'])->first();
+        $line = $this->model->paymentMeans
+            ->where('payment_method', '=', $value['payment_method'])
+            ->where('payment_type', '=', $value['payment_type'])
+            ->where('amount', '=', $value['amount'])
+            ->first();
+
         if (empty($line)) {
             $line = new PaymentMean();
         }
@@ -102,22 +107,33 @@ class PaymentUpdateService extends BaseService
 
     private function removeExcluded($attributes)
     {
-        $from_request = array_map(function ($item) { return $item['payment_method']; }, $attributes['payment_lines']);
-        $payment_means = $this->model->paymentMeans->pluck('payment_method');
+        $from_request = array_map(function ($item) {
+            return [
+                'payment_method' =>$item['payment_method'],
+                'payment_type' =>$item['payment_type'],
+                'amount' =>$item['amount']
+            ];
+        }, $attributes['payment_lines']);
+
+        $payment_means = PaymentMean::where('payment_id', $this->model->id)->get();
         $result = [];
 
         if (sizeof($from_request) < $payment_means->count()) {
             foreach ($payment_means as $payment_mean) {
-                if (!in_array($payment_mean, $from_request)) {
+                $obj = [
+                    'payment_method' => $payment_mean->payment_method,
+                    'payment_type' => $payment_mean->payment_type,
+                    'amount' => $payment_mean->amount
+                ];
+                if (!in_array($obj, $from_request)) {
                     array_push($result, $payment_mean);
                 }
             }
         }
+
         if (count($result) > 0) {
-            PaymentMean::where([
-                ['payment_id', '=', $this->model->id],
-                ['payment_method', $result]
-            ])->delete();
+            $will_deleted = array_map(function ($item) { return $item->id; }, $result);
+            PaymentMean::where('id', $will_deleted)->delete();
         }
     }
 
@@ -127,9 +143,9 @@ class PaymentUpdateService extends BaseService
         if ($this->model->total_amount == $transaction->total_amount) {
             $transaction->transaction_status = 'closed';
         }
-        $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
+        // $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
         $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
-        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        // $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
         $transaction->save();
     }
 }

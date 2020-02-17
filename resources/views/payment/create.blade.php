@@ -23,4 +23,5 @@
     @include('payment._form_field')
 </form>
 @include('payment._modal_sales_invoices')
+@include('payment._modal_payment_means')
 @endsection

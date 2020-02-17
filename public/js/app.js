@@ -43617,6 +43617,265 @@ webpackContext.id = "./node_modules/moment/locale sync recursive ^\\.\\/.*$";
 
 /***/ }),
 
+/***/ "./node_modules/print-js/dist/print.js":
+/*!*********************************************!*\
+  !*** ./node_modules/print-js/dist/print.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\n__webpack_require__(/*! ./sass/index.scss */ \"./src/sass/index.scss\");\n\nvar _init = __webpack_require__(/*! ./js/init */ \"./src/js/init.js\");\n\nvar _init2 = _interopRequireDefault(_init);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar printJS = _init2.default.init;\n\nif (typeof window !== 'undefined') {\n  window.printJS = printJS;\n}\n\nexports.default = printJS;\n\n//# sourceURL=webpack://printJS/./src/index.js?");
+
+/***/ }),
+
+/***/ "./src/js/browser.js":
+/*!***************************!*\
+  !*** ./src/js/browser.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar Browser = {\n  // Firefox 1.0+\n  isFirefox: function isFirefox() {\n    return typeof InstallTrigger !== 'undefined';\n  },\n  // Internet Explorer 6-11\n  isIE: function isIE() {\n    return navigator.userAgent.indexOf('MSIE') !== -1 || !!document.documentMode;\n  },\n  // Edge 20+\n  isEdge: function isEdge() {\n    return !Browser.isIE() && !!window.StyleMedia;\n  },\n  // Chrome 1+\n  isChrome: function isChrome() {\n    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window;\n\n    return !!context.chrome;\n  },\n  // At least Safari 3+: \"[object HTMLElementConstructor]\"\n  isSafari: function isSafari() {\n    return Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 || navigator.userAgent.toLowerCase().indexOf('safari') !== -1;\n  },\n  // IOS Chrome\n  isIOSChrome: function isIOSChrome() {\n    return navigator.userAgent.toLowerCase().indexOf('crios') !== -1;\n  }\n};\n\nexports.default = Browser;\n\n//# sourceURL=webpack://printJS/./src/js/browser.js?");
+
+/***/ }),
+
+/***/ "./src/js/functions.js":
+/*!*****************************!*\
+  !*** ./src/js/functions.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _typeof = typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; };\n\nexports.addWrapper = addWrapper;\nexports.capitalizePrint = capitalizePrint;\nexports.collectStyles = collectStyles;\nexports.addHeader = addHeader;\nexports.cleanUp = cleanUp;\nexports.isRawHTML = isRawHTML;\n\nvar _modal = __webpack_require__(/*! ./modal */ \"./src/js/modal.js\");\n\nvar _modal2 = _interopRequireDefault(_modal);\n\nvar _browser = __webpack_require__(/*! ./browser */ \"./src/js/browser.js\");\n\nvar _browser2 = _interopRequireDefault(_browser);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nfunction addWrapper(htmlData, params) {\n  var bodyStyle = 'font-family:' + params.font + ' !important; font-size: ' + params.font_size + ' !important; width:100%;';\n  return '<div style=\"' + bodyStyle + '\">' + htmlData + '</div>';\n}\n\nfunction capitalizePrint(obj) {\n  return obj.charAt(0).toUpperCase() + obj.slice(1);\n}\n\nfunction collectStyles(element, params) {\n  var win = document.defaultView || window;\n\n  // String variable to hold styling for each element\n  var elementStyle = '';\n\n  // Loop over computed styles\n  var styles = win.getComputedStyle(element, '');\n\n  Object.keys(styles).map(function (key) {\n    // Check if style should be processed\n    if (params.targetStyles.indexOf('*') !== -1 || params.targetStyle.indexOf(styles[key]) !== -1 || targetStylesMatch(params.targetStyles, styles[key])) {\n      if (styles.getPropertyValue(styles[key])) elementStyle += styles[key] + ':' + styles.getPropertyValue(styles[key]) + ';';\n    }\n  });\n\n  // Print friendly defaults (deprecated)\n  elementStyle += 'max-width: ' + params.maxWidth + 'px !important;' + params.font_size + ' !important;';\n\n  return elementStyle;\n}\n\nfunction targetStylesMatch(styles, value) {\n  for (var i = 0; i < styles.length; i++) {\n    if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value.indexOf(styles[i]) !== -1) return true;\n  }\n  return false;\n}\n\nfunction addHeader(printElement, params) {\n  // Create the header container div\n  var headerContainer = document.createElement('div');\n\n  // Check if the header is text or raw html\n  if (isRawHTML(params.header)) {\n    headerContainer.innerHTML = params.header;\n  } else {\n    // Create header element\n    var headerElement = document.createElement('h1');\n\n    // Create header text node\n    var headerNode = document.createTextNode(params.header);\n\n    // Build and style\n    headerElement.appendChild(headerNode);\n    headerElement.setAttribute('style', params.headerStyle);\n    headerContainer.appendChild(headerElement);\n  }\n\n  printElement.insertBefore(headerContainer, printElement.childNodes[0]);\n}\n\nfunction cleanUp(params) {\n  // If we are showing a feedback message to user, remove it\n  if (params.showModal) _modal2.default.close();\n\n  // Check for a finished loading hook function\n  if (params.onLoadingEnd) params.onLoadingEnd();\n\n  // If preloading pdf files, clean blob url\n  if (params.showModal || params.onLoadingStart) window.URL.revokeObjectURL(params.printable);\n\n  // If a onPrintDialogClose callback is given, execute it\n  if (params.onPrintDialogClose) {\n    var event = 'mouseover';\n\n    if (_browser2.default.isChrome() || _browser2.default.isFirefox()) {\n      // Ps.: Firefox will require an extra click in the document to fire the focus event.\n      event = 'focus';\n    }\n    var handler = function handler() {\n      // Make sure the event only happens once.\n      window.removeEventListener(event, handler);\n\n      params.onPrintDialogClose();\n    };\n\n    window.addEventListener(event, handler);\n  }\n}\n\nfunction isRawHTML(raw) {\n  var regexHtml = new RegExp('<([A-Za-z][A-Za-z0-9]*)\\\\b[^>]*>(.*?)</\\\\1>');\n  return regexHtml.test(raw);\n}\n\n//# sourceURL=webpack://printJS/./src/js/functions.js?");
+
+/***/ }),
+
+/***/ "./src/js/html.js":
+/*!************************!*\
+  !*** ./src/js/html.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _functions = __webpack_require__(/*! ./functions */ \"./src/js/functions.js\");\n\nvar _print = __webpack_require__(/*! ./print */ \"./src/js/print.js\");\n\nvar _print2 = _interopRequireDefault(_print);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nexports.default = {\n  print: function print(params, printFrame) {\n    // Get the DOM printable element\n    var printElement = document.getElementById(params.printable);\n\n    // Check if the element exists\n    if (!printElement) {\n      window.console.error('Invalid HTML element id: ' + params.printable);\n      return;\n    }\n\n    // Clone the target element including its children (if available)\n    params.printableElement = cloneElement(printElement, params);\n\n    // Add header\n    if (params.header) {\n      (0, _functions.addHeader)(params.printableElement, params);\n    }\n\n    // Print html element contents\n    _print2.default.send(params, printFrame);\n  }\n};\n\n\nfunction cloneElement(element, params) {\n  // Clone the main node (if not already inside the recursion process)\n  var clone = element.cloneNode();\n\n  // Loop over and process the children elements / nodes (including text nodes)\n  var _iteratorNormalCompletion = true;\n  var _didIteratorError = false;\n  var _iteratorError = undefined;\n\n  try {\n    for (var _iterator = element.childNodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {\n      var child = _step.value;\n\n      // Check if we are skiping the current element\n      if (params.ignoreElements.indexOf(child.id) !== -1) {\n        continue;\n      }\n\n      // Clone the child element\n      var clonedChild = cloneElement(child, params);\n\n      // Attach the cloned child to the cloned parent node\n      clone.appendChild(clonedChild);\n    }\n  } catch (err) {\n    _didIteratorError = true;\n    _iteratorError = err;\n  } finally {\n    try {\n      if (!_iteratorNormalCompletion && _iterator.return) {\n        _iterator.return();\n      }\n    } finally {\n      if (_didIteratorError) {\n        throw _iteratorError;\n      }\n    }\n  }\n\n  console.log(element.nodeType);\n  // Get all styling for print element (for nodes of type element only)\n  if (params.scanStyles && element.nodeType === 1) {\n    clone.setAttribute('style', (0, _functions.collectStyles)(element, params));\n  }\n\n  // Check if the element needs any state processing (copy user input data)\n  switch (element.tagName) {\n    case 'SELECT':\n      // Copy the current selection value to its clone\n      clone.value = element.value;\n      break;\n    case 'CANVAS':\n      // Copy the canvas content to its clone\n      clone.getContext('2d').drawImage(element, 0, 0);\n      break;\n  }\n\n  return clone;\n}\n\n//# sourceURL=webpack://printJS/./src/js/html.js?");
+
+/***/ }),
+
+/***/ "./src/js/image.js":
+/*!*************************!*\
+  !*** ./src/js/image.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _functions = __webpack_require__(/*! ./functions */ \"./src/js/functions.js\");\n\nvar _print = __webpack_require__(/*! ./print */ \"./src/js/print.js\");\n\nvar _print2 = _interopRequireDefault(_print);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nexports.default = {\n  print: function print(params, printFrame) {\n    // Check if we are printing one image or multiple images\n    if (params.printable.constructor !== Array) {\n      // Create array with one image\n      params.printable = [params.printable];\n    }\n\n    // Create printable element (container)\n    params.printableElement = document.createElement('div');\n\n    // Create all image elements and append them to the printable container\n    params.printable.forEach(function (src) {\n      // Create the image element\n      var img = document.createElement('img');\n      img.setAttribute('style', params.imageStyle);\n\n      // Set image src with the file url\n      img.src = src;\n\n      // Create the image wrapper\n      var imageWrapper = document.createElement('div');\n\n      // Append image to the wrapper element\n      imageWrapper.appendChild(img);\n\n      // Append wrapper to the printable element\n      params.printableElement.appendChild(imageWrapper);\n    });\n\n    // Check if we are adding a print header\n    if (params.header) (0, _functions.addHeader)(params.printableElement, params);\n\n    // Print image\n    _print2.default.send(params, printFrame);\n  }\n};\n\n//# sourceURL=webpack://printJS/./src/js/image.js?");
+
+/***/ }),
+
+/***/ "./src/js/init.js":
+/*!************************!*\
+  !*** ./src/js/init.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _typeof = typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; };\n\nvar _browser = __webpack_require__(/*! ./browser */ \"./src/js/browser.js\");\n\nvar _browser2 = _interopRequireDefault(_browser);\n\nvar _modal = __webpack_require__(/*! ./modal */ \"./src/js/modal.js\");\n\nvar _modal2 = _interopRequireDefault(_modal);\n\nvar _pdf = __webpack_require__(/*! ./pdf */ \"./src/js/pdf.js\");\n\nvar _pdf2 = _interopRequireDefault(_pdf);\n\nvar _html = __webpack_require__(/*! ./html */ \"./src/js/html.js\");\n\nvar _html2 = _interopRequireDefault(_html);\n\nvar _rawHtml = __webpack_require__(/*! ./raw-html */ \"./src/js/raw-html.js\");\n\nvar _rawHtml2 = _interopRequireDefault(_rawHtml);\n\nvar _image = __webpack_require__(/*! ./image */ \"./src/js/image.js\");\n\nvar _image2 = _interopRequireDefault(_image);\n\nvar _json = __webpack_require__(/*! ./json */ \"./src/js/json.js\");\n\nvar _json2 = _interopRequireDefault(_json);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar printTypes = ['pdf', 'html', 'image', 'json', 'raw-html'];\n\nexports.default = {\n  init: function init() {\n    var params = {\n      printable: null,\n      fallbackPrintable: null,\n      type: 'pdf',\n      header: null,\n      headerStyle: 'font-weight: 300;',\n      maxWidth: 800,\n      font: 'TimesNewRoman',\n      font_size: '12pt',\n      honorMarginPadding: true,\n      honorColor: false,\n      properties: null,\n      gridHeaderStyle: 'font-weight: bold; padding: 5px; border: 1px solid #dddddd;',\n      gridStyle: 'border: 1px solid lightgray; margin-bottom: -1px;',\n      showModal: false,\n      onError: function onError(error) {\n        throw error;\n      },\n      onLoadingStart: null,\n      onLoadingEnd: null,\n      onPrintDialogClose: null,\n      onPdfOpen: null,\n      onBrowserIncompatible: function onBrowserIncompatible() {\n        return true;\n      },\n      modalMessage: 'Retrieving Document...',\n      frameId: 'printJS',\n      printableElement: null,\n      documentTitle: 'Document',\n      targetStyle: ['clear', 'display', 'width', 'min-width', 'height', 'min-height', 'max-height'],\n      targetStyles: ['border', 'box', 'break', 'text-decoration'],\n      ignoreElements: [],\n      imageStyle: 'max-width: 100%;',\n      repeatTableHeader: true,\n      css: null,\n      style: null,\n      scanStyles: true,\n      base64: false\n\n      // Check if a printable document or object was supplied\n    };var args = arguments[0];\n    if (args === undefined) throw new Error('printJS expects at least 1 attribute.');\n\n    // Process parameters\n    switch (typeof args === 'undefined' ? 'undefined' : _typeof(args)) {\n      case 'string':\n        params.printable = encodeURI(args);\n        params.fallbackPrintable = params.printable;\n        params.type = arguments[1] || params.type;\n        break;\n      case 'object':\n        params.printable = args.printable;\n        params.base64 = typeof args.base64 !== 'undefined';\n        params.fallbackPrintable = typeof args.fallbackPrintable !== 'undefined' ? args.fallbackPrintable : params.printable;\n        params.fallbackPrintable = params.base64 ? 'data:application/pdf;base64,' + params.fallbackPrintable : params.fallbackPrintable;\n        for (var k in params) {\n          if (k === 'printable' || k === 'fallbackPrintable' || k === 'base64') continue;\n\n          params[k] = typeof args[k] !== 'undefined' ? args[k] : params[k];\n        }\n        break;\n      default:\n        throw new Error('Unexpected argument type! Expected \"string\" or \"object\", got ' + (typeof args === 'undefined' ? 'undefined' : _typeof(args)));\n    }\n\n    // Validate printable\n    if (!params.printable) throw new Error('Missing printable information.');\n\n    // Validate type\n    if (!params.type || typeof params.type !== 'string' || printTypes.indexOf(params.type.toLowerCase()) === -1) {\n      throw new Error('Invalid print type. Available types are: pdf, html, image and json.');\n    }\n\n    // Check if we are showing a feedback message to the user (useful for large files)\n    if (params.showModal) _modal2.default.show(params);\n\n    // Check for a print start hook function\n    if (params.onLoadingStart) params.onLoadingStart();\n\n    // To prevent duplication and issues, remove any used printFrame from the DOM\n    var usedFrame = document.getElementById(params.frameId);\n\n    if (usedFrame) usedFrame.parentNode.removeChild(usedFrame);\n\n    // Create a new iframe or embed element (IE prints blank pdf's if we use iframe)\n    var printFrame = void 0;\n\n    // Create iframe element\n    printFrame = document.createElement('iframe');\n\n    // Hide iframe\n    printFrame.setAttribute('style', 'visibility: hidden; height: 0; width: 0; position: absolute;');\n\n    // Set iframe element id\n    printFrame.setAttribute('id', params.frameId);\n\n    // For non pdf printing, pass an html document string to srcdoc (force onload callback)\n    if (params.type !== 'pdf') {\n      printFrame.srcdoc = '<html><head><title>' + params.documentTitle + '</title>';\n\n      // Attach css files\n      if (params.css) {\n        // Add support for single file\n        if (!Array.isArray(params.css)) params.css = [params.css];\n\n        // Create link tags for each css file\n        params.css.forEach(function (file) {\n          printFrame.srcdoc += '<link rel=\"stylesheet\" href=\"' + file + '\">';\n        });\n      }\n\n      printFrame.srcdoc += '</head><body></body></html>';\n    }\n\n    // Check printable type\n    switch (params.type) {\n      case 'pdf':\n        // Check browser support for pdf and if not supported we will just open the pdf file instead\n        if (_browser2.default.isFirefox() || _browser2.default.isEdge() || _browser2.default.isIE()) {\n          try {\n            console.info('PrintJS currently doesn\\'t support PDF printing in Firefox, Internet Explorer and Edge.');\n            if (params.onBrowserIncompatible() === true) {\n              var win = window.open(params.fallbackPrintable, '_blank');\n              win.focus();\n              if (params.onPdfOpen) params.onPdfOpen();\n            }\n          } catch (e) {\n            params.onError(e);\n          } finally {\n            // Make sure there is no loading modal opened\n            if (params.showModal) _modal2.default.close();\n            if (params.onLoadingEnd) params.onLoadingEnd();\n          }\n        } else {\n          _pdf2.default.print(params, printFrame);\n        }\n        break;\n      case 'image':\n        _image2.default.print(params, printFrame);\n        break;\n      case 'html':\n        _html2.default.print(params, printFrame);\n        break;\n      case 'raw-html':\n        _rawHtml2.default.print(params, printFrame);\n        break;\n      case 'json':\n        _json2.default.print(params, printFrame);\n        break;\n    }\n  }\n};\n\n//# sourceURL=webpack://printJS/./src/js/init.js?");
+
+/***/ }),
+
+/***/ "./src/js/json.js":
+/*!************************!*\
+  !*** ./src/js/json.js ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _typeof = typeof Symbol === \"function\" && typeof Symbol.iterator === \"symbol\" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === \"function\" && obj.constructor === Symbol && obj !== Symbol.prototype ? \"symbol\" : typeof obj; };\n\nvar _functions = __webpack_require__(/*! ./functions */ \"./src/js/functions.js\");\n\nvar _print = __webpack_require__(/*! ./print */ \"./src/js/print.js\");\n\nvar _print2 = _interopRequireDefault(_print);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nexports.default = {\n  print: function print(params, printFrame) {\n    // Check if we received proper data\n    if (_typeof(params.printable) !== 'object') {\n      throw new Error('Invalid javascript data object (JSON).');\n    }\n\n    // Validate repeatTableHeader\n    if (typeof params.repeatTableHeader !== 'boolean') {\n      throw new Error('Invalid value for repeatTableHeader attribute (JSON).');\n    }\n\n    // Validate properties\n    if (!params.properties || !Array.isArray(params.properties)) {\n      throw new Error('Invalid properties array for your JSON data.');\n    }\n\n    // We will format the property objects to keep the JSON api compatible with older releases\n    params.properties = params.properties.map(function (property) {\n      return {\n        field: (typeof property === 'undefined' ? 'undefined' : _typeof(property)) === 'object' ? property.field : property,\n        displayName: (typeof property === 'undefined' ? 'undefined' : _typeof(property)) === 'object' ? property.displayName : property,\n        columnSize: (typeof property === 'undefined' ? 'undefined' : _typeof(property)) === 'object' && property.columnSize ? property.columnSize + ';' : 100 / params.properties.length + '%;'\n      };\n    });\n\n    // Create a print container element\n    params.printableElement = document.createElement('div');\n\n    // Check if we are adding a print header\n    if (params.header) {\n      (0, _functions.addHeader)(params.printableElement, params);\n    }\n\n    // Build the printable html data\n    params.printableElement.innerHTML += jsonToHTML(params);\n\n    // Print the json data\n    _print2.default.send(params, printFrame);\n  }\n};\n\n\nfunction jsonToHTML(params) {\n  // Get the row and column data\n  var data = params.printable;\n  var properties = params.properties;\n\n  // Create a html table\n  var htmlData = '<table style=\"border-collapse: collapse; width: 100%;\">';\n\n  // Check if the header should be repeated\n  if (params.repeatTableHeader) {\n    htmlData += '<thead>';\n  }\n\n  // Add the table header row\n  htmlData += '<tr>';\n\n  // Add the table header columns\n  for (var a = 0; a < properties.length; a++) {\n    htmlData += '<th style=\"width:' + properties[a].columnSize + ';' + params.gridHeaderStyle + '\">' + (0, _functions.capitalizePrint)(properties[a].displayName) + '</th>';\n  }\n\n  // Add the closing tag for the table header row\n  htmlData += '</tr>';\n\n  // If the table header is marked as repeated, add the closing tag\n  if (params.repeatTableHeader) {\n    htmlData += '</thead>';\n  }\n\n  // Create the table body\n  htmlData += '<tbody>';\n\n  // Add the table data rows\n  for (var i = 0; i < data.length; i++) {\n    // Add the row starting tag\n    htmlData += '<tr>';\n\n    // Print selected properties only\n    for (var n = 0; n < properties.length; n++) {\n      var stringData = data[i];\n\n      // Support nested objects\n      var property = properties[n].field.split('.');\n      if (property.length > 1) {\n        for (var p = 0; p < property.length; p++) {\n          stringData = stringData[property[p]];\n        }\n      } else {\n        stringData = stringData[properties[n].field];\n      }\n\n      // Add the row contents and styles\n      htmlData += '<td style=\"width:' + properties[n].columnSize + params.gridStyle + '\">' + stringData + '</td>';\n    }\n\n    // Add the row closing tag\n    htmlData += '</tr>';\n  }\n\n  // Add the table and body closing tags\n  htmlData += '</tbody></table>';\n\n  return htmlData;\n}\n\n//# sourceURL=webpack://printJS/./src/js/json.js?");
+
+/***/ }),
+
+/***/ "./src/js/modal.js":
+/*!*************************!*\
+  !*** ./src/js/modal.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\nvar Modal = {\n  show: function show(params) {\n    // Build modal\n    var modalStyle = 'font-family:sans-serif; ' + 'display:table; ' + 'text-align:center; ' + 'font-weight:300; ' + 'font-size:30px; ' + 'left:0; top:0;' + 'position:fixed; ' + 'z-index: 9990;' + 'color: #0460B5; ' + 'width: 100%; ' + 'height: 100%; ' + 'background-color:rgba(255,255,255,.9);' + 'transition: opacity .3s ease;';\n\n    // Create wrapper\n    var printModal = document.createElement('div');\n    printModal.setAttribute('style', modalStyle);\n    printModal.setAttribute('id', 'printJS-Modal');\n\n    // Create content div\n    var contentDiv = document.createElement('div');\n    contentDiv.setAttribute('style', 'display:table-cell; vertical-align:middle; padding-bottom:100px;');\n\n    // Add close button (requires print.css)\n    var closeButton = document.createElement('div');\n    closeButton.setAttribute('class', 'printClose');\n    closeButton.setAttribute('id', 'printClose');\n    contentDiv.appendChild(closeButton);\n\n    // Add spinner (requires print.css)\n    var spinner = document.createElement('span');\n    spinner.setAttribute('class', 'printSpinner');\n    contentDiv.appendChild(spinner);\n\n    // Add message\n    var messageNode = document.createTextNode(params.modalMessage);\n    contentDiv.appendChild(messageNode);\n\n    // Add contentDiv to printModal\n    printModal.appendChild(contentDiv);\n\n    // Append print modal element to document body\n    document.getElementsByTagName('body')[0].appendChild(printModal);\n\n    // Add event listener to close button\n    document.getElementById('printClose').addEventListener('click', function () {\n      Modal.close();\n    });\n  },\n  close: function close() {\n    var printFrame = document.getElementById('printJS-Modal');\n\n    printFrame.parentNode.removeChild(printFrame);\n  }\n};\n\nexports.default = Modal;\n\n//# sourceURL=webpack://printJS/./src/js/modal.js?");
+
+/***/ }),
+
+/***/ "./src/js/pdf.js":
+/*!***********************!*\
+  !*** ./src/js/pdf.js ***!
+  \***********************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _print = __webpack_require__(/*! ./print */ \"./src/js/print.js\");\n\nvar _print2 = _interopRequireDefault(_print);\n\nvar _functions = __webpack_require__(/*! ./functions */ \"./src/js/functions.js\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nexports.default = {\n  print: function print(params, printFrame) {\n    // Check if we have base64 data\n    if (params.base64) {\n      var bytesArray = Uint8Array.from(atob(params.printable), function (c) {\n        return c.charCodeAt(0);\n      });\n      createBlobAndPrint(params, printFrame, bytesArray);\n      return;\n    }\n\n    // Format pdf url\n    params.printable = /^(blob|http)/i.test(params.printable) ? params.printable : window.location.origin + (params.printable.charAt(0) !== '/' ? '/' + params.printable : params.printable);\n\n    // Get the file through a http request (Preload)\n    var req = new window.XMLHttpRequest();\n    req.responseType = 'arraybuffer';\n\n    req.addEventListener('load', function () {\n      // Check for errors\n      if ([200, 201].indexOf(req.status) === -1) {\n        (0, _functions.cleanUp)(params);\n        params.onError(req.statusText);\n\n        // Since we don't have a pdf document available, we will stop the print job\n        return;\n      }\n\n      // Print requested document\n      createBlobAndPrint(params, printFrame, req.response);\n    });\n\n    req.open('GET', params.printable, true);\n    req.send();\n  }\n};\n\n\nfunction createBlobAndPrint(params, printFrame, data) {\n  // Pass response or base64 data to a blob and create a local object url\n  var localPdf = new window.Blob([data], { type: 'application/pdf' });\n  localPdf = window.URL.createObjectURL(localPdf);\n\n  // Set iframe src with pdf document url\n  printFrame.setAttribute('src', localPdf);\n\n  _print2.default.send(params, printFrame);\n}\n\n//# sourceURL=webpack://printJS/./src/js/pdf.js?");
+
+/***/ }),
+
+/***/ "./src/js/print.js":
+/*!*************************!*\
+  !*** ./src/js/print.js ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _browser = __webpack_require__(/*! ./browser */ \"./src/js/browser.js\");\n\nvar _browser2 = _interopRequireDefault(_browser);\n\nvar _functions = __webpack_require__(/*! ./functions */ \"./src/js/functions.js\");\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nvar Print = {\n  send: function send(params, printFrame) {\n    // Append iframe element to document body\n    document.getElementsByTagName('body')[0].appendChild(printFrame);\n\n    // Get iframe element\n    var iframeElement = document.getElementById(params.frameId);\n\n    // Wait for iframe to load all content\n    iframeElement.onload = function () {\n      if (params.type === 'pdf') {\n        performPrint(iframeElement, params);\n        return;\n      }\n\n      // Get iframe element document\n      var printDocument = iframeElement.contentWindow || iframeElement.contentDocument;\n      if (printDocument.document) printDocument = printDocument.document;\n\n      // Append printable element to the iframe body\n      printDocument.body.appendChild(params.printableElement);\n\n      // Add custom style\n      if (params.type !== 'pdf' && params.style) {\n        // Create style element\n        var style = document.createElement('style');\n        style.innerHTML = params.style;\n\n        // Append style element to iframe's head\n        printDocument.head.appendChild(style);\n      }\n\n      // If printing images, wait for them to load inside the iframe\n      var images = printDocument.getElementsByTagName('img');\n\n      if (images.length > 0) {\n        loadIframeImages(images).then(function () {\n          return performPrint(iframeElement, params);\n        });\n      } else {\n        performPrint(iframeElement, params);\n      }\n    };\n  }\n};\n\nfunction performPrint(iframeElement, params) {\n  try {\n    iframeElement.focus();\n\n    // If Edge or IE, try catch with execCommand\n    if (_browser2.default.isEdge() || _browser2.default.isIE()) {\n      try {\n        iframeElement.contentWindow.document.execCommand('print', false, null);\n      } catch (e) {\n        iframeElement.contentWindow.print();\n      }\n    } else {\n      // Other browsers\n      iframeElement.contentWindow.print();\n    }\n  } catch (error) {\n    params.onError(error);\n  } finally {\n    (0, _functions.cleanUp)(params);\n  }\n}\n\nfunction loadIframeImages(images) {\n  var promises = [];\n\n  var _iteratorNormalCompletion = true;\n  var _didIteratorError = false;\n  var _iteratorError = undefined;\n\n  try {\n    for (var _iterator = images[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {\n      var image = _step.value;\n\n      promises.push(loadIframeImage(image));\n    }\n  } catch (err) {\n    _didIteratorError = true;\n    _iteratorError = err;\n  } finally {\n    try {\n      if (!_iteratorNormalCompletion && _iterator.return) {\n        _iterator.return();\n      }\n    } finally {\n      if (_didIteratorError) {\n        throw _iteratorError;\n      }\n    }\n  }\n\n  return Promise.all(promises);\n}\n\nfunction loadIframeImage(image) {\n  return new Promise(function (resolve) {\n    var pollImage = function pollImage() {\n      !image || typeof image.naturalWidth === 'undefined' || image.naturalWidth === 0 || !image.complete ? setTimeout(pollImage, 500) : resolve();\n    };\n    pollImage();\n  });\n}\n\nexports.default = Print;\n\n//# sourceURL=webpack://printJS/./src/js/print.js?");
+
+/***/ }),
+
+/***/ "./src/js/raw-html.js":
+/*!****************************!*\
+  !*** ./src/js/raw-html.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\nObject.defineProperty(exports, \"__esModule\", {\n  value: true\n});\n\nvar _print = __webpack_require__(/*! ./print */ \"./src/js/print.js\");\n\nvar _print2 = _interopRequireDefault(_print);\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nexports.default = {\n  print: function print(params, printFrame) {\n    // Create printable element (container)\n    params.printableElement = document.createElement('div');\n    params.printableElement.setAttribute('style', 'width:100%');\n\n    // Set our raw html as the printable element inner html content\n    params.printableElement.innerHTML = params.printable;\n\n    // Print html contents\n    _print2.default.send(params, printFrame);\n  }\n};\n\n//# sourceURL=webpack://printJS/./src/js/raw-html.js?");
+
+/***/ }),
+
+/***/ "./src/sass/index.scss":
+/*!*****************************!*\
+  !*** ./src/sass/index.scss ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack://printJS/./src/sass/index.scss?");
+
+/***/ }),
+
+/***/ 0:
+/*!****************************!*\
+  !*** multi ./src/index.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__(/*! ./src/index.js */\"./src/index.js\");\n\n\n//# sourceURL=webpack://printJS/multi_./src/index.js?");
+
+/***/ })
+
+/******/ })["default"];
+});
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -51721,9 +51980,58 @@ __webpack_require__(/*! ./pages/brand/index.js */ "./resources/js/pages/brand/in
 
 __webpack_require__(/*! ./pages/courier_schedule/index.js */ "./resources/js/pages/courier_schedule/index.js");
 
+__webpack_require__(/*! ./pages/promo/index.js */ "./resources/js/pages/promo/index.js");
+
 __webpack_require__(/*! ./prototype/select2.js */ "./resources/js/prototype/select2.js");
 
 __webpack_require__(/*! ./prototype/main.js */ "./resources/js/prototype/main.js");
+
+/***/ }),
+
+/***/ "./resources/js/components/modal/modal-photos.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/modal/modal-photos.js ***!
+  \*******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {var modal = "<div id=\"modal-photos\" class=\"modal\" tabindex=\"-1\" role=\"dialog\">\n  <div class=\"modal-dialog modal-lg\" role=\"document\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <h3 class=\"modal-title\">Photos <span id=\"counter\"></span></h3>\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n          <span aria-hidden=\"true\">&times;</span>\n        </button>\n      </div>\n      <div class=\"modal-body\"></div>\n    </div>\n  </div>\n</div>";
+
+var sliderItem = function sliderItem(sliders) {
+  var slider = sliders.map(function (slider, i) {
+    return "<div class=\"carousel-item text-center ".concat(i === 0 ? 'active' : '', "\">\n      <img src=\"").concat(slider.path, "\" class=\"d-block mx-auto img-fluid\" alt=\"").concat(slider.updated_at, "\">\n      <div class=\"mt-3\">\n        <small>Photo (").concat(i + 1, ") ").concat(slider.updated_at, "</small>\n      </div>\n    </div>");
+  });
+  return slider.join('');
+};
+
+var makeSliderPhotos = function makeSliderPhotos(data) {
+  var modalBody = $('#modal-photos .modal-body');
+  modalBody[0].insertAdjacentHTML('beforeend', "\n    <div id=\"slider-photo\" class=\"carousel slide\" data-ride=\"carousel\">\n      <div class=\"carousel-inner\">".concat(sliderItem(data), "</div>\n      <a class=\"carousel-control-prev\" href=\"#slider-photo\" role=\"button\" data-slide=\"prev\">\n        <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Previous</span>\n      </a>\n      <a class=\"carousel-control-next\" href=\"#slider-photo\" role=\"button\" data-slide=\"next\">\n        <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n        <span class=\"sr-only\">Next</span>\n      </a>\n    </div>\n  "));
+  $('#counter').text("(".concat(data.length, ")"));
+  $('#slider-photo').carousel({
+    interval: 0,
+    wrap: false
+  });
+};
+
+var data = [];
+/* harmony default export */ __webpack_exports__["default"] = (function (data) {
+  data = data;
+  if ($('#modal-photos').length === 0) $('.main')[0].insertAdjacentHTML('beforeend', modal);
+  $('#modal-photos').on('show.bs.modal', function (e) {
+    var id = e.relatedTarget.getAttribute('data-id');
+    var files = data.filter(function (res) {
+      return res.id === parseInt(id);
+    })[0].files;
+    makeSliderPhotos(files);
+  });
+  $('#modal-photos').on('hide.bs.modal', function () {
+    return $('#slider-photo').remove();
+  });
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
 
@@ -52124,42 +52432,25 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [{
-      data: 'courier_code'
-    }, {
-      data: 'vehicle.number'
-    }, {
-      data: 'schedule_date'
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return row.transaction.customer.name;
-      }
-    }, {
       data: 'id',
       render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
-        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<a href=\"/courier/delivery_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+        var address = row.address;
+        return "\n            <h3><strong><a href=\"/courier/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a></strong></h3>\n            <small><strong>Schedule Date</strong></small>\n            <div><small>").concat(row.schedule_date, "</small></div>\n            <small><strong>Client Name</strong></small>\n            <div><small>").concat(row.transaction.customer.name, "</small></div>\n            <small><strong>Destination</strong></small>\n            <div><small>").concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name, "</small></div>\n            <small><strong>Address</strong></small>\n            <div><small>").concat(address.description, ",<br/>").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code, "</small></div>\n          ");
       }
     }],
+    rowReorder: {
+      selector: 'td:nth-child(2)'
+    },
+    responsive: true,
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
@@ -52171,7 +52462,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', ">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Delivered</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52236,16 +52527,22 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var renderPhotos = function renderPhotos(files) {
+  return files.map(function (file) {
+    return "<div class=\"col-4 my-3\"><img src=\"".concat(file.path, "\" class=\"img-fluid border rounded\" /></div>");
+  }).join('');
+};
+
 var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Delivered</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by !== null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
     return d.map(function (res) {
-      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+      return "<div class=\"item-order\">".concat(items(res), "</div>");
     });
   };
 
@@ -52333,7 +52630,7 @@ if (formEditCourierDS.length > 0) {
     generateDataPickupEdit([data_line]);
     var data = res.delivery_schedule;
     var customer = data_line.customer;
-    var address = data_line.address;
+    var address = res.delivery_schedule.address;
     var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
@@ -52371,40 +52668,19 @@ var createTable = function createTable(target, data) {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [15, 25, 50, 100],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [{
-      data: 'courier_code'
-    }, {
-      data: 'vehicle.number'
-    }, {
-      data: 'schedule_date'
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return row.transaction.customer.name;
-      }
-    }, {
       data: 'id',
       render: function render(data, type, row) {
         var is_own_address = row.transaction.is_own_address;
-        return "".concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<a href=\"/courier/pickup_schedules/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"").concat(window.location.origin, "/assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+        var address = row.address;
+        return "\n            <h3><strong><a href=\"/courier/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a></strong></h3>\n            <small><strong>Schedule Date</strong></small>\n            <div><small>").concat(row.schedule_date, "</small></div>\n            <small><strong>Client Name</strong></small>\n            <div><small>").concat(row.transaction.customer.name, "</small></div>\n            <small><strong>Destination</strong></small>\n            <div><small>").concat(is_own_address ? row.transaction.customer.name : row.transaction.agent.name, "</small></div>\n            <small><strong>Address</strong></small>\n            <div><small>").concat(address.description, ",<br/>").concat(address.district, ", ").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code, "</small></div>\n          ");
       }
     }],
     drawCallback: function drawCallback() {
@@ -52418,7 +52694,7 @@ var createSOTable = function createSOTable(target, data) {
     var row = '';
     var items = d.transaction_lines;
     items.map(function (res) {
-      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
+      row += "<tr>\n        <td>".concat(res.transaction_line.item.description, "</td>\n        <td>").concat(res.transaction_line.bor, "</td>\n        <td>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</td>\n        <td>").concat(res.transaction_line.color, "</td>\n        <td>\n          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n        </td>\n        <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n        <td>\n          <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n            <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n            <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n            <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n            <button type=\"submit\" class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, "\" ").concat(d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n          </form>\n        </td>\n        <td></td>\n      </tr>");
     });
     return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Picked</th>\n        <th class=\"th-item\">Photo</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
   };
@@ -52483,16 +52759,22 @@ var createSOTable = function createSOTable(target, data) {
   });
 };
 
+var renderPhotos = function renderPhotos(files) {
+  return files.map(function (file) {
+    return "<div class=\"col-4 my-3\"><img src=\"".concat(file.path, "\" class=\"img-fluid border rounded\" /></div>");
+  }).join('');
+};
+
 var createSOTableMobile = function createSOTableMobile(target, data) {
   var format = function format(d) {
     var items = function items(n, i) {
       return n.transaction_lines.map(function (res) {
-        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photo</div>\n                        <form class=\"upload-photo\" enctype=\"multipart/form-data\">\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" capture class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
+        return "<div class=\"card\">\n            <div class=\"card-header\" id=\"card-".concat(n.id, "\">\n                <a href=\"#\" class=\"cursor-pointer\" data-toggle=\"collapse\" data-target=\"#item-").concat(n.id, "\">\n                  ").concat(res.transaction_line.item.description, "\n                </a>\n            </div>\n            <div id=\"item-").concat(n.id, "\" class=\"collapse\">\n                <div class=\"card-body\">\n                    <div>\n                        <b>Item</b>\n                        <div>").concat(res.transaction_line.item.description, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>BOR</b>\n                        <div>").concat(res.transaction_line.bor, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Brand</b>\n                        <div>").concat(res.transaction_line.brand !== null ? res.transaction_line.brand.name : '', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Color</b>\n                        <div>").concat(res.transaction_line.color, "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>Picked</b>\n                        <div>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</div>\n                    </div>\n                    <hr>\n                    <div>\n                        <b>ETA</b>\n                        <div class=\"mt-2 mb-3\">\n                          <input type=\"time\" class=\"form-control\" name=\"eta\" ").concat(res.status !== 'open' ? '' : 'required', " readonly value=\"").concat(res.estimation_time, "\" ").concat(res.status === 'canceled' ? 'disabled' : '', ">\n                        </div>\n                    </div>\n                    <hr>\n                    <div>\n                        <div class=\"mb-2 font-weight-bold\">Photos <span class=\"text-black-50\">(").concat(res.files.length, ")</span></div>\n                        <div class=\"row  mb-4\">").concat(renderPhotos(res.files), "</div>\n                        <form class=\"upload-photo needs-validation\" enctype=\"multipart/form-data\" novalidate>\n                          <div class=\"form-group mt-4\">\n                            <label class=\"c-form--label\" for=\"outlet\">\n                              Nama penerima\n                              <span style=\"color: red\">&nbsp;*</span>\n                            </label>\n                            <input type=\"text\" class=\"form-control\" name=\"received_by\" value=\"").concat(res.received_by != null ? res.received_by : '', "\" required/>\n                            <div class=\"invalid-feedback\">Data invalid.</div>\n                          </div>\n                          <img class=\"img-preview img-preview-").concat(res.id, " mb-2 ").concat(res.image_name === null ? 'd-none' : '', "\" src=\"").concat(res.image_name !== null ? window.location.origin + res.image_path : '', "\" width=\"100\" />\n                          <input type=\"file\" data-id=\"").concat(res.id, "\" accept=\"image/*\" class=\"form-control is-height-auto upload_photo\" multiple name=\"image[]\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">\n                          <input id=\"method\" type=\"hidden\" name=\"_method\" value=\"put\">\n                          <button class=\"btn btn-primary btn-upload-photo btn-upload-photo-").concat(res.id, " w-100 mt-2\" ").concat(n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : '', "\">Upload</button>\n                        </form>\n                    </div>\n                </div>\n            </div>\n        </div>");
       });
     };
 
     return d.map(function (res) {
-      return "<div class=\"item-order\">\n      <small class=\"d-block text-muted mb-2\">".concat(res.transaction_number, "</small>\n      <span class=\"d-block font-weight-bold mb-1\">").concat(res.customer.name, "</span>\n      <p>").concat(res.address.description, "</p>") + items(res);
+      return "<div class=\"item-order\">".concat(items(res), "</div>");
     });
   };
 
@@ -52544,7 +52826,11 @@ var uploadImage = function uploadImage() {
         window.location.reload();
       },
       error: function error(res) {
-        window.alert(res.responseJSON.message);
+        var errorsObj = res.responseJSON.errors;
+        var keys = Object.keys(errorsObj);
+        keys.forEach(function (key) {
+          return $("input[name=\"".concat(key, "\"]")).addClass('is-error');
+        }); // window.alert(res.responseJSON.message);
       }
     });
     return false;
@@ -52581,7 +52867,7 @@ if (formEditCourierPS.length > 0) {
     generateDataPickupEdit([data_line]);
     var data = res.pickup_schedule;
     var customer = data_line.customer;
-    var address = data_line.address;
+    var address = res.pickup_schedule.address;
     var outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);
@@ -52867,6 +53153,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var tableCustomer = $('#table-customer');
+var tableCustomerAddress = $('#table-customer--address');
 var formCreateCustomer = $('#form-create-customer');
 var formEditCustomer = $('#form-edit-customer');
 
@@ -52897,6 +53184,39 @@ var createTable = function createTable(target, data) {
       data: 'id',
       render: function render(data, type, row) {
         return "<a href=\"/customers/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+}; // show table address (bebewash 0.2)
+
+
+var createTableAddress = function createTableAddress(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    columns: [{
+      data: 'description'
+    }, {
+      data: 'district'
+    }, {
+      data: 'city'
+    }, {
+      data: 'country'
+    }, {
+      data: 'zip_code'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" data-id=\"".concat(data, "\" title=\"Delete\"><img src=\"").concat(window.location.origin, "/assets/images/icons/trash-2.svg\" alt=\"delete\" width=\"16\"></a>");
       }
     }],
     drawCallback: function drawCallback() {
@@ -52942,20 +53262,22 @@ if (tableCustomer.length > 0) {
 if (formEditCustomer.length > 0) {
   var urlArray = window.location.href.split('/');
   var idCustomer = urlArray[urlArray.length - 2];
+  $('#first-input--customer').remove();
   _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/customers/".concat(idCustomer)).then(function (res) {
+    createTableAddress(tableCustomerAddress, res.customer.shipping_addresses);
     assignValue(res.customer);
-    $('#billing_address').val(res.customer.billing_address.description);
-    $('#billing_district').val(res.customer.billing_address.district);
-    $('#billing_city').val(res.customer.billing_address.city);
-    $('#billing_country').val(res.customer.billing_address.country);
-    $('#billing_zip_code').val(res.customer.billing_address.zip_code);
-    $('#shipping_address').val(res.customer.shipping_address.description);
-    $('#shipping_district').val(res.customer.shipping_address.district);
-    $('#shipping_city').val(res.customer.shipping_address.city);
-    $('#shipping_country').val(res.customer.shipping_address.country);
-    $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
-    $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
-    if ($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
+    $('#customer_id').val(res.customer.id); // $('#billing_address').val(res.customer.billing_address.description);
+    // $('#billing_district').val(res.customer.billing_address.district);
+    // $('#billing_city').val(res.customer.billing_address.city);
+    // $('#billing_country').val(res.customer.billing_address.country);
+    // $('#billing_zip_code').val(res.customer.billing_address.zip_code);
+    // $('#shipping_address').val(res.customer.shipping_address.description);
+    // $('#shipping_district').val(res.customer.shipping_address.district);
+    // $('#shipping_city').val(res.customer.shipping_address.city);
+    // $('#shipping_country').val(res.customer.shipping_address.country);
+    // $('#shipping_zip_code').val(res.customer.shipping_address.zip_code);
+    // $('#is_same_address').attr('checked', res.customer.shipping_address.is_billing && res.customer.shipping_address.is_shipping);
+    // if($('#is_same_address').prop('checked')) $('#is_same_address_content').hide();
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -52991,6 +53313,7 @@ if (formEditCustomer.length > 0) {
 
 if (formCreateCustomer.length > 0) {
   $('#button-delete').remove();
+  $('#customer-address').remove();
   formCreateCustomer.submit(function (e) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
@@ -53003,6 +53326,27 @@ if (formCreateCustomer.length > 0) {
 
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/customers', data).then(function (res) {
       return window.location = '/customers';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+} // show table address (bebewash 0.2)
+
+
+if ($('#modal-add-address').length > 0) {
+  $('#modal-customer-form--address').submit(function (e) {
+    e.preventDefault();
+    var dataForm = $('#modal-customer-form--address').serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/addresses', data).then(function () {
+      $('#modal-add-address').modal('hide');
+      window.location.reload();
     })["catch"](function (res) {
       var errors = res.responseJSON.errors;
       errorMessage(errors);
@@ -53026,6 +53370,8 @@ if (formCreateCustomer.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+/* harmony import */ var _components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../components/modal/modal-photos.js */ "./resources/js/components/modal/modal-photos.js");
+
 
 var list_id = [];
 var courierId = $('#person_id');
@@ -53093,6 +53439,7 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
   var format = function format(d) {
     var row = '';
     var items = d.transaction_lines;
+    Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(items);
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
       var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
@@ -53102,14 +53449,16 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreateDelivery.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status === 'canceled') {
         row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }
     });
-    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Delivered</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Delivered</th>\n        ".concat(items.filter(function (res) {
+      return res.files && res.files.length > 0;
+    }).length > 0 ? '<th>Photos</th>' : '', "\n        <th></th>\n      </tr>\n    </thead><tbody>").concat(row, "</tbody></table>");
   };
 
   target.DataTable({
@@ -53134,9 +53483,12 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
         return "".concat(row.customer ? row.customer.name : '-');
       }
     }, {
-      data: 'address',
+      data: 'customer.shipping_addresses',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        var options = data.map(function (res) {
+          return "<option value=\"".concat(res.id, "\">").concat(res.description, ", ").concat(res.district, ", ").concat(res.city, ", ").concat(res.country, " ").concat(res.zip_code, "</option>");
+        });
+        return "<select id=\"address_id\" class=\"form-control select2\" name=\"address_id\">".concat(options.join(''), "</select>");
       }
     }, {
       data: 'id',
@@ -53149,6 +53501,11 @@ var createSITableDelivery = function createSITableDelivery(target, data) {
         $('.remove-item').remove();
       }
 
+      $('#address_id').val(sessionStorage.address_id);
+      $('#address_id').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose address'
+      }).trigger('change');
       removeItem();
       $('#table-si-item-delivery tbody td.details-control').each(function (i, item) {
         $(item).click(function (e) {
@@ -53188,7 +53545,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/delivery_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'person.name'
     }, {
@@ -53218,10 +53578,9 @@ var createTable = function createTable(target, data) {
         return "".concat(row.transaction.is_own_address ? customer.name : agent.name);
       }
     }, {
-      data: 'id',
+      data: 'address',
       render: function render(data, type, row) {
-        var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", <br/>").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'id',
@@ -53273,6 +53632,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
   return {
     person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
+    address_id: $('#address_id').val(),
     schedule_date: $('#date').val(),
     courier_schedule_lines: courier_schedule_lines
   };
@@ -53344,6 +53704,7 @@ if (EditDeliveryForm.length > 0) {
     $('#vehicle_id').val(res.delivery_schedule.vehicle_id);
     $('#date').val(res.delivery_schedule.schedule_date);
     $('#document_status').val(res.delivery_schedule.transaction.transaction_status);
+    sessionStorage.setItem('address_id', res.delivery_schedule.address.id);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
@@ -53954,11 +54315,14 @@ __webpack_require__.r(__webpack_exports__);
 
 var tablePayment = $('#table-payment');
 var formCreatePayment = $('#form-create-payment');
+var formEditPayment = $('#form-edit-payment');
 var salesInvoicePayment = $('#payment-sales-invoice-id');
 var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
 var modalSIpayment = $('#modal-si-form-payment');
 var modalSITable = $('#modal-si-form-table-payment');
+var formPaymentMeans = $('#modal-add-form-payment-means');
+var paymentLines = [];
 
 var createTable = function createTable(target, data) {
   target.DataTable({
@@ -53980,14 +54344,39 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'payment_date'
     }, {
-      data: 'payment_lines[0].transaction.transaction_status'
-    }, {
-      data: 'payment_means[0].payment_type',
-      render: function render(h) {
-        return h === "" ? "-" : h;
+      data: 'id',
+      render: function render(data, type, row) {
+        var arrayData = [];
+        row.payment_means.forEach(function (res) {
+          return arrayData.push(parseFloat(res.amount));
+        });
+        var arraySum = arrayData.reduce(function (a, b) {
+          return a + b;
+        });
+        var due_balance = row.payment_lines[0].transaction.total_amount - arraySum;
+        return due_balance === 0 ? 'PAID' : 'UNPAID';
       }
     }, {
-      data: 'total_amount'
+      data: 'payment_means',
+      render: function render(data) {
+        var arrayData = [];
+        data.forEach(function (res) {
+          return arrayData.push(parseFloat(res.amount));
+        });
+        return arrayData.reduce(function (a, b) {
+          return a + b;
+        });
+      }
+    }, {
+      data: 'payment_lines[0].transaction.total_amount',
+      render: function render(data) {
+        return parseFloat(data);
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/payments/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
     }],
     drawCallback: function drawCallback() {
       $('.table-action[data-toggle="tooltip"]').tooltip();
@@ -54020,7 +54409,10 @@ var createSiFormTablePayment = function createSiFormTablePayment(target, data) {
         return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
-      data: 'total_amount'
+      data: 'total_amount',
+      render: function render(value) {
+        return parseFloat(value);
+      }
     }, {
       data: 'id',
       render: function render() {
@@ -54053,11 +54445,14 @@ if (modalSIpayment.length > 0) {
     });
     $('#customer-name').val(choosed_si.customer.name);
     $('#customer-name').attr('customer-id', choosed_si.customer.id);
-    $('#transaction_type').val(choosed_si.transaction_type);
-    $('#total-amount').val(choosed_si.total_amount);
-    $('#amount').val(choosed_si.total_amount);
+    $('#transaction_type').val(choosed_si.transaction_type); // $('#total_amount').val(parseFloat(choosed_si.balance_due));
+
+    $('#total_amount').val(parseFloat(0));
+    $('#amount').val(parseFloat(choosed_si.total_amount));
     $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
     $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+    $('#add-payment-means').removeAttr('disabled');
+    $('#add-payment-means').removeClass('disabled');
     return false;
   });
 }
@@ -54122,6 +54517,7 @@ if (paymentMethod.length > 0) {
 }
 
 if (formCreatePayment.length > 0) {
+  sessionStorage.clear();
   $('#button-delete').remove();
   formCreatePayment.submit(function (e) {
     e.preventDefault();
@@ -54135,7 +54531,8 @@ if (formCreatePayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total-amount').val()
+      "total_amount": $('#total_amount').val(),
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54151,6 +54548,201 @@ if (tablePayment.length > 0) {
     createTable(tablePayment, res.payments.data);
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (formEditPayment.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/payments/".concat(id)).then(function (_ref) {
+    var payment = _ref.payment;
+    sessionStorage.setItem('payment_lines', JSON.stringify(payment.payment_means));
+    tablePaymentLines($('#table-payment-lines'), JSON.parse(sessionStorage.payment_lines));
+    $('#button-choose-invoices').prop('disabled', true);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(payment.payment_lines[0].transaction.id)).then(function (res) {
+      sessionStorage.setItem('choosed_si', JSON.stringify(res.sales_invoice));
+      var choosed_si = JSON.parse(sessionStorage.choosed_si);
+      $('#customer-name').val(choosed_si.customer.name);
+      $('#customer-name').attr('customer-id', choosed_si.customer.id);
+      $('#transaction_type').val(choosed_si.transaction_type); // $('#total_amount').val(parseFloat(choosed_si.balance_due));
+
+      $('#total_amount').val(parseFloat(0));
+      $('#amount').val(parseFloat(choosed_si.balance_due));
+      $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
+      $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+      $('#add-payment-means').removeAttr('disabled');
+      $('#add-payment-means').removeClass('disabled');
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditPayment.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
+      "customer_id": $('#customer-name').attr('customer-id'),
+      "payment_date": $('#date').val(),
+      "payment_type": $('#payment_method').val(),
+      "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
+      "bank_account_id": $('#bank_account').val(),
+      "note": $('#note').val(),
+      "bank_id": $('select[name="bank_id"]').val(),
+      "amount": $('#total-amount').val(),
+      "total_amount": $('#total_amount').val(),
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+    }).then(function (res) {
+      window.location = '/payments';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+var tablePaymentLines = function tablePaymentLines(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    order: [[3, 'desc']],
+    columns: [{
+      data: 'payment_method',
+      render: function render(data, type, row) {
+        var paymentMethod;
+
+        if (data && data === 'cash') {
+          paymentMethod = 'Cash';
+        } else if (data && data === 'bank_transfer') {
+          paymentMethod = 'Bank Transfer';
+        } else if (data && data === 'credit_card') {
+          paymentMethod = 'Credit Card';
+        } else {
+          paymentMethod = 'Bebemoney';
+        }
+
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(paymentMethod, "\"/>");
+      }
+    }, {
+      data: 'payment_type',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data && data === 'down_payment' ? 'Booking Fee' : 'Acquittance', "\"/>");
+      }
+    }, {
+      data: 'bank_account_id',
+      render: function render(data, type, row) {
+        var name;
+        var account_number;
+
+        if (data) {
+          var parsing = JSON.parse(sessionStorage.bank_accounts).filter(function (res) {
+            return res.id === parseInt(data);
+          })[0];
+          name = parsing.bank.name;
+          account_number = parsing.account_number;
+        }
+
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data ? name + ' - ' + account_number : '', "\"/>");
+      }
+    }, {
+      data: 'receiver_name',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+      }
+    }, {
+      data: 'credit_card',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+      }
+    }, {
+      data: 'bank_id',
+      render: function render(data, type, row) {
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data ? row.bank_name : '', "\"/>");
+      }
+    }, {
+      data: 'amount',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+      }
+    }, {
+      data: 'note',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"javascript:void(0)\" id=\"delete_".concat(data, "\" data-id=\"").concat(data, "\" class=\"btn btn-light is-small table-action remove-item\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Reset\"><img src=\"http://localhost:8000/assets/images/icons/trash.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+      $('.remove-item').click(function (e) {
+        var payment_lines = JSON.parse(sessionStorage.payment_lines);
+        var parent = e.target.closest('tr');
+        var id = e.currentTarget.id.split('_')[1];
+        var latest_payment_lines = payment_lines.filter(function (res) {
+          return res.id !== parseFloat(id);
+        });
+        paymentLines = latest_payment_lines;
+        sessionStorage.setItem('payment_lines', JSON.stringify(latest_payment_lines));
+        $('#table-payment-lines').DataTable().row([parent]).remove().draw();
+      });
+    }
+  });
+};
+
+if (formPaymentMeans.length > 0) {
+  $('#modal-add-payment-means').on('shown.bs.modal', function (e) {
+    formPaymentMeans.removeClass('was-validated');
+    $('#payment_method').val('cash');
+    $('#payment_type').val('down_payment');
+    $('#bank_account').val('');
+    $('#receiver_name').val('');
+    $('#bank_id').val('');
+    $('#credit_card').val();
+    $('#total_amount').val();
+    $('#note').val();
+  });
+  formPaymentMeans.submit(function (e) {
+    paymentLines = [];
+
+    if (sessionStorage.payment_lines) {
+      JSON.parse(sessionStorage.payment_lines).forEach(function (response) {
+        paymentLines.push(response);
+      });
+    }
+
+    $('#table-payment-lines').DataTable().destroy();
+    var data = {
+      id: paymentLines.length + 1,
+      payment_method: $('#payment_method').val(),
+      payment_type: $('#payment_type').val(),
+      payment_date: $('#payment_date').val(),
+      bank_account_id: $('#bank_account').val(),
+      receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
+      bank_id: $('select[name="bank_id"]').val(),
+      bank_name: $('select[name="bank_id"]').children('option:selected').text(),
+      credit_card: $('#credit_card').val() === '-' ? '' : $('#credit_card').val(),
+      amount: $('#total_amount').val(),
+      note: $('#note').val()
+    };
+    paymentLines.push(data);
+    sessionStorage.setItem('payment_lines', JSON.stringify(paymentLines));
+    tablePaymentLines($('#table-payment-lines'), JSON.parse(sessionStorage.payment_lines));
+    $('#modal-add-payment-means').modal('hide');
+    $('#field-transfer').hide();
+    $('#field-credit-card').hide();
+    $('#modal-add-payment-means').on('hidden.bs.modal', function (e) {
+      formPaymentMeans.removeClass('was-validated');
+    });
+    return false;
   });
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
@@ -54341,6 +54933,8 @@ if (formEditUser.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+/* harmony import */ var _components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../components/modal/modal-photos.js */ "./resources/js/components/modal/modal-photos.js");
+
 
 var list_id = [];
 var courierId = $('#person_id');
@@ -54411,6 +55005,7 @@ var createSOTable = function createSOTable(target, data) {
   var format = function format(d) {
     var row = '';
     var items = d.transaction_lines;
+    Object(_components_modal_modal_photos_js__WEBPACK_IMPORTED_MODULE_1__["default"])(items);
     items.map(function (res) {
       var transactionLine = res.transaction_line === undefined ? res : res.transaction_line;
       var documentStatus = $('#document_status').val(); // ${res.status !== 'open' ? '' : 'required' }
@@ -54420,14 +55015,16 @@ var createSOTable = function createSOTable(target, data) {
       // ${res.status !== 'open' || documentStatus == 'canceled' ? 'disabled readonly' : 'required' }
 
       if (formCreatePickup.length > 0 && res.status === 'open') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status !== 'canceled') {
-        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          <td></td>\n        </tr>");
+        row += "<tr>\n          <td>\n            <input type=\"checkbox\" class=\"transaction_id\" name=\"transaction_id\" value=\"".concat(res.id, "\" ").concat(res.status === 'done' || res.status === 'canceled' || res.status === 'scheduled' ? '' : 'checked', ">\n          </td>\n          <td class=\"transaction_line_status\">").concat(res.status === 'done' ? 'Picked' : res.status, "</td>\n          <td>").concat(transactionLine.item.description, "</td>\n          <td>").concat(transactionLine.bor, "</td>\n          <td>").concat(transactionLine.brand !== null ? transactionLine.brand.name : '', "</td>\n          <td>").concat(transactionLine.color, "</td>\n          <td>\n            <input type=\"time\" class=\"form-control\" name=\"eta\" value=\"").concat(res.estimation_time, "\">\n          </td>\n          <td>").concat(res.files && res.files.length > 0 ? res.files[0].created_at : '-', "</td>\n          ").concat(res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : '', "\n          <td></td>\n        </tr>");
       } else if (res.status === 'canceled') {
         row += "<tr><td colspan=\"8\" align=\"center\">Item has been cancel</td></tr>";
       }
     });
-    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Picked</th>\n        <th></th>\n      </tr>\n    </thead><tbody>".concat(row, "</tbody></table>");
+    return "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"100%\"><thead>\n      <tr>\n        <th class=\"checkbox\"></th>\n        <th>Status</th>\n        <th>Item</th>\n        <th>BOR</th>\n        <th>Brand</th>\n        <th>Color</th>\n        <th class=\"th-qty\">ETA</th>\n        <th>Picked</th>\n        ".concat(items.filter(function (res) {
+      return res.files && res.files.length > 0;
+    }).length > 0 ? '<th>Photos</th>' : '', "\n        <th></th>\n      </tr>\n    </thead><tbody>").concat(row, "</tbody></table>");
   };
 
   target.DataTable({
@@ -54449,9 +55046,12 @@ var createSOTable = function createSOTable(target, data) {
     }, {
       data: 'customer.name'
     }, {
-      data: 'address',
+      data: 'customer.shipping_addresses',
       render: function render(data) {
-        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        var options = data.map(function (res) {
+          return "<option value=\"".concat(res.id, "\">").concat(res.description, ", ").concat(res.district, ", ").concat(res.city, ", ").concat(res.country, " ").concat(res.zip_code, "</option>");
+        });
+        return "<select id=\"address_id\" class=\"form-control select2\" name=\"address_id\">".concat(options.join(''), "</select>");
       }
     }, {
       data: 'id',
@@ -54461,6 +55061,11 @@ var createSOTable = function createSOTable(target, data) {
     }],
     drawCallback: function drawCallback() {
       removeItem();
+      $('#address_id').val(sessionStorage.address_id);
+      $('#address_id').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose address'
+      }).trigger('change');
 
       if (EditPickupForm.length > 0) {
         $('.remove-item').remove();
@@ -54504,7 +55109,10 @@ var createTable = function createTable(target, data) {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [{
-      data: 'courier_code'
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/pickup_schedules/".concat(data, "/edit\">").concat(row.courier_code, "</a>");
+      }
     }, {
       data: 'person.name'
     }, {
@@ -54534,10 +55142,9 @@ var createTable = function createTable(target, data) {
         return "".concat(row.transaction.is_own_address ? customer.name : agent.name);
       }
     }, {
-      data: 'id',
+      data: 'address',
       render: function render(data, type, row) {
-        var address = row.transaction.address;
-        return "".concat(address.description, ", ").concat(address.district, ", <br/>").concat(address.city, ", ").concat(address.country, " ").concat(address.zip_code);
+        return "".concat(data.description, ", ").concat(data.district, ", <br/>").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
       }
     }, {
       data: 'id',
@@ -54591,6 +55198,7 @@ var dataFormPickup = function dataFormPickup(tableList) {
     person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
+    address_id: $('#address_id').val(),
     courier_schedule_lines: courier_schedule_lines
   };
 };
@@ -54729,10 +55337,11 @@ if (EditPickupForm.length > 0) {
     $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
     $('#date').val(res.pickup_schedule.schedule_date);
     $('#document_status').val(res.pickup_schedule.transaction.transaction_status);
+    sessionStorage.setItem('address_id', res.pickup_schedule.address.id);
     $('#person_id, #vehicle_id').select2({
       theme: 'bootstrap',
       placeholder: 'Choose option'
-    });
+    }).trigger('change');
 
     var groupBy = function groupBy(xs, key) {
       return xs.reduce(function (rv, x) {
@@ -55000,6 +55609,138 @@ if (formEditPrice.length > 0) {
 
 /***/ }),
 
+/***/ "./resources/js/pages/promo/index.js":
+/*!*******************************************!*\
+  !*** ./resources/js/pages/promo/index.js ***!
+  \*******************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var tablePromo = $('#table-promo');
+var formCreatePromo = $('#form-create-promo');
+var formEditPromo = $('#form-edit-promo');
+
+var createTable = function createTable(target, data) {
+  target.DataTable({
+    // scrollX: true,
+    data: data,
+    lengthChange: true,
+    lengthMenu: [15, 25, 50, 100],
+    searching: true,
+    info: true,
+    paging: true,
+    pageLength: 15,
+    columns: [{
+      data: 'name'
+    }, {
+      data: 'type'
+    }, {
+      data: 'code'
+    }, {
+      data: 'quota'
+    }, {
+      data: 'percentage'
+    }, {
+      data: 'max_promo'
+    }, {
+      data: 'start_promo'
+    }, {
+      data: 'end_promo'
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<a href=\"/promos/".concat(data, "/edit\" class=\"btn btn-light is-small table-action\" data-toggle=\"tooltip\"\n          data-placement=\"top\" title=\"Edit\"><img src=\"assets/images/icons/edit.svg\" alt=\"edit\" width=\"16\"></a>");
+      }
+    }],
+    drawCallback: function drawCallback() {
+      $('.table-action[data-toggle="tooltip"]').tooltip();
+    }
+  });
+};
+
+if (formCreatePromo.length > 0) {
+  $('#button-delete').remove();
+  formCreatePromo.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formCreatePromo.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/promos', data).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+}
+
+if (tablePromo.length > 0) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/promos').then(function (res) {
+    createTable(tablePromo, res.promos.data);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+}
+
+if (formEditPromo.length > 0) {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/promos/".concat(id)).then(function (res) {
+    $('#type').val(res.promo.type);
+    $('#promo_name').val(res.promo.name);
+    $('#promo_code').val(res.promo.code);
+    $('#promo_quota').val(res.promo.quota);
+    $('#promo_percentage').val(res.promo.percentage);
+    $('#promo_maximum').val(res.promo.max_promo);
+    $('#start_date').val(res.promo.start_promo);
+    $('#end_date').val(res.promo.end_promo);
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditPromo.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    var dataForm = formEditPromo.serializeArray();
+    var data = dataForm.reduce(function (x, y) {
+      return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
+    }, {});
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/promos/".concat(id), data).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      var errors = res.responseJSON.errors;
+      errorMessage(errors);
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
+  });
+  $('#button-delete').click(function () {
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/promos/".concat(id)).then(function (res) {
+      return window.location = '/promos';
+    })["catch"](function (res) {
+      alert('Cannot delete item that has been used in transaction');
+    });
+  });
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/js/pages/sales_invoice/index.js":
 /*!***************************************************!*\
   !*** ./resources/js/pages/sales_invoice/index.js ***!
@@ -55010,6 +55751,9 @@ if (formEditPrice.length > 0) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function($) {/* harmony import */ var _shared_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../shared/index.js */ "./resources/js/shared/index.js");
+/* harmony import */ var print_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! print-js */ "./node_modules/print-js/dist/print.js");
+/* harmony import */ var print_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(print_js__WEBPACK_IMPORTED_MODULE_1__);
+
 
 var transaction_lines = [];
 var tableInvoice = $('#table-sales-invoice');
@@ -55145,7 +55889,7 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" name=\"note\" required readonly value=\"").concat(row.note ? row.note : '', "\">");
+        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\" value=\"").concat(row.promo_id ? row.promo_id : '', "\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" readonly data-id=\"").concat(row.item_id, "\" name=\"promo-code\" value=\"").concat(row.promo ? row.promo.code : '', "\">");
       }
     }, {
       data: 'id',
@@ -55155,17 +55899,22 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" required readonly value=\"").concat(row.discount, "\" name=\"discount\">");
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right is-number\" id=\"unit_price_".concat(row.id, "\" name=\"unit_price\" value=\"").concat(row.amount, "\" readonly></div");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" required readonly value=\"").concat(row.discount, "\" name=\"discount\">");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div><input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" name=\"amount\" value=\"").concat(row.amount, "\" readonly></div>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control\" id=\"note_".concat(row.id, "\" name=\"note\" required readonly value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
@@ -55192,7 +55941,13 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
     $('#status_order').val(res[key].order_type === 'general' ? 'open' : 'closed');
     $('#note').val(res[key].note);
     $('#pickup_date').val(res[key].pickup_date);
+    $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
+    $('#dp_amount_print').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
+    $('#freight').val(parseFloat(res[key].freight));
+    $('#freight_print').val(parseFloat(res[key].freight));
+    $('#discount').val(parseFloat(res[key].discount));
+    $('#discount_amount').val(parseFloat(res[key].discount_amount));
     var choosed_item = [];
     var id = 0;
     res[key].transaction_lines.forEach(function (res) {
@@ -55207,13 +55962,15 @@ var getDetailSalesOrder = function getDetailSalesOrder(url, key, id) {
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,
-          discount: res.discount,
-          quantity: res.quantity,
+          discount: parseFloat(res.discount),
+          quantity: parseFloat(res.quantity),
           color: res.color,
           note: res.note,
           name: res.item.description,
-          amount: res.amount,
-          status: res.status
+          amount: parseFloat(res.amount),
+          status: res.status,
+          promo_id: res.promo_id,
+          promo: res.promo
         });
       }
     });
@@ -55246,6 +56003,7 @@ var totalBeforeDisc = function totalBeforeDisc() {
     price = parseFloat(price) + parseFloat(item.value);
     totalBeforeDiscField.val(price);
     $('#original_amount').val(price);
+    $('#original_amount_print').val(price);
     finalTotal($('#discount').val());
   });
   $('#discount').change(function (e) {
@@ -55262,9 +56020,11 @@ var finalTotal = function finalTotal(value, freightValue) {
   var original_amount = $('#original_amount').val();
   var discountCount = parseFloat(value) / 100 * parseFloat(original_amount);
   var discount = discount_amount.val(parseFloat(discountCount));
+  $('#discount_amount_print').val(parseFloat(discountCount));
   var freight = freightValue ? freightValue : $('#freight').val();
   var total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
   $('#total_amount').val(parseFloat(total));
+  $('#total_amount_print').val(parseFloat(total));
 };
 
 var dataFormSalesOrder = function dataFormSalesOrder() {
@@ -55289,6 +56049,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
+        promo_id: target.querySelector('input[name="promo_id"]').value,
         amount: amount,
         discount_amount: _discount_amount,
         status: target.querySelector('input[name="status"]') ? target.querySelector('select[name="status"]').value : 'open'
@@ -55312,7 +56073,10 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
     freight: $('#freight').val(),
-    transaction_lines: transaction_lines
+    dp_amount: $('#dp_amount').val(),
+    transaction_lines: transaction_lines,
+    promo_id: null // TO DO
+
   };
 };
 
@@ -55372,10 +56136,22 @@ if (tableInvoice.length > 0) {
 if (formEditSalesInvoice.length > 0) {
   var urlArray = window.location.href.split('/');
   var id = urlArray[urlArray.length - 2];
+  $('.btn[data-target="#modal-sales-order-on-invoice"]').remove();
+  $('label[for="order_id"]').text('No. Invoice');
+  $('#dp_amount').attr('readonly', true);
   $('#footer-form').remove();
   $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }
+
+$('#btn-print').click(function () {
+  // window.print();
+  print_js__WEBPACK_IMPORTED_MODULE_1___default()({
+    printable: 'invoice-print',
+    type: 'html',
+    targetStyles: ['*']
+  });
+});
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
 /***/ }),
@@ -55420,6 +56196,11 @@ var createTable = function createTable(target, data) {
     order: [[3, 'desc']],
     columns: [{
       data: 'transaction_number'
+    }, {
+      data: 'is_pre_order',
+      render: function render(data) {
+        return data ? 'Pre Order' : 'General';
+      }
     }, {
       data: 'customer.name'
     }, {
@@ -55469,9 +56250,9 @@ var createTableCustomerFormTable = function createTableCustomerFormTable(target,
     }, {
       data: 'name'
     }, {
-      data: 'shipping_address',
+      data: 'shipping_addresses',
       render: function render(data, type, row) {
-        return "".concat(data.description, ", ").concat(data.district, ", ").concat(data.city, ", ").concat(data.country, " ").concat(data.zip_code);
+        return "".concat(data[0].description, ", ").concat(data[0].district, ", ").concat(data[0].city, ", ").concat(data[0].country, " ").concat(data[0].zip_code);
       }
     }, {
       data: 'phone_number'
@@ -55614,17 +56395,12 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control form_note\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
+        return "\n          <input hidden type=\"text\" class=\"form-control promo_id text-right is-number\" id=\"promo_id_".concat(row.id, "\" name=\"promo_id\" value=\"").concat(row.promo_id ? row.promo_id : '', "\">\n          <input type=\"text\" class=\"form-control promo-code is-number\" id=\"promo-code_").concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"promo-code\" value=\"").concat(row.promo ? row.promo.code : '', "\">");
       }
     }, {
       data: 'id',
       render: function render(data, type, row) {
         return "<input type=\"text\" class=\"form-control quantity text-right is-number\" id=\"quantity_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.quantity ? row.quantity : 1, "\" name=\"quantity\">");
-      }
-    }, {
-      data: 'id',
-      render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\">");
       }
     }, {
       data: 'id',
@@ -55635,8 +56411,18 @@ var generateItemTable = function generateItemTable(target, data) {
     }, {
       data: 'id',
       render: function render(data, type, row) {
+        return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input type=\"text\" class=\"form-control discount text-right is-number\" id=\"discount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" value=\"").concat(row.discount ? row.discount : 0, "\" name=\"discount\" readonly></div>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
         var val = Number.parseFloat(row.amount);
         return "<div class=\"input-group flex-nowrap\">\n          <div class=\"input-group-prepend\">\n              <span class=\"input-group-text\">Rp</span>\n          </div>\n          <input type=\"text\" class=\"form-control text-right item_total is-number\" id=\"amount_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"amount\" value=\"").concat(val, "\" readonly>\n      </div>");
+      }
+    }, {
+      data: 'id',
+      render: function render(data, type, row) {
+        return "<input type=\"text\" class=\"form-control form_note\" id=\"note_".concat(row.id, "\" data-id=\"").concat(row.item_id, "\" name=\"note\" value=\"").concat(row.note ? row.note : '', "\">");
       }
     }, {
       data: 'id',
@@ -55667,6 +56453,11 @@ var generateItemTable = function generateItemTable(target, data) {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.promo-code').each(function (i, promo) {
+        $(promo).change(function (e) {
+          getPromoCode(e.target.value, e.target);
+        });
+      });
       $('.auto-button').click(function (e) {
         var value = e.target.id.split('_')[0];
         var id = e.target.id.split('_')[1];
@@ -55855,6 +56646,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,
@@ -55870,6 +56662,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,
@@ -55886,6 +56679,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
           brand_id: target.querySelector('select[name="brand_id"]').value,
           color: target.querySelector('input[name="color"]').value,
           quantity: target.querySelector('input[name="quantity"]').value,
+          promo_id: target.querySelector('input[name="promo_id"]').value,
           unit_price: unit_price,
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
@@ -55896,6 +56690,9 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
   });
   return {
     is_own_address: $('#is_own_address').prop('checked'),
+    is_pre_order: $('#is_pre_order').prop('checked'),
+    promo_id: '',
+    // TO DO
     customer_id: $('#customer_id').attr('customer-id'),
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
@@ -55905,6 +56702,7 @@ var dataFormSalesOrder = function dataFormSalesOrder() {
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
     total_amount: $('#total_amount').val(),
+    dp_amount: $('#dp_amount').val(),
     note: $('#note').val(),
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
@@ -55992,6 +56790,7 @@ if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
+  $('#user_name').remove();
   formCreateSalesOrder.submit(function (e) {
     e.preventDefault();
     $('#form-submit').attr('disabled', true);
@@ -56035,32 +56834,40 @@ if (formEditSalesOrder.length > 0) {
         "bor": res.bor,
         "price_id": res.item.price_id,
         "unit_price": res.unit_price,
-        discount: res.discount,
-        quantity: res.quantity,
+        discount: parseFloat(res.discount),
+        quantity: parseFloat(res.quantity),
         color: res.color,
         note: res.note,
         name: res.item.description,
-        amount: res.amount,
-        status: res.status
+        amount: parseFloat(res.amount),
+        status: res.status,
+        promo_id: res.promo_id,
+        promo: res.promo
       });
     });
+    sessionStorage.setItem('transaction_number', res.sales_order.transaction_number);
     sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
     generateItemTable(tableSOItems, choosed_item);
     $('#customer_id').attr('customer-id', res.sales_order.customer_id);
     $('#customer_id').val(res.sales_order.customer.name);
-    $('#agent_id').val(res.sales_order.agent_id);
-    $('#agent_id').attr('readonly', true);
-    $('#is_own_address').attr('readonly', true);
-    $('#is_own_address').attr('disabled', true);
-    $('#is_own_address').attr('checked', res.sales_order.is_own_address);
+    $('#agent_id').val(res.sales_order.agent_id); // $('#agent_id').attr('readonly', true);
+    // $('#is_own_address').attr('readonly', true);
+    // $('#is_own_address').attr('disabled', true);
+
+    $('#is_own_address').attr('checked', res.sales_order.is_own_address); // $('#is_pre_order').attr('readonly', true);
+    // $('#is_pre_order').attr('disabled', true);
+
+    $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
+    $('#user_id').val(res.sales_order.creator.username);
     $('#order_type').val(res.sales_order.order_type);
     $('#note').val(res.sales_order.note);
-    $('#discount').val(res.sales_order.discount);
-    $('#discount_amount').val(res.sales_order.discount_amount);
-    $('#freight').val(res.sales_order.freight);
+    $('#discount').val(parseFloat(res.sales_order.discount));
+    $('#discount_amount').val(parseFloat(res.sales_order.discount_amount));
+    $('#freight').val(parseFloat(res.sales_order.freight));
     $('#status_order').val(res.sales_order.transaction_status);
-    $('#original_amount').val(res.sales_order.original_amount);
-    $('#total_amount').val(res.sales_order.total_amount);
+    $('#original_amount').val(parseFloat(res.sales_order.original_amount));
+    $('#total_amount').val(parseFloat(res.sales_order.total_amount));
+    $('#dp_amount').val(parseFloat(res.sales_order.dp_amount));
     $('#transaction_date').val(res.sales_order.transaction_date);
     $('#pickup_date').val(res.sales_order.pickup_date); // $('#delivery_date').val(res.sales_order.delivery_date);
 
@@ -56068,7 +56875,7 @@ if (formEditSalesOrder.length > 0) {
     $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
     $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-    if (isNotOpen(res)) {
+    if (isNotOpen(res) && !res.sales_order.is_pre_order) {
       disableAllForm(true);
     }
   })["catch"](function (res) {
@@ -56104,6 +56911,39 @@ var isNotOpen = function isNotOpen(res) {
 var disableAllForm = function disableAllForm() {
   formEditSalesOrder.find('input, select, textarea').attr('disabled', 'disabled');
   formEditSalesOrder.find('button').not('#button-cancel').attr('disabled', 'disabled');
+};
+
+$('#btn-download').click(function () {
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  var transaction_number = sessionStorage.getItem('transaction_number');
+  var windowOpen = window.open('', '_blank');
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].download("/api/sales_orders/".concat(id)).then(function (res) {
+    var link = document.createElement('a');
+    link.href = window.URL.createObjectURL(res);
+    link.download = "proforma-".concat(transaction_number, ".pdf");
+    link.click();
+    windowOpen.close();
+  });
+});
+
+var getPromoCode = function getPromoCode(promoCode, target) {
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/promos").then(function (res) {
+    var promo = res.promos.data.filter(function (promo) {
+      return promo.code === promoCode;
+    })[0];
+    var index = target.id.split('_')[1];
+    var unitPriceField = $("#unit_price_".concat(index));
+    var unitPriceValue = unitPriceField.val();
+    var calculateDiscountByPromo = parseFloat(unitPriceValue) * promo.percentage / 100;
+    var isMaxPromo = calculateDiscountByPromo > promo.max_promo;
+    var discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
+    $(target).prev().val(promo.id);
+    $("#discount_".concat(index)).val(parseFloat(discount));
+    $("#amount_".concat(index)).val(parseFloat(unitPriceValue - discount) * parseFloat($("#quantity_".concat(index)).val()));
+    totalBeforeDisc();
+    finalTotal($('#discount').val());
+  });
 };
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
 
@@ -59224,6 +60064,20 @@ __webpack_require__.r(__webpack_exports__);
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = ({
+  download: function download(url) {
+    return $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        var token = localStorage.token;
+        xhr.setRequestHeader('Authorization', token);
+        xhr.setRequestHeader('accept', 'application/pdf');
+      },
+      xhrFields: {
+        responseType: 'blob'
+      },
+      type: 'GET',
+      url: url
+    });
+  },
   get: function get(url) {
     return $.ajax({
       type: 'GET',
@@ -59276,8 +60130,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

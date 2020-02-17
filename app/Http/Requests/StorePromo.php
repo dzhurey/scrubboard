@@ -44,8 +44,8 @@ class StorePromo extends FormRequest
             'quota' => 'nullable',
             'percentage' => 'required|numeric|max:100|min:0',
             'max_promo' => 'required|numeric',
-            'start_promo' => 'required|date_format:"Y-m-d H:i:s"',
-            'end_promo' => 'required|date_format:"Y-m-d H:i:s"',
+            'start_promo' => 'required|date_format:"Y-m-d"',
+            'end_promo' => 'required|date_format:"Y-m-d"',
             'type' => 'required|in:'.join(array_keys(Promo::PROMO_TYPES), ',')
         ];
     }

@@ -1,0 +1,25 @@
+/* hidden sidebar, header, header-form, button */
+body {
+  zoom: -10 !important;
+}
+
+.c-sidebar,
+.c-header,
+#customers-form,
+.btn {
+  display: none !important;
+}
+
+.form-control {
+  border: 0 !important;
+}
+
+/* main container */
+.main {
+  padding-left: 0 !important;
+  margin-top: 0 !important;
+}
+
+@page {
+  margin: 0 !important;
+}

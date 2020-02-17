@@ -30,4 +30,9 @@ class Promo extends BaseModel
     {
         return $this->hasMany('App\SalesOrder');
     }
+
+    public function transactionLines()
+    {
+        return $this->hasMany('App\TransactionLine');
+    }
 }

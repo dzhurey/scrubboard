@@ -13,6 +13,21 @@ $.ajaxSetup({
 
 export default {
 
+  download: (url) => {
+    return $.ajax({
+      beforeSend: (xhr) => {
+        const token = localStorage.token;
+        xhr.setRequestHeader('Authorization', token);
+        xhr.setRequestHeader('accept', 'application/pdf');
+      },
+      xhrFields: {
+        responseType: 'blob'
+      },
+      type: 'GET',
+      url: url,
+    });
+  },
+
   get: (url) => {
     return $.ajax({
       type: 'GET',

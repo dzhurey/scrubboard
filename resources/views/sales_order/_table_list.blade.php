@@ -4,6 +4,7 @@
         <thead>
             <tr>
                 <th>ID</th>
+                <th>Type</th>
                 <th>Client Name</th>
                 <th>POS</th>
                 <th>Order Status</th>

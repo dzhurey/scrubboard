@@ -111,7 +111,8 @@
         </div>
     </div>
 </div>
-<div class="row mt-4">
+
+<div id="first-input--customer" class="row mt-4">
     <div class="col-sm-6">
         <h2 class="c-form--title">Address</h2>
         <div class="form-group">
@@ -196,6 +197,33 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="customer-address">
+    <div class="row mt-5">
+        <div class="col-sm-6">
+            <h2 class="c-form--title">Address list</h2>
+        </div>
+        <div class="col-sm-6 text-right">
+            <a href="javascript:void(0)" id="add-address-list" data-toggle="modal" data-target="#modal-add-address">
+                <i class="fa fa-plus"></i> Add new address
+            </a>
+        </div>
+    </div>
+    <div class="c-table--outer m-0">
+        <table id="table-customer--address" class="c-table table table-striped">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>District</th>
+                    <th>City</th>
+                    <th>Country</th>
+                    <th>ZIP Code</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 

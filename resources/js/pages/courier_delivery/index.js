@@ -8,45 +8,37 @@ const createTable = (target, data) => {
   target.DataTable({
     // scrollX: true,
     data: data,
-    lengthChange: true,
+    lengthChange: false,
     lengthMenu: [ 15, 25, 50, 100 ],
     searching: true,
     info: true,
     paging: true,
     pageLength: 15,
-    order: [[3, 'desc']],
+    order: [[0, 'desc']],
     columns: [
-      { data: 'courier_code' },
-      { data: 'vehicle.number' },
-      { data: 'schedule_date' },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return row.transaction.customer.name;
-        }
-      },
       {
         data: 'id',
         render(data, type, row) {
           const is_own_address = row.transaction.is_own_address;
-          return `${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}`
+          const address = row.address;
+          return `
+            <h3><strong><a href="/courier/delivery_schedules/${data}/edit">${row.courier_code}</a></strong></h3>
+            <small><strong>Schedule Date</strong></small>
+            <div><small>${row.schedule_date}</small></div>
+            <small><strong>Client Name</strong></small>
+            <div><small>${row.transaction.customer.name}</small></div>
+            <small><strong>Destination</strong></small>
+            <div><small>${is_own_address ? row.transaction.customer.name : row.transaction.agent.name}</small></div>
+            <small><strong>Address</strong></small>
+            <div><small>${address.description},<br/>${address.district}, ${address.city}, ${address.country} ${address.zip_code}</small></div>
+          `
         }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          const address = row.transaction.address;
-          return `${address.description}, ${address.district}, ${address.city}, ${address.country} ${address.zip_code}`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<a href="/courier/delivery_schedules/${data}/edit" class="btn btn-light is-small table-action" data-toggle="tooltip"
-          data-placement="top" title="Edit"><img src="${window.location.origin}/assets/images/icons/edit.svg" alt="edit" width="16"></a>`
-        },
       },
     ],
+    rowReorder: {
+      selector: 'td:nth-child(2)'
+    },
+    responsive: true,
     drawCallback: () => {
       $('.table-action[data-toggle="tooltip"]').tooltip();
     }
@@ -66,11 +58,11 @@ const createSOTable = (target, data) => {
         <td>
           <input type="time" class="form-control" name="eta" ${res.status !== 'open' ? '' : 'required' } readonly value="${res.estimation_time}" ${res.status === 'canceled' ? 'disabled' : '' }>
         </td>
-        <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+        <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
         <td>
           <form class="upload-photo" enctype="multipart/form-data">
             <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-            <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" multiple name="image[]" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}>
+            <input type="file" data-id="${res.id}" accept="image/*" class="form-control is-height-auto upload_photo" multiple name="image[]" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}>
             <input id="method" type="hidden" name="_method" value="put">
             <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id}" ${d.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}>Upload</button>
           </form>
@@ -159,6 +151,12 @@ const createSOTable = (target, data) => {
   })
 };
 
+const renderPhotos = (files) => {
+  return files.map((file) => {
+    return `<div class="col-4 my-3"><img src="${file.path}" class="img-fluid border rounded" /></div>`;
+  }).join('');
+};
+
 const createSOTableMobile = (target, data) => {
 
   const format = (d) => {
@@ -195,7 +193,7 @@ const createSOTableMobile = (target, data) => {
                     <hr>
                     <div>
                         <b>Delivered</b>
-                        <div>${res.files.length > 0 ? res.files[0].created_at : '-'}</div>
+                        <div>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</div>
                     </div>
                     <hr>
                     <div>
@@ -206,10 +204,19 @@ const createSOTableMobile = (target, data) => {
                     </div>
                     <hr>
                     <div>
-                        <div class="mb-2 font-weight-bold">Photo</div>
-                        <form class="upload-photo" enctype="multipart/form-data">
+                        <div class="mb-2 font-weight-bold">Photos <span class="text-black-50">(${res.files.length})</span>
+                        <div class="row  mb-4">${renderPhotos(res.files)}</div>
+                        <form class="upload-photo needs-validation" enctype="multipart/form-data" novalidate>
+                          <div class="form-group mt-4">
+                            <label class="c-form--label" for="outlet">
+                              Nama penerima
+                              <span style="color: red">&nbsp;*</span>
+                            </label>
+                            <input type="text" class="form-control" name="received_by" value="${res.received_by !== null ? res.received_by : ''}" required/>
+                            <div class="invalid-feedback">Data invalid.</div>
+                          </div>
                           <img class="img-preview img-preview-${res.id} mb-2 ${res.image_name === null ? 'd-none' : ''}" src="${res.image_name !== null ? window.location.origin+res.image_path : ''}" width="100" />
-                          <input type="file" data-id="${res.id}" accept="image/*" capture class="form-control is-height-auto upload_photo" multiple name="image[]" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
+                          <input type="file" data-id="${res.id}" accept="image/*" class="form-control is-height-auto upload_photo" multiple name="image[]" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">
                           <input id="method" type="hidden" name="_method" value="put">
                           <button type="submit" class="btn btn-primary btn-upload-photo btn-upload-photo-${res.id} w-100 mt-2" ${n.document_status === 'canceled' || res.status === 'canceled' ? 'disabled' : ''}">Upload</button>
                         </form>
@@ -221,10 +228,7 @@ const createSOTableMobile = (target, data) => {
     }
 
     return d.map((res) => {
-      return `<div class="item-order">
-      <small class="d-block text-muted mb-2">${res.transaction_number}</small>
-      <span class="d-block font-weight-bold mb-1">${res.customer.name}</span>
-      <p>${res.address.description}</p>` + items(res)
+      return `<div class="item-order">${items(res)}</div>`
     })
   };
 
@@ -312,7 +316,7 @@ if (formEditCourierDS.length > 0) {
     generateDataPickupEdit([data_line]);
     const data = res.delivery_schedule;
     const customer = data_line.customer;
-    const address = data_line.address;
+    const address = res.delivery_schedule.address;
     const outlet = data_line.transaction_lines[0].transaction.agent.name;
     $('#courier_code').text(data.courier_code);
     $('#transaction_number').text(data_line.transaction_number);

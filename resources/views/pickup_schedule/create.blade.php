@@ -19,7 +19,7 @@
     </div>
 </div>
 
-<form id="form-create-pickup" class="c-form needs-validation" novalidate>
+<form id="form-create-pickup" class="c-form is-fluid needs-validation" novalidate>
     @include('pickup_schedule._form_field')
 </form>
 @include('pickup_schedule._modal_sales_order')

@@ -22,4 +22,7 @@
 <form id="form-edit-sales-invoice" class="c-form is-fluid needs-validation" novalidate>
     @include('sales_invoice._form_field')
 </form>
+<div id="invoice-print" style="position: fixed; top: 0; left: 0; z-index: -10;">
+    @include('sales_invoice._pdf')    
+</div>
 @endsection

@@ -1,4 +1,5 @@
 import ajx from './../../shared/index.js';
+import printJS from 'print-js';
 
 let transaction_lines = [];
 
@@ -132,19 +133,15 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
+          return `
+          <input hidden type="text" class="form-control promo_id text-right is-number" id="promo_id_${row.id}" name="promo_id" value="${row.promo_id ? row.promo_id : ''}">
+          <input type="text" class="form-control promo-code is-number" id="promo-code_${row.id}" readonly data-id="${row.item_id}" name="promo-code" value="${row.promo ? row.promo.code : ''}">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" required readonly value="${row.quantity}" name="quantity">`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
         }
       },
       {
@@ -159,10 +156,22 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
+          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
           return `<div class="input-group flex-nowrap">
           <div class="input-group-prepend">
               <span class="input-group-text">Rp</span>
           </div><input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" name="amount" value="${row.amount}" readonly></div>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control" id="note_${row.id}" name="note" required readonly value="${row.note ? row.note : ''}">`
         }
       },
       {
@@ -192,7 +201,13 @@ const getDetailSalesOrder = (url, key, id) => {
     $('#status_order').val(res[key].order_type === 'general' ? 'open' : 'closed');
     $('#note').val(res[key].note);
     $('#pickup_date').val(res[key].pickup_date);
+    $('#dp_amount').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
+    $('#dp_amount_print').val(res[key].dp_amount ? parseFloat(res[key].dp_amount) : '0');
     $('#is_own_address').attr('checked', res[key].is_own_address);
+    $('#freight').val(parseFloat(res[key].freight));
+    $('#freight_print').val(parseFloat(res[key].freight));
+    $('#discount').val(parseFloat(res[key].discount));
+    $('#discount_amount').val(parseFloat(res[key].discount_amount));
     const choosed_item = [];
     let id = 0;
     res[key].transaction_lines.forEach(res => {
@@ -206,13 +221,15 @@ const getDetailSalesOrder = (url, key, id) => {
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,
-          discount: res.discount,
-          quantity: res.quantity,
+          discount: parseFloat(res.discount),
+          quantity: parseFloat(res.quantity),
           color: res.color,
           note: res.note,
           name: res.item.description,
-          amount: res.amount,
+          amount: parseFloat(res.amount),
           status: res.status,
+          promo_id: res.promo_id,
+          promo: res.promo,
         });
       }
     });
@@ -244,6 +261,7 @@ const totalBeforeDisc = () => {
     price = parseFloat(price) + parseFloat(item.value);
     totalBeforeDiscField.val(price);
     $('#original_amount').val(price);
+    $('#original_amount_print').val(price);
     finalTotal($('#discount').val());
   });
   $('#discount').change((e) => finalTotal(e.target.value));
@@ -256,9 +274,11 @@ const finalTotal = (value, freightValue) => {
   const original_amount = $('#original_amount').val();
   const discountCount = parseFloat(value)/100 * parseFloat(original_amount);
   const discount = discount_amount.val(parseFloat(discountCount));
+  $('#discount_amount_print').val(parseFloat(discountCount));
   const freight = freightValue ? freightValue : $('#freight').val();
   const total = parseFloat(original_amount) - parseFloat(discount.val()) + parseFloat(freight);
   $('#total_amount').val(parseFloat(total));
+  $('#total_amount_print').val(parseFloat(total));
 };
 
 const dataFormSalesOrder = () => {
@@ -280,6 +300,7 @@ const dataFormSalesOrder = () => {
         quantity: target.querySelector('input[name="quantity"]').value,
         unit_price: unit_price,
         discount: target.querySelector('input[name="discount"]').value,
+        promo_id: target.querySelector('input[name="promo_id"]').value,
         amount: amount,
         discount_amount: discount_amount,
         status: target.querySelector('input[name="status"]') ? target.querySelector('select[name="status"]').value : 'open',
@@ -304,7 +325,9 @@ const dataFormSalesOrder = () => {
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
     freight: $('#freight').val(),
+    dp_amount: $('#dp_amount').val(),
     transaction_lines: transaction_lines,
+    promo_id: null, // TO DO
   }
 };
 
@@ -359,7 +382,19 @@ if (tableInvoice.length > 0) {
 if (formEditSalesInvoice.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
+  $('.btn[data-target="#modal-sales-order-on-invoice"]').remove();
+  $('label[for="order_id"]').text('No. Invoice');
+  $('#dp_amount').attr('readonly', true);
   $('#footer-form').remove();
   $('#due_date, #transaction_date, #discount, #freight, #is_own_address').attr('readonly', true);
   getDetailSalesOrder('sales_invoices', 'sales_invoice', id);
 }
+
+$('#btn-print').click(() => {
+  // window.print();
+  printJS({
+    printable: 'invoice-print',
+    type: 'html',
+    targetStyles: ['*'],
+  });
+});

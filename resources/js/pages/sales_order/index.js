@@ -30,6 +30,12 @@ const createTable = (target, data) => {
     order: [[3, 'desc']],
     columns: [
       { data: 'transaction_number' },
+      {
+        data: 'is_pre_order',
+        render(data) {
+          return data ? 'Pre Order' : 'General';
+        }
+      },
       { data: 'customer.name' },
       { data: 'agent.name' },
       { data: 'transaction_status' },
@@ -76,9 +82,9 @@ const createTableCustomerFormTable = (target, data) => {
       { data: 'id' },
       { data: 'name' },
       {
-        data: 'shipping_address',
+        data: 'shipping_addresses',
         render(data, type, row) {
-          return `${data.description}, ${data.district}, ${data.city}, ${data.country} ${data.zip_code}`
+          return `${data[0].description}, ${data[0].district}, ${data[0].city}, ${data[0].country} ${data[0].zip_code}`
         }
       },
       { data: 'phone_number' },
@@ -217,19 +223,15 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control form_note" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
+          return `
+          <input hidden type="text" class="form-control promo_id text-right is-number" id="promo_id_${row.id}" name="promo_id" value="${row.promo_id ? row.promo_id : ''}">
+          <input type="text" class="form-control promo-code is-number" id="promo-code_${row.id}" data-id="${row.item_id}" name="promo-code" value="${row.promo ? row.promo.code : ''}">`
         }
       },
       {
         data: 'id',
         render(data, type, row) {
           return `<input type="text" class="form-control quantity text-right is-number" id="quantity_${row.id}" data-id="${row.item_id}" value="${row.quantity ? row.quantity  : 1}" name="quantity">`
-        }
-      },
-      {
-        data: 'id',
-        render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount">`
         }
       },
       {
@@ -247,6 +249,16 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div>
+          <input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount" readonly></div>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
           const val = Number.parseFloat(row.amount);
           return `<div class="input-group flex-nowrap">
           <div class="input-group-prepend">
@@ -254,6 +266,12 @@ const generateItemTable = (target, data) => {
           </div>
           <input type="text" class="form-control text-right item_total is-number" id="amount_${row.id}" data-id="${row.item_id}" name="amount" value="${val}" readonly>
       </div>`
+        }
+      },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<input type="text" class="form-control form_note" id="note_${row.id}" data-id="${row.item_id}" name="note" value="${row.note ? row.note  : ''}">`
         }
       },
       {
@@ -285,6 +303,11 @@ const generateItemTable = (target, data) => {
       removeItem();
       totalBeforeDisc();
       updateDiscountAndQuantity();
+      $('.promo-code').each((i, promo) => {
+        $(promo).change(e => {
+          getPromoCode(e.target.value, e.target);
+        });
+      });
       $('.auto-button').click(e => {
         const value = e.target.id.split('_')[0];
         const id = e.target.id.split('_')[1];
@@ -434,6 +457,7 @@ const dataFormSalesOrder = () => {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,
@@ -449,6 +473,7 @@ const dataFormSalesOrder = () => {
             bor: target.querySelector('input[name="bor"]').value,
             brand_id: target.querySelector('select[name="brand_id"]').value,
             color: target.querySelector('input[name="color"]').value,
+            promo_id: target.querySelector('input[name="promo_id"]').value,
             quantity: target.querySelector('input[name="quantity"]').value,
             unit_price: unit_price,
             discount: target.querySelector('input[name="discount"]').value,
@@ -465,6 +490,7 @@ const dataFormSalesOrder = () => {
           brand_id: target.querySelector('select[name="brand_id"]').value,
           color: target.querySelector('input[name="color"]').value,
           quantity: target.querySelector('input[name="quantity"]').value,
+          promo_id: target.querySelector('input[name="promo_id"]').value,
           unit_price: unit_price,
           discount: target.querySelector('input[name="discount"]').value,
           amount: amount,
@@ -476,6 +502,8 @@ const dataFormSalesOrder = () => {
 
   return {
     is_own_address: $('#is_own_address').prop('checked'),
+    is_pre_order: $('#is_pre_order').prop('checked'),
+    promo_id: '', // TO DO
     customer_id: $('#customer_id').attr('customer-id'),
     agent_id: $('#agent_id').val(),
     transaction_date: $('#transaction_date').val(),
@@ -485,6 +513,7 @@ const dataFormSalesOrder = () => {
     discount: $('#discount').val(),
     discount_amount: $('#discount_amount').val(),
     total_amount: $('#total_amount').val(),
+    dp_amount: $('#dp_amount').val(),
     note: $('#note').val(),
     order_type: $('#order_type').val(),
     status_order: $('#status_order').val(),
@@ -548,6 +577,7 @@ if (formCreateSalesOrder.length > 0) {
   sessionStorage.clear();
   sessionStorage.setItem('choosed_item', '[]');
   $('#button-delete').remove();
+  $('#user_name').remove();
   formCreateSalesOrder.submit((e) => {
     e.preventDefault();
     $('#form-submit').attr('disabled', true);
@@ -588,33 +618,40 @@ if (formEditSalesOrder.length > 0) {
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,
-          discount: res.discount,
-          quantity: res.quantity,
+          discount: parseFloat(res.discount),
+          quantity: parseFloat(res.quantity),
           color: res.color,
           note: res.note,
           name: res.item.description,
-          amount: res.amount,
+          amount: parseFloat(res.amount),
           status: res.status,
+          promo_id: res.promo_id,
+          promo: res.promo,
         });
       });
-
+      sessionStorage.setItem('transaction_number', res.sales_order.transaction_number)
       sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
       generateItemTable(tableSOItems, choosed_item);
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
       $('#customer_id').val(res.sales_order.customer.name);
       $('#agent_id').val(res.sales_order.agent_id);
-      $('#agent_id').attr('readonly', true);
-      $('#is_own_address').attr('readonly', true);
-      $('#is_own_address').attr('disabled', true);
+      // $('#agent_id').attr('readonly', true);
+      // $('#is_own_address').attr('readonly', true);
+      // $('#is_own_address').attr('disabled', true);
       $('#is_own_address').attr('checked', res.sales_order.is_own_address);
+      // $('#is_pre_order').attr('readonly', true);
+      // $('#is_pre_order').attr('disabled', true);
+      $('#is_pre_order').attr('checked', res.sales_order.is_pre_order);
+      $('#user_id').val(res.sales_order.creator.username);
       $('#order_type').val(res.sales_order.order_type);
       $('#note').val(res.sales_order.note);
-      $('#discount').val(res.sales_order.discount);
-      $('#discount_amount').val(res.sales_order.discount_amount);
-      $('#freight').val(res.sales_order.freight);
+      $('#discount').val(parseFloat(res.sales_order.discount));
+      $('#discount_amount').val(parseFloat(res.sales_order.discount_amount));
+      $('#freight').val(parseFloat(res.sales_order.freight));
       $('#status_order').val(res.sales_order.transaction_status);
-      $('#original_amount').val(res.sales_order.original_amount);
-      $('#total_amount').val(res.sales_order.total_amount);
+      $('#original_amount').val(parseFloat(res.sales_order.original_amount));
+      $('#total_amount').val(parseFloat(res.sales_order.total_amount));
+      $('#dp_amount').val(parseFloat(res.sales_order.dp_amount));
       $('#transaction_date').val(res.sales_order.transaction_date);
       $('#pickup_date').val(res.sales_order.pickup_date);
       // $('#delivery_date').val(res.sales_order.delivery_date);
@@ -622,7 +659,7 @@ if (formEditSalesOrder.length > 0) {
       $('#btn-add-item').attr('disabled', res.sales_order.transaction_status === 'canceled');
       $('#btn-add-item').removeClass(res.sales_order.transaction_status === 'canceled' ? '' : 'disabled');
 
-      if (isNotOpen(res)) {
+      if (isNotOpen(res) && !res.sales_order.is_pre_order) {
         disableAllForm(true)
       }
     })
@@ -649,10 +686,44 @@ if (formEditSalesOrder.length > 0) {
 }
 
 const isNotOpen = (res) => {
-  return res.sales_order.transaction_status !== 'open'
+  return res.sales_order.transaction_status !== 'open';
 }
 
 const disableAllForm = () => {
   formEditSalesOrder.find('input, select, textarea').attr('disabled', 'disabled')
   formEditSalesOrder.find('button').not('#button-cancel').attr('disabled', 'disabled')
+}
+
+$('#btn-download').click(() => {
+  const urlArray = window.location.href.split('/');
+  const id = urlArray[urlArray.length - 2];
+  const transaction_number = sessionStorage.getItem('transaction_number');
+  const windowOpen = window.open('', '_blank');
+  ajx.download(`/api/sales_orders/${id}`)
+    .then((res) => {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(res);
+      link.download = `proforma-${transaction_number}.pdf`;
+      link.click();
+      windowOpen.close();
+    })
+});
+
+const getPromoCode = (promoCode, target) => {
+  ajx.get(`/api/promos`).then((res) => {
+    const promo = res.promos.data.filter(promo => promo.code === promoCode)[0];
+    const index = target.id.split('_')[1];
+    const unitPriceField = $(`#unit_price_${index}`);
+    const unitPriceValue = unitPriceField.val();
+    const calculateDiscountByPromo = parseFloat(unitPriceValue) * promo.percentage/100;
+    const isMaxPromo = calculateDiscountByPromo > promo.max_promo;
+    const discount = isMaxPromo ? promo.max_promo : calculateDiscountByPromo;
+    $(target).prev().val(promo.id);
+    $(`#discount_${index}`).val(parseFloat(discount));
+    $(`#amount_${index}`).val(
+      parseFloat(unitPriceValue - discount) * parseFloat($(`#quantity_${index}`).val())
+    );
+    totalBeforeDisc();
+    finalTotal($('#discount').val());
+  })
 }

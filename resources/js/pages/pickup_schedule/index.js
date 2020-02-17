@@ -1,4 +1,5 @@
 import ajx from './../../shared/index.js';
+import modalPhotos from './../../components/modal/modal-photos.js';
 
 const list_id = [];
 const courierId = $('#person_id');
@@ -73,6 +74,7 @@ const createSOTable = (target, data) => {
   const format = (d) => {
     let row = '';
     const items = d.transaction_lines;
+    modalPhotos(items);
     items.map((res) => {
       const transactionLine = res.transaction_line === undefined ? res : res.transaction_line
       const documentStatus = $('#document_status').val();
@@ -94,7 +96,8 @@ const createSOTable = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
-          <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          ${res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status !== 'canceled') {
@@ -110,7 +113,8 @@ const createSOTable = (target, data) => {
           <td>
             <input type="time" class="form-control" name="eta" value="${res.estimation_time}">
           </td>
-          <td>${res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          <td>${res.files && res.files.length > 0 ? res.files[0].created_at : '-'}</td>
+          ${res.files && res.files.length > 0 ? '<td><a href="javascript:void(0)" data-id="' + res.id + '" data-toggle="modal" data-target="#modal-photos"><i class="fa fa-image"></i> See photos</a></td>' : ''}
           <td></td>
         </tr>`;
       } else if (res.status === 'canceled') {
@@ -128,6 +132,7 @@ const createSOTable = (target, data) => {
         <th>Color</th>
         <th class="th-qty">ETA</th>
         <th>Picked</th>
+        ${items.filter((res) => res.files && res.files.length > 0).length > 0 ? '<th>Photos</th>' : ''}
         <th></th>
       </tr>
     </thead><tbody>${row}</tbody></table>`;
@@ -152,9 +157,12 @@ const createSOTable = (target, data) => {
       { data: 'transaction_number' },
       { data: 'customer.name' },
       {
-        data: 'address',
+        data: 'customer.shipping_addresses',
         render(data) {
-          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`;
+          const options = data.map((res) => {
+            return `<option value="${res.id}">${res.description}, ${res.district}, ${res.city}, ${res.country} ${res.zip_code}</option>`
+          })
+          return `<select id="address_id" class="form-control select2" name="address_id">${options.join('')}</select>`
         }
       },
       {
@@ -166,6 +174,11 @@ const createSOTable = (target, data) => {
     ],
     drawCallback: () => {
       removeItem();
+      $('#address_id').val(sessionStorage.address_id);
+      $('#address_id').select2({
+        theme: 'bootstrap',
+        placeholder: 'Choose address',
+      }).trigger('change');
       if (EditPickupForm.length > 0) {
         $('.remove-item').remove();
       }
@@ -208,7 +221,12 @@ const createTable = (target, data) => {
     pageLength: 15,
     order: [[3, 'desc']],
     columns: [
-      { data: 'courier_code' },
+      {
+        data: 'id',
+        render(data, type, row) {
+          return `<a href="/pickup_schedules/${data}/edit">${row.courier_code}</a>`
+        }
+      },
       { data: 'person.name' },
       { data: 'vehicle.number' },
       { data: 'schedule_date' },
@@ -239,10 +257,9 @@ const createTable = (target, data) => {
         }
       },
       {
-        data: 'id',
+        data: 'address',
         render(data, type, row) {
-          const address = row.transaction.address;
-          return `${address.description}, ${address.district}, <br/>${address.city}, ${address.country} ${address.zip_code}`
+          return `${data.description}, ${data.district}, <br/>${data.city}, ${data.country} ${data.zip_code}`
         }
       },
       {
@@ -296,6 +313,7 @@ const dataFormPickup = (tableList) => {
     person_id: $('#person_id').val(),
     vehicle_id: $('#vehicle_id').val(),
     schedule_date: $('#date').val(),
+    address_id: $('#address_id').val(),
     courier_schedule_lines: courier_schedule_lines,
   }
 };
@@ -385,10 +403,11 @@ if (EditPickupForm.length > 0) {
       $('#vehicle_id').val(res.pickup_schedule.vehicle_id);
       $('#date').val(res.pickup_schedule.schedule_date);
       $('#document_status').val(res.pickup_schedule.transaction.transaction_status);
+      sessionStorage.setItem('address_id', res.pickup_schedule.address.id);
       $('#person_id, #vehicle_id').select2({
         theme: 'bootstrap',
         placeholder: 'Choose option',
-      });
+      }).trigger('change');
       const groupBy = (xs, key) => {
         return xs.reduce((rv, x) => {
           (rv['transaction_lines'] = rv['transaction_lines'] || []).push(x);

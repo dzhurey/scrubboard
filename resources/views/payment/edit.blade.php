@@ -19,8 +19,9 @@
     </div>
 </div>
 
-<form id="form-edit-sales-invoice" class="c-form is-fluid needs-validation" novalidate>
+<form id="form-edit-payment" class="c-form is-fluid needs-validation" novalidate>
     @include('payment._form_field')
 </form>
 @include('payment._modal_sales_invoices')
+@include('payment._modal_payment_means')
 @endsection

@@ -8,8 +8,9 @@
                 <th>Client Name</th>
                 <th>Payment Date</th>
                 <th>Status</th>
-                <th>Payment Method</th>
+                <th>Due Balance</th>
                 <th>Total Amount</th>
+                <th></th>
             </tr>
         </thead>
     </table>

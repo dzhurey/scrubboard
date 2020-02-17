@@ -29,6 +29,7 @@ class SalesOrderPresenter extends BasePresenter
         $input->transaction_lines = $input->transactionLines->transform(function ($item) {
             $item->item = $item->item;
             $item->brand = $item->brand;
+            $item->promo = $item->promo;
             return $item;
         });
         $input->courier_schedule = null;

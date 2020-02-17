@@ -2,6 +2,17 @@
 <div class="row">
     <div class="col-sm-4">
         <div class="form-group">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input form-check-box" id="is_pre_order" type="checkbox" name="is_pre_order">
+                <label class="form-check-label" for="is_pre_order">Pre Order</label>
+            </div>
+        </div>
+        <div id="user_name" class="form-group">
+            <label class="c-form--label" for="user_id">Author</label>
+            <input class="form-control cursor-pointer" id="user_id" name="user_id" readonly />
+            <div class="invalid-feedback">Data invalid.</div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="order_type">Order type</label>
             <select class="form-control" id="order_type" name="order_type" required>
                 <option value="general">General</option>
@@ -72,11 +83,12 @@
                     <th class="th-price">BOR<span style="color: red">&nbsp;*</span></th>
                     <th class="th-note">Brand</th>
                     <th class="th-price">Color</th>
-                    <th class="th-note">Notes</th>
+                    <th class="th-total">Code/Promo</th>
                     <th class="th-qty text-right">Qty</th>
-                    <th class="th-dcs text-right">Disc (%)</th>
                     <th class="th-price text-right">Unit Price</th>
+                    <th id="th-disc" class="th-dcs text-right">Disc</th>
                     <th class="th-total text-right">Total</th>
+                    <th class="th-note">Notes</th>
                     <th class="th-action"></th>
                 </tr>
             </thead>
@@ -142,6 +154,15 @@
                 <input class="form-control is-number" id="total_amount" value="0" readonly>
             </div>
         </div>
+        <div class="form-group">
+            <label class="c-form--label" for="dp_amount">Booking Fee</label>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control is-number" id="dp_amount" value="0">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -149,6 +170,9 @@
 <div class="row">
     <div class="col-sm-6 text-left">
         <button id="button-delete" class="btn btn-danger" type="button">Cancel Document</button>
+        <button id="btn-download" class="btn btn-default btn-sm" type="button">
+            <i class="fa fa-download"></i>&nbsp;Download proforma
+        </button>
     </div>
     <div class="col-sm-6 text-right">
         <button id='button-cancel' class="btn btn-light mr-2" type="button">Cancel</button>

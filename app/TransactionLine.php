@@ -27,6 +27,7 @@ class TransactionLine extends BaseModel
         'brand_id',
         'color',
         'status',
+        'promo_id',
     ];
 
     protected $searchable = [];
@@ -44,6 +45,11 @@ class TransactionLine extends BaseModel
     public function brand()
     {
         return $this->belongsTo('App\Brand');
+    }
+
+    public function promo()
+    {
+        return $this->belongsTo('App\Promo');
     }
 
     public function courierScheduleLine()

@@ -107,13 +107,9 @@ class StorePayment extends FormRequest
 
             $transaction = SalesInvoice::find($this->request->get('transaction_id'));
 
-            if ($this->request->get('total_amount') > $transaction->total_amount) {
-                $validator->errors()->add('total_amount', __('rules.more_than_amount'));
-            }
-
-            if ($totalDp > $transaction->dp_amount) {
-                $validator->errors()->add('dp_amount', __('rules.more_than_amount'));
-            }
+            // if ($this->request->get('total_amount') > $transaction->total_amount) {
+            //     $validator->errors()->add('total_amount', __('rules.more_than_amount'));
+            // }
 
             if ($totalAmount != $this->request->get('total_amount')) {
                 $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));

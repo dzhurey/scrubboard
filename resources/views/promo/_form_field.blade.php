@@ -1,56 +1,69 @@
 {{ csrf_field() }}
 <div class="row">
     <div class="col-sm-6">
-        <h2 class="c-form--title">Item Data</h2>
+        <h2 class="c-form--title">Promo Data</h2>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="item_type">Item type</label>
-                    <select class="form-control" id="item_type" name="item_type" required>
-                        <option value="item">Item</option>
-                        <option value="service">Service</option>
+                    <label class="c-form--label" for="type">Type</label>
+                    <select class="form-control" id="type" name="type" required>
+                        <option value="promo">Promo</option>
+                        <option value="bebemoney">Bebemoney</option>
                     </select>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
         </div>
         <div class="form-group">
-            <label class="c-form--label" for="description">Description</label>
-            <input class="form-control" id="description" name="description" required>
+            <label class="c-form--label" for="promo_name">Promo name</label>
+            <input class="form-control" id="promo_name" name="name" required>
             <div class="invalid-feedback">Data invalid.</div>
         </div>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="item_group_id">Category</label>
-                    <select class="form-control" id="item_group_id" name="item_group_id" required></select>
+                    <label class="c-form--label" for="promo_code">Promo code</label>
+                    <input class="form-control" id="promo_code" name="code" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label class="c-form--label" for="promo_quota">Promo quota</label>
+                    <input class="form-control" id="promo_quota" name="quota" required>
+                    <div class="invalid-feedback">Data invalid.</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="promo_percentage">Promo percentage (%)</label>
+                    <input class="form-control" id="promo_percentage" name="percentage" required>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label class="c-form--label" for="item_sub_category_id">Sub category</label>
-                    <select class="form-control" id="item_sub_category_id" name="item_sub_category_id" required></select>
+                    <label class="c-form--label" for="promo_maximum">Maximum discount</label>
+                    <input class="form-control" id="promo_maximum" name="max_promo" required>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="c-form--label" for="price_list">Price</label>
-            <div class="row">
-                <div class="col-sm-6">
-                    <select class="form-control" id="price_list" name="price_id" required></select>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="start_date">Start date</label>
+                    <input class="form-control datetimepicker" id="start_date" name="start_promo" required>
+                    <div class="invalid-feedback">Data invalid.</div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="form-group">
-                        <div class="input-group flex-nowrap">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Rp</span>
-                            </div>
-                            <input class="form-control" id="price" name="price" required>
-                        </div>
-                        <div class="invalid-feedback">Data invalid.</div>
-                    </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="c-form--label" for="end_date">End date</label>
+                    <input class="form-control datetimepicker" id="end_date" name="end_promo" required>
+                    <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
         </div>

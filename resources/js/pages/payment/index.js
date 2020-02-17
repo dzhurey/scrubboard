@@ -175,14 +175,13 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit((e) => {
     e.preventDefault();
-    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.post('/api/payments', {
       "customer_id" : $('#customer-name').attr('customer-id'),
       "transaction_id" : $('#payment-sales-invoice-id').attr('data-id'),
       "note" : $('#note').val(),
       "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
-      "payment_lines": paymentLines,
+      "payment_lines": JSON.parse(sessionStorage.payment_lines),
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {
@@ -227,14 +226,13 @@ if (formEditPayment.length > 0) {
 
   formEditPayment.submit((e) => {
     e.preventDefault();
-    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/payments/${id}`, {
       "customer_id" : $('#customer-name').attr('customer-id'),
       "transaction_id" : $('#payment-sales-invoice-id').attr('data-id'),
       "note" : $('#note').val(),
       "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
-      "payment_lines": paymentLines,
+      "payment_lines": JSON.parse(sessionStorage.payment_lines),
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {

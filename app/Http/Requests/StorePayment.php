@@ -44,6 +44,7 @@ class StorePayment extends FormRequest
      *         "note": "asdads",
      *         "receiver_name": "Suryadi", // required if payment_method = bank_transfer
      *         "bank_account_id": 1, // required if payment_method = bank_transfer
+     *         "credit_card_no": "023902392233232", // required if payment_method = credit_card
      *         "bank_id": null // required if payment_method = credit_card
      *       }
      *     ]

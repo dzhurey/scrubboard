@@ -54508,7 +54508,6 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit(function (e) {
     e.preventDefault();
-    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payments', {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54517,7 +54516,7 @@ if (formCreatePayment.length > 0) {
       "total_amount": paymentLines.reduce(function (agg, item) {
         return agg += parseFloat(item.amount);
       }, 0),
-      "payment_lines": paymentLines
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54565,7 +54564,6 @@ if (formEditPayment.length > 0) {
   });
   formEditPayment.submit(function (e) {
     e.preventDefault();
-    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54574,7 +54572,7 @@ if (formEditPayment.length > 0) {
       "total_amount": paymentLines.reduce(function (agg, item) {
         return agg += parseFloat(item.amount);
       }, 0),
-      "payment_lines": paymentLines
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {

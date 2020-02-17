@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label class="c-form--label" for="sales_invoice_id">Sales Invoice ID</label>
                     <input class="form-control cursor-pointer" id="payment-sales-invoice-id" name="sales_invoice_id" required readonly placeholder="Sales Invoices ID" />
-                    <button type="button" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modal-sales-invoices-payment">Add Sales Invoice</button>
+                    <button type="button" id="button-choose-invoices" class="btn btn-primary mt-3" data-toggle="modal" data-target="#modal-sales-invoices-payment">Add Sales Invoice</button>
                     <div class="invalid-feedback">Data invalid.</div>
                 </div>
             </div>
@@ -72,7 +72,7 @@
     </div>
     <div class="col-sm-4 offset-sm-2">
         <div class="form-group">
-            <label class="c-form--label" for="total-amount">Total Amount</label>
+            <label class="c-form--label" for="total-amount">Due Balance</label>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Rp</span>

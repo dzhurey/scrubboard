@@ -54315,6 +54315,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var tablePayment = $('#table-payment');
 var formCreatePayment = $('#form-create-payment');
+var formEditPayment = $('#form-edit-payment');
 var salesInvoicePayment = $('#payment-sales-invoice-id');
 var paymentMethod = $('#payment_method');
 var bankAccount = $('#bank_account');
@@ -54343,14 +54344,34 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'payment_date'
     }, {
-      data: 'payment_lines[0].transaction.transaction_status'
-    }, {
-      data: 'payment_means[0].payment_type',
-      render: function render(h) {
-        return h === "" ? "-" : h;
+      data: 'id',
+      render: function render(data, type, row) {
+        var arrayData = [];
+        row.payment_means.forEach(function (res) {
+          return arrayData.push(parseFloat(res.amount));
+        });
+        var arraySum = arrayData.reduce(function (a, b) {
+          return a + b;
+        });
+        var due_balance = row.payment_lines[0].transaction.total_amount - arraySum;
+        return due_balance === 0 ? 'PAID' : 'UNPAID';
       }
     }, {
-      data: 'total_amount'
+      data: 'payment_means',
+      render: function render(data) {
+        var arrayData = [];
+        data.forEach(function (res) {
+          return arrayData.push(parseFloat(res.amount));
+        });
+        return arrayData.reduce(function (a, b) {
+          return a + b;
+        });
+      }
+    }, {
+      data: 'payment_lines[0].transaction.total_amount',
+      render: function render(data) {
+        return parseFloat(data);
+      }
     }, {
       data: 'id',
       render: function render(data, type, row) {
@@ -54496,6 +54517,7 @@ if (paymentMethod.length > 0) {
 }
 
 if (formCreatePayment.length > 0) {
+  sessionStorage.clear();
   $('#button-delete').remove();
   formCreatePayment.submit(function (e) {
     e.preventDefault();
@@ -54526,6 +54548,56 @@ if (tablePayment.length > 0) {
     createTable(tablePayment, res.payments.data);
   })["catch"](function (res) {
     return console.log(res);
+  });
+}
+
+if (formEditPayment.length > 0) {
+  sessionStorage.clear();
+  var urlArray = window.location.href.split('/');
+  var id = urlArray[urlArray.length - 2];
+  _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/payments/".concat(id)).then(function (_ref) {
+    var payment = _ref.payment;
+    sessionStorage.setItem('payment_lines', JSON.stringify(payment.payment_means));
+    tablePaymentLines($('#table-payment-lines'), JSON.parse(sessionStorage.payment_lines));
+    $('#button-choose-invoices').prop('disabled', true);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/sales_invoices/".concat(payment.payment_lines[0].transaction.id)).then(function (res) {
+      sessionStorage.setItem('choosed_si', JSON.stringify(res.sales_invoice));
+      var choosed_si = JSON.parse(sessionStorage.choosed_si);
+      $('#customer-name').val(choosed_si.customer.name);
+      $('#customer-name').attr('customer-id', choosed_si.customer.id);
+      $('#transaction_type').val(choosed_si.transaction_type); // $('#total_amount').val(parseFloat(choosed_si.balance_due));
+
+      $('#total_amount').val(parseFloat(0));
+      $('#amount').val(parseFloat(choosed_si.balance_due));
+      $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
+      $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
+      $('#add-payment-means').removeAttr('disabled');
+      $('#add-payment-means').removeClass('disabled');
+    });
+  })["catch"](function (res) {
+    return console.log(res);
+  });
+  formEditPayment.submit(function (e) {
+    e.preventDefault();
+    $('button[type="submit"]').attr('disabled', true);
+    _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
+      "customer_id": $('#customer-name').attr('customer-id'),
+      "payment_date": $('#date').val(),
+      "payment_type": $('#payment_method').val(),
+      "transaction_id": $('#payment-sales-invoice-id').attr('data-id'),
+      "bank_account_id": $('#bank_account').val(),
+      "note": $('#note').val(),
+      "bank_id": $('select[name="bank_id"]').val(),
+      "amount": $('#total-amount').val(),
+      "total_amount": $('#total_amount').val(),
+      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+    }).then(function (res) {
+      window.location = '/payments';
+    })["catch"](function (res) {
+      console.log(res);
+      $('button[type="submit"]').attr('disabled', false);
+    });
+    return false;
   });
 }
 
@@ -54565,7 +54637,18 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
     }, {
       data: 'bank_account_id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+        var name;
+        var account_number;
+
+        if (data) {
+          var parsing = JSON.parse(sessionStorage.bank_accounts).filter(function (res) {
+            return res.id === parseInt(data);
+          })[0];
+          name = parsing.bank.name;
+          account_number = parsing.account_number;
+        }
+
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data ? name + ' - ' + account_number : '', "\"/>");
       }
     }, {
       data: 'receiver_name',
@@ -54573,14 +54656,14 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
         return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
-      data: 'bank_id',
+      data: 'credit_card',
       render: function render(data, type, row) {
         return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
       }
     }, {
-      data: 'credit_card',
+      data: 'bank_id',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data ? row.bank_name : '', "\"/>");
       }
     }, {
       data: 'amount',
@@ -54618,8 +54701,24 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
 if (formPaymentMeans.length > 0) {
   $('#modal-add-payment-means').on('shown.bs.modal', function (e) {
     formPaymentMeans.removeClass('was-validated');
+    $('#payment_method').val('cash');
+    $('#payment_type').val('down_payment');
+    $('#bank_account').val('');
+    $('#receiver_name').val('');
+    $('#bank_id').val('');
+    $('#credit_card').val();
+    $('#total_amount').val();
+    $('#note').val();
   });
   formPaymentMeans.submit(function (e) {
+    paymentLines = [];
+
+    if (sessionStorage.payment_lines) {
+      JSON.parse(sessionStorage.payment_lines).forEach(function (response) {
+        paymentLines.push(response);
+      });
+    }
+
     $('#table-payment-lines').DataTable().destroy();
     var data = {
       id: paymentLines.length + 1,
@@ -54628,7 +54727,8 @@ if (formPaymentMeans.length > 0) {
       payment_date: $('#payment_date').val(),
       bank_account_id: $('#bank_account').val(),
       receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
-      bank_id: $('#bank_id').val(),
+      bank_id: $('select[name="bank_id"]').val(),
+      bank_name: $('select[name="bank_id"]').children('option:selected').text(),
       credit_card: $('#credit_card').val() === '-' ? '' : $('#credit_card').val(),
       amount: $('#total_amount').val(),
       note: $('#note').val()

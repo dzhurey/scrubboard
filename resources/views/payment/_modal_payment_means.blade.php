@@ -44,18 +44,18 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="c-form--label" for="bank_account">Bank Account</label>
-                                    <select class="form-control" id="bank_account" name="bank_account" required>
+                                    <select class="form-control" id="bank_account" name="bank_account">
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label class="c-form--label" for="receiver_name">Account holder</label>
-                                    <input type="text" class="form-control" id="receiver_name" name="receiver_name" required value="-"/>
+                                    <input type="text" class="form-control" id="receiver_name" name="receiver_name"/>
                                 </div>
                             </div>
                             <div id="field-credit-card">
                                 <div class="form-group">
                                     <label class="c-form--label" for="credit_card">Credit Card No</label>
-                                    <input class="form-control" id="credit_card" name="credit_card" required value="-">
+                                    <input class="form-control" id="credit_card" name="credit_card">
                                 </div>
                                 <div class="form-group">
                                     <label class="c-form--label" for="bank_name">Bank Name</label>

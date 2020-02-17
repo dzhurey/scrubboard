@@ -128,7 +128,7 @@ class PaymentStoreService extends BaseService
         }
         $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
         $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
-        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        // $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
         $transaction->save();
     }
 }

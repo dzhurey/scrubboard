@@ -54344,27 +54344,17 @@ var createTable = function createTable(target, data) {
     }, {
       data: 'payment_date'
     }, {
-      data: 'id',
+      data: 'transaction.balance_due',
       render: function render(data, type, row) {
-        var arrayData = [];
-        row.payment_means.forEach(function (res) {
-          return arrayData.push(parseFloat(res.amount));
-        });
-        var arraySum = arrayData.reduce(function (a, b) {
-          return a + b;
-        });
-        var due_balance = row.payment_lines[0].transaction.total_amount - arraySum;
-        return due_balance === 0 ? 'PAID' : 'UNPAID';
+        return parseFloat(data) === 0 ? 'PAID' : 'UNPAID';
       }
     }, {
-      data: 'payment_lines[0].transaction.balance_due',
+      data: 'transaction.balance_due',
       render: function render(data) {
-        return parseFloat(data); // const arrayData = [];
-        // data.forEach((res) => arrayData.push(parseFloat(res.amount)));
-        // return arrayData.reduce((a,b) => a + b);
+        return parseFloat(data);
       }
     }, {
-      data: 'payment_lines[0].transaction.total_amount',
+      data: 'transaction.total_amount',
       render: function render(data) {
         return parseFloat(data);
       }
@@ -54517,6 +54507,7 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit(function (e) {
     e.preventDefault();
+    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/payments', {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54527,8 +54518,10 @@ if (formCreatePayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+      "total_amount": paymentLines.reduce(function (agg, item) {
+        return agg += parseFloat(item.amount);
+      }, 0),
+      "payment_lines": paymentLines
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54565,6 +54558,7 @@ if (formEditPayment.length > 0) {
 
       $('#total_amount').val(parseFloat(0));
       $('#amount').val(parseFloat(choosed_si.balance_due));
+      $('#totalAmount').val(parseFloat(choosed_si.total_amount));
       $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
       $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
       $('#add-payment-means').removeAttr('disabled');
@@ -54575,6 +54569,7 @@ if (formEditPayment.length > 0) {
   });
   formEditPayment.submit(function (e) {
     e.preventDefault();
+    var paymentLines = JSON.parse(sessionStorage.payment_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/payments/".concat(id), {
       "customer_id": $('#customer-name').attr('customer-id'),
@@ -54585,8 +54580,10 @@ if (formEditPayment.length > 0) {
       "note": $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount": $('#total-amount').val(),
-      "total_amount": $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines)
+      "total_amount": paymentLines.reduce(function (agg, item) {
+        return agg += parseFloat(item.amount);
+      }, 0),
+      "payment_lines": paymentLines
     }).then(function (res) {
       window.location = '/payments';
     })["catch"](function (res) {
@@ -54659,12 +54656,12 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
     }, {
       data: 'bank_id',
       render: function render(data, type, row) {
-        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data ? row.bank_name : '', "\"/>");
+        return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data && row.payment_method === 'credit_card' ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(data && row.payment_method === 'credit_card' ? row.bank.name : '', "\"/>");
       }
     }, {
       data: 'amount',
       render: function render(data, type, row) {
-        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? data : '', "\"/>");
+        return "<input type=\"text\" class=\"form-control\" readonly value=\"".concat(data ? parseFloat(data) : '', "\"/>");
       }
     }, {
       data: 'note',

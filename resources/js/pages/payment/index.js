@@ -26,27 +26,20 @@ const createTable = (target, data) => {
       { data: 'payment_lines[0].transaction.transaction_number' },
       { data: 'customer.name' },
       { data: 'payment_date' },
-      { 
-        data: 'id',
+      {
+        data: 'transaction.balance_due',
         render(data, type, row) {
-          const arrayData = [];
-          row.payment_means.forEach((res) => arrayData.push(parseFloat(res.amount)));
-          const arraySum = arrayData.reduce((a,b) => a + b);
-          const due_balance = row.payment_lines[0].transaction.total_amount - arraySum;
-          return due_balance === 0  ? 'PAID' : 'UNPAID';
+          return parseFloat(data) === 0  ? 'PAID' : 'UNPAID';
         },
       },
       { 
-        data: 'payment_lines[0].transaction.balance_due',
+        data: 'transaction.balance_due',
         render(data) {
-          return parseFloat(data)
-          // const arrayData = [];
-          // data.forEach((res) => arrayData.push(parseFloat(res.amount)));
-          // return arrayData.reduce((a,b) => a + b);
+          return parseFloat(data);
         },
       },
-      { 
-        data: 'payment_lines[0].transaction.total_amount',
+      {
+        data: 'transaction.total_amount',
         render(data) {
           return parseFloat(data);
         },
@@ -181,6 +174,7 @@ if (formCreatePayment.length > 0) {
   $('#button-delete').remove();
   formCreatePayment.submit((e) => {
     e.preventDefault();
+    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.post('/api/payments', {
       "customer_id" : $('#customer-name').attr('customer-id'),
@@ -191,8 +185,8 @@ if (formCreatePayment.length > 0) {
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount" : $('#total-amount').val(),
-      "total_amount" : $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines),
+      "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
+      "payment_lines": paymentLines,
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {
@@ -227,6 +221,7 @@ if (formEditPayment.length > 0) {
         // $('#total_amount').val(parseFloat(choosed_si.balance_due));
         $('#total_amount').val(parseFloat(0));
         $('#amount').val(parseFloat(choosed_si.balance_due));
+        $('#totalAmount').val(parseFloat(choosed_si.total_amount));
         $('#payment-sales-invoice-id').val(choosed_si.transaction_number);
         $('#payment-sales-invoice-id').attr('data-id', choosed_si.id);
         $('#add-payment-means').removeAttr('disabled');
@@ -236,6 +231,7 @@ if (formEditPayment.length > 0) {
 
   formEditPayment.submit((e) => {
     e.preventDefault();
+    const paymentLines = JSON.parse(sessionStorage.payment_lines)
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/payments/${id}`, {
       "customer_id" : $('#customer-name').attr('customer-id'),
@@ -246,8 +242,8 @@ if (formEditPayment.length > 0) {
       "note" : $('#note').val(),
       "bank_id": $('select[name="bank_id"]').val(),
       "amount" : $('#total-amount').val(),
-      "total_amount" : $('#total_amount').val(),
-      "payment_lines": JSON.parse(sessionStorage.payment_lines),
+      "total_amount" : paymentLines.reduce((agg, item) => agg += parseFloat(item.amount), 0),
+      "payment_lines": paymentLines,
     }).then(res => {
       window.location = '/payments'
     }).catch(res => {
@@ -320,13 +316,13 @@ const tablePaymentLines = (target, data) => {
       {
         data: 'bank_id',
         render(data, type, row) {
-          return `<input hidden type="text" class="form-control" readonly value="${data ? data : ''}"/><input type="text" class="form-control" readonly value="${data ? row.bank_name : ''}"/>`
+          return `<input hidden type="text" class="form-control" readonly value="${data && row.payment_method === 'credit_card' ? data : ''}"/><input type="text" class="form-control" readonly value="${data && row.payment_method === 'credit_card' ? row.bank.name : ''}"/>`
         }
       },
       {
         data: 'amount',
         render(data, type, row) {
-          return `<input type="text" class="form-control" readonly value="${data ? data : ''}"/>`
+          return `<input type="text" class="form-control" readonly value="${data ? parseFloat(data) : ''}"/>`
         }
       },
       {

@@ -111,13 +111,9 @@ class StorePayment extends FormRequest
             //     $validator->errors()->add('total_amount', __('rules.more_than_amount'));
             // }
 
-            // if ($totalDp > $transaction->dp_amount) {
-            //     $validator->errors()->add('dp_amount', __('rules.more_than_amount'));
-            // }
-
-            // if ($totalAmount != $this->request->get('total_amount')) {
-            //     $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));
-            // }
+            if ($totalAmount != $this->request->get('total_amount')) {
+                $validator->errors()->add('total_amount', __('rules.not_equal_with_lines'));
+            }
         });
     }
 

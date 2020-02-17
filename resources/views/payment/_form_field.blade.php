@@ -72,6 +72,15 @@
     </div>
     <div class="col-sm-4 offset-sm-2">
         <div class="form-group">
+            <label class="c-form--label" for="total-amount">Total Amount</label>
+            <div class="input-group flex-nowrap">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rp</span>
+                </div>
+                <input class="form-control" id="totalAmount" name="totalAmount" required disabled readonly>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="c-form--label" for="total-amount">Due Balance</label>
             <div class="input-group flex-nowrap">
                 <div class="input-group-prepend">

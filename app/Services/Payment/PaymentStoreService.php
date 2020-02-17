@@ -108,7 +108,7 @@ class PaymentStoreService extends BaseService
                 $paymentMean->bank_id = $item['bank_id'];
             }
             if (array_key_exists('credit_card_no', $item)) {
-                $payment_mean->credit_card_no = $item['credit_card_no'];
+                $paymentMean->credit_card_no = $item['credit_card_no'];
             }
             if (array_key_exists('bank_account_id', $item)) {
                 $paymentMean->bank_account_id = $item['bank_account_id'];

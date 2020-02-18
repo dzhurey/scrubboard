@@ -49,14 +49,14 @@ class StoreUpdatePerson extends FormRequest
             'confirm_password' => 'sometimes|required|same:password',
             'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'required|date_format:"Y-m-d"',
-            'gender' => 'required|in:'.join(array_keys(Person::GENDERS), ','),
-            'religion' => 'nullable|in:'.join(array_keys(Person::RELIGIONS), ','),
+            'gender' => 'required|in:'.implode(',', array_keys(Person::GENDERS)),
+            'religion' => 'nullable|in:'.implode(',', array_keys(Person::RELIGIONS)),
             'address' => 'required',
             'district' => 'required|max:150',
             'city' => 'required|max:150',
             'country' => 'required|max:150',
             'zip_code' => 'required|max:10',
-            'role' => 'required|in:'.join(array_keys(User::ROLES), ','),
+            'role' => 'required|in:'.implode(',', array_keys(User::ROLES)),
         ];
     }
 }

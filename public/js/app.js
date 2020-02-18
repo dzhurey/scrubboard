@@ -54645,7 +54645,7 @@ var tablePaymentLines = function tablePaymentLines(target, data) {
     }, {
       data: 'bank_id',
       render: function render(data, type, row) {
-        var bank = row.bank ? row.bank.name : row.bank_name;
+        var bank = JSON.parse($('#list-banks').val())[data];
         return "<input hidden type=\"text\" class=\"form-control\" readonly value=\"".concat(data && row.payment_method === 'credit_card' ? data : '', "\"/><input type=\"text\" class=\"form-control\" readonly value=\"").concat(row && row.payment_method === 'credit_card' ? bank : '', "\"/>");
       }
     }, {
@@ -54712,7 +54712,7 @@ if (formPaymentMeans.length > 0) {
       receiver_name: $('#receiver_name').val() === '-' ? '' : $('#receiver_name').val(),
       bank_id: $('select[name="bank_id"]').val(),
       bank_name: $('select[name="bank_id"]').children('option:selected').text(),
-      credit_card_no: '-' || false,
+      credit_card_no: $('#credit_card').val() === '' ? '-' : $('#credit_card').val(),
       amount: $('#total_amount').val(),
       note: $('#note').val()
     };

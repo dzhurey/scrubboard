@@ -55,7 +55,7 @@ class StoreCourierSchedule extends FormRequest
         {
             $rules['courier_schedule_lines.'.$key.'.transaction_line_id'] = 'required';
             $rules['courier_schedule_lines.'.$key.'.estimation_time'] = 'nullable|date_format:H:i';
-            $rules['courier_schedule_lines.'.$key.'.status'] = 'sometimes|required|in:'.join(array_keys(TransactionLine::STATUS), ',');
+            $rules['courier_schedule_lines.'.$key.'.status'] = 'sometimes|required|in:'.implode(',', array_keys(TransactionLine::STATUS));
         }
 
         return $rules;

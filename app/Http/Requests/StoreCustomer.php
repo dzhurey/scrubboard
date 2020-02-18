@@ -31,8 +31,8 @@ class StoreCustomer extends FormRequest
             'email' => 'nullable|email',
             'phone_number' => ['required', 'max:15', new PhoneNumber],
             'birth_date' => 'nullable|date_format:"Y-m-d"',
-            'gender' => 'required|in:'.join(array_keys(Customer::GENDERS), ','),
-            'religion' => 'nullable|in:'.join(array_keys(Customer::RELIGIONS), ','),
+            'gender' => 'required|in:'.implode(',', array_keys(Customer::GENDERS)),
+            'religion' => 'nullable|in:'.implode(',', array_keys(Customer::RELIGIONS)),
             'billing_address' => 'required',
             'billing_district' => 'required|max:150',
             'billing_city' => 'required|max:150',
@@ -47,8 +47,8 @@ class StoreCustomer extends FormRequest
             'is_same_address' => '',
             'price_id' => 'required',
             'bebe_birth_date' => 'nullable|date_format:"Y-m-d"',
-            'bebe_gender' => 'nullable|in:'.join(array_keys(Customer::GENDERS), ','),
-            'partner_type' => 'in:'.join(array_keys(Customer::PARTNER_TYPE), ','),
+            'bebe_gender' => 'nullable|in:'.implode(',', array_keys(Customer::GENDERS)),
+            'partner_type' => 'in:'.implode(',', array_keys(Customer::PARTNER_TYPE)),
             'instagram' => 'nullable',
         ];
     }

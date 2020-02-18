@@ -32,7 +32,7 @@ class StoreUpdatePromo extends FormRequest
             'max_promo' => 'required|numeric',
             'start_promo' => 'required|date_format:"Y-m-d H:i:s"',
             'end_promo' => 'required|date_format:"Y-m-d H:i:s"',
-            'type' => 'required|in:'.join(array_keys(Promo::PROMO_TYPES), ',')
+            'type' => 'required|in:'.implode(',', array_keys(Promo::PROMO_TYPES))
         ];
     }
 

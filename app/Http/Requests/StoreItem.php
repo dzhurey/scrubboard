@@ -38,7 +38,7 @@ class StoreItem extends FormRequest
     public function rules()
     {
         return [
-            'item_type' => 'required|in:'.join(array_keys(Item::ITEM_TYPES), ','),
+            'item_type' => 'required|in:'.implode(',', array_keys(Item::ITEM_TYPES)),
             'description' => 'required',
             'price' => 'required|numeric',
             'price_id' => 'required',

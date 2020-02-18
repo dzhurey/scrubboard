@@ -22,7 +22,7 @@ class StorePromo extends FormRequest
      * Get the validation rules that apply to the request.
      *
      * @return array
-     * 
+     *
      * input json
      * {
      *      "name": "Promo Tahun Baru",
@@ -34,7 +34,7 @@ class StorePromo extends FormRequest
      *      "end_promo": "2020-02-20 15:03:01",
      *      "type": "promo"
      * }
-     * 
+     *
      */
     public function rules()
     {
@@ -46,7 +46,7 @@ class StorePromo extends FormRequest
             'max_promo' => 'required|numeric',
             'start_promo' => 'required|date_format:"Y-m-d"',
             'end_promo' => 'required|date_format:"Y-m-d"',
-            'type' => 'required|in:'.join(array_keys(Promo::PROMO_TYPES), ',')
+            'type' => 'required|in:'.implode(',', array_keys(Promo::PROMO_TYPES))
         ];
     }
 

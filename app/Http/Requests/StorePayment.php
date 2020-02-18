@@ -62,8 +62,8 @@ class StorePayment extends FormRequest
 
         foreach($this->request->get('payment_lines') as $key => $val)
         {
-            $rules['payment_lines.'.$key.'.payment_method'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_METHODS), ',');
-            $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.join(array_keys(PaymentMean::PAYMENT_TYPES), ',');
+            $rules['payment_lines.'.$key.'.payment_method'] = 'required|in:'.implode(',', array_keys(PaymentMean::PAYMENT_METHODS));
+            $rules['payment_lines.'.$key.'.payment_type'] = 'required|in:'.implode(',', array_keys(PaymentMean::PAYMENT_TYPES));
             $rules['payment_lines.'.$key.'.payment_date'] = 'required|date_format:"Y-m-d"';
             $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['payment_lines.'.$key.'.note'] = 'nullable|string';

@@ -29,6 +29,7 @@ class PaymentMean extends BaseModel
         'note',
         'payment_type',
         'receiver_name',
+        'credit_card_no',
     ];
 
     protected $searchable = [];
@@ -41,10 +42,5 @@ class PaymentMean extends BaseModel
     public function bankAccount()
     {
         return $this->belongsTo('App\BankAccount');
-    }
-
-    public function bank()
-    {
-        return $this->belongsTo('App\Bank');
     }
 }

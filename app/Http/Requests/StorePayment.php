@@ -44,6 +44,7 @@ class StorePayment extends FormRequest
      *         "note": "asdads",
      *         "receiver_name": "Suryadi", // required if payment_method = bank_transfer
      *         "bank_account_id": 1, // required if payment_method = bank_transfer
+     *         "credit_card_no": "023902392233232", // required if payment_method = credit_card
      *         "bank_id": null // required if payment_method = credit_card
      *       }
      *     ]
@@ -67,6 +68,7 @@ class StorePayment extends FormRequest
             $rules['payment_lines.'.$key.'.payment_date'] = 'required|date_format:"Y-m-d"';
             $rules['payment_lines.'.$key.'.amount'] = 'required|numeric';
             $rules['payment_lines.'.$key.'.note'] = 'nullable|string';
+            $rules['payment_lines.'.$key.'.credit_card_no'] = 'required_if:payment_lines.'.$key.'.payment_method,credit_card|string';
             $rules['payment_lines.'.$key.'.receiver_name'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
             $rules['payment_lines.'.$key.'.bank_account_id'] = 'required_if:payment_lines.'.$key.'.payment_method,bank_transfer';
             $rules['payment_lines.'.$key.'.bank_id'] = 'required_if:payment_lines.'.$key.'.payment_method,credit_card';

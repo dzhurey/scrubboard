@@ -107,6 +107,9 @@ class PaymentStoreService extends BaseService
             if (array_key_exists('bank_id', $item)) {
                 $paymentMean->bank_id = $item['bank_id'];
             }
+            if (array_key_exists('credit_card_no', $item)) {
+                $paymentMean->credit_card_no = $item['credit_card_no'];
+            }
             if (array_key_exists('bank_account_id', $item)) {
                 $paymentMean->bank_account_id = $item['bank_account_id'];
             }
@@ -128,7 +131,7 @@ class PaymentStoreService extends BaseService
         }
         $totalDp = $this->model->paymentMeans->where('payment_type', 'down_payment')->sum('amount');
         $transaction->balance_due = $transaction->total_amount - $this->model->total_amount;
-        // $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
+        $transaction->dp_balance_due = $transaction->dp_amount - $totalDp;
         $transaction->save();
     }
 }

@@ -91,6 +91,7 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </form>
+            <input id="list-banks" hidden value="{{ json_encode($banks) }}"/>
         </div>
     </div>
 </div>

@@ -156,7 +156,11 @@ const generateItemTable = (target, data) => {
       {
         data: 'id',
         render(data, type, row) {
-          return `<input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" required readonly value="${row.discount}" name="discount">`
+          return `<div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+              <span class="input-group-text">Rp</span>
+          </div>
+          <input type="text" class="form-control discount text-right is-number" id="discount_${row.id}" data-id="${row.item_id}" value="${row.discount ? row.discount  : 0}" name="discount" readonly></div>`
         }
       },
       {

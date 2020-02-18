@@ -100,7 +100,7 @@
                     <th class="th-total">Code/Promo</th>
                     <th class="th-qty text-right">Qty</th>
                     <th class="th-price text-right">Unit Price</th>
-                    <th class="th-dcs text-right">Disc (%)</th>
+                    <th class="th-dcs text-right">Disc</th>
                     <th class="th-total text-right">Total</th>
                     <th class="th-note">Notes</th>
                     <th class="th-action"></th>

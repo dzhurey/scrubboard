@@ -48,7 +48,11 @@
             <img class="logo-full" src="{{ asset('/assets/images/logo-bebewash.png') }}" height="50">
         </td>
         <td colspan="3">
-            <div class="background">PAID</div>
+            @if (round($sales_invoice->balance_due) == 0)
+                <div class="background">PAID</div>
+            @else
+                <div class="background">UNPAID</div>
+            @endif
         </td>
     </tr>
     <tr>

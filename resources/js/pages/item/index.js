@@ -138,8 +138,7 @@ if (formEditItem.length > 0) {
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/items/${id}`, data).then(res => {
-      console.log(res)
-      // window.location = '/items'
+      window.location = '/items'
     }).catch(res => {
       const errors = res.responseJSON.errors;
       errorMessage(errors);

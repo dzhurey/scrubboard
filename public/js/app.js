@@ -53978,7 +53978,7 @@ if (formEditItem.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
-      console.log(res); // window.location = '/items'
+      window.location = '/items';
     })["catch"](function (res) {
       var errors = res.responseJSON.errors;
       errorMessage(errors);

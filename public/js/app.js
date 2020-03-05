@@ -53978,7 +53978,7 @@ if (formEditItem.length > 0) {
       return _objectSpread({}, x, _defineProperty({}, y.name, y.value));
     }, {});
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/items/".concat(id), data).then(function (res) {
-      return window.location = '/items';
+      console.log(res); // window.location = '/items'
     })["catch"](function (res) {
       var errors = res.responseJSON.errors;
       errorMessage(errors);
@@ -60110,8 +60110,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

@@ -53,7 +53,7 @@ const updatedPrice = () => {
         const getById = res.item.price_lines.find(res => res.price_id.toString() === id);
         if (getById !== undefined) $('#price').val(Number.parseFloat(getById.amount));
         else $('#price').val('0');
-      } 
+      }
     })
     .catch(res => console.log(res));
   });
@@ -104,7 +104,7 @@ if (formCreateItem.length > 0) {
     const dataForm = formCreateItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/items', data).then(res => window.location = '/items').catch(res => {
-      const errors = res.responseJSON.errors;      
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);
@@ -137,8 +137,11 @@ if (formEditItem.length > 0) {
     $('button[type="submit"]').attr('disabled', true);
     const dataForm = formEditItem.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
-    ajx.put(`/api/items/${id}`, data).then(res => window.location = '/items').catch(res => {
-      const errors = res.responseJSON.errors;      
+    ajx.put(`/api/items/${id}`, data).then(res => {
+      console.log(res)
+      // window.location = '/items'
+    }).catch(res => {
+      const errors = res.responseJSON.errors;
       errorMessage(errors);
       console.log(res)
       $('button[type="submit"]').attr('disabled', false);

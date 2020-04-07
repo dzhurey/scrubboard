@@ -11,19 +11,19 @@ const collectPriceLines = (isEdit) => {
     price_lines.forEach((res) => $(`#price_${res.item_id}`).val(Number.parseFloat(res.amount)));
   }
 
-  $('.field-price-item').change((e) => {
-    const price_lines = JSON.parse(sessionStorage.item_price);
-    sessionStorage.setItem('updated_price', e.target.value);
-    sessionStorage.setItem('updated_price_by_id', e.target.getAttribute('data-id'));
-    price_lines.map(obj => 
-      price_lines.find(o => {
-        const updated_price_by_id = parseInt(sessionStorage.updated_price_by_id);
-        o.amount = o.item_id === updated_price_by_id ? sessionStorage.updated_price : o.amount;
-      }) || obj
-    );
-    sessionStorage.clear();
-    sessionStorage.setItem('item_price', JSON.stringify(price_lines));
-  });
+  // $('.field-price-item').change((e) => {
+  //   const price_lines = JSON.parse(sessionStorage.item_price);
+  //   sessionStorage.setItem('updated_price', e.target.value);
+  //   sessionStorage.setItem('updated_price_by_id', e.target.getAttribute('data-id'));
+  //   price_lines.map(obj => 
+  //     price_lines.find(o => {
+  //       const updated_price_by_id = parseInt(sessionStorage.updated_price_by_id);
+  //       o.amount = o.item_id === updated_price_by_id ? sessionStorage.updated_price : o.amount;
+  //     }) || obj
+  //   );
+  //   sessionStorage.clear();
+  //   sessionStorage.setItem('item_price', JSON.stringify(price_lines));
+  // });
 }
 
 const createTable = (target, data) => {
@@ -61,6 +61,7 @@ const createTableItemLists = (target, data, isEdit) => {
     searching: true,
     info: true,
     paging: true,
+    pageLength: 1,
     columns: [
       { 
         data: 'description',
@@ -81,6 +82,21 @@ const createTableItemLists = (target, data, isEdit) => {
     ],
     drawCallback: () => {
       collectPriceLines(isEdit);
+
+      $('.field-price-item').change((e) => {
+        const price_lines = JSON.parse(sessionStorage.price_lines);
+        const item_id = parseInt(e.target.getAttribute('data-id'));
+        const amount = e.target.value;
+        const new_price_lines = price_lines.map((res) => {
+          if (res.item_id === item_id) {
+            res.amount = amount;
+          }
+          return res;
+        });
+  
+        sessionStorage.removeItem('price_lines');
+        sessionStorage.setItem('price_lines', JSON.stringify(new_price_lines));
+      });
     },
   })
 };
@@ -114,13 +130,7 @@ if (formCreatePrice.length > 0) {
   renderTable();
   formCreatePrice.submit((e) => {
     e.preventDefault();
-    const price_lines_data = [];
-    $('.field-price-item').each((i, item) => {
-      price_lines_data.push({
-        item_id: item.getAttribute('data-id'),
-        amount: item.value,
-      })
-    });
+    const price_lines_data = JSON.parse(sessionStorage.price_lines);
     $('button[type="submit"]').attr('disabled', true);
     ajx.post('/api/prices', {
       name: $('#name').val(),
@@ -155,13 +165,8 @@ if (formEditPrice.length > 0) {
     .catch(res => console.log(res));
 
   formEditPrice.submit((e) => {
-    const price_lines_data = [];
-    $('.field-price-item').each((i, item) => {
-      price_lines_data.push({
-        item_id: item.getAttribute('data-id'),
-        amount: item.value,
-      })
-    });
+    const price_lines_data = JSON.parse(sessionStorage.price_lines);
+    debugger
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/prices/${id}`, {

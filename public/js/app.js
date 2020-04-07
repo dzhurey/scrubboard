@@ -53804,7 +53804,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: true,
     paging: true,
-    pageLength: 15,
+    pageLength: 1,
     columns: [{
       data: 'description'
     }, {
@@ -55411,21 +55411,20 @@ var collectPriceLines = function collectPriceLines(isEdit) {
     price_lines.forEach(function (res) {
       return $("#price_".concat(res.item_id)).val(Number.parseFloat(res.amount));
     });
-  }
+  } // $('.field-price-item').change((e) => {
+  //   const price_lines = JSON.parse(sessionStorage.item_price);
+  //   sessionStorage.setItem('updated_price', e.target.value);
+  //   sessionStorage.setItem('updated_price_by_id', e.target.getAttribute('data-id'));
+  //   price_lines.map(obj => 
+  //     price_lines.find(o => {
+  //       const updated_price_by_id = parseInt(sessionStorage.updated_price_by_id);
+  //       o.amount = o.item_id === updated_price_by_id ? sessionStorage.updated_price : o.amount;
+  //     }) || obj
+  //   );
+  //   sessionStorage.clear();
+  //   sessionStorage.setItem('item_price', JSON.stringify(price_lines));
+  // });
 
-  $('.field-price-item').change(function (e) {
-    var price_lines = JSON.parse(sessionStorage.item_price);
-    sessionStorage.setItem('updated_price', e.target.value);
-    sessionStorage.setItem('updated_price_by_id', e.target.getAttribute('data-id'));
-    price_lines.map(function (obj) {
-      return price_lines.find(function (o) {
-        var updated_price_by_id = parseInt(sessionStorage.updated_price_by_id);
-        o.amount = o.item_id === updated_price_by_id ? sessionStorage.updated_price : o.amount;
-      }) || obj;
-    });
-    sessionStorage.clear();
-    sessionStorage.setItem('item_price', JSON.stringify(price_lines));
-  });
 };
 
 var createTable = function createTable(target, data) {
@@ -55461,6 +55460,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     searching: true,
     info: true,
     paging: true,
+    pageLength: 1,
     columns: [{
       data: 'description',
       render: function render(data) {
@@ -55474,6 +55474,20 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     }],
     drawCallback: function drawCallback() {
       collectPriceLines(isEdit);
+      $('.field-price-item').change(function (e) {
+        var price_lines = JSON.parse(sessionStorage.price_lines);
+        var item_id = parseInt(e.target.getAttribute('data-id'));
+        var amount = e.target.value;
+        var new_price_lines = price_lines.map(function (res) {
+          if (res.item_id === item_id) {
+            res.amount = amount;
+          }
+
+          return res;
+        });
+        sessionStorage.removeItem('price_lines');
+        sessionStorage.setItem('price_lines', JSON.stringify(new_price_lines));
+      });
     }
   });
 };
@@ -55511,13 +55525,7 @@ if (formCreatePrice.length > 0) {
   renderTable();
   formCreatePrice.submit(function (e) {
     e.preventDefault();
-    var price_lines_data = [];
-    $('.field-price-item').each(function (i, item) {
-      price_lines_data.push({
-        item_id: item.getAttribute('data-id'),
-        amount: item.value
-      });
-    });
+    var price_lines_data = JSON.parse(sessionStorage.price_lines);
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/prices', {
       name: $('#name').val(),
@@ -55555,13 +55563,8 @@ if (formEditPrice.length > 0) {
     return console.log(res);
   });
   formEditPrice.submit(function (e) {
-    var price_lines_data = [];
-    $('.field-price-item').each(function (i, item) {
-      price_lines_data.push({
-        item_id: item.getAttribute('data-id'),
-        amount: item.value
-      });
-    });
+    var price_lines_data = JSON.parse(sessionStorage.price_lines);
+    debugger;
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     _shared_index_js__WEBPACK_IMPORTED_MODULE_0__["default"].put("/api/prices/".concat(id), {
@@ -60110,8 +60113,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

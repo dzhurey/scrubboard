@@ -14,7 +14,7 @@ const createTable = (target, data) => {
     searching: true,
     info: true,
     paging: true,
-    pageLength: 1,
+    pageLength: 15,
     columns: [
       { data: 'description' },
       {

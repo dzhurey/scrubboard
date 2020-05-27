@@ -112,7 +112,7 @@ if (formEditUser.length > 0) {
       $('#district').val(res.person.district);
       $('#city').val(res.person.city);
       $('#country').val(res.person.country);
-      $('#zip_code').val(res.person.city);
+      $('#zip_code').val(res.person.zip_code);
     })
     .catch(res => console.log(res));
 

@@ -49,7 +49,6 @@ class ItemStoreService extends BaseService
         if (is_null($this->model->item_code) || ($attributes['item_group_id'] != $this->model->item_group_id || $attributes['item_sub_category_id'] != $this->model->item_sub_category_id)) {
             $item = Item::where('item_group_id',$attributes['item_group_id'])
                 ->where('item_sub_category_id',$attributes['item_sub_category_id'])
-                ->whereYear('updated_at',$year)
                 ->orderBy('item_code','desc')
                 ->first();
             $item_group_code = ItemGroup::where('id',$attributes['item_group_id'])->first();

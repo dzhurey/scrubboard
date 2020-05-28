@@ -221,7 +221,7 @@ const getDetailSalesOrder = (url, key, id) => {
           id: id,
           "item_id": res.item_id,
           "brand_id": res.brand_id,
-          "brand_name": res.brand.name,
+          "brand_name": res.brand ? res.brand.name : '',
           "bor": res.bor,
           "price_id": res.item.price_id,
           "unit_price": res.unit_price,

@@ -166,7 +166,6 @@ if (formEditPrice.length > 0) {
 
   formEditPrice.submit((e) => {
     const price_lines_data = JSON.parse(sessionStorage.price_lines);
-    debugger
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     ajx.put(`/api/prices/${id}`, {

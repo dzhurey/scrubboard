@@ -1,8 +1,8 @@
 import ajx from './../../shared/index.js';
 
-const tableCategory = $('#table-brand');
-const formCreateCategory = $('#form-create-brand');
-const formEditCategory = $('#form-edit-brand');
+const tableBrand = $('#table-brand');
+const formCreateBrand = $('#form-create-brand');
+const formEditBrand = $('#form-edit-brand');
 const createTable = (target, data) => {
   target.DataTable({
     // scrollX: true,
@@ -38,18 +38,18 @@ const assignValue = (data) => {
   })
 };
 
-if (tableCategory.length > 0) {
+if (tableBrand.length > 0) {
   ajx.get('/api/brands').then((res) => {
-    createTable(tableCategory, res.brands.data);
+    createTable(tableBrand, res.brands.data);
   }).catch(res => console.log(res));
 }
 
-if (formCreateCategory.length > 0) {
+if (formCreateBrand.length > 0) {
   $('#button-delete').remove();
-  formCreateCategory.submit((e) => {
+  formCreateBrand.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    const dataForm = formCreateCategory.serializeArray();
+    const dataForm = formCreateBrand.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.post('/api/brands', data).then(res => window.location = '/brands').catch(res => {
       console.log(res);
@@ -59,17 +59,17 @@ if (formCreateCategory.length > 0) {
   });
 }
 
-if (formEditCategory.length > 0) {
+if (formEditBrand.length > 0) {
   const urlArray = window.location.href.split('/');
   const id = urlArray[urlArray.length - 2];
   ajx.get(`/api/brands/${id}`)
-    .then(res => assignValue(res.item_group))
+    .then(res => $('#name').val(res.brand.name))
     .catch(res => console.log(res));
 
-  formEditCategory.submit((e) => {
+  formEditBrand.submit((e) => {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
-    const dataForm = formEditCategory.serializeArray();
+    const dataForm = formEditBrand.serializeArray();
     const data = dataForm.reduce((x, y) => ({ ...x, [y.name]: y.value }), {});
     ajx.put(`/api/brands/${id}`, data).then(res => window.location = '/brands').catch(res => {
       console.log(res)

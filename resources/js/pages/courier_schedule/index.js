@@ -35,7 +35,12 @@ const createTable = (target, data) => {
         }
       },
       { data: 'transaction_line.item.description' },
-      { data: 'transaction_line.brand.name' },
+      {
+        data: 'transaction_line',
+        render(data, type, row) {
+          return row.brand ? row.brand.name : '';
+        }
+      },
       { data: 'transaction_line.color' },
       { data: 'courier.name' },
       { data: 'vehicle.number' },

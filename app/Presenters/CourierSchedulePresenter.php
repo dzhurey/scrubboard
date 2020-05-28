@@ -42,7 +42,8 @@ class CourierSchedulePresenter extends BasePresenter
         $input->courier_schedule_lines = $input->courierScheduleLines->transform(function ($item) {
             return $this->courier_schedule_line_presenter->transform($item);
         });
-        $input->transaction = $this->transaction_presenter->transform($input->courierScheduleLines->first()->transaction);
+
+        $input->transaction = $this->transaction_presenter->transform($input->courierScheduleLines->first()->transactionLine->transaction);
         return $input;
     }
 }

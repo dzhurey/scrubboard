@@ -53804,7 +53804,7 @@ var createTable = function createTable(target, data) {
     searching: true,
     info: true,
     paging: true,
-    pageLength: 1,
+    pageLength: 15,
     columns: [{
       data: 'description'
     }, {
@@ -54863,7 +54863,7 @@ if (formEditUser.length > 0) {
     $('#district').val(res.person.district);
     $('#city').val(res.person.city);
     $('#country').val(res.person.country);
-    $('#zip_code').val(res.person.city);
+    $('#zip_code').val(res.person.zip_code);
   })["catch"](function (res) {
     return console.log(res);
   });
@@ -55460,7 +55460,7 @@ var createTableItemLists = function createTableItemLists(target, data, isEdit) {
     searching: true,
     info: true,
     paging: true,
-    pageLength: 1,
+    pageLength: 15,
     columns: [{
       data: 'description',
       render: function render(data) {
@@ -60113,8 +60113,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/erwinsleekr/Documents/4Slicing/Bebewash/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/zuhri/projects/scrubboard/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

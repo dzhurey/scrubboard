@@ -38,10 +38,8 @@ class ItemSubCategoryStoreService extends BaseService
         if (is_null($this->model->code)) {
             $today = Carbon::now(8);
             $year = $today->year;
-            $item_group_category = ItemSubCategory::whereYear('created_at',$year)
-                ->orderBy('code','desc')
-                ->first();
-            
+            $item_group_category = ItemSubCategory::orderBy('code','desc')->first();
+
             if (is_null($item_group_category)) {
                 $attributes['code'] = '001';
             } else {

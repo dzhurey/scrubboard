@@ -42,10 +42,8 @@ class ItemGroupStoreService extends BaseService
         if (is_null($this->model->code)) {
             $today = Carbon::now(8);
             $year = $today->year;
-            $item_group = ItemGroup::whereYear('created_at',$year)
-                ->orderBy('code','desc')
-                ->first();
-            
+            $item_group = ItemGroup::orderBy('code','desc')->first();
+
             if (is_null($item_group)) {
                 $attributes['code'] = '001';
             } else {

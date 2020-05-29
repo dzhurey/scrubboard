@@ -186,6 +186,7 @@ const createSOTable = (target, data) => {
         $(item).click((e) => {
           const tr = $(e.target).closest('tr');
           const row = tableSoItemPickup.DataTable().row( tr );
+          $('#form-create-pickup').removeClass('was-validated');
 
           if ( row.child.isShown() ) {
               row.child.hide();
@@ -375,12 +376,18 @@ if (formCreatePickup.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => {
-      const errors = res.responseJSON.errors;
-      errorMessage(errors);
-      console.log(res)
+    const isSubmit = data.courier_schedule_lines.filter(res => res.estimation_time === '').length === 0;
+    if (isSubmit && data.courier_schedule_lines.length > 0) {
+      ajx.post('/api/pickup_schedules', data).then(res => window.location = '/pickup_schedules').catch(res => {
+        const errors = res.responseJSON.errors;
+        errorMessage(errors);
+        console.log(res)
+        $('button[type="submit"]').attr('disabled', false);
+      });
+    } else {
+      alert('Data incompleted');
       $('button[type="submit"]').attr('disabled', false);
-    });
+    }
     return false;
   })
 }
@@ -440,10 +447,16 @@ if (EditPickupForm.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => {
-      console.log(res)
+    const isSubmit = data.courier_schedule_lines.filter(res => res.estimation_time === '').length === 0;
+    if (isSubmit && data.courier_schedule_lines.length > 0) {
+      ajx.put(`/api/pickup_schedules/${id}`, data).then(res => window.location = '/pickup_schedules').catch(res => {
+        console.log(res)
+        $('button[type="submit"]').attr('disabled', false);
+      });
+    } else {
+      alert('Data incompleted');
       $('button[type="submit"]').attr('disabled', false);
-    });
+    }
     return false;
   })
 

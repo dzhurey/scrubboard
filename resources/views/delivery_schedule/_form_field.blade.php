@@ -30,6 +30,10 @@
     </div>
 </div>
 
+<div class="form-group mt-4">
+    <div class="alert alert-warning"><i class="fa fa-info-circle mr-1"></i> After you choosed sales invoice please fill address and ETA on item. uncheck if you wan't to deliver that item</div>
+</div>
+
 <div class="form-group">
     <div id="courier_schedule_lines" class="c-table--outer mx-0">
         <table id="table-si-item-delivery" class="c-table table table-striped">

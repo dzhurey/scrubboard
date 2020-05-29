@@ -350,12 +350,18 @@ if (formCreateDelivery.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.post('/api/delivery_schedules', data).then(res => window.location = '/delivery_schedules').catch(res => {
-      const errors = res.responseJSON.errors;
-      errorMessage(errors);
-      console.log(res)
+    const isSubmit = data.courier_schedule_lines.filter(res => res.estimation_time === '').length === 0;
+    if (isSubmit && data.courier_schedule_lines.length > 0) {
+      ajx.post('/api/delivery_schedules', data).then(res => window.location = '/delivery_schedules').catch(res => {
+        const errors = res.responseJSON.errors;
+        errorMessage(errors);
+        console.log(res)
+        $('button[type="submit"]').attr('disabled', false);
+      });
+    } else {
+      alert('Data incompleted');
       $('button[type="submit"]').attr('disabled', false);
-    });
+    }
     return false;
   })
 }
@@ -415,10 +421,16 @@ if (EditDeliveryForm.length > 0) {
     e.preventDefault();
     $('button[type="submit"]').attr('disabled', true);
     const data = dataFormPickup(e.target);
-    ajx.put(`/api/delivery_schedules/${id}`, data).then(res => window.location = '/delivery_schedules').catch(res => {
-      console.log(res)
+    const isSubmit = data.courier_schedule_lines.filter(res => res.estimation_time === '').length === 0;
+    if (isSubmit && data.courier_schedule_lines.length > 0) {
+      ajx.put(`/api/delivery_schedules/${id}`, data).then(res => window.location = '/delivery_schedules').catch(res => {
+        console.log(res)
+        $('button[type="submit"]').attr('disabled', false);
+      });
+    } else {
+      alert('Data incompleted');
       $('button[type="submit"]').attr('disabled', false);
-    });
+    }
     return false;
   })
 

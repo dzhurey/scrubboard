@@ -31,7 +31,7 @@ class CourierScheduleUpdateService extends BaseService
                 $lines = $this->updateCourierScheduleLines($attributes);
                 $this->model->courierScheduleLines()->saveMany($lines);
                 // $this->removeExcluded($attributes);
-
+                $this->model->save();
             }
         } catch (\Exception $e) {
             DB::rollBack();

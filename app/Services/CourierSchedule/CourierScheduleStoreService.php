@@ -32,6 +32,7 @@ class CourierScheduleStoreService extends BaseService
                 $lines = $this->createCourierScheduleLines($attributes);
                 $this->model->courierScheduleLines()->saveMany($lines);
                 $this->updateTransactionLineStatus();
+                $this->model->save();
             }
         } catch (\Exception $e) {
             DB::rollBack();

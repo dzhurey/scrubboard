@@ -108,7 +108,7 @@ if (formEditCourier.length > 0) {
       assignValue(res.person);
       $('#email').val(res.person.user.email);
       $('#username').val(res.person.user.username);
-      $('#role').val(res.person.user.role);
+      $('#role').val(res.person.user.role.toLowerCase());
       $('#email').attr('disabled', true);
       $('#address').val(res.person.address);
       $('#district').val(res.person.district);

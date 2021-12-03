@@ -152,11 +152,13 @@ class SalesOrderController extends Controller
         if (!$this->allowAny(['superadmin'])) {
             return $this->renderError($request, __("authorize.not_superadmin"), 401);
         }
-        $fileName = "sales_orders.csv";
+
         $validated = $request->validate([
             'date_from' => 'required|date_format:"Y-m-d"',
             'date_to' => 'required|date_format:"Y-m-d"'
         ]);
+
+        $fileName = "sales_orders_".$validated['date_from']."_to_".$validated['date_to'].".csv";
 
         return (new SalesOrderExport)->fromDateBetween($validated['date_from'], $validated['date_to'])->download($fileName);
     }

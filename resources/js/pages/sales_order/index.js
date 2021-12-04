@@ -12,6 +12,7 @@ const modalCustomerFormTable = $('#modal-customer-form-table');
 const modalPriceFormTable = $('#modal-price-form-table');
 const modalCustomerForm = $('#modal-customer-form');
 const modalPriceForm = $('#modal-price-form');
+const modalExportFormTable = $('#modal-export-form');
 const tableSOItems = $('#table-so-item');
 const formCreateSalesOrder = $('#form-create-sales-order');
 const formEditSalesOrder = $('#form-edit-sales-order');
@@ -553,6 +554,22 @@ if (modalPriceForm.length > 0) {
       $(item).change()
     })
     return false;
+  });
+}
+
+// Submit export data
+if (modalExportFormTable.length > 0) {
+  modalExportFormTable.submit((e) => {
+    e.preventDefault();
+    $('#modal-export').modal('hide');
+    const dateFrom = modalExportFormTable.find('#date_from').val();
+    const dateTo = modalExportFormTable.find('#date_to').val();
+    const urlPath = `/sales_orders/export?date_from=${dateFrom}&date_to=${dateTo}`;
+    const link = document.createElement("a");
+    link.href = urlPath;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   });
 }
 

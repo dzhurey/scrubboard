@@ -30,6 +30,7 @@ Route::middleware('web')->resource('items', 'ItemController');
 Route::middleware('web')->resource('prices', 'PriceController');
 Route::middleware('web')->resource('agents', 'AgentController');
 
+Route::get('/sales_orders/export', 'SalesOrderController@export');
 Route::middleware('web')->resource('sales_orders', 'SalesOrderController');
 Route::middleware('web')->resource('sales_invoices', 'SalesInvoiceController');
 Route::middleware('web')->resource('payments', 'PaymentController');

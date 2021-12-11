@@ -10,9 +10,9 @@ use App\Presenters\SalesOrderPresenter;
 use App\Http\Requests\StoreSalesOrder;
 use App\Services\SalesOrder\SalesOrderStoreService;
 use App\Services\SalesOrder\SalesOrderUpdateService;
-use App\Exports\SalesOrderLineExport;
-use App\Http\Requests\ExportSalesOrder;
+use App\Exports\SalesOrderExport;
 use PDF;
+use ZanySoft\Zip\Zip;
 
 class SalesOrderController extends Controller
 {
@@ -158,8 +158,8 @@ class SalesOrderController extends Controller
             'date_to' => 'required|date_format:"Y-m-d"'
         ]);
 
-        $fileName = "sales_orders_".$validated['date_from']."_to_".$validated['date_to'].".csv";
+        $fileName = "sales_orders_".$validated['date_from']."_to_".$validated['date_to'].".xlsx";
 
-        return (new SalesOrderLineExport)->fromDateBetween($validated['date_from'], $validated['date_to'])->download($fileName);
+        return (new SalesOrderExport)->fromDateBetween($validated['date_from'], $validated['date_to'])->download($fileName);
     }
 }

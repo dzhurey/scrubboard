@@ -8,8 +8,9 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithTitle;
 
-class SalesOrderLineExport implements FromQuery, WithHeadings, WithMapping
+class SalesOrderLineExport implements FromQuery, WithHeadings, WithMapping, WithTitle
 {
     use Exportable;
 
@@ -22,7 +23,13 @@ class SalesOrderLineExport implements FromQuery, WithHeadings, WithMapping
 
     public function query()
     {
-        return TransactionLine::query()->join('transactions', 'transaction_lines.transaction_id', '=', 'transactions.id')->where([['transactions.transaction_date', '>=', $this->date_from], ['transactions.transaction_date', '<=', $this->date_to]]);
+        return TransactionLine::query()
+            ->join('transactions', 'transaction_lines.transaction_id', '=', 'transactions.id')
+            ->where([
+                ['transactions.transaction_type', '=', 'order'],
+                ['transactions.transaction_date', '>=', $this->date_from],
+                ['transactions.transaction_date', '<=', $this->date_to],
+            ]);
     }
 
     public function headings(): array
@@ -65,5 +72,10 @@ class SalesOrderLineExport implements FromQuery, WithHeadings, WithMapping
             $line->transaction->customer->name,
             $line->transaction->id,
         ];
+    }
+
+    public function title(): string
+    {
+        return 'Order Items';
     }
 }

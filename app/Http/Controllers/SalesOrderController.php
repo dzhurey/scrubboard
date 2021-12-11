@@ -10,7 +10,7 @@ use App\Presenters\SalesOrderPresenter;
 use App\Http\Requests\StoreSalesOrder;
 use App\Services\SalesOrder\SalesOrderStoreService;
 use App\Services\SalesOrder\SalesOrderUpdateService;
-use App\Exports\SalesOrderExport;
+use App\Exports\SalesOrderLineExport;
 use App\Http\Requests\ExportSalesOrder;
 use PDF;
 
@@ -160,6 +160,6 @@ class SalesOrderController extends Controller
 
         $fileName = "sales_orders_".$validated['date_from']."_to_".$validated['date_to'].".csv";
 
-        return (new SalesOrderExport)->fromDateBetween($validated['date_from'], $validated['date_to'])->download($fileName);
+        return (new SalesOrderLineExport)->fromDateBetween($validated['date_from'], $validated['date_to'])->download($fileName);
     }
 }

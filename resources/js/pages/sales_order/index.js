@@ -358,6 +358,7 @@ const removeItem = () => {
     const id = e.currentTarget.id.split('_')[1];
     const latest_choosed_item = choosed_item.filter(res => res.id !== parseFloat(id));
     sessionStorage.setItem('choosed_item', JSON.stringify(latest_choosed_item));
+    tableSOItems.DataTable().destroy();
     tableSOItems.DataTable().row([parent]).remove().draw();
     $('.brand_id').each((i, item) => {
       const brand_id = item.id;
@@ -399,36 +400,90 @@ const getBrandList = () => {
 }
 
 const updateDiscountAndQuantity = () => {
-  $('.discount, .quantity').change((e) => {
-    e.target.value = e.target.value === '' ? 0 : e.target.value;
-    const id = e.target.id.split('_')[1];
+  const discountFields = document.querySelectorAll('.discount');
+  const quantityFields = document.querySelectorAll('.quantity');
+
+  discountFields.forEach((discountField) => {
+    discountField.onchange = ({ target }) => {
+      const id = target.id.split('_')[1];
+      assignValue(target.value, id);
+    };
+  });
+
+  quantityFields.forEach((quantityField) => {
+    quantityField.onchange = ({ target }) => {
+      const id = target.id.split('_')[1];
+      assignValue(id);
+    };
+  })
+
+  const assignValue = (id) => {
     const itemQuantity = $(`#quantity_${id}`).val();
     const itemPrice = $(`#unit_price_${id}`).val();
     const discPrice = $(`#discount_${id}`).val();
     const countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
-    const calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - (parseFloat(discPrice)/100 * parseFloat(countItemPrice)): parseFloat(countItemPrice);
+    let calculate;
+    if (discPrice !== '0' && itemQuantity !== '0') {
+      calculate = parseFloat(countItemPrice) - (parseFloat(discPrice)/100 * parseFloat(countItemPrice));
+    } else {
+      calculate = parseFloat(countItemPrice);
+    }
+
     $(`#amount_${id}`).val(parseFloat(calculate));
     totalBeforeDisc();
-  })
+  };
+  // $('.discount, .quantity').change((e) => {
+  //   debugger;
+  //   e.target.value = e.target.value === '' ? 0 : e.target.value;
+  //   const id = e.target.id.split('_')[1];
+  //   const itemQuantity = $(`#quantity_${id}`).val();
+  //   const itemPrice = $(`#unit_price_${id}`).val();
+  //   const discPrice = $(`#discount_${id}`).val();
+  //   const countItemPrice = parseFloat(itemPrice) * parseFloat(itemQuantity);
+  //   const calculate = discPrice !== '0' && itemQuantity !== '0' ? parseFloat(countItemPrice) - (parseFloat(discPrice)/100 * parseFloat(countItemPrice)): parseFloat(countItemPrice);
+  //   $(`#amount_${id}`).val(parseFloat(calculate));
+  //   totalBeforeDisc();
+  // })
 };
 
 const totalBeforeDisc = () => {
-  let price = 0;
   const totalBeforeDiscField = $('#total-bd');
-  const itemPrice = $('.item_total');
-  itemPrice.each((i, item) => {
-    price = parseFloat(price) + parseFloat(item.value);
+  const items = document.querySelectorAll('.item_total');
+  if (items.length) {
+    const values = [];
+    items.forEach((item) => values.push(item.value));
+    const price = values.reduce((a, b) => {
+      return parseFloat(a) + parseFloat(b);
+    }, 0);
     totalBeforeDiscField.val(price);
     $('#original_amount').val(price);
     finalTotal($('#discount').val());
-  });
-  $('#discount').change((e) => finalTotal(e.target.value));
-  $('#discount_amount').change((e) => {
-    $('#discount').val(parseFloat(e.target.value)/parseFloat($('#original_amount').val())*100);
-    finalTotal($('#discount').val());
-  });
-  $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
-  updateDiscountAndQuantity();
+    $('#discount').change((e) => finalTotal(e.target.value));
+    $('#discount_amount').change((e) => {
+      $('#discount').val(parseFloat(e.target.value)/parseFloat($('#original_amount').val())*100);
+      finalTotal($('#discount').val());
+    });
+    $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
+    updateDiscountAndQuantity();
+  }
+
+
+  // let price = 0;
+  // const totalBeforeDiscField = $('#total-bd');
+  // const itemPrice = $('.item_total');
+  // itemPrice.each((i, item) => {
+  //   price = parseFloat(price) + parseFloat(item.value);
+  //   totalBeforeDiscField.val(price);
+  //   $('#original_amount').val(price);
+  //   finalTotal($('#discount').val());
+  // });
+  // $('#discount').change((e) => finalTotal(e.target.value));
+  // $('#discount_amount').change((e) => {
+  //   $('#discount').val(parseFloat(e.target.value)/parseFloat($('#original_amount').val())*100);
+  //   finalTotal($('#discount').val());
+  // });
+  // $('#freight').change((e) => finalTotal($('#discount').val(), e.target.value));
+  // updateDiscountAndQuantity();
 };
 
 const finalTotal = (value, freightValue) => {
@@ -547,6 +602,7 @@ if (modalPriceForm.length > 0) {
     e.preventDefault();
     const choosed_item = JSON.parse(sessionStorage.choosed_item);
     const prices = JSON.parse(sessionStorage.prices);
+    tableSOItems.DataTable().destroy();
     generateItemTable(tableSOItems, choosed_item);
     $('#modal-price').modal('hide');
     modalPriceFormTable.DataTable().destroy();
@@ -649,6 +705,7 @@ if (formEditSalesOrder.length > 0) {
       });
       sessionStorage.setItem('transaction_number', res.sales_order.transaction_number)
       sessionStorage.setItem('choosed_item', JSON.stringify(choosed_item));
+      tableSOItems.DataTable().destroy();
       generateItemTable(tableSOItems, choosed_item);
       $('#customer_id').attr('customer-id',res.sales_order.customer_id);
       $('#customer_id').val(res.sales_order.customer.name);

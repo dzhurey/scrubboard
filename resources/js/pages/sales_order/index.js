@@ -378,6 +378,7 @@ const getPriceList = (id) => {
   ajx.get(`/api/prices/${id}`).then((res) => {
     const prices = res.price.price_lines;
     sessionStorage.setItem('prices', JSON.stringify(prices));
+    modalPriceFormTable.DataTable().destroy();
     createTablePriceFormTable(modalPriceFormTable, prices);
   }).catch(res => console.log(res));
 }
